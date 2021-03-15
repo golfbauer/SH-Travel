@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping(path="/")
-public class PrototypController {
+public class WebController {
     private static final org.slf4j.Logger logger =
-            org.slf4j.LoggerFactory.getLogger(PrototypController.class);
+            org.slf4j.LoggerFactory.getLogger(WebController.class);
 }
