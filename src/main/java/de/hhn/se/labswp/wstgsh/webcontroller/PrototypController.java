@@ -1,4 +1,4 @@
-package de.hhn.se.labswp.wstgsh;
+package de.hhn.se.labswp.wstgsh.webcontroller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
