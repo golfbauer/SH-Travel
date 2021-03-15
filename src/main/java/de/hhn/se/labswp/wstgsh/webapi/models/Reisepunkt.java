@@ -1,4 +1,4 @@
-package de.hhn.se.labswp.wstgsh.webapi;
+package de.hhn.se.labswp.wstgsh.webapi.models;
 
 import javax.persistence.*;
 
