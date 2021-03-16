@@ -27,7 +27,7 @@ public class Reisepunkt {
     @Column(name = "Breitengrad", nullable = false, unique = true)
     private Long breitengrad;
 
-    @Column(name = "NutzerEmail", nullable = false)
+    @Column(name = "NutzerEMail", nullable = false)
     private String nutzerEmail;
 
     @Column(name = "Name", nullable = false)
