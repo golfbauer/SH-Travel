@@ -3,9 +3,13 @@ package de.hhn.se.labswp.wstgsh.webapi.models;
 import javax.persistence.*;
 
 @Entity(name = "reisepunkte")
-@Table
-@DiscriminatorColumn(name = "Discriminator", discriminatorType = DiscriminatorType.STRING)
-@DiscriminatorValue("Nutzer")
+@Table(name = "reisepunkte")
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@DiscriminatorColumn(
+        name = "Discriminator",
+        discriminatorType = DiscriminatorType.STRING,
+        columnDefinition = "varchar(255)"
+)
 public class Reisepunkt {
 
     @Id
@@ -22,18 +26,18 @@ public class Reisepunkt {
     private Long id;
 
     @Column(name = "Laengengrad", nullable = false, unique = true)
-    private Long laengengrad;
+    private Double laengengrad;
 
     @Column(name = "Breitengrad", nullable = false, unique = true)
-    private Long breitengrad;
+    private Double breitengrad;
 
-    @Column(name = "NutzerEmail", nullable = false)
+    @Column(name = "NutzerEMail", nullable = false)
     private String nutzerEmail;
 
     @Column(name = "Name", nullable = false)
     private String name;
 
-    public Reisepunkt(Long laengengrad, Long breitengrad, String nutzerEmail, String name) {
+    public Reisepunkt(Double laengengrad, Double breitengrad, String nutzerEmail, String name) {
         this.laengengrad = laengengrad;
         this.breitengrad = breitengrad;
         this.nutzerEmail = nutzerEmail;
@@ -47,23 +51,29 @@ public class Reisepunkt {
         return id;
     }
 
+    //
+    // ## ENTFERNEN ##
+    // ## id ist updatable false ##
+    //
+    // ## just for test cases
+    //
     public void setId(Long id) {
         this.id = id;
     }
 
-    public Long getLaengengrad() {
+    public Double getLaengengrad() {
         return laengengrad;
     }
 
-    public void setLaengengrad(Long laengengrad) {
+    public void setLaengengrad(Double laengengrad) {
         this.laengengrad = laengengrad;
     }
 
-    public Long getBreitengrad() {
+    public Double getBreitengrad() {
         return breitengrad;
     }
 
-    public void setBreitengrad(Long breitengrad) {
+    public void setBreitengrad(Double breitengrad) {
         this.breitengrad = breitengrad;
     }
 
