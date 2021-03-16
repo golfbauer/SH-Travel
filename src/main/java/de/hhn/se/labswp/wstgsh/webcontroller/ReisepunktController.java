@@ -3,7 +3,7 @@ package de.hhn.se.labswp.wstgsh.webcontroller;
 import java.util.List;
 import de.hhn.se.labswp.wstgsh.exceptions.ReisepunktNotFoundException;
 import de.hhn.se.labswp.wstgsh.webapi.models.Reisepunkt;
-import de.hhn.se.labswp.wstgsh.webapi.models.ReisepunktDAO;
+import de.hhn.se.labswp.wstgsh.webapi.models.ReisepunktRepository;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -11,9 +11,9 @@ public class ReisepunktController {
     private static final org.slf4j.Logger logger =
             org.slf4j.LoggerFactory.getLogger(ReisepunktController.class);
 
-    private final ReisepunktDAO repository;
+    private final ReisepunktRepository repository;
 
-    ReisepunktController(ReisepunktDAO repository) {
+    ReisepunktController(ReisepunktRepository repository) {
         this.repository = repository;
     }
 

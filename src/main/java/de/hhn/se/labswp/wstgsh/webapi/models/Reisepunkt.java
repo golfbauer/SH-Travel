@@ -4,32 +4,23 @@ import javax.persistence.*;
 
 @Entity(name = "reisepunkte")
 @Table(name = "reisepunkte")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy=InheritanceType.JOINED)
 @DiscriminatorColumn(
         name = "Discriminator",
-        discriminatorType = DiscriminatorType.STRING,
-        columnDefinition = "varchar(255)"
+        discriminatorType = DiscriminatorType.STRING
 )
+@DiscriminatorValue("Reisepunkte")
 public class Reisepunkt {
 
     @Id
-    @SequenceGenerator(
-            name = "reisepunkt_sequence",
-            sequenceName = "reisepunkt_sequence",
-            allocationSize = 1
-    )
-    @GeneratedValue(
-            strategy = GenerationType.SEQUENCE,
-            generator = "reisepunkt_sequence"
-    )
     @Column(name = "ID", updatable = false)
     private Long id;
 
     @Column(name = "Laengengrad", nullable = false, unique = true)
-    private Double laengengrad;
+    private Float laengengrad;
 
     @Column(name = "Breitengrad", nullable = false, unique = true)
-    private Double breitengrad;
+    private Float breitengrad;
 
     @Column(name = "NutzerEMail", nullable = false)
     private String nutzerEmail;
@@ -37,7 +28,7 @@ public class Reisepunkt {
     @Column(name = "Name", nullable = false)
     private String name;
 
-    public Reisepunkt(Double laengengrad, Double breitengrad, String nutzerEmail, String name) {
+    public Reisepunkt(Float laengengrad, Float breitengrad, String nutzerEmail, String name) {
         this.laengengrad = laengengrad;
         this.breitengrad = breitengrad;
         this.nutzerEmail = nutzerEmail;
@@ -45,6 +36,14 @@ public class Reisepunkt {
     }
 
     public Reisepunkt() {
+    }
+
+    public Reisepunkt(Long id, Float laengengrad, Float breitengrad, String nutzerEmail, String name) {
+        this.id = id;
+        this.laengengrad = laengengrad;
+        this.breitengrad = breitengrad;
+        this.nutzerEmail = nutzerEmail;
+        this.name = name;
     }
 
     public Long getId() {
@@ -61,19 +60,19 @@ public class Reisepunkt {
         this.id = id;
     }
 
-    public Double getLaengengrad() {
+    public Float getLaengengrad() {
         return laengengrad;
     }
 
-    public void setLaengengrad(Double laengengrad) {
+    public void setLaengengrad(Float laengengrad) {
         this.laengengrad = laengengrad;
     }
 
-    public Double getBreitengrad() {
+    public Float getBreitengrad() {
         return breitengrad;
     }
 
-    public void setBreitengrad(Double breitengrad) {
+    public void setBreitengrad(Float breitengrad) {
         this.breitengrad = breitengrad;
     }
 
