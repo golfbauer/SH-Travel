@@ -29,9 +29,9 @@ async function getReisepunkte() {
     //do something with the json
     let length = myJson.length;
     //console.log(length)
-    var result = [];
+    let result = [];
     for (let i = 0; i < length; i++) {
-        var reisepunkt = new Reisepunkt(myJson[i])
+        let reisepunkt = new Reisepunkt(myJson[i])
         result.push(reisepunkt);
     }
     console.log(result)
