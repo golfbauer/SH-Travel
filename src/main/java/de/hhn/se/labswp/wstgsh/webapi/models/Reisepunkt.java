@@ -1,5 +1,7 @@
 package de.hhn.se.labswp.wstgsh.webapi.models;
 
+import de.hhn.se.labswp.wstgsh.exceptions.ReisepunktNotFoundAdvice;
+
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
@@ -19,6 +21,8 @@ import javax.persistence.Table;
 )
 @DiscriminatorValue("Reisepunkte")
 public class Reisepunkt {
+  private static final org.slf4j.Logger logger =
+          org.slf4j.LoggerFactory.getLogger(ReisepunktNotFoundAdvice.class);
 
   @Id
   @Column(name = "ID", updatable = false)

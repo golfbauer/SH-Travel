@@ -1,6 +1,8 @@
 package de.hhn.se.labswp.wstgsh.webapi.models;
 
 
+import de.hhn.se.labswp.wstgsh.exceptions.ReisepunktNotFoundAdvice;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
@@ -14,6 +16,8 @@ import javax.persistence.Table;
 @DiscriminatorValue("Punkt")
 @PrimaryKeyJoinColumn(name = "ReisepunkteID", referencedColumnName = "ID")
 public class Punkt extends Reisepunkt {
+  private static final org.slf4j.Logger logger =
+          org.slf4j.LoggerFactory.getLogger(ReisepunktNotFoundAdvice.class);
 
   /**
    * Constructor to create an object, which can be implemented into the database if needed.

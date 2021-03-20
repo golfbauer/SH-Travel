@@ -1,4 +1,5 @@
 package de.hhn.se.labswp.wstgsh.webapi.models;
+import de.hhn.se.labswp.wstgsh.exceptions.ReisepunktNotFoundAdvice;
 
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
@@ -14,6 +15,8 @@ import javax.persistence.Table;
 @DiscriminatorValue("Sehenswuerdigkeit")
 @PrimaryKeyJoinColumn(name = "ReisepunkteID", referencedColumnName = "ID")
 public class Sehenswuerdigkeit extends Reisepunkt {
+  private static final org.slf4j.Logger logger =
+          org.slf4j.LoggerFactory.getLogger(ReisepunktNotFoundAdvice.class);
 
   @Column(name = "Beschreibung")
   private String beschreibung;
