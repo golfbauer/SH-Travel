@@ -1,20 +1,33 @@
 package de.hhn.se.labswp.wstgsh.webapi.models;
 
 
-import javax.persistence.*;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
 
 @Entity(name = "punkt")
 @Table(name = "punkt")
-@Inheritance(strategy= InheritanceType.JOINED)
+@Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorValue("Punkt")
-@PrimaryKeyJoinColumn(name="ReisepunkteID", referencedColumnName="ID")
-public class Punkt extends Reisepunkt{
+@PrimaryKeyJoinColumn(name = "ReisepunkteID", referencedColumnName = "ID")
+public class Punkt extends Reisepunkt {
 
-    public Punkt(Long id, Float laengengrad, Float breitengrad, String nutzerEmail, String name) {
-        super(id, laengengrad, breitengrad, nutzerEmail, name);
-    }
+  /**
+   * Constructor to create an object, which can be implemented into the database if needed.
+   * @param id Inherited by Reisepunkt.
+   * @param laengengrad Marks exact locaion of Punkt, North to South.
+   * @param breitengrad Marks exact locaion of Punkt, West to East.
+   * @param nutzerEmail Email of the creator account.
+   * @param name Name of the created Punkt.
+   */
+  public Punkt(Long id, Float laengengrad, Float breitengrad, String nutzerEmail, String name) {
+    super(id, laengengrad, breitengrad, nutzerEmail, name);
+  }
 
-    public Punkt() {
+  public Punkt() {
 
-    }
+  }
 }
