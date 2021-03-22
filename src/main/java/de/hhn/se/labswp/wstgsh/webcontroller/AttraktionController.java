@@ -58,7 +58,7 @@ public class AttraktionController {
    * @return the eddited Attraktion.
    */
   @PutMapping(path="/edit/{id}")
-  Reisepunkt replaceAttraktion(@RequestBody Attraktion newAttraktion, @PathVariable Long id) {
+  Attraktion replaceAttraktion(@RequestBody Attraktion newAttraktion, @PathVariable Long id) {
     return repository.findById(id).map(attraktion -> {
       attraktion.setBreitengrad(newAttraktion.getBreitengrad());
       attraktion.setLaengengrad(newAttraktion.getLaengengrad());
