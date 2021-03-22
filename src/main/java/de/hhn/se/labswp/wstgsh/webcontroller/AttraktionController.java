@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping(path = "/attraktion")
 public class AttraktionController {
   private final AttraktionRepository repository;
   AttraktionController(AttraktionRepository repository){
@@ -24,7 +26,7 @@ public class AttraktionController {
    * Returns a List of every Attraktion.
    * @return List of every Attraktion.
    */
-  @GetMapping(path="/attraktion")
+  @GetMapping(path="/all")
   List<Attraktion> all() {
     return repository.findAll();
   }
@@ -34,7 +36,7 @@ public class AttraktionController {
    * @param id of the Attraktion you want.
    * @return specified(id) Attraktion.
    */
-  @GetMapping(path="/attraktion/{id}")
+  @GetMapping(path="/get/{id}")
   Attraktion one(@PathVariable Long id) {
     return  repository.findById(id).orElseThrow(() -> new IllegalStateException("id not found."));
   }
@@ -42,14 +44,20 @@ public class AttraktionController {
   /**
    * Saves a new Attraktion in the DB
    * @param newAttraktion New Attraktion Objekt you want to save in the DB.
-   * @return
+   * @return the just saved Attraktion Object.
    */
-  @PostMapping(path="/attraktion")
+  @PostMapping(path="/create")
   Attraktion newAttraktion(@RequestBody Attraktion newAttraktion) {
     return repository.save(newAttraktion);
   }
 
-  @PutMapping(path="/attraktion/{id}")
+  /**
+   * Overwrites Attraktion(id) with new one.
+   * @param newAttraktion Attraktion you want to use for overwriting the previous one.
+   * @param id of the Attraktion you want to overwrite.
+   * @return the eddited Attraktion.
+   */
+  @PutMapping(path="/edit/{id}")
   Reisepunkt replaceAttraktion(@RequestBody Attraktion newAttraktion, @PathVariable Long id) {
     return repository.findById(id).map(attraktion -> {
       attraktion.setBreitengrad(newAttraktion.getBreitengrad());
@@ -64,7 +72,11 @@ public class AttraktionController {
     );
   }
 
-  @DeleteMapping(path="/attraktion/{id}")
+  /**
+   * Deletes specified Attraktion
+   * @param id of the Attraktion you want to delete.
+   */
+  @DeleteMapping(path="/delete/{id}")
   void deleteAttraktion(@PathVariable Long id) {
     repository.deleteById(id);
   }
