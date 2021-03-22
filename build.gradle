@@ -12,20 +12,22 @@ repositories {
 	mavenCentral()
 }
 
-processResources {
-	dependsOn 'copyFrontendToBuild'
-}
-
-task copyFrontendToBuild(type: Copy) {
-	dependsOn 'npmBuild'
-	from "$projectDir/src/frontend/dist/"
-	into "$buildDir/resources/main/static"
-}
-
-task npmBuild(type: Exec) {
-	workingDir './src/frontend/'
-	commandLine 'npm', 'run', 'build'
-}
+///* start integrating vue into jar file on build */
+//processResources {
+//	dependsOn 'copyFrontendToBuild'
+//}
+//
+//task copyFrontendToBuild(type: Copy) {
+//	dependsOn 'npmBuild'
+//	from "$projectDir/src/frontend/dist/"
+//	into "$buildDir/resources/main/static"
+//}
+//
+//task npmBuild(type: Exec) {
+//	workingDir './src/frontend/'
+//	commandLine 'npm', 'run', 'build'
+//}
+///* end of integrating vue into jar file on build */
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
