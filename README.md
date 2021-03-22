@@ -36,7 +36,7 @@ which will launch our backend application on **localhost:8080**.
 Now both applications run and are accessible via a browser.
 
 
-# Building production ready jar's
+# Building production ready jar's **(CURRENTLY NOT AVAILABLE)**
 If you want to build a production ready jar file which contains our compiled frontend application,
 then you have to run:
 
