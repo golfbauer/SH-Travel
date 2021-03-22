@@ -20,16 +20,30 @@ public class AttraktionController {
     this.repository = repository;
   }
 
+  /**
+   * Returns a List of every Attraktion.
+   * @return List of every Attraktion.
+   */
   @GetMapping(path="/attraktion")
   List<Attraktion> all() {
     return repository.findAll();
   }
 
+  /**
+   * Returns the Attraktion with the specified id.
+   * @param id of the Attraktion you want.
+   * @return specified(id) Attraktion.
+   */
   @GetMapping(path="/attraktion/{id}")
   Attraktion one(@PathVariable Long id) {
-    return  repository.findById(id).orElseThrow(() -> new ReisepunktNotFoundException(id));
+    return  repository.findById(id).orElseThrow(() -> new IllegalStateException("id not found."));
   }
 
+  /**
+   * Saves a new Attraktion in the DB
+   * @param newAttraktion New Attraktion Objekt you want to save in the DB.
+   * @return
+   */
   @PostMapping(path="/attraktion")
   Attraktion newAttraktion(@RequestBody Attraktion newAttraktion) {
     return repository.save(newAttraktion);
@@ -46,7 +60,7 @@ public class AttraktionController {
       attraktion.setBeschreibung(newAttraktion.getBeschreibung());
       return repository.save(attraktion);
     }).orElseThrow(
-            () -> new ReisepunktNotFoundException(id)
+            () -> new IllegalStateException("could not configure Attraktion.")
     );
   }
 
