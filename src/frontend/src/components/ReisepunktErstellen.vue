@@ -2,37 +2,40 @@
   <div id="reisepunkterstellen">
     <h1 class="center">Reisepunkt erstellen</h1>
     <div class="grid-container">
-      <p class="grid-item-heading">Bitte wählen Sie eine Kategorie:</p>
-      <label class="grid-item-left" for="rppunkt">Punkt</label>
+      <p class="grid-item-full">Bitte wählen Sie eine Kategorie:</p>
+      <label class="grid-item-left" for="punkt">Punkt</label>
       <input
         class="grid-item-right"
         type="radio"
-        id="rppunkt"
+        id="punkt"
         name="rptype"
         value="punkt"
+        v-bind="{ typ: 'punkt' }"
       />
-      <label class="grid-item-left" for="rpsehenswuerdigkeit"
+      <label class="grid-item-left" for="sehenswuerdigkeit"
         >Sehenswürdigkeit</label
       >
       <input
         class="grid-item-right"
         type="radio"
-        id="rpsehenswuerdigkeit"
+        id="sehenswuerdigkeit"
         name="rptype"
         value="sehenswuerdigkeit"
+        v-bind="{ typ: 'sehenswuerdigkeit' }"
       />
-      <label class="grid-item-left" for="rpattraktion">Attraktion</label>
+      <label class="grid-item-left" for="attraktion">Attraktion</label>
       <input
         class="grid-item-right"
         type="radio"
-        id="rpattraktion"
+        id="attraktion"
         name="rptype"
         value="attraktion"
+        v-bind="{ typ: 'attraktion' }"
       />
-    </div>
-    <div class="right">
-      <button class="sh-button btn-gray">Abbrechen</button>
-      <button class="sh-button btn-orange">Weiter</button>
+      <div class="grid-item-full right">
+        <button class="btn btn-gray">Abbrechen</button>
+        <button class="btn btn-orange">Weiter</button>
+      </div>
     </div>
   </div>
 </template>
@@ -40,6 +43,13 @@
 <script>
 export default {
   name: "ReisepunktErstellen",
+  data() {
+    return {
+      reisepunkt: {
+        typ: "",
+      },
+    };
+  },
 };
 </script>
 
@@ -51,27 +61,26 @@ export default {
   background-color: rgba(0, 114, 89, 0.85);
   color: #fff;
 }
-#reisepunkterstellen .grid-container {
+.grid-container {
   display: grid;
   row-gap: 0.5em;
-  margin-bottom: 1em;
 }
-#reisepunkterstellen .grid-item-left {
+.grid-item-left {
   grid-column-start: 1;
   grid-column-end: 2;
   text-align: right;
 }
-#reisepunkterstellen .grid-item-right {
+.grid-item-right {
   grid-column-start: 2;
   grid-column-end: 3;
 }
-#reisepunkterstellen .grid-item-heading {
+.grid-item-full {
   grid-column-start: 1;
   grid-column-end: 4;
   margin: 0;
   text-align: center;
 }
-#reisepunkterstellen .sh-button {
+.btn {
   box-sizing: border-box;
   margin: 0.5em;
   padding: 0.5em 0;
@@ -79,18 +88,18 @@ export default {
   border-radius: 5px;
   border: 0;
 }
-#reisepunkterstellen .center {
-  text-align: center;
-}
-#reisepunkterstellen .right {
-  text-align: right;
-}
-#reisepunkterstellen .btn-gray {
+.btn-gray {
   background-color: gray;
   color: #fff;
 }
-#reisepunkterstellen .btn-orange {
+.btn-orange {
   background-color: orange;
   color: #fff;
+}
+.center {
+  text-align: center;
+}
+.right {
+  text-align: right;
 }
 </style>
