@@ -10,7 +10,7 @@
         id="punkt"
         name="rptype"
         value="punkt"
-        v-bind="{ typ: 'punkt' }"
+        v-model="reisepunkt.typ"
       />
       <label class="grid-item-left" for="sehenswuerdigkeit"
         >Sehenswürdigkeit</label
@@ -21,7 +21,7 @@
         id="sehenswuerdigkeit"
         name="rptype"
         value="sehenswuerdigkeit"
-        v-bind="{ typ: 'sehenswuerdigkeit' }"
+        v-model="reisepunkt.typ"
       />
       <label class="grid-item-left" for="attraktion">Attraktion</label>
       <input
@@ -30,11 +30,11 @@
         id="attraktion"
         name="rptype"
         value="attraktion"
-        v-bind="{ typ: 'attraktion' }"
+        v-model="reisepunkt.typ"
       />
       <div class="grid-item-full right">
-        <button class="btn btn-gray">Abbrechen</button>
-        <button class="btn btn-orange">Weiter</button>
+        <button class="btn btn-gray" @click="cancle">Abbrechen</button>
+        <button class="btn btn-orange" @click="next">Weiter</button>
       </div>
     </div>
   </div>
@@ -49,6 +49,16 @@ export default {
         typ: "",
       },
     };
+  },
+  methods: {
+    next() {
+      console.log("next(): " + this.reisepunkt.typ);
+      // Close this component and open next component
+    },
+    cancle() {
+      console.log("cancle(): " + this.reisepunkt.typ);
+      // Close this component (Close component - click beside)
+    },
   },
 };
 </script>
