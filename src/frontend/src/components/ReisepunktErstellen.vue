@@ -1,7 +1,6 @@
 <template>
-  <div class="center" id="reisepunkterstellen">
-    <h1>Reisepunkt erstellen</h1>
-
+  <div id="reisepunkterstellen">
+    <h1 class="center">Reisepunkt erstellen</h1>
     <div class="grid-container">
       <p class="grid-item-heading">Bitte wählen Sie eine Kategorie:</p>
       <label class="grid-item-left" for="rppunkt">Punkt</label>
@@ -47,28 +46,32 @@ export default {
 <style scoped>
 #reisepunkterstellen {
   margin: auto;
-  width: 25em;
+  max-width: 25em;
   padding: 0.5em;
   background-color: rgba(0, 114, 89, 0.85);
   color: #fff;
 }
-.grid-container {
+#reisepunkterstellen .grid-container {
   display: grid;
+  row-gap: 0.5em;
+  margin-bottom: 1em;
 }
-.grid-item-left {
+#reisepunkterstellen .grid-item-left {
   grid-column-start: 1;
   grid-column-end: 2;
+  text-align: right;
 }
-.grid-item-right {
+#reisepunkterstellen .grid-item-right {
   grid-column-start: 2;
   grid-column-end: 3;
 }
-.grid-item-heading {
+#reisepunkterstellen .grid-item-heading {
   grid-column-start: 1;
-  grid-column-end: 3;
+  grid-column-end: 4;
+  margin: 0;
   text-align: center;
 }
-.sh-button {
+#reisepunkterstellen .sh-button {
   box-sizing: border-box;
   margin: 0.5em;
   padding: 0.5em 0;
@@ -76,17 +79,17 @@ export default {
   border-radius: 5px;
   border: 0;
 }
-.center {
+#reisepunkterstellen .center {
   text-align: center;
 }
-.right {
+#reisepunkterstellen .right {
   text-align: right;
 }
-.btn-gray {
+#reisepunkterstellen .btn-gray {
   background-color: gray;
   color: #fff;
 }
-.btn-orange {
+#reisepunkterstellen .btn-orange {
   background-color: orange;
   color: #fff;
 }
