@@ -6,8 +6,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class ShTravelApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ShTravelApplication.class, args);
-	}
+  /**
+   * To be executed main method.
+   * @param args Parameters fpr main method.
+   */
+  public static void main(String[] args) {
+    SpringApplication.run(ShTravelApplication.class, args);
+  }
 
 }
