@@ -1,5 +1,5 @@
 <template>
-  <div id="reisepunkterstellen">
+  <div v-if="reisepunkt.show" id="reisepunkterstellen">
     <h1 class="center">Reisepunkt erstellen</h1>
     <div class="grid-container">
       <p class="grid-item-full">Bitte wählen Sie eine Kategorie:</p>
@@ -8,7 +8,7 @@
         class="grid-item-right"
         type="radio"
         id="punkt"
-        name="rptype"
+        name="typ"
         value="punkt"
         v-model="reisepunkt.typ"
       />
@@ -19,7 +19,7 @@
         class="grid-item-right"
         type="radio"
         id="sehenswuerdigkeit"
-        name="rptype"
+        name="typ"
         value="sehenswuerdigkeit"
         v-model="reisepunkt.typ"
       />
@@ -28,12 +28,15 @@
         class="grid-item-right"
         type="radio"
         id="attraktion"
-        name="rptype"
+        name="typ"
         value="attraktion"
         v-model="reisepunkt.typ"
       />
+      <p v-show="reisepunkt.showMessage" class="grid-item-full" id="message">
+        Bitte wählen Sie eine Kategorie!
+      </p>
       <div class="grid-item-full right">
-        <button class="btn btn-gray" @click="cancle">Abbrechen</button>
+        <button class="btn btn-gray" @click="cancel">Abbrechen</button>
         <button class="btn btn-orange" @click="next">Weiter</button>
       </div>
     </div>
@@ -46,6 +49,8 @@ export default {
   data() {
     return {
       reisepunkt: {
+        show: true,
+        showMessage: false,
         typ: "",
       },
     };
@@ -53,10 +58,16 @@ export default {
   methods: {
     next() {
       console.log("next(): " + this.reisepunkt.typ);
+      if (this.reisepunkt.typ === "") {
+        this.reisepunkt.showMessage = true;
+      } else {
+        this.reisepunkt.show = false;
+      }
       // Close this component and open next component
     },
-    cancle() {
-      console.log("cancle(): " + this.reisepunkt.typ);
+    cancel() {
+      console.log("cancel(): " + this.reisepunkt.typ);
+      this.reisepunkt.show = false;
       // Close this component (Close component - click beside)
     },
   },
@@ -111,5 +122,8 @@ export default {
 }
 .right {
   text-align: right;
+}
+#message {
+  color: red;
 }
 </style>
