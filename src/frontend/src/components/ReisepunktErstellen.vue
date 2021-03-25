@@ -63,12 +63,10 @@ export default {
       } else {
         this.reisepunkt.show = false;
       }
-      // Close this component and open next component
     },
     cancel() {
       console.log("cancel(): " + this.reisepunkt.typ);
       this.reisepunkt.show = false;
-      // Close this component (Close component - click beside)
     },
   },
 };
