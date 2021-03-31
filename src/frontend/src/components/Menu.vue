@@ -1,20 +1,27 @@
 <template>
   <div id="menu" :class="{ active: isExpanded }" @click.prevent="toggle">
-    <div id="menu-header" v-if="profile.signedIn">
-      <img :src="img" :alt="name" />
+    <div class="grid-container menu-header" v-if="profile.signedIn">
+      <img :src="profile.img" id="profile-img" :alt="profile.name"/>
+      <div id="profile-name">{{ profile.name }}</div>
+      <div id="profile-typ">{{ profile.typ }}</div>
     </div>
-    <div id="menu-header" v-else>
+    <div class="menu-header" v-else>
       <button class="btn btn-orange">Registrieren</button>
       <button class="btn btn-gray">Anmelden</button>
     </div>
     <div id="menu-items">
-      <sidebar-menu-item v-for="(item, index) in menu" :key="index" :item="item"/>
+      <sidebar-menu-item
+          v-for="(item, index) in menu"
+          :key="index"
+          :item="item"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import SidebarMenuItem from './SidebarMenuItem.vue';
+
 export default {
   name: "Menu",
   components: {
@@ -28,24 +35,30 @@ export default {
   },
   data() {
     return {
-      isExpanded: false,
       profile: {
-        signedIn: false,
-        name: "",
-        img: "",
-        typ: "",
+        signedIn: true,
+        name: "Max Mustermann",
+        img: "https://api-magazin.single.de/fileman/uploads/Neuer%20Ordner/gutes_profilbild_beispiel_4.jpg",
+        typ: "ExampleNutzer",
       },
-    };
-  },
+
+      isExpanded: false,
+    }
+  }
+  ,
   methods: {
     toggle() {
-      this.isBurgerActive = !this.isBurgerActive;
-    },
+      this.isExpanded = !this.isExpanded;
+    }
+    ,
     get: function () {
       this.$http.get("");
-    },
-  },
-};
+    }
+    ,
+  }
+  ,
+}
+;
 </script>
 
 <style scoped>
@@ -59,9 +72,31 @@ export default {
   margin: 0;
   background-color: rgb(0, 172, 114);
 }
-#menu-header {
+
+.menu-header {
   background-color: rgb(0, 124, 83);
 }
+
+.grid-container {
+  display: grid;
+  column-gap: 0.5rem;
+  padding: 0.5rem;
+}
+
+#profile-img {
+  height: 5rem;
+  width: 5rem;
+  grid-row: 1;
+  grid-row-end: 3;
+  border-radius: 50%;
+}
+
+#profile-name {
+  grid-row: 1;
+  grid-row-end: 2;
+  font-size: 1.4rem;
+}
+
 .btn {
   box-sizing: border-box;
   margin: 0.5rem;
@@ -70,10 +105,12 @@ export default {
   border-radius: 0.3rem;
   border: 0;
 }
+
 .btn-gray {
   background-color: gray;
   color: #fff;
 }
+
 .btn-orange {
   background-color: orange;
   color: #fff;

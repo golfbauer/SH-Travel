@@ -1,7 +1,7 @@
 <template>
   <div id="sidebar-menu-item">
     {{ item.title }}
-    {{ item.component }}
+    {{ item.component}}
   </div>
 </template>
 
