@@ -1,17 +1,20 @@
 <template>
   <Map/>
+  <Menu/>
   <ReisepunktErstellen/>
 </template>
 
 <script>
 import Map from './components/Map.vue'
-import ReisepunktErstellen from "@/components/ReisepunktErstellen";
+import ReisepunktErstellen from './components/ReisepunktErstellen'
+import Menu from './components/Menu.vue'
 
 export default {
   name: 'App',
   components: {
     Map,
-    ReisepunktErstellen
+    ReisepunktErstellen,
+    Menu,
   }
 }
 </script>
