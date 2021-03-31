@@ -6,8 +6,8 @@
 </template>
 
 <script>
-
 import {SidebarMenu} from 'vue-sidebar-menu'
+import 'vue-sidebar-menu/dist/vue-sidebar-menu.css'
 
 export default {
   name: "Menu",
@@ -18,18 +18,22 @@ export default {
     return {
       menu: [
         {
-          header: true,
-          title: 'Main Navigation',
+          header: 'Main Navigation',
           hiddenOnCollapse: true
         },
         {
           href: '/',
-          title: 'Dashboard',
+          title: 'Home',
           icon: 'fa fa-user'
         },
         {
-          href: '/charts',
-          title: 'Charts',
+          href: '/reisepunkterstellen',
+          title: 'Reisepunkt erstellen',
+          icon: 'fa fa-chart-area',
+        },/*
+        {
+          href: '/reisepunkterstellen',
+          title: 'neu Reisepunkt',
           icon: 'fa fa-chart-area',
           child: [
             {
@@ -37,7 +41,7 @@ export default {
               title: 'Sub Link'
             }
           ]
-        }
+        }*/
       ],
       collapsed: false,
       width: '300px',
