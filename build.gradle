@@ -12,23 +12,6 @@ repositories {
 	mavenCentral()
 }
 
-///* start integrating vue into jar file on build */
-//processResources {
-//	dependsOn 'copyFrontendToBuild'
-//}
-//
-//task copyFrontendToBuild(type: Copy) {
-//	dependsOn 'npmBuild'
-//	from "$projectDir/src/frontend/dist/"
-//	into "$buildDir/resources/main/static"
-//}
-//
-//task npmBuild(type: Exec) {
-//	workingDir './src/frontend/'
-//	commandLine 'npm', 'run', 'build'
-//}
-///* end of integrating vue into jar file on build */
-
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -45,6 +28,31 @@ dependencies {
 configurations.all {
 	exclude module: 'logback-classic'
 }
+
+/* start integrating vue into jar file on build */
+processResources {
+	dependsOn 'copyFrontendToBuild'
+}
+
+task copyFrontendToBuild(type: Copy) {
+	dependsOn 'npmBuild'
+	from "$projectDir/src/frontend/dist/"
+	into "$buildDir/resources/main/static"
+}
+
+copyFrontendToBuild.configure {
+	onlyIf{(project.hasProperty('full'))}
+}
+
+task npmBuild(type: Exec) {
+	workingDir './src/frontend/'
+	commandLine 'npm', 'run', 'build'
+}
+
+npmBuild.configure {
+	onlyIf{(project.hasProperty('full'))}
+}
+/* end of integrating vue into jar file on build */
 
 test {
 	useJUnitPlatform()
