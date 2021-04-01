@@ -16,10 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(path = "/punkt")
 public class PunktController {
   private final PunktRepository repository;
-  PunktController(PunktRepository repository){
+  PunktController(PunktRepository repository) {
     this.repository = repository;
   }
 
@@ -27,7 +26,7 @@ public class PunktController {
    * Returns a List of every Punkt.
    * @return List of every Punkt.
    */
-  @GetMapping(path="/all")
+  @GetMapping(path = "/punkt")
   List<Punkt> all() {
     return repository.findAll();
   }
@@ -37,7 +36,7 @@ public class PunktController {
    * @param id of the Punkt you want.
    * @return specified(id) Punkt.
    */
-  @GetMapping(path="/get/{id}")
+  @GetMapping(path = "/punkt/{id}")
   Punkt one(@PathVariable Long id) {
     return  repository.findById(id).orElseThrow(() -> new IllegalStateException("id not found."));
   }
@@ -47,7 +46,7 @@ public class PunktController {
    * @param newPunkt New Punkt Objekt you want to save in the DB.
    * @return the just saved Punkt Object.
    */
-  @PostMapping(path="/create")
+  @PostMapping(path = "/punkt")
   Punkt newPunkt(@RequestBody Punkt newPunkt) {
     return repository.save(newPunkt);
   }
@@ -58,7 +57,7 @@ public class PunktController {
    * @param id of the Punkt you want to overwrite.
    * @return the eddited Punkt.
    */
-  @PutMapping(path="/edit/{id}")
+  @PutMapping(path = "/punkt/{id}")
   Punkt replacePunkt(@RequestBody Punkt newPunkt, @PathVariable Long id) {
     return repository.findById(id).map(Punkt -> {
       Punkt.setBreitengrad(newPunkt.getBreitengrad());
@@ -75,7 +74,7 @@ public class PunktController {
    * Deletes specified Punkt
    * @param id of the Punkt you want to delete.
    */
-  @DeleteMapping(path="/delete/{id}")
+  @DeleteMapping(path = "/punkt/{id}")
   void deleteAttraktion(@PathVariable Long id) {
     repository.deleteById(id);
   }

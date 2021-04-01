@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(path = "/sehenswuerdigket")
 public class SehenswuerdigkeitController {
   private static final org.slf4j.Logger logger =
           org.slf4j.LoggerFactory.getLogger(ReisepunktController.class);
@@ -25,7 +24,7 @@ public class SehenswuerdigkeitController {
    * Shows all existing Sehenswuerdigkeiten inside the database.
    * @return List of every Sehenswuerdigkeit.
    */
-  @GetMapping(path = "/all")
+  @GetMapping(path = "/sehenswuerdigkeit")
   public List<Sehenswuerdigkeit> getSehenswuerdigkeiten() {
     return sehenswuerdigkeitRepository.findAll();
   }
@@ -35,7 +34,7 @@ public class SehenswuerdigkeitController {
    * @param id Request identifier to get the right Sehenswuerdigkeit.
    * @return The Sehenswuerdigkeit with spefic id.
    */
-  @GetMapping(path = "/get/{id}")
+  @GetMapping(path = "/sehenswuerdigkeit/{id}")
   public Sehenswuerdigkeit getSehenswuerdigkeit(@PathVariable("id") Long id) {
     return sehenswuerdigkeitRepository.findById(id).orElseThrow(() -> new IllegalStateException(
             "ID not found"));
@@ -45,7 +44,7 @@ public class SehenswuerdigkeitController {
    * Takes a Sehenswuerdigkeit object and parses it into the database.
    * @param sehenswuerdigkeit Object that is to be put into the database.
    */
-  @PostMapping(path = "/create")
+  @PostMapping(path = "/sehenswuerdigkeit")
   public void newSehenswuerdigkeit(@RequestBody Sehenswuerdigkeit sehenswuerdigkeit) {
     sehenswuerdigkeitRepository.save(sehenswuerdigkeit);
   }
@@ -56,7 +55,7 @@ public class SehenswuerdigkeitController {
    * @param newSehenswuerdigkeit Sehenswuerdigkeit with the altered information.
    * @return The updated Sehenswuerdigkeit with the new information.
    */
-  @PutMapping(path = "/edit/{id}")
+  @PutMapping(path = "/sehenswuerdigkeit/{id}")
   @Transactional
   public Sehenswuerdigkeit editSehenswuerdigkeit(@PathVariable("id") Long id,
                                     @RequestBody Sehenswuerdigkeit newSehenswuerdigkeit) {
@@ -74,7 +73,7 @@ public class SehenswuerdigkeitController {
    * Deletes a specific Sehenswuerdigkeit.
    * @param id Identification for Sehenswuerdigkeit.
    */
-  @DeleteMapping(path = "/delete/{id}")
+  @DeleteMapping(path = "/sehenswuerdigkeit/{id}")
   public void deleteSehenswuerdigkeit(@PathVariable("id") Long id) {
     sehenswuerdigkeitRepository.deleteById(id);
   }
