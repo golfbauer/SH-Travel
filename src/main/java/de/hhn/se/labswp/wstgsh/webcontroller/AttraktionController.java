@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AttraktionController {
   private final AttraktionRepository repository;
-  AttraktionController(AttraktionRepository repository){
+  AttraktionController(AttraktionRepository repository) {
     this.repository = repository;
   }
 
@@ -25,7 +25,7 @@ public class AttraktionController {
    * Returns a List of every Attraktion.
    * @return List of every Attraktion.
    */
-  @GetMapping(path="/attraktion")
+  @GetMapping(path = "/attraktion")
   List<Attraktion> all() {
     return repository.findAll();
   }
@@ -35,7 +35,7 @@ public class AttraktionController {
    * @param id of the Attraktion you want.
    * @return specified(id) Attraktion.
    */
-  @GetMapping(path="/attraktion/{id}")
+  @GetMapping(path = "/attraktion/{id}")
   Attraktion one(@PathVariable Long id) {
     return  repository.findById(id).orElseThrow(() -> new IllegalStateException("id not found."));
   }
@@ -45,7 +45,7 @@ public class AttraktionController {
    * @param newAttraktion New Attraktion Objekt you want to save in the DB.
    * @return the just saved Attraktion Object.
    */
-  @PostMapping(path="/attraktion")
+  @PostMapping(path = "/attraktion")
   Attraktion newAttraktion(@RequestBody Attraktion newAttraktion) {
     return repository.save(newAttraktion);
   }
@@ -56,7 +56,7 @@ public class AttraktionController {
    * @param id of the Attraktion you want to overwrite.
    * @return the eddited Attraktion.
    */
-  @PutMapping(path="/attraktion/{id}")
+  @PutMapping(path = "/attraktion/{id}")
   Attraktion replaceAttraktion(@RequestBody Attraktion newAttraktion, @PathVariable Long id) {
     return repository.findById(id).map(attraktion -> {
       attraktion.setBreitengrad(newAttraktion.getBreitengrad());
@@ -75,7 +75,7 @@ public class AttraktionController {
    * Deletes specified Attraktion
    * @param id of the Attraktion you want to delete.
    */
-  @DeleteMapping(path="/attraktion/{id}")
+  @DeleteMapping(path = "/attraktion/{id}")
   void deleteAttraktion(@PathVariable Long id) {
     repository.deleteById(id);
   }
