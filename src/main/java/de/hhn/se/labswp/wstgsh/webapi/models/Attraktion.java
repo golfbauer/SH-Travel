@@ -22,9 +22,6 @@ public class Attraktion extends Reisepunkt {
   @Column(name = "Beschreibung")
   private String beschreibung;
 
-  @Column(name = "Preis")
-  private Float preis;
-
   /**
    * Constructor to create an object, which can be implemented into the database if needed.
    * @param id Inherited by Reisepunkt.
@@ -33,13 +30,12 @@ public class Attraktion extends Reisepunkt {
    * @param nutzerEmail Email of the creator account.
    * @param name Name of the created Attraktion.
    * @param beschreibung Short description, which gives a explenation of the Attraktion.
-   * @param preis Preis says how much the Attraktion will cost.
+
    */
   public Attraktion(Long id, Float laengengrad, Float breitengrad, String nutzerEmail, String name,
-                    String beschreibung, Float preis) {
+                    String beschreibung) {
     super(id, laengengrad, breitengrad, nutzerEmail, name);
     this.beschreibung = beschreibung;
-    this.preis = preis;
   }
 
   public Attraktion() {
@@ -52,13 +48,5 @@ public class Attraktion extends Reisepunkt {
 
   public void setBeschreibung(String beschreibung) {
     this.beschreibung = beschreibung;
-  }
-
-  public Float getPreis() {
-    return preis;
-  }
-
-  public void setPreis(Float preis) {
-    this.preis = preis;
   }
 }

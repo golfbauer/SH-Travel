@@ -12,14 +12,14 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
-@Entity(name = "reisepunkte")
-@Table(name = "reisepunkte")
+@Entity(name = "reisepunkt")
+@Table(name = "reisepunkt")
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(
         name = "Discriminator",
         discriminatorType = DiscriminatorType.STRING
 )
-@DiscriminatorValue("Reisepunkte")
+@DiscriminatorValue("Reisepunkt")
 public class Reisepunkt {
   private static final org.slf4j.Logger logger =
           org.slf4j.LoggerFactory.getLogger(ReisepunktNotFoundAdvice.class);
