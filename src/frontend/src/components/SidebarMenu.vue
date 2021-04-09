@@ -16,8 +16,8 @@
         <div id="profile-typ">{{ profile.typ }}</div>
       </div>
       <div class="menu-header" v-else>
-        <button class="btn btn-orange">Registrieren</button>
-        <button class="btn btn-gray">Anmelden</button>
+        <b-button type="button" class="btn btn-orange">Registrieren</b-button>
+        <b-button type="button" class="btn btn-gray">Anmelden</b-button>
       </div>
       <!-- SidebarMenuItems -->
       <div id="menu-items">
@@ -48,7 +48,7 @@ export default {
     return {
       profileImgProps: { width: 100, height: 100 },
       profile: {
-        signedIn: true,
+        signedIn: false,
         name: 'Max Mustermann',
         img: 'https://api-magazin.single.de/fileman/uploads/Neuer%20Ordner/gutes_profilbild_beispiel_4.jpg',
         typ: 'ExampleNutzer'
@@ -84,6 +84,7 @@ $orange: rgb(194, 126, 0);
 
 .menu-header {
   background-color: $background-color-1;
+  color: #fff;
 
   #profile-img {
     height: 5rem;
@@ -103,15 +104,10 @@ $orange: rgb(194, 126, 0);
 .grid-container {
   display: grid;
   column-gap: 0.5rem;
-  padding: 0.5rem;
+  padding: 0.5rem 1.5rem 0.5rem 0.5rem;
 }
 .btn {
-  box-sizing: border-box;
   margin: 0.5rem;
-  padding: 0.5rem 0;
-  width: 7rem;
-  border-radius: 0.3rem;
-  border: 0;
 
   &-gray {
     background-color: gray;
