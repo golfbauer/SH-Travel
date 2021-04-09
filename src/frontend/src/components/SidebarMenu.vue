@@ -11,7 +11,7 @@
     <!-- Sidebar -->
     <b-sidebar id="sidebar-no-header" aria-labelledby="sidebar-no-header-title" no-header shadow>
       <div class="grid-container menu-header" v-if="profile.signedIn">
-        <img :src="profile.img" id="profile-img"/>
+        <b-img left id="profile-img" v-bind="profileImgProps" :src="profile.img" rounded="circle" alt="Circle image"></b-img>
         <div id="profile-name">{{ profile.name }}</div>
         <div id="profile-typ">{{ profile.typ }}</div>
       </div>
@@ -46,6 +46,7 @@ export default {
   },
   data () {
     return {
+      profileImgProps: { width: 100, height: 100 },
       profile: {
         signedIn: true,
         name: 'Max Mustermann',
@@ -83,6 +84,20 @@ $orange: rgb(194, 126, 0);
 
 .menu-header {
   background-color: $background-color-1;
+
+  #profile-img {
+    height: 5rem;
+    width: 5rem;
+    grid-row: 1;
+    grid-row-end: 3;
+    border-radius: 50%;
+  }
+
+  #profile-name {
+    grid-row: 1;
+    grid-row-end: 2;
+    font-size: 1.4rem;
+  }
 }
 
 .grid-container {
@@ -90,21 +105,6 @@ $orange: rgb(194, 126, 0);
   column-gap: 0.5rem;
   padding: 0.5rem;
 }
-
-#profile-img {
-  height: 5rem;
-  width: 5rem;
-  grid-row: 1;
-  grid-row-end: 3;
-  border-radius: 50%;
-}
-
-#profile-name {
-  grid-row: 1;
-  grid-row-end: 2;
-  font-size: 1.4rem;
-}
-
 .btn {
   box-sizing: border-box;
   margin: 0.5rem;
