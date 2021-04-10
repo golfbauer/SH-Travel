@@ -1,27 +1,39 @@
 <template>
   <div>
-    <b-nav-item :id="component" :href='link'>
+    <div :id="component" >
       <div v-if="component==='parent'">
-        <div class="dropdown-toggle">
-        {{title}}
-        </div>
-        <sidebar-menu-item/>
+        <b-nav-item :href='link'>
+          <div class="dropdown-toggle">
+            {{title}}
+          </div>
+        </b-nav-item>
+        <sidebar-menu-item title="Child" link="#" component="child"/>
       </div>
-      <div v-else>
+      <b-nav-item :href='link' v-else>
         {{title}}
-      </div>
-    </b-nav-item>
+      </b-nav-item>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
   name: 'SidebarMenuItem',
-  data () {
-    return {
-      link: '#',
-      title: 'SidebarMenuItem',
-      component: 'parent'
+  props: {
+    title: {
+      type: String,
+      required: true
+    },
+    link: {
+      type: String,
+      required: true
+    },
+    component: {
+      type: String,
+      required: true
+    },
+    childs: {
+      type: Object
     }
   }
 }
