@@ -18,22 +18,22 @@ public class ReisepunktController {
     this.repository = repository;
   }
 
-  @GetMapping(path = "/reisepunkte")
+  @GetMapping(path = "/reisepunkt")
   List<Reisepunkt> all() {
     return repository.findAll();
   }
 
-  @GetMapping(path = "/reisepunkte/{id}")
+  @GetMapping(path = "/reisepunkt/{id}")
   Reisepunkt one(@PathVariable Long id) {
     return  repository.findById(id).orElseThrow(() -> new ReisepunktNotFoundException(id));
   }
 
-  @PostMapping(path = "/reisepunkte")
+  @PostMapping(path = "/reisepunkt")
   Reisepunkt newReisepunkt(@RequestBody Reisepunkt newReisepunkt) {
     return repository.save(newReisepunkt);
   }
 
-  @PutMapping(path = "/reisepunkte/{id}")
+  @PutMapping(path = "/reisepunkt/{id}")
   Reisepunkt replaceReisepunkt(@RequestBody Reisepunkt newReisepunkt, @PathVariable Long id) {
     return repository.findById(id).map(reisepunkt -> {
       reisepunkt.setBreitengrad(newReisepunkt.getBreitengrad());
@@ -46,7 +46,7 @@ public class ReisepunktController {
     );
   }
 
-  @DeleteMapping(path = "/reisepunkte/{id}")
+  @DeleteMapping(path = "/reisepunkt/{id}")
   void deleteReisepunkt(@PathVariable Long id) {
     repository.deleteById(id);
   }
