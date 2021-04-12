@@ -55,16 +55,18 @@ export default {
       menu: [
         {
           href: '/',
-          title: 'Dashboard'
+          title: 'Dashboard',
+          component: 'item'
         },
         {
           href: '/charts',
           title: 'Charts',
-          icon: 'fa fa-chart-area',
+          component: 'parent',
           child: [
             {
               href: '/charts/sublink',
-              title: 'Sub Link'
+              title: 'Sub Link',
+              component: 'child'
             }
           ]
         }

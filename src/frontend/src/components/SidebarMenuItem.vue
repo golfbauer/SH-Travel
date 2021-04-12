@@ -1,16 +1,16 @@
 <template>
   <div>
-    <div :id="component">
-      <div v-if="component==='parent'">
-        <b-nav-item :href='href'>
+    <div :id="item.component">
+      <div v-if="item.component==='parent'">
+        <b-nav-item :href='item.href'>
           <div class="dropdown-toggle">
-            {{ title }}
+            {{ item.title }}
           </div>
         </b-nav-item>
         <sidebar-menu-item v-for="(subitem, index) in item.child" :key="index" :item="subitem"/>
       </div>
-      <b-nav-item :href='href' v-else>
-        {{ title }}
+      <b-nav-item :href='item.href' v-else>
+        {{ item.title }}
       </b-nav-item>
     </div>
   </div>
