@@ -5,8 +5,18 @@
       <router-link to="/about">About</router-link>
     </div>
     <router-view/>
+    <SidebarMenu/>
   </div>
 </template>
+
+<script>
+import SidebarMenu from '@/components/SidebarMenu'
+export default {
+  components: {
+    SidebarMenu
+  }
+}
+</script>
 
 <style lang="scss">
 #app {
