@@ -165,14 +165,14 @@ button {
   display: block;
   z-index: 999;
   border: 0;
-  border-radius: 0;
-  background-color: transparent;
+  border-radius: 3px;
+  background-color: $background-color-1;
   pointer-events: all;
   transition: transform .6s cubic-bezier(.165, .84, .44, 1);
 }
 
 .burger-bar {
-  background-color: #130f40;
+  background-color: #fff;
   position: absolute;
   top: 50%;
   right: 6px;

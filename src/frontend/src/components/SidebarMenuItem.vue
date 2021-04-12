@@ -2,7 +2,7 @@
   <div>
     <div :id="item.component">
       <div v-if="item.component==='parent'">
-        <b-nav-item @click="toggle()"> <!--:href='item.href'-->
+        <b-nav-item @click="toggle()" class="bor-bot"> <!--:href='item.href'-->
           <div class="dropdown-toggle">
             {{ item.title }}
           </div>
@@ -11,7 +11,7 @@
           <sidebar-menu-item v-for="(subitem, index) in item.child" :key="index" :item="subitem"/>
         </div>
       </div>
-      <b-nav-item :href='item.href' v-else>
+      <b-nav-item :href='item.href' v-else class="bor-bot">
         {{ item.title }}
       </b-nav-item>
     </div>
@@ -47,6 +47,10 @@ export default {
 <style lang="scss" scoped>
 $primary-color: #1b998b;
 $primary-color-2: #3dd4b4;
+
+.bor-bot{
+  border-bottom: #000 solid 1px;
+}
 
 #item {
   background-color: $primary-color;
