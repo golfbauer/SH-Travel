@@ -4,14 +4,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ShTravelApplication {
+public class SHTravelApplication {
 
   /**
    * To be executed main method.
    * @param args Parameters fpr main method.
    */
   public static void main(String[] args) {
-    SpringApplication.run(ShTravelApplication.class, args);
+    SpringApplication.run(SHTravelApplication.class, args);
   }
 
 }

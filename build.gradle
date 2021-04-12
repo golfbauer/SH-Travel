@@ -2,11 +2,12 @@ plugins {
 	id 'org.springframework.boot' version '2.4.3'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id 'war'
 }
 
 group = 'de.hhn.se.labswp'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = '1.8'
 
 repositories {
 	mavenCentral()
@@ -20,13 +21,18 @@ dependencies {
 	implementation 'org.slf4j:slf4j-api:1.7.24'
 	implementation 'org.slf4j:slf4j-simple:1.7.25'
 
-	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+	runtime 'org.mariadb.jdbc:mariadb-java-client'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 configurations.all {
 	exclude module: 'logback-classic'
+}
+
+war {
+	archiveName 'SHTravel.war'
+	enabled=true
 }
 
 /* start integrating vue into jar file on build */

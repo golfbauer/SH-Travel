@@ -1,8 +1,22 @@
 <template>
   <div id="app">
     <Map></Map>
+    <div id="nav">
+      <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link>
+    </div>
+    <router-view/>
   </div>
 </template>
+
+<script>
+import SidebarMenu from '@/components/SidebarMenu'
+export default {
+  components: {
+    SidebarMenu
+  }
+}
+</script>
 
 <style lang="scss">
 #app {
