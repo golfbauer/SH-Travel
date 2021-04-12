@@ -2,12 +2,14 @@
   <div>
     <div :id="item.component">
       <div v-if="item.component==='parent'">
-        <b-nav-item :href='item.href'>
+        <b-nav-item @click="toggle()"> <!--:href='item.href'-->
           <div class="dropdown-toggle">
             {{ item.title }}
           </div>
         </b-nav-item>
-        <sidebar-menu-item v-for="(subitem, index) in item.child" :key="index" :item="subitem"/>
+        <div v-if="showChild">
+          <sidebar-menu-item v-for="(subitem, index) in item.child" :key="index" :item="subitem"/>
+        </div>
       </div>
       <b-nav-item :href='item.href' v-else>
         {{ item.title }}
@@ -19,10 +21,24 @@
 <script>
 export default {
   name: 'SidebarMenuItem',
+  data () {
+    return {
+      showChild: false
+    }
+  },
   props: {
     item: {
       type: Object,
       required: true
+    }
+  },
+  methods: {
+    toggle () {
+      if (this.item.component === 'parent' && this.showChild === false) {
+        this.showChild = true
+      } else {
+        this.showChild = false
+      }
     }
   }
 }
