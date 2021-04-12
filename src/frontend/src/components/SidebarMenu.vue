@@ -11,7 +11,8 @@
     <!-- Sidebar -->
     <b-sidebar id="sidebar-no-header" aria-labelledby="sidebar-no-header-title" no-header shadow>
       <div class="grid-container menu-header" v-if="profile.signedIn">
-        <b-img left id="profile-img" v-bind="profileImgProps" :src="profile.img" rounded="circle" alt="Circle image"></b-img>
+        <b-img left id="profile-img" v-bind="profileImgProps" :src="profile.img" rounded="circle"
+               alt="Circle image"></b-img>
         <div id="profile-name">{{ profile.name }}</div>
         <div id="profile-typ">{{ profile.typ }}</div>
       </div>
@@ -20,13 +21,11 @@
         <b-button type="button" class="btn btn-gray">Anmelden</b-button>
       </div>
       <!-- SidebarMenuItems -->
-      <div id="menu-items">
-        <!--sidebar-menu-item
-            v-for="(item, index) in menu"
-            :key="index"
-            :item="item"
-        /-->
-      </div>
+      <nav class="mb-3">
+        <b-nav vertical>
+          <sidebar-menu-item v-for="(item, index) in menu" :key="index" :item="item"/>
+        </b-nav>
+      </nav>
       <!-- End SidebarMenuItems -->
       <b-button v-b-toggle.sidebar-no-header id="btn-close" type="button" title="Menu">
         &lt;&lt;
@@ -37,12 +36,12 @@
 </template>
 
 <script>
-// import SidebarMenuItem from '@/components/SidebarMenuItem'
+import SidebarMenuItem from '@/components/SidebarMenuItem'
 
 export default {
   name: 'Menu',
   components: {
-    // SidebarMenuItem
+    SidebarMenuItem
   },
   data () {
     return {
@@ -53,8 +52,23 @@ export default {
         img: 'https://api-magazin.single.de/fileman/uploads/Neuer%20Ordner/gutes_profilbild_beispiel_4.jpg',
         typ: 'ExampleNutzer'
       },
-
-      isExpanded: false
+      menu: [
+        {
+          href: '/',
+          title: 'Dashboard'
+        },
+        {
+          href: '/charts',
+          title: 'Charts',
+          icon: 'fa fa-chart-area',
+          child: [
+            {
+              href: '/charts/sublink',
+              title: 'Sub Link'
+            }
+          ]
+        }
+      ]
     }
   },
   methods: {
@@ -106,6 +120,7 @@ $orange: rgb(194, 126, 0);
   column-gap: 0.5rem;
   padding: 0.5rem 1.5rem 0.5rem 0.5rem;
 }
+
 .btn {
   margin: 0.5rem;
 
@@ -186,5 +201,6 @@ button {
 .burger-bar--3 {
   transform: translateY(6px);
 }
+
 // End Burger Icon
 </style>
