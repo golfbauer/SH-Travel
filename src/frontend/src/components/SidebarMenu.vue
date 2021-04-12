@@ -55,12 +55,17 @@ export default {
       menu: [
         {
           href: '/',
-          title: 'Dashboard',
+          title: 'Startseite',
           component: 'item'
         },
         {
-          href: '/charts',
-          title: 'Charts',
+          href: '/reisepunkterstellen',
+          title: 'Reisepunkt erstellen',
+          component: 'item'
+        } /*,
+        {
+          href: '/reisepunkterstellen',
+          title: 'Reisepunkt erstellen',
           component: 'parent',
           child: [
             {
@@ -69,7 +74,7 @@ export default {
               component: 'child'
             }
           ]
-        }
+        } */
       ]
     }
   },
@@ -203,6 +208,13 @@ button {
 .burger-bar--3 {
   transform: translateY(6px);
 }
-
 // End Burger Icon
+</style>
+
+<style lang="scss">
+$background-color-1: rgb(0, 124, 83);
+
+.b-sidebar-body{
+  background-color: $background-color-1;
+}
 </style>
