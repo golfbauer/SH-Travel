@@ -45,8 +45,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$primary-color: #1b998b;
-$primary-color-2: #3dd4b4;
+
+@import "./src/assets/style.scss";
+
+
 
 .bor-bot{
   border-bottom: #000 solid 1px;
