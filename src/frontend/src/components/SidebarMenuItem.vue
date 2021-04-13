@@ -48,8 +48,6 @@ export default {
 
 @import "./src/assets/style.scss";
 
-
-
 .bor-bot{
   border-bottom: #000 solid 1px;
 }
