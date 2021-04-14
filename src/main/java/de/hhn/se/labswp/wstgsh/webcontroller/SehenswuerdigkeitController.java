@@ -53,20 +53,16 @@ public class SehenswuerdigkeitController {
    * Edits a specific Sehenswuerdigkeit.
    * @param id Identification for Sehenswuerdigkeit.
    * @param newSehenswuerdigkeit Sehenswuerdigkeit with the altered information.
-   * @return The updated Sehenswuerdigkeit with the new information.
    */
   @PutMapping(path = "/sehenswuerdigkeit/{id}")
   @Transactional
-  public Sehenswuerdigkeit editSehenswuerdigkeit(@PathVariable("id") Long id,
+  public void editSehenswuerdigkeit(@PathVariable("id") Long id,
                                     @RequestBody Sehenswuerdigkeit newSehenswuerdigkeit) {
-    return sehenswuerdigkeitRepository.findById(id).map(sehenswuerdigkeit -> {
-      sehenswuerdigkeit.setLaengengrad(newSehenswuerdigkeit.getLaengengrad());
-      sehenswuerdigkeit.setBreitengrad(newSehenswuerdigkeit.getBreitengrad());
-      sehenswuerdigkeit.setNutzerEmail(newSehenswuerdigkeit.getNutzerEmail());
-      sehenswuerdigkeit.setName(newSehenswuerdigkeit.getName());
-      sehenswuerdigkeit.setBeschreibung(newSehenswuerdigkeit.getBeschreibung());
-      return sehenswuerdigkeitRepository.save(sehenswuerdigkeit);
-    }).orElseThrow(() -> new IllegalStateException("Object couldnt be configured"));
+    if(newSehenswuerdigkeit.getId()==id){
+      throw new IllegalStateException("Neue Sehenswürdigkeit muss gleiche ID wie die alte haben");
+    }
+    deleteSehenswuerdigkeit(id);
+    newSehenswuerdigkeit(newSehenswuerdigkeit);
   }
 
   /**

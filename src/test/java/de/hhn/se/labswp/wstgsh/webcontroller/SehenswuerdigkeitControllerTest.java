@@ -81,12 +81,27 @@ class SehenswuerdigkeitControllerTest {
     verify(sehenswuerdigkeitRepository).save(temp);
   }
 
-  @Test
-  void editSehenswuerdigkeit() {
-
-  }
+  //@Test
+ // void editSehenswuerdigkeit() {
+    //given
+   // Sehenswuerdigkeit temp = new Sehenswuerdigkeit(69L, 95.123f, 78.456f, "nutzerEmail@mail.com",
+        //    "Sehenswürdig","Eine Sehenswürdige Sehenswürdigkeit");
+   // Sehenswuerdigkeit temp2 = new Sehenswuerdigkeit(69L, 90.000f, 75.000f, "nutzerEmail2@mail.com",
+    //        "Sehenswürdig2","Noch eine Sehenswürdige Sehenswürdigkeit");
+   // underTest.newSehenswuerdigkeit(temp);
+    //when
+   // underTest.editSehenswuerdigkeit(69L,temp2);
+    //then
+   // verify(sehenswuerdigkeitRepository).save(temp2);
+ // }
 
   @Test
   void deleteSehenswuerdigkeit() {
+    //given
+    long id = 10;
+    //when
+    underTest.deleteSehenswuerdigkeit(id);
+    //then
+    verify(sehenswuerdigkeitRepository).deleteById(id);
   }
 }
