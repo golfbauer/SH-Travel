@@ -5,11 +5,13 @@ import de.hhn.se.labswp.wstgsh.webapi.models.PunktRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -58,14 +60,48 @@ class PunktControllerTest {
   }
 
   @Test
-  void newPunkt() {
+  void canAddNewPunkt() {
+    //given
+    Punkt punkt = new Punkt(9999L, 45.6F, 45.6F, "test@web.de",
+            "Ein Punkt");
+    //when
+    underTest.newPunkt(punkt);
+    //then
+    ArgumentCaptor<Punkt> punktArgumentCaptor = ArgumentCaptor.forClass(Punkt.class);
+    verify(punktRepository).save(punktArgumentCaptor.capture());
+
+    Punkt capturedPunkt = punktArgumentCaptor.getValue();
+
+    assertThat(capturedPunkt).isEqualTo(punkt);
   }
 
   @Test
-  void replacePunkt() {
+  void canEditAController() {
+    //given
+    long id = 10;
+    Punkt punkt = new Punkt(9999L, 45.6F, 45.6F, "test@web.de",
+            "Ein Punkt");
+    given(punktRepository.findById(id)).willReturn(Optional.of(new Punkt(3L, 5F,
+            5F, "test@web.de", "Zweiter Punkt")));
+    //when
+    underTest.replacePunkt(punkt, id);
+
+    //then
+    ArgumentCaptor<Punkt> punktArgumentCaptor = ArgumentCaptor.forClass(Punkt.class);
+    verify(punktRepository).save(punktArgumentCaptor.capture());
+
+    Punkt capturedPunkt = punktArgumentCaptor.getValue();
+
+    assertThat(capturedPunkt).isEqualTo(punkt);
   }
 
   @Test
-  void deleteAttraktion() {
+  void canDeleteAPunkt() {
+    //given
+    long id = 10;
+    //when
+    underTest.deletePunkt(id);
+    //then
+    verify(punktRepository).deleteById(id);
   }
 }

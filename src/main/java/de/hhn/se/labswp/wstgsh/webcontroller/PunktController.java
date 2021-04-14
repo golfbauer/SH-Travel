@@ -73,7 +73,7 @@ public class PunktController {
    * @param id of the Punkt you want to delete.
    */
   @DeleteMapping(path = "/punkt/{id}")
-  void deleteAttraktion(@PathVariable Long id) {
+  void deletePunkt(@PathVariable Long id) {
     repository.deleteById(id);
   }
 }
