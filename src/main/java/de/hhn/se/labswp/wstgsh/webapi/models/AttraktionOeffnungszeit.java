@@ -22,12 +22,25 @@ public class AttraktionOeffnungszeit {
     @Column(name = "AttraktionReisepunkteID")
     private int attraktionReisepunkteID;
 
+    /**
+     * Constructor to create an object, which can be implemented into the database if needed.
+     *
+     * @param id                      Id to be created for unique Primary Key.
+     * @param oeffnungszeit           Opening time for the Attraktion
+     * @param attraktionReisepunkteID Attraktion id which this opening time is linked
+     */
     public AttraktionOeffnungszeit(int id, String oeffnungszeit, int attraktionReisepunkteID) {
         this.id = id;
         this.oeffnungszeit = oeffnungszeit;
         this.attraktionReisepunkteID = attraktionReisepunkteID;
     }
 
+    /**
+     * Constructor to create an object, with an automaticly generated Primary Key.
+     *
+     * @param oeffnungszeit           Opening time for the Attraktion
+     * @param attraktionReisepunkteID Attraktion id which this opening time is linked
+     */
     public AttraktionOeffnungszeit(String oeffnungszeit, int attraktionReisepunkteID) {
         this.oeffnungszeit = oeffnungszeit;
         this.attraktionReisepunkteID = attraktionReisepunkteID;
