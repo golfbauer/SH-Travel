@@ -20,6 +20,9 @@ function createMap () {
     {
       attribution: 'Map data (c) <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
     }).addTo(map)
+
+  // Eventlistener einbauen
+  map.on('dblclick', mouseDoubleclick)
 }
 
 function setMarker (reisepunkt) {
@@ -38,4 +41,8 @@ async function loadMarker () {
     console.log('setting marker')
     setMarker(reisepunkte[i])
   }
+}
+
+function mouseDoubleclick (event) {
+  console.log('clicked')
 }
