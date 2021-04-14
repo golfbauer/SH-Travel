@@ -1,11 +1,11 @@
 <template>
   <div id="app">
+    <Map></Map>
     <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
     </div>
     <router-view/>
-    <SidebarMenu/>
   </div>
 </template>
 
@@ -40,3 +40,9 @@ export default {
   }
 }
 </style>
+<script>
+import Map from '@/components/Map';
+export default {
+  components: {Map}
+}
+</script>
