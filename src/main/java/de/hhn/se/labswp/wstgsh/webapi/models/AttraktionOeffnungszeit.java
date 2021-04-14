@@ -7,7 +7,6 @@ import javax.persistence.*;
 
 @Entity(name = "attraktion_oeffungszeit")
 @Table(name = "attraktion_oeffungszeit")
-
 public class AttraktionOeffnungszeit {
   private static final org.slf4j.Logger logger =
           org.slf4j.LoggerFactory.getLogger(ReisepunktNotFoundAdvice.class);
@@ -21,11 +20,10 @@ public class AttraktionOeffnungszeit {
   /**
    * Constructor to create an object, which can be implemented into the database if needed.
    *
-   * @param id                      Id to be created for unique Primary Key.
-   * @param oeffnungszeit           Opening time for the Attraktion
-   * @param attraktionReisepunkteID Attraktion id which this opening time is linked
+   * @param id            Id to be created for unique Primary Key.
+   * @param oeffnungszeit Opening time for the Attraktion
    */
-  public AttraktionOeffnungszeit(int id, String oeffnungszeit, int attraktionReisepunkteID) {
+  public AttraktionOeffnungszeit(int id, String oeffnungszeit) {
     this.id = id;
     this.oeffnungszeit = oeffnungszeit;
   }
@@ -33,10 +31,9 @@ public class AttraktionOeffnungszeit {
   /**
    * Constructor to create an object, with an automaticly generated Primary Key.
    *
-   * @param oeffnungszeit           Opening time for the Attraktion
-   * @param attraktionReisepunkteID Attraktion id which this opening time is linked
+   * @param oeffnungszeit Opening time for the Attraktion
    */
-  public AttraktionOeffnungszeit(String oeffnungszeit, int attraktionReisepunkteID) {
+  public AttraktionOeffnungszeit(String oeffnungszeit) {
     this.oeffnungszeit = oeffnungszeit;
   }
 
@@ -46,9 +43,6 @@ public class AttraktionOeffnungszeit {
 
   public void setOeffnungszeit(String oeffnungszeit) {
     this.oeffnungszeit = oeffnungszeit;
-  }
-
-  public void setAttraktionReisepunkteID(int attraktionReisepunkteID) {
   }
 
   public int getId() {
