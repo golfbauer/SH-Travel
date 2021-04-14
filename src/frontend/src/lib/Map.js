@@ -7,6 +7,7 @@ export {
 }
 
 var map = 0
+var lat, lng
 
 function createMap () {
   map = L.map('map', {
@@ -16,13 +17,20 @@ function createMap () {
     zoomControl: false
   }).setView([54.3227085, 10.1355550], 13)
 
+  map.doubleClickZoom.disable()
+
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     {
       attribution: 'Map data (c) <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
     }).addTo(map)
 
-  // Eventlistener einbauen
+  // Eventlistener für Doubleclick
   map.on('dblclick', mouseDoubleclick)
+
+  // Eventlistener für MouseMove
+  map.on('mousemove', function (event) {
+    setCoordinates(event)
+  })
 }
 
 function setMarker (reisepunkt) {
@@ -44,5 +52,11 @@ async function loadMarker () {
 }
 
 function mouseDoubleclick (event) {
-  console.log('clicked')
+  console.log('Clicked - Menü öffnen zum Erstellen\nKoordinaten lauten: ' + lat + ' : ' + lng)
+}
+
+function setCoordinates (event) {
+  lat = event.latlng.lat
+  lng = event.latlng.lng
+  // console.log(lat + ' : ' + lng)
 }
