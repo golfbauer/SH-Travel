@@ -1,0 +1,19 @@
+/*
+* Global variables can be set using: $globalvariable: rgb(56, 146, 142);
+* Nesting is possible: header { ... button { ... } ... }
+* Hover or Focus for example can be added inside for example buttons: button { ... &:hover { ... } ... }
+* New scss files must have a "_" in front: _variables.scss
+* New scss files must be imported inside the style.scss: @import "./variables"
+* Multiple commands can be summed up into a function: @mixin name($background) { ... }
+* which can be included via @include name(lighblue);
+* Classes can be inherited via @extend header;
+* Operators can bes used: width: 100% - 20%;
+* https://sass-lang.com/documentation/style-rules/declarations
+* https://www.youtube.com/watch?v=Zz6eOVaaelI&list=WL&index=24&t=878s
+ */
+
+$background-color-1: rgb(0, 124, 83);
+$background-color-2: rgb(0, 172, 114);
+$orange: rgb(194, 126, 0);
+$primary-color: #1b998b;
+$primary-color-2: #3dd4b4;
