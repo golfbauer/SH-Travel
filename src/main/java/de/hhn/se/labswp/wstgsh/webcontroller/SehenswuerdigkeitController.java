@@ -6,13 +6,18 @@ import de.hhn.se.labswp.wstgsh.webapi.models.SehenswuerdigkeitRepository;
 import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+/**
+ * Controlls Sehenswuerdigkeit.
+ */
 @RestController
 public class SehenswuerdigkeitController {
-  private static final org.slf4j.Logger logger =
-          org.slf4j.LoggerFactory.getLogger(ReisepunktController.class);
-
   private final SehenswuerdigkeitRepository sehenswuerdigkeitRepository;
 
   @Autowired
@@ -58,8 +63,8 @@ public class SehenswuerdigkeitController {
   @Transactional
   public void editSehenswuerdigkeit(@PathVariable("id") Long id,
                                     @RequestBody Sehenswuerdigkeit newSehenswuerdigkeit) {
-    if(newSehenswuerdigkeit.getId()==id){
-      throw new IllegalStateException("Neue Sehenswürdigkeit muss gleiche ID wie die alte haben");
+    if (!newSehenswuerdigkeit.getId().equals(id)) {
+      throw new IllegalStateException("New Sehenswürdigkeit must have same id as old one");
     }
     deleteSehenswuerdigkeit(id);
     newSehenswuerdigkeit(newSehenswuerdigkeit);
