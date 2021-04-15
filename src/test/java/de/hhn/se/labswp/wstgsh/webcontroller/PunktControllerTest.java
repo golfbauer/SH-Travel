@@ -57,7 +57,7 @@ class PunktControllerTest {
     //then
     assertThatThrownBy(() -> underTest.one(id))
             .isInstanceOf(IllegalStateException.class)
-            .hasMessageContaining("id not found");
+            .hasMessageContaining("Id not found");
   }
 
   @Test
