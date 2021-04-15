@@ -5,8 +5,8 @@ import de.hhn.se.labswp.wstgsh.exceptions.ReisepunktNotFoundAdvice;
 import javax.persistence.*;
 
 
-@Entity(name = "attraktion_oeffungszeit")
-@Table(name = "attraktion_oeffungszeit")
+@Entity(name = "attraktion_oeffnungszeit")
+@Table(name = "attraktion_oeffnungszeit")
 public class AttraktionOeffnungszeit {
   private static final org.slf4j.Logger logger =
           org.slf4j.LoggerFactory.getLogger(ReisepunktNotFoundAdvice.class);

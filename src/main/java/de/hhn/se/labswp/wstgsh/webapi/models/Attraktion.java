@@ -4,6 +4,7 @@ import de.hhn.se.labswp.wstgsh.exceptions.ReisepunktNotFoundAdvice;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Set;
 
 @Entity(name = "attraktion")
 @Table(name = "attraktion")
@@ -18,7 +19,7 @@ public class Attraktion extends Reisepunkt {
   private String beschreibung;
 
   @OneToMany(mappedBy = "attraktion")
-  private ArrayList<AttraktionOeffnungszeit> attraktionOeffnungszeiten;
+  private Set<AttraktionOeffnungszeit> attraktionOeffnungszeiten;
 
   /**
    * Constructor to create an object, which can be implemented into the database if needed.
@@ -31,7 +32,7 @@ public class Attraktion extends Reisepunkt {
    * @param beschreibung Short description, which gives a explenation of the Attraktion.
    */
   public Attraktion(Long id, Float laengengrad, Float breitengrad, String nutzerEmail, String name,
-                    String beschreibung, ArrayList<AttraktionOeffnungszeit> attraktionOeffnungszeiten) {
+                    String beschreibung, Set<AttraktionOeffnungszeit> attraktionOeffnungszeiten) {
     super(id, laengengrad, breitengrad, nutzerEmail, name);
     this.beschreibung = beschreibung;
     this.attraktionOeffnungszeiten = attraktionOeffnungszeiten;
@@ -45,7 +46,7 @@ public class Attraktion extends Reisepunkt {
     return beschreibung;
   }
 
-  public ArrayList<AttraktionOeffnungszeit> getAttraktionOeffnungszeiten() {
+  public Set<AttraktionOeffnungszeit> getAttraktionOeffnungszeiten() {
     return attraktionOeffnungszeiten;
   }
 
@@ -53,7 +54,7 @@ public class Attraktion extends Reisepunkt {
     this.beschreibung = beschreibung;
   }
 
-  public void setAttraktionOeffnungszeiten(ArrayList<AttraktionOeffnungszeit> attraktionOeffnungszeiten) {
+  public void setAttraktionOeffnungszeiten(Set<AttraktionOeffnungszeit> attraktionOeffnungszeiten) {
     this.attraktionOeffnungszeiten = attraktionOeffnungszeiten;
   }
 }
