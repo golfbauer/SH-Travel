@@ -2,13 +2,9 @@ package de.hhn.se.labswp.wstgsh.webapi.models;
 
 import de.hhn.se.labswp.wstgsh.exceptions.ReisepunktNotFoundAdvice;
 
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Set;
 
 @Entity(name = "attraktion")
 @Table(name = "attraktion")
@@ -22,20 +18,24 @@ public class Attraktion extends Reisepunkt {
   @Column(name = "Beschreibung")
   private String beschreibung;
 
+  @OneToMany(mappedBy = "attraktion")
+  private Set<AttraktionOeffnungszeit> attraktionOeffnungszeiten;
+
   /**
    * Constructor to create an object, which can be implemented into the database if needed.
-   * @param id Inherited by Reisepunkt.
-   * @param laengengrad Marks exact locaion of Attraktion, North to South.
-   * @param breitengrad Marks exact locaion of Attraktion, West to East.
-   * @param nutzerEmail Email of the creator account.
-   * @param name Name of the created Attraktion.
+   *
+   * @param id           Inherited by Reisepunkt.
+   * @param laengengrad  Marks exact locaion of Attraktion, North to South.
+   * @param breitengrad  Marks exact locaion of Attraktion, West to East.
+   * @param nutzerEmail  Email of the creator account.
+   * @param name         Name of the created Attraktion.
    * @param beschreibung Short description, which gives a explenation of the Attraktion.
-
    */
   public Attraktion(Long id, Float laengengrad, Float breitengrad, String nutzerEmail, String name,
-                    String beschreibung) {
+                    String beschreibung, Set<AttraktionOeffnungszeit> attraktionOeffnungszeiten) {
     super(id, laengengrad, breitengrad, nutzerEmail, name);
     this.beschreibung = beschreibung;
+    this.attraktionOeffnungszeiten = attraktionOeffnungszeiten;
   }
 
   public Attraktion() {
@@ -46,7 +46,15 @@ public class Attraktion extends Reisepunkt {
     return beschreibung;
   }
 
+  public Set<AttraktionOeffnungszeit> getAttraktionOeffnungszeiten() {
+    return attraktionOeffnungszeiten;
+  }
+
   public void setBeschreibung(String beschreibung) {
     this.beschreibung = beschreibung;
+  }
+
+  public void setAttraktionOeffnungszeiten(Set<AttraktionOeffnungszeit> attraktionOeffnungszeiten) {
+    this.attraktionOeffnungszeiten = attraktionOeffnungszeiten;
   }
 }
