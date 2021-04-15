@@ -36,7 +36,7 @@ public class AttraktionController {
    */
   @GetMapping(path = "/attraktion/{id}")
   Attraktion one(@PathVariable Long id) {
-    return  repository.findById(id).orElseThrow(() -> new IllegalStateException("id not found."));
+    return  repository.findById(id).orElseThrow(() -> new IllegalStateException("Id not found."));
   }
 
   /**
@@ -56,17 +56,12 @@ public class AttraktionController {
    * @return the eddited Attraktion.
    */
   @PutMapping(path = "/attraktion/{id}")
-  Attraktion replaceAttraktion(@RequestBody Attraktion newAttraktion, @PathVariable Long id) {
-    return repository.findById(id).map(attraktion -> {
-      attraktion.setBreitengrad(newAttraktion.getBreitengrad());
-      attraktion.setLaengengrad(newAttraktion.getLaengengrad());
-      attraktion.setNutzerEmail(newAttraktion.getNutzerEmail());
-      attraktion.setName(newAttraktion.getName());
-      attraktion.setBeschreibung(newAttraktion.getBeschreibung());
-      return repository.save(attraktion);
-    }).orElseThrow(
-            () -> new IllegalStateException("could not configure Attraktion.")
-    );
+  void replaceAttraktion(@RequestBody Attraktion newAttraktion, @PathVariable Long id) {
+    if (!newAttraktion.getId().equals(id)) {
+      throw new IllegalStateException("New Attraktion must have same id as old one");
+    }
+    deleteAttraktion(id);
+    newAttraktion(newAttraktion);
   }
 
   /**

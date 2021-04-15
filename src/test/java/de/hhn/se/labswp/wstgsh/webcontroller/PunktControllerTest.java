@@ -77,7 +77,7 @@ class PunktControllerTest {
   }
 
   @Test
-  void canEditaController() {
+  void canEditaPunkt() {
     //given
     long id = 9;
     Punkt punkt = new Punkt(9L, 45.6F, 45.6F, "test@web.de",

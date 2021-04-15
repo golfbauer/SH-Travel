@@ -61,16 +61,15 @@ public class PunktController {
     }
     deletePunkt(id);
     newPunkt(newPunkt);
-
-//    return repository.findById(id).map(Punkt -> {
-//      Punkt.setBreitengrad(newPunkt.getBreitengrad());
-//      Punkt.setLaengengrad(newPunkt.getLaengengrad());
-//      Punkt.setNutzerEmail(newPunkt.getNutzerEmail());
-//      Punkt.setName(newPunkt.getName());
-//      return repository.save(Punkt);
-//    }).orElseThrow(
-//            () -> new IllegalStateException("could not configure Punkt.")
-//    );
+    /*return repository.findById(id).map(Punkt -> {
+      Punkt.setBreitengrad(newPunkt.getBreitengrad());
+      Punkt.setLaengengrad(newPunkt.getLaengengrad());
+      Punkt.setNutzerEmail(newPunkt.getNutzerEmail());
+      Punkt.setName(newPunkt.getName());
+      return repository.save(Punkt);
+    }).orElseThrow(
+            () -> new IllegalStateException("could not configure Punkt.")
+    );*/
   }
 
   /**
