@@ -1,20 +1,21 @@
 package de.hhn.se.labswp.wstgsh.webcontroller;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+
 import de.hhn.se.labswp.wstgsh.webapi.models.Punkt;
 import de.hhn.se.labswp.wstgsh.webapi.models.PunktRepository;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.Optional;
-
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class PunktControllerTest {
@@ -76,27 +77,35 @@ class PunktControllerTest {
   }
 
   @Test
-  void canEditAController() {
+  void canEditaController() {
     //given
-    long id = 10;
-    Punkt punkt = new Punkt(9999L, 45.6F, 45.6F, "test@web.de",
+    long id = 9;
+    Punkt punkt = new Punkt(9L, 45.6F, 45.6F, "test@web.de",
             "Ein Punkt");
-    given(punktRepository.findById(id)).willReturn(Optional.of(new Punkt(3L, 5F,
-            5F, "test@web.de", "Zweiter Punkt")));
     //when
     underTest.replacePunkt(punkt, id);
-
     //then
-    ArgumentCaptor<Punkt> punktArgumentCaptor = ArgumentCaptor.forClass(Punkt.class);
-    verify(punktRepository).save(punktArgumentCaptor.capture());
-
-    Punkt capturedPunkt = punktArgumentCaptor.getValue();
-
-    assertThat(capturedPunkt).isEqualTo(punkt);
+    verify(punktRepository).deleteById(id);
+    verify(punktRepository).save(punkt);
   }
 
   @Test
-  void canDeleteAPunkt() {
+  void willThrowExceptionCauseOfId() {
+    //given
+    long id = 9;
+    Punkt punkt = new Punkt(10L, 45.6F, 45.6F, "test@web.de",
+            "Ein Punkt");
+    //when //then
+    assertThatThrownBy(() -> underTest.replacePunkt(punkt, id))
+            .isInstanceOf(IllegalStateException.class)
+            .hasMessageContaining("New Punkt must have same id as old one");
+
+    verify(punktRepository, never()).deleteById(any());
+    verify(punktRepository, never()).save(any());
+  }
+
+  @Test
+  void canDeleteaPunkt() {
     //given
     long id = 10;
     //when

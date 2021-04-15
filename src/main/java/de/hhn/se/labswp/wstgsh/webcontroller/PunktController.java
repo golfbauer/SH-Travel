@@ -36,11 +36,11 @@ public class PunktController {
    */
   @GetMapping(path = "/punkt/{id}")
   Punkt one(@PathVariable Long id) {
-    return  repository.findById(id).orElseThrow(() -> new IllegalStateException("id not found."));
+    return  repository.findById(id).orElseThrow(() -> new IllegalStateException("Id not found."));
   }
 
   /**
-   * Saves a new Punkt in the DB
+   * Saves a new Punkt in the DB.
    * @param newPunkt New Punkt Objekt you want to save in the DB.
    * @return the just saved Punkt Object.
    */
@@ -53,23 +53,28 @@ public class PunktController {
    * Overwrites Punkt(id) with new one.
    * @param newPunkt Punkt you want to use for overwriting the previous one.
    * @param id of the Punkt you want to overwrite.
-   * @return the eddited Punkt.
    */
   @PutMapping(path = "/punkt/{id}")
-  Punkt replacePunkt(@RequestBody Punkt newPunkt, @PathVariable Long id) {
-    return repository.findById(id).map(Punkt -> {
-      Punkt.setBreitengrad(newPunkt.getBreitengrad());
-      Punkt.setLaengengrad(newPunkt.getLaengengrad());
-      Punkt.setNutzerEmail(newPunkt.getNutzerEmail());
-      Punkt.setName(newPunkt.getName());
-      return repository.save(Punkt);
-    }).orElseThrow(
-            () -> new IllegalStateException("could not configure Punkt.")
-    );
+  void replacePunkt(@RequestBody Punkt newPunkt, @PathVariable Long id) {
+    if (!newPunkt.getId().equals(id)) {
+      throw new IllegalStateException("New Punkt must have same id as old one");
+    }
+    deletePunkt(id);
+    newPunkt(newPunkt);
+
+//    return repository.findById(id).map(Punkt -> {
+//      Punkt.setBreitengrad(newPunkt.getBreitengrad());
+//      Punkt.setLaengengrad(newPunkt.getLaengengrad());
+//      Punkt.setNutzerEmail(newPunkt.getNutzerEmail());
+//      Punkt.setName(newPunkt.getName());
+//      return repository.save(Punkt);
+//    }).orElseThrow(
+//            () -> new IllegalStateException("could not configure Punkt.")
+//    );
   }
 
   /**
-   * Deletes specified Punkt
+   * Deletes specified Punkt.
    * @param id of the Punkt you want to delete.
    */
   @DeleteMapping(path = "/punkt/{id}")
