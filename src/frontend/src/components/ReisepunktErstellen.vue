@@ -207,32 +207,25 @@ export default {
           .catch(function (error) {
             console.log(error)
           })
-      }
-      /*
-      const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(this.form)
-      }
-      fetch('http://192.168.178.67/api/reisepunkterstellen', requestOptions)
-        .then(async response => {
-          const data = await response.json()
-          // check for error response
-          if (!response.ok) {
-            // gest error message from body or default to response status
-            const error = (data && data.message) || response.status
-            return Promise.reject(error)
-          }
+      } else if (this.form.typ === 'attraktion') {
+        axios.post('/api/attraktion', {
+          name: this.form.name,
+          oeffnungszeiten: this.form.oeffnungszeiten,
+          beschreibung: this.form.beschreibung,
+          bilder: this.form.bilder
         })
-        .catch(error => {
-          this.errorMessage = error
-          console.error('There was an error!', error)
-        }) */
+          .then(function (response) {
+            console.log(response)
+          })
+          .catch(function (error) {
+            console.log(error)
+          })
+      }
     },
     onReset (event) {
       event.preventDefault()
       // Reset our form values
-      this.form.typ = ''
+      this.form.typ = 'punkt'
       this.form.name = ''
       this.form.beschreibung = ''
       this.form.oeffnungszeiten = ''
