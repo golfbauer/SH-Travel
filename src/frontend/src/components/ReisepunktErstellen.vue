@@ -2,11 +2,11 @@
   <b-container id="punkterstellen" fluid>
     <b-card no-body>
       <!-- Tabs -->
-      <b-tabs card>
+      <b-tabs card justified>
         <b-tab title="Punkt" active>
           <!-- Textfield Punkt -->
           <div>
-            <b-form @submit="onSubmit" @cancel="onCancel" v-if="show">
+            <b-form @submit="onSubmit" @reset="onReset" v-if="show">
               <b-form-group
                 label-align="left"
                 id="input-group-1"
@@ -20,15 +20,19 @@
                   required
                 ></b-form-input>
               </b-form-group>
-              <b-button class="btn-gray" type="cancel" variant="danger">Abbrechen</b-button>
-              <b-button class="btn-orange" type="submit" variant="primary">Erstellen</b-button>
+            <div class="btn-bar">
+              <div class="right">
+                <b-button class="btn-gray" type="reset">Abbrechen</b-button>
+                <b-button class="btn-orange" type="submit">Erstellen</b-button>
+              </div>
+            </div>
             </b-form>
           </div>
           <!-- End Textfield Punkt -->
         </b-tab>
         <b-tab title="Sehenswürdigkeit">
         <!-- Textfield Sehenswürdigkeit -->
-          <b-form @submit="onSubmit" @cancel="onCancel" v-if="show">
+          <b-form @submit="onSubmit" @reset="onReset" v-if="show">
             <b-form-group
               label-align="left"
               id="input-group-1"
@@ -75,14 +79,18 @@
               </b-form-file>
               <b-button @click="form.bilder = []" class="mr-2">Reset Auswahl</b-button>
             </b-form-group>
-            <b-button class="btn-gray" type="cancel" variant="danger">Abbrechen</b-button>
-            <b-button class="btn-orange" type="submit" variant="primary">Erstellen</b-button>
+            <div class="btn-bar">
+              <div class="right">
+                <b-button class="btn-gray" type="reset">Abbrechen</b-button>
+                <b-button class="btn-orange" type="submit">Erstellen</b-button>
+              </div>
+            </div>
           </b-form>
           <!-- End Textfield Sehenswürdigkeit -->
         </b-tab>
         <b-tab title="Attraktion">
         <!-- Textfield Attraktion -->
-          <b-form @submit="onSubmit" @cancel="onCancel" v-if="show">
+          <b-form @submit="onSubmit" @reset="onReset" v-if="show">
             <b-form-group
               label-align="left"
               id="input-group-1"
@@ -143,8 +151,12 @@
               </b-form-file>
               <b-button @click="form.bilder = []" class="mr-2">Reset Auswahl</b-button>
             </b-form-group>
-            <b-button class="btn-gray" type="cancel" variant="danger">Abbrechen</b-button>
-            <b-button class="btn-orange" type="submit" variant="primary">Erstellen</b-button>
+            <div class="btn-bar">
+              <div class="right">
+                <b-button class="btn-gray" type="reset">Abbrechen</b-button>
+                <b-button class="btn-orange" type="submit">Erstellen</b-button>
+              </div>
+            </div>
           </b-form>
           <!-- End Textfield Attraktion -->
         </b-tab>
@@ -173,11 +185,13 @@ export default {
       event.preventDefault()
       alert(JSON.stringify(this.form))
     },
-    onCancel (event) {
+    onReset (event) {
       event.preventDefault()
       // Reset our form values
       this.form.name = ''
-      this.form.beschreibung = null
+      this.form.beschreibung = ''
+      this.form.oeffnungszeiten = ''
+      this.form.bilder = []
       // Trick to reset/clear native browser form validation state
       this.show = false
       this.$nextTick(() => {
@@ -193,13 +207,13 @@ $orange: orange;
 
 #punkterstellen {
   position: relative;
-  margin: 0 auto;
+  padding: 0;
   max-width: 45rem;
   z-index: 999;
 }
 
 .btn {
-  margin: 0.5rem;
+  margin-left: 1rem;
 
   &-gray {
     background-color: gray;
@@ -210,5 +224,14 @@ $orange: orange;
     background-color: $orange;
     color: #fff;
   }
+
+  &-bar{
+    overflow: hidden;
+    clear: both;
+  }
+}
+
+.right{
+  float: right;
 }
 </style>
