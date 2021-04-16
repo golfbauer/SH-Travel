@@ -26,8 +26,8 @@
           </div>
           <!-- End Textfield Punkt -->
         </b-tab>
-        <!-- Textfield Sehenswürdigkeit -->
         <b-tab title="Sehenswürdigkeit">
+        <!-- Textfield Sehenswürdigkeit -->
           <b-form @submit="onSubmit" @cancel="onCancel" v-if="show">
             <b-form-group
               label-align="left"
@@ -80,7 +80,74 @@
           </b-form>
           <!-- End Textfield Sehenswürdigkeit -->
         </b-tab>
-        <b-tab title="Attraktion">Attraktion</b-tab>
+        <b-tab title="Attraktion">
+        <!-- Textfield Attraktion -->
+          <b-form @submit="onSubmit" @cancel="onCancel" v-if="show">
+            <b-form-group
+              label-align="left"
+              id="input-group-1"
+              label="Name"
+              label-for="input-1"
+            >
+              <b-form-input
+                id="input-1"
+                v-model="form.name"
+                placeholder="Name eingeben"
+                required
+              >
+              </b-form-input>
+            </b-form-group>
+            <b-form-group
+              label-align="left"
+              id="input-group-4"
+              label="Öffnungszeiten"
+              label-for="input-4"
+            >
+              <b-form-input
+                id="input-4"
+                v-model="form.oeffunungszeiten"
+                placeholder="Öffnungszeiten eingeben"
+                required
+              >
+              </b-form-input>
+            </b-form-group>
+            <b-form-group
+              label-align="left"
+              id="input-group-2"
+              label="Beschreibung"
+              label-for="input-2"
+            >
+              <b-form-textarea
+                id="input-2"
+                v-model="form.beschreibung"
+                placeholder="Beschreibung eingeben"
+                rows="2"
+                max-rows="6"
+              >
+              </b-form-textarea>
+            </b-form-group>
+            <b-form-group
+             label-align="left"
+              id="input-group-3"
+              label="Bilder"
+              label-for="input-3"
+            >
+              <b-form-file
+                id="input-3"
+                v-model="form.bilder"
+                accept="image/*"
+                class="mt-1"
+                placeholder="Wähle Bilder aus oder lege sie hier ab"
+                multiple
+              >
+              </b-form-file>
+              <b-button @click="form.bilder = []" class="mr-2">Reset Auswahl</b-button>
+            </b-form-group>
+            <b-button class="btn-gray" type="cancel" variant="danger">Abbrechen</b-button>
+            <b-button class="btn-orange" type="submit" variant="primary">Erstellen</b-button>
+          </b-form>
+          <!-- End Textfield Attraktion -->
+        </b-tab>
         <!-- End Tabs -->
       </b-tabs>
     </b-card>
@@ -95,6 +162,7 @@ export default {
       form: {
         name: '',
         beschreibung: '',
+        oeffnungszeiten: '',
         bilder: []
       },
       show: true
