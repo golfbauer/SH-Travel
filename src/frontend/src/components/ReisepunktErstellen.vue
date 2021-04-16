@@ -3,7 +3,7 @@
     <b-card no-body>
       <!-- Tabs -->
       <b-tabs card justified>
-        <b-tab title="Punkt" active>
+        <b-tab title="Punkt" @click="typ = 'punkt'" active>
           <!-- Textfield Punkt -->
           <div>
             <b-form @submit="onSubmit" @reset="onReset" v-if="show">
@@ -30,7 +30,7 @@
           </div>
           <!-- End Textfield Punkt -->
         </b-tab>
-        <b-tab title="Sehenswürdigkeit">
+        <b-tab title="Sehenswürdigkeit" @click="typ = 'sehenswuerdigkeit'">
         <!-- Textfield Sehenswürdigkeit -->
           <b-form @submit="onSubmit" @reset="onReset" v-if="show">
             <b-form-group
@@ -88,7 +88,7 @@
           </b-form>
           <!-- End Textfield Sehenswürdigkeit -->
         </b-tab>
-        <b-tab title="Attraktion">
+        <b-tab title="Attraktion" @click="typ = 'attraktion'">
         <!-- Textfield Attraktion -->
           <b-form @submit="onSubmit" @reset="onReset" v-if="show">
             <b-form-group
@@ -171,6 +171,7 @@ export default {
   name: 'ReisepunktErstellen',
   data () {
     return {
+      typ: '',
       form: {
         name: '',
         beschreibung: '',
@@ -183,11 +184,55 @@ export default {
   methods: {
     onSubmit (event) {
       event.preventDefault()
-      alert(JSON.stringify(this.form))
+      const axios = require('axios')
+      if (this.form.typ === 'punkt') {
+        axios.post('/api/reisepunkterstellen', {
+          name: this.form.name
+        })
+          .then(function (response) {
+            console.log(response)
+          })
+          .catch(function (error) {
+            console.log(error)
+          })
+      } else if (this.form.typ === 'sehehswuerdigkeit') {
+        axios.post('/api/sehehswuerdigkeit', {
+          name: this.form.name,
+          beschreibung: this.form.beschreibung,
+          bilder: this.form.bilder
+        })
+          .then(function (response) {
+            console.log(response)
+          })
+          .catch(function (error) {
+            console.log(error)
+          })
+      }
+      /*
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(this.form)
+      }
+      fetch('http://192.168.178.67/api/reisepunkterstellen', requestOptions)
+        .then(async response => {
+          const data = await response.json()
+          // check for error response
+          if (!response.ok) {
+            // gest error message from body or default to response status
+            const error = (data && data.message) || response.status
+            return Promise.reject(error)
+          }
+        })
+        .catch(error => {
+          this.errorMessage = error
+          console.error('There was an error!', error)
+        }) */
     },
     onReset (event) {
       event.preventDefault()
       // Reset our form values
+      this.form.typ = ''
       this.form.name = ''
       this.form.beschreibung = ''
       this.form.oeffnungszeiten = ''
@@ -213,7 +258,7 @@ $orange: orange;
 }
 
 .btn {
-  margin-left: 1rem;
+  margin: 0.5rem;
 
   &-gray {
     background-color: gray;
