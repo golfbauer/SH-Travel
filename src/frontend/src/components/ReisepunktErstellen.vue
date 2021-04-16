@@ -4,10 +4,11 @@
       <!-- Tabs -->
       <b-tabs card>
         <b-tab title="Punkt" active>
-          <!-- Textfield -->
+          <!-- Textfield Punkt -->
           <div>
             <b-form @submit="onSubmit" @cancel="onCancel" v-if="show">
-              <b-form-group label-align="left"
+              <b-form-group
+                label-align="left"
                 id="input-group-1"
                 label="Name"
                 label-for="input-1"
@@ -19,22 +20,66 @@
                   required
                 ></b-form-input>
               </b-form-group>
-              <b-form-group id="input-group-4" v-slot="{ ariaDescribedby }">
-                <b-form-checkbox-group
-                  v-model="form.checked"
-                  id="checkboxes-4"
-                  :aria-describedby="ariaDescribedby"
-                >
-                </b-form-checkbox-group>
-              </b-form-group>
-
               <b-button class="btn-gray" type="cancel" variant="danger">Abbrechen</b-button>
               <b-button class="btn-orange" type="submit" variant="primary">Erstellen</b-button>
             </b-form>
           </div>
-          <!-- End Textfield -->
+          <!-- End Textfield Punkt -->
         </b-tab>
-        <b-tab title="Sehenswürdigkeit">Sehenswürdigkeit</b-tab>
+        <!-- Textfield Sehenswürdigkeit -->
+        <b-tab title="Sehenswürdigkeit">
+          <b-form @submit="onSubmit" @cancel="onCancel" v-if="show">
+            <b-form-group
+              label-align="left"
+              id="input-group-1"
+              label="Name"
+              label-for="input-1"
+            >
+              <b-form-input
+                id="input-1"
+                v-model="form.name"
+                placeholder="Name eingeben"
+                required
+              >
+              </b-form-input>
+            </b-form-group>
+            <b-form-group
+              label-align="left"
+              id="input-group-2"
+              label="Beschreibung"
+              label-for="input-2"
+            >
+              <b-form-textarea
+                id="input-2"
+                v-model="form.beschreibung"
+                placeholder="Beschreibung eingeben"
+                rows="2"
+                max-rows="6"
+              >
+              </b-form-textarea>
+            </b-form-group>
+            <b-form-group
+             label-align="left"
+              id="input-group-3"
+              label="Bilder"
+              label-for="input-3"
+            >
+              <b-form-file
+                id="input-3"
+                v-model="form.bilder"
+                accept="image/*"
+                class="mt-1"
+                placeholder="Wähle Bilder aus oder lege sie hier ab"
+                multiple
+              >
+              </b-form-file>
+              <b-button @click="form.bilder = []" class="mr-2">Reset Auswahl</b-button>
+            </b-form-group>
+            <b-button class="btn-gray" type="cancel" variant="danger">Abbrechen</b-button>
+            <b-button class="btn-orange" type="submit" variant="primary">Erstellen</b-button>
+          </b-form>
+          <!-- End Textfield Sehenswürdigkeit -->
+        </b-tab>
         <b-tab title="Attraktion">Attraktion</b-tab>
         <!-- End Tabs -->
       </b-tabs>
@@ -50,7 +95,7 @@ export default {
       form: {
         name: '',
         beschreibung: '',
-        bilder: null
+        bilder: []
       },
       show: true
     }
