@@ -65,7 +65,7 @@ class AttraktionControllerTest {
   @Test
   void canAddNewAttraktion() {
     //given
-    List<AttraktionOeffnungszeit> set = new ArrayList<>();
+    Set<AttraktionOeffnungszeit> set = new HashSet<>();
     Attraktion attraktion = new Attraktion(9999L, 45.6F, 45.6F,
             "test@web.de", "Eine Attraktion", "Dies ist ein test", set);
     //when
@@ -83,7 +83,7 @@ class AttraktionControllerTest {
   void canEditaAttraktion() {
     //given
     long id = 9;
-    List<AttraktionOeffnungszeit> set = new ArrayList<>();
+    Set<AttraktionOeffnungszeit> set = new HashSet<>();
     Attraktion attraktion = new Attraktion(9L, 45.6F, 45.6F,
             "test@web.de", "Ein Punkt", "Dies ist ein test", set);
     //when
@@ -97,7 +97,7 @@ class AttraktionControllerTest {
   void willThrowExceptionCauseOfId() {
     //given
     long id = 9;
-    List<AttraktionOeffnungszeit> set = new ArrayList<>();
+    Set<AttraktionOeffnungszeit> set = new HashSet<>();
     Attraktion attraktion = new Attraktion(10L, 45.6F, 45.6F,
             "test@web.de", "Ein Punkt", "Dies ist ein test", set);
     //when //then
