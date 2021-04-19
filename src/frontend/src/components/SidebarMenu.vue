@@ -88,9 +88,7 @@ export default {
 
 <style lang="scss" scoped>
 
-$background-color-1: rgb(0, 124, 83);
-$background-color-2: rgb(0, 172, 114);
-$orange: rgb(194, 126, 0);
+@import "./src/assets/style";
 
 #menu {
   position: fixed;
