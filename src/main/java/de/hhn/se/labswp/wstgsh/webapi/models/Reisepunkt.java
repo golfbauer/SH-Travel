@@ -28,10 +28,10 @@ public class Reisepunkt {
   @Column(name = "ID", updatable = false)
   private Long id;
 
-  @Column(name = "Laengengrad", nullable = false, unique = true)
+  @Column(name = "Laengengrad", nullable = false)
   private Float laengengrad;
 
-  @Column(name = "Breitengrad", nullable = false, unique = true)
+  @Column(name = "Breitengrad", nullable = false)
   private Float breitengrad;
 
   @Column(name = "NutzerEMail", nullable = false)

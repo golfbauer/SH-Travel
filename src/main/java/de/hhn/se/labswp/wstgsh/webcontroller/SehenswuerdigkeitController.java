@@ -6,13 +6,16 @@ import de.hhn.se.labswp.wstgsh.webapi.models.SehenswuerdigkeitRepository;
 import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class SehenswuerdigkeitController {
-  private static final org.slf4j.Logger logger =
-          org.slf4j.LoggerFactory.getLogger(ReisepunktController.class);
-
   private final SehenswuerdigkeitRepository sehenswuerdigkeitRepository;
 
   @Autowired
@@ -53,20 +56,16 @@ public class SehenswuerdigkeitController {
    * Edits a specific Sehenswuerdigkeit.
    * @param id Identification for Sehenswuerdigkeit.
    * @param newSehenswuerdigkeit Sehenswuerdigkeit with the altered information.
-   * @return The updated Sehenswuerdigkeit with the new information.
    */
   @PutMapping(path = "/sehenswuerdigkeit/{id}")
   @Transactional
-  public Sehenswuerdigkeit editSehenswuerdigkeit(@PathVariable("id") Long id,
+  public void editSehenswuerdigkeit(@PathVariable("id") Long id,
                                     @RequestBody Sehenswuerdigkeit newSehenswuerdigkeit) {
-    return sehenswuerdigkeitRepository.findById(id).map(sehenswuerdigkeit -> {
-      sehenswuerdigkeit.setLaengengrad(newSehenswuerdigkeit.getLaengengrad());
-      sehenswuerdigkeit.setBreitengrad(newSehenswuerdigkeit.getBreitengrad());
-      sehenswuerdigkeit.setNutzerEmail(newSehenswuerdigkeit.getNutzerEmail());
-      sehenswuerdigkeit.setName(newSehenswuerdigkeit.getName());
-      sehenswuerdigkeit.setBeschreibung(newSehenswuerdigkeit.getBeschreibung());
-      return sehenswuerdigkeitRepository.save(sehenswuerdigkeit);
-    }).orElseThrow(() -> new IllegalStateException("Object couldnt be configured"));
+    if (!newSehenswuerdigkeit.getId().equals(id)) {
+      throw new IllegalStateException("New Sehenswürdigkeit must have same id as old one");
+    }
+    deleteSehenswuerdigkeit(id);
+    newSehenswuerdigkeit(newSehenswuerdigkeit);
   }
 
   /**
