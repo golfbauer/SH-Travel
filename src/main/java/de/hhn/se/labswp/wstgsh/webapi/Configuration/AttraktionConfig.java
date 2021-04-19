@@ -1,10 +1,16 @@
 package de.hhn.se.labswp.wstgsh.webapi.Configuration;
 
 import de.hhn.se.labswp.wstgsh.exceptions.ReisepunktNotFoundAdvice;
+import de.hhn.se.labswp.wstgsh.webapi.models.Attraktion;
+import de.hhn.se.labswp.wstgsh.webapi.models.AttraktionOeffnungszeit;
+import de.hhn.se.labswp.wstgsh.webapi.models.AttraktionOeffnungszeitRepository;
 import de.hhn.se.labswp.wstgsh.webapi.models.AttraktionRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Configuration
 public class AttraktionConfig {
@@ -19,16 +25,15 @@ public class AttraktionConfig {
    * @return Arguments which will be implemented into the database.
    */
   @Bean
-  CommandLineRunner commandLineRunnerAttraktion(AttraktionRepository attraktionRepository) {
+  CommandLineRunner commandLineRunnerAttraktion(AttraktionRepository attraktionRepository,
+                                                AttraktionOeffnungszeitRepository attraktionOeffnungszeitRepository) {
     return args -> {
-      //Example
-      //Attraktion robertFeinkost = new Attraktion(
-      // 572L, 9.553942f, 54.52215f, "peter.lustig@haha.com", "Robert Feinkost",
-      // "Dies ist RobertsFeinkostladen", 0f
-      // );
-      // attraktionRepository.saveAll(
-      // List.of(robertFeinkost, peteAussicht)
-      // );
+      Attraktion attraktion = new Attraktion(34F, 34F, "testmail", "peter", "test");
+      AttraktionOeffnungszeit one = new AttraktionOeffnungszeit("samstag", attraktion);
+      AttraktionOeffnungszeit two = new AttraktionOeffnungszeit("sonntag", attraktion);
+      attraktion.getAttraktionOeffnungszeiten().add(one);
+      attraktion.getAttraktionOeffnungszeiten().add(two);
+      attraktionRepository.save(attraktion);
     };
   }
 }
