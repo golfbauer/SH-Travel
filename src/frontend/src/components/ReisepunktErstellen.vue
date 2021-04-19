@@ -15,7 +15,7 @@
               >
                 <b-form-input
                   id="input-1"
-                  v-model="form.name"
+                  v-model="name"
                   placeholder="Name eingeben"
                   required
                 ></b-form-input>
@@ -41,7 +41,7 @@
             >
               <b-form-input
                 id="input-1"
-                v-model="form.name"
+                v-model="name"
                 placeholder="Name eingeben"
                 required
               >
@@ -55,7 +55,7 @@
             >
               <b-form-textarea
                 id="input-2"
-                v-model="form.beschreibung"
+                v-model="beschreibung"
                 placeholder="Beschreibung eingeben"
                 rows="2"
                 max-rows="6"
@@ -70,14 +70,14 @@
             >
               <b-form-file
                 id="input-3"
-                v-model="form.bilder"
+                v-model="bilder"
                 accept="image/*"
                 class="mt-1"
                 placeholder="Wähle Bilder aus oder lege sie hier ab"
                 multiple
               >
               </b-form-file>
-              <b-button @click="form.bilder = []" class="mr-2">Reset Auswahl</b-button>
+              <b-button @click="bilder = []" class="mr-2">Reset Auswahl</b-button>
             </b-form-group>
             <div class="btn-bar">
               <div class="right">
@@ -99,7 +99,7 @@
             >
               <b-form-input
                 id="input-1"
-                v-model="form.name"
+                v-model="name"
                 placeholder="Name eingeben"
                 required
               >
@@ -113,7 +113,7 @@
             >
               <b-form-input
                 id="input-4"
-                v-model="form.oeffunungszeiten"
+                v-model="oeffnungszeiten"
                 placeholder="Öffnungszeiten eingeben"
                 required
               >
@@ -127,7 +127,7 @@
             >
               <b-form-textarea
                 id="input-2"
-                v-model="form.beschreibung"
+                v-model="beschreibung"
                 placeholder="Beschreibung eingeben"
                 rows="2"
                 max-rows="6"
@@ -142,14 +142,14 @@
             >
               <b-form-file
                 id="input-3"
-                v-model="form.bilder"
+                v-model="bilder"
                 accept="image/*"
                 class="mt-1"
                 placeholder="Wähle Bilder aus oder lege sie hier ab"
                 multiple
               >
               </b-form-file>
-              <b-button @click="form.bilder = []" class="mr-2">Reset Auswahl</b-button>
+              <b-button @click="bilder = []" class="mr-2">Reset Auswahl</b-button>
             </b-form-group>
             <div class="btn-bar">
               <div class="right">
@@ -171,23 +171,43 @@ export default {
   name: 'ReisepunktErstellen',
   data () {
     return {
-      typ: '',
-      form: {
-        name: '',
-        beschreibung: '',
-        oeffnungszeiten: '',
-        bilder: []
-      },
-      show: true
+      typ: 'punkt',
+      show: true,
+      laengengrad: null,
+      breitengrad: null,
+      nutzerEmail: '',
+      name: '',
+      beschreibung: '',
+      oeffnungszeiten: '',
+      bilder: []
     }
   },
   methods: {
     onSubmit (event) {
       event.preventDefault()
       const axios = require('axios')
-      if (this.form.typ === 'punkt') {
-        axios.post('/api/reisepunkterstellen', {
-          name: this.form.name
+      if (this.typ === 'punkt') {
+        const res = axios.post('/api/punkt', {
+          laengengrad: this.laengengrad,
+          breitengrad: this.breitengrad,
+          nutzerEmail: this.nutzerEmail,
+          name: this.name
+        })
+          .then(response => {
+            console.log('Status: ', response.status)
+            console.log('Data: ', response.data)
+          }).catch(error => {
+            console.error('Something went wrong!', error)
+          })
+        alert('send')
+      } else if (this.typ === 'sehenswuerdigkeit') {
+        axios.post('/api/sehenswuerdigkeit', {
+          laengengrad: this.laengengrad,
+          breitengrad: this.breitengrad,
+          nutzerEmail: this.nutzerEmail,
+          name: this.name,
+          beschreibung: this.beschreibung,
+          bilder: this.bilder
         })
           .then(function (response) {
             console.log(response)
@@ -195,24 +215,16 @@ export default {
           .catch(function (error) {
             console.log(error)
           })
-      } else if (this.form.typ === 'sehehswuerdigkeit') {
-        axios.post('/api/sehehswuerdigkeit', {
-          name: this.form.name,
-          beschreibung: this.form.beschreibung,
-          bilder: this.form.bilder
-        })
-          .then(function (response) {
-            console.log(response)
-          })
-          .catch(function (error) {
-            console.log(error)
-          })
-      } else if (this.form.typ === 'attraktion') {
+        alert('send')
+      } else if (this.typ === 'attraktion') {
         axios.post('/api/attraktion', {
-          name: this.form.name,
-          oeffnungszeiten: this.form.oeffnungszeiten,
-          beschreibung: this.form.beschreibung,
-          bilder: this.form.bilder
+          laengengrad: this.laengengrad,
+          breitengrad: this.breitengrad,
+          nutzerEmail: this.nutzerEmail,
+          name: this.name,
+          oeffnungszeiten: this.oeffnungszeiten,
+          beschreibung: this.beschreibung,
+          bilder: this.bilder
         })
           .then(function (response) {
             console.log(response)
@@ -220,16 +232,20 @@ export default {
           .catch(function (error) {
             console.log(error)
           })
+        alert('send')
       }
     },
     onReset (event) {
       event.preventDefault()
-      // Reset our form values
-      this.form.typ = 'punkt'
-      this.form.name = ''
-      this.form.beschreibung = ''
-      this.form.oeffnungszeiten = ''
-      this.form.bilder = []
+      // Reset our values
+      this.typ = 'punkt'
+      this.laengengrad = null
+      this.breitengrad = null
+      this.nutzerEmail = ''
+      this.name = ''
+      this.beschreibung = ''
+      this.oeffnungszeiten = ''
+      this.bilder = []
       // Trick to reset/clear native browser form validation state
       this.show = false
       this.$nextTick(() => {
