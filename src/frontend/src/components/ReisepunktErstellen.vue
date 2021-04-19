@@ -194,12 +194,13 @@ export default {
           name: this.name
         })
           .then(response => {
-            console.log('Status: ', response.status)
-            console.log('Data: ', response.data)
-          }).catch(error => {
-            console.error('Something went wrong!', error)
+            this.makeToast('success', 'Punkt', this.name + ' erfolgreich erstellt')
+            console.log(response)
           })
-        alert('send')
+          .catch(error => {
+            this.makeToast('danger', 'Punkt', this.name + ' konnte nicht erstellt werden')
+            console.error(error)
+          })
       } else if (this.typ === 'sehenswuerdigkeit') {
         axios.post('/api/sehenswuerdigkeit', {
           laengengrad: this.laengengrad,
@@ -209,13 +210,14 @@ export default {
           beschreibung: this.beschreibung,
           bilder: this.bilder
         })
-          .then(function (response) {
+          .then(response => {
+            this.makeToast('success', 'Sehenswuerdigkeit', this.name + ' erfolgreich erstellt')
             console.log(response)
           })
-          .catch(function (error) {
-            console.log(error)
+          .catch(error => {
+            this.makeToast('danger', 'Sehenswuerdigkeit', this.name + ' konnte nicht erstellt werden')
+            console.error(error)
           })
-        alert('send')
       } else if (this.typ === 'attraktion') {
         axios.post('/api/attraktion', {
           laengengrad: this.laengengrad,
@@ -226,13 +228,14 @@ export default {
           beschreibung: this.beschreibung,
           bilder: this.bilder
         })
-          .then(function (response) {
+          .then(response => {
+            this.makeToast('success', 'Attraktion', this.name + ' erfolgreich erstellt')
             console.log(response)
           })
-          .catch(function (error) {
-            console.log(error)
+          .catch(error => {
+            this.makeToast('danger', 'Attraktion', this.name + ' konnte nicht erstellt werden')
+            console.error(error)
           })
-        alert('send')
       }
     },
     onReset (event) {
@@ -250,6 +253,13 @@ export default {
       this.show = false
       this.$nextTick(() => {
         this.show = true
+      })
+    },
+    makeToast (variant = null, title = null, body = null) {
+      this.$bvToast.toast(body, {
+        title: title,
+        variant: variant,
+        solid: true
       })
     }
   }
