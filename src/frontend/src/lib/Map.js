@@ -1,5 +1,6 @@
 import L from 'leaflet'
 import { getReisepunkte, Reisepunkt } from '@/lib/Reisepunkt'
+import ReisepunktErstellen from '@/components/ReisepunktErstellen'
 
 export {
   createMap,
@@ -52,7 +53,8 @@ async function loadMarker () {
 }
 
 function mouseDoubleclick (event) {
-  console.log('Clicked - Menü öffnen zum Erstellen\nKoordinaten lauten: ' + lat + ' : ' + lng)
+  // console.log('Clicked - Menü öffnen zum Erstellen\nKoordinaten lauten: ' + lat + ' : ' + lng)
+  ReisepunktErstellen.methods.showMenu(event, lat, lng)
 }
 
 function setCoordinates (event) {
