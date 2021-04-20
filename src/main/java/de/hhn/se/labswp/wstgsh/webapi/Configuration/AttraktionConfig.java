@@ -28,12 +28,12 @@ public class AttraktionConfig {
   CommandLineRunner commandLineRunnerAttraktion(AttraktionRepository attraktionRepository,
                                                 AttraktionOeffnungszeitRepository attraktionOeffnungszeitRepository) {
     return args -> {
-      Attraktion attraktion = new Attraktion(34F, 34F, "testmail", "peter", "test");
+/*      Attraktion attraktion = new Attraktion(34F, 34F, "testmail", "peter", "test");
       AttraktionOeffnungszeit one = new AttraktionOeffnungszeit("samstag", attraktion);
       AttraktionOeffnungszeit two = new AttraktionOeffnungszeit("sonntag", attraktion);
       attraktion.getAttraktionOeffnungszeiten().add(one);
       attraktion.getAttraktionOeffnungszeiten().add(two);
-      attraktionRepository.save(attraktion);
+      attraktionRepository.save(attraktion);*/
     };
   }
 }
