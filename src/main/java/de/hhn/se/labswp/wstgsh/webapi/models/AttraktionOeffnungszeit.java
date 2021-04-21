@@ -1,24 +1,26 @@
 package de.hhn.se.labswp.wstgsh.webapi.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import de.hhn.se.labswp.wstgsh.exceptions.ReisepunktNotFoundAdvice;
 
 import javax.persistence.*;
 
 
-@Entity(name = "attraktion_oeffnungszeit")
-@Table(name = "attraktion_oeffnungszeit")
+@Entity
+@Table
 public class AttraktionOeffnungszeit {
   private static final org.slf4j.Logger logger =
           org.slf4j.LoggerFactory.getLogger(ReisepunktNotFoundAdvice.class);
   @Id
-  @Column(name = "AttraktionIndex", updatable = false)
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private int id;
 
-  @Column(name = "Oeffnungszeit")
+
   private String oeffnungszeit;
 
   @ManyToOne
-  @JoinColumn(name = "AttraktionReisepunkteID", nullable = false)
+  @JoinColumn(nullable = false)
+  @JsonIgnore
   private Attraktion attraktion;
 
   /**

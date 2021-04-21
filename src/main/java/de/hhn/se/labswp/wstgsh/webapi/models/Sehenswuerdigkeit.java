@@ -9,16 +9,15 @@ import javax.persistence.InheritanceType;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
-@Entity(name = "sehenswuerdigkeit")
-@Table(name = "sehenswuerdigkeit")
+@Entity
+@Table
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorValue("Sehenswuerdigkeit")
-@PrimaryKeyJoinColumn(name = "ReisepunkteID", referencedColumnName = "ID")
 public class Sehenswuerdigkeit extends Reisepunkt {
   private static final org.slf4j.Logger logger =
           org.slf4j.LoggerFactory.getLogger(ReisepunktNotFoundAdvice.class);
 
-  @Column(name = "Beschreibung")
+
   private String beschreibung;
 
   /**
