@@ -1,6 +1,8 @@
 <template>
   <div class="map" id="map" ref="mapContainer">
-    <ReisepunktErstellen v-show="popUpShow"/>
+    <ReisepunktErstellen v-show="showPopUp" v-bind:laengengrad="lat" v-bind:breitengrad="long" v-on:updateShow="updateReisepunktErstellenShow($event)"/>
+    <b-button @click="popUpShow = !popUpShow"></b-button>
+    {{popUpShow}}
   </div>
 </template>
 
@@ -12,7 +14,10 @@ export default {
   name: 'Map',
   data () {
     return {
-      popUpShow: false
+      popUpShow: true,
+      PopUp: true,
+      lat: 53,
+      long: 5
     }
   },
   components: {
@@ -21,6 +26,12 @@ export default {
   mounted () {
     createMap()
     loadMarker()
+  },
+  methods: {
+    updateReisepunktErstellenShow: function (showProp) {
+      this.popUpShow = showProp
+      alert('Show: ' + this.popUpShow)
+    }
   }
 }
 </script>

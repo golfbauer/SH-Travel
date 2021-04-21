@@ -169,13 +169,14 @@
 <script>
 export default {
   name: 'ReisepunktErstellen',
-  // props: ['show'],
+  props: {
+    laengengrad: Number,
+    breitengrad: Number
+  },
   data () {
     return {
       typ: 'punkt',
       show: true,
-      laengengrad: null,
-      breitengrad: null,
       nutzerEmail: '',
       name: '',
       beschreibung: '',
@@ -243,8 +244,8 @@ export default {
       event.preventDefault()
       // Reset our values
       this.typ = 'punkt'
-      this.laengengrad = null
-      this.breitengrad = null
+      this.lat = null
+      this.long = null
       this.nutzerEmail = ''
       this.name = ''
       this.beschreibung = ''
@@ -255,6 +256,7 @@ export default {
       this.$nextTick(() => {
         this.show = true
       })
+      this.disableThisShow()
     },
     makeToast (variant = null, title = null, body = null) {
       this.$bvToast.toast(body, {
@@ -263,10 +265,8 @@ export default {
         solid: true
       })
     },
-    showMenu (long, lat) {
-      this.laengengrad = lat
-      this.breitengrad = long
-      // console.log('ReisepunktErstellen.vue: show= ' + this.show + '   ' + long + ' : ' + lat)
+    disableThisShow: function () {
+      this.$emit('updateShow', 'false')
     }
   }
 }
