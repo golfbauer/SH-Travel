@@ -25,7 +25,7 @@ function createMap () {
     }).addTo(map)
 
   // Eventlistener für Doubleclick
-  map.on('dblclick', mouseDoubleclick)
+  map.on('click', mouseDoubleclick)
 
   // Eventlistener für MouseMove
   // map.on('mousemove', function (event) {
@@ -35,8 +35,16 @@ function createMap () {
 
 function setMarker (reisepunkt) {
   console.log(reisepunkt)
+  if (reisepunkt.breitengrad === null || reisepunkt.laengengrad === null) {
+    return
+  }
   var marker = L.marker([reisepunkt.breitengrad, reisepunkt.laengengrad]).addTo(map)
-  marker.bindPopup(reisepunkt.name)
+  marker.bindPopup(
+    reisepunkt.name +
+    ' <br> Längengrad: ' +
+    reisepunkt.laengengrad +
+    ' <br>Breitengrad: ' +
+    reisepunkt.breitengrad)
 }
 
 async function loadMarker () {
@@ -56,6 +64,7 @@ function mouseDoubleclick (event) {
   var lat, lng
   // lat = map.mouseEventToLatLng(event).lat
   // lng = map.mouseEventToLatLng(event).lng
+  alert(lat + ' ' + lng)
   // ReisepunktErstellen.methods.showMenu(lat, lng)
   setPopUpShow()
 }

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <b-button @click="updateReisepunktErstellenShow(true)">{{ReisepunktErstellenShow}}</b-button>
     <div class="map" id="map" ref="mapContainer">
     </div>
     <component
@@ -21,8 +22,8 @@ export default {
   name: 'Map',
   data () {
     return {
-      lat: 53,
-      long: 5,
+      lat: 10.3,
+      long: 54.4,
       ReisepunktErstellenShow: ReisepunktErstellen
     }
   },
@@ -33,13 +34,18 @@ export default {
     createMap()
     loadMarker()
   },
+  updated () {
+    loadMarker()
+  },
   methods: {
     updateReisepunktErstellenShow: function (showProp) {
+      alert('updateReisepunkterstellenshow')
       if (showProp === true) {
         this.ReisepunktErstellenShow = ReisepunktErstellen
       } else {
         this.ReisepunktErstellenShow = null
       }
+      alert(this.ReisepunktErstellenShow)
     },
     makeToast (array) {
       this.$bvToast.toast(array[2], {
