@@ -1,5 +1,5 @@
 <template>
-  <b-container id="punkterstellen" fluid v-show="show">
+  <b-container id="punkterstellen" fluid>
     <b-card no-body>
       <!-- Tabs -->
       <b-tabs card justified>
@@ -263,11 +263,10 @@ export default {
         solid: true
       })
     },
-    showMenu (event, long, lat) {
-      this.show = true
+    showMenu (long, lat) {
       this.laengengrad = lat
       this.breitengrad = long
-      console.log('ReisepunktErstellen.vue: show= ' + this.show + '   ' + long + ' : ' + lat)
+      // console.log('ReisepunktErstellen.vue: show= ' + this.show + '   ' + long + ' : ' + lat)
     }
   }
 }

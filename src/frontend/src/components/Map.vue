@@ -1,12 +1,23 @@
 <template>
-  <div class="map" id="map" ref="mapContainer"></div>
+  <div class="map" id="map" ref="mapContainer">
+    <ReisepunktErstellen v-show="popUpShow"/>
+  </div>
 </template>
 
 <script>
-import { createMap, loadMarker } from '../lib/Map'
+import { createMap, loadMarker } from '@/lib/Map'
+import ReisepunktErstellen from '@/components/ReisepunktErstellen'
 
 export default {
   name: 'Map',
+  data () {
+    return {
+      popUpShow: false
+    }
+  },
+  components: {
+    ReisepunktErstellen
+  },
   mounted () {
     createMap()
     loadMarker()
@@ -16,7 +27,7 @@ export default {
 
 <style scoped>
 .map {
-  position: absolute;
+  position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
