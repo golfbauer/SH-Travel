@@ -1,12 +1,14 @@
 <template>
-  <div class="map" id="map" ref="mapContainer">
+  <div>
+    <div class="map" id="map" ref="mapContainer">
+    </div>
     <component
-      v-bind:is="ReisepunktErstellenShow"
-      v-bind:laengengrad="lat"
-      v-bind:breitengrad="long"
-      v-on:updateShow="updateReisepunktErstellenShow($event)"
-    >
-    </component>
+        v-bind:is="ReisepunktErstellenShow"
+        v-bind:laengengrad="lat"
+        v-bind:breitengrad="long"
+        v-on:updateShow="updateReisepunktErstellenShow($event)"
+      >
+      </component>
   </div>
 </template>
 
@@ -20,7 +22,7 @@ export default {
     return {
       lat: 53,
       long: 5,
-      ReisepunktErstellenShow: null
+      ReisepunktErstellenShow: ReisepunktErstellen
     }
   },
   components: {
