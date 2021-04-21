@@ -6,7 +6,7 @@
         <b-tab title="Punkt" @click="typ = 'punkt'" active>
           <!-- Textfield Punkt -->
           <div>
-            <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+            <b-form @submit="onSubmit" @reset="onReset">
               <b-form-group
                 label-align="left"
                 id="input-group-1"
@@ -32,7 +32,7 @@
         </b-tab>
         <b-tab title="Sehenswürdigkeit" @click="typ = 'sehenswuerdigkeit'">
         <!-- Textfield Sehenswürdigkeit -->
-          <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+          <b-form @submit="onSubmit" @reset="onReset">
             <b-form-group
               label-align="left"
               id="input-group-1"
@@ -90,7 +90,7 @@
         </b-tab>
         <b-tab title="Attraktion" @click="typ = 'attraktion'">
         <!-- Textfield Attraktion -->
-          <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+          <b-form @submit="onSubmit" @reset="onReset">
             <b-form-group
               label-align="left"
               id="input-group-1"
@@ -176,7 +176,6 @@ export default {
   data () {
     return {
       typ: 'punkt',
-      show: true,
       nutzerEmail: '',
       name: '',
       beschreibung: '',
@@ -197,6 +196,7 @@ export default {
         })
           .then(response => {
             this.makeToast('success', 'Punkt', this.name + ' erfolgreich erstellt')
+            this.disableThisShow()
             console.log(response)
           })
           .catch(error => {
@@ -214,6 +214,7 @@ export default {
         })
           .then(response => {
             this.makeToast('success', 'Sehenswuerdigkeit', this.name + ' erfolgreich erstellt')
+            this.disableThisShow()
             console.log(response)
           })
           .catch(error => {
@@ -232,6 +233,7 @@ export default {
         })
           .then(response => {
             this.makeToast('success', 'Attraktion', this.name + ' erfolgreich erstellt')
+            this.disableThisShow()
             console.log(response)
           })
           .catch(error => {
@@ -242,20 +244,6 @@ export default {
     },
     onReset (event) {
       event.preventDefault()
-      // Reset our values
-      this.typ = 'punkt'
-      this.lat = null
-      this.long = null
-      this.nutzerEmail = ''
-      this.name = ''
-      this.beschreibung = ''
-      this.oeffnungszeiten = ''
-      this.bilder = []
-      // Trick to reset/clear native browser form validation state
-      this.show = false
-      this.$nextTick(() => {
-        this.show = true
-      })
       this.disableThisShow()
     },
     makeToast (variant = null, title = null, body = null) {
