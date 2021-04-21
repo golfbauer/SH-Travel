@@ -13,6 +13,7 @@
                 label="Name"
                 label-for="input-1"
               >
+                <!--  + this.laengengrad -->
                 <b-form-input
                   id="input-1"
                   v-model="name"
@@ -110,14 +111,18 @@
               id="input-group-4"
               label="Öffnungszeiten"
               label-for="input-4"
+              description="z.B. Montag 10:00 - 15:30, Mittwoch 9:00 - 14:00, Freitag 9:00 - 12:00"
             >
-              <b-form-input
+              <b-form-textarea
                 id="input-4"
                 v-model="oeffnungszeiten"
-                placeholder="Öffnungszeiten eingeben"
+                placeholder="Trenne die Wochentage mit einem Komma"
                 required
+                rows="2"
+                max-rows="6"
+                :formatter="formatter"
               >
-              </b-form-input>
+              </b-form-textarea>
             </b-form-group>
             <b-form-group
               label-align="left"
@@ -195,9 +200,9 @@ export default {
           name: this.name
         })
           .then(response => {
+            console.log(response)
             this.makeToast('success', 'Punkt', this.name + ' erfolgreich erstellt')
             this.disableThisShow()
-            console.log(response)
           })
           .catch(error => {
             this.makeToast('danger', 'Punkt', this.name + ' konnte nicht erstellt werden')
@@ -213,9 +218,9 @@ export default {
           bilder: this.bilder
         })
           .then(response => {
+            console.log(response)
             this.makeToast('success', 'Sehenswuerdigkeit', this.name + ' erfolgreich erstellt')
             this.disableThisShow()
-            console.log(response)
           })
           .catch(error => {
             this.makeToast('danger', 'Sehenswuerdigkeit', this.name + ' konnte nicht erstellt werden')
@@ -232,9 +237,9 @@ export default {
           bilder: this.bilder
         })
           .then(response => {
+            console.log(response)
             this.makeToast('success', 'Attraktion', this.name + ' erfolgreich erstellt')
             this.disableThisShow()
-            console.log(response)
           })
           .catch(error => {
             this.makeToast('danger', 'Attraktion', this.name + ' konnte nicht erstellt werden')
