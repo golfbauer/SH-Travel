@@ -7,6 +7,7 @@
         v-bind:laengengrad="lat"
         v-bind:breitengrad="long"
         v-on:updateShow="updateReisepunktErstellenShow($event)"
+        v-on:makeToast="makeToast($event)"
       >
       </component>
   </div>
@@ -39,6 +40,13 @@ export default {
       } else {
         this.ReisepunktErstellenShow = null
       }
+    },
+    makeToast (array) {
+      this.$bvToast.toast(array[2], {
+        title: array[1],
+        variant: array[0],
+        solid: true
+      })
     }
   }
 }

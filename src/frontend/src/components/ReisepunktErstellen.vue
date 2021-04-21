@@ -247,11 +247,7 @@ export default {
       this.disableThisShow()
     },
     makeToast (variant = null, title = null, body = null) {
-      this.$bvToast.toast(body, {
-        title: title,
-        variant: variant,
-        solid: true
-      })
+      this.$emit('makeToast', [variant, title, body])
     },
     disableThisShow: function () {
       this.$emit('updateShow', 'false')
