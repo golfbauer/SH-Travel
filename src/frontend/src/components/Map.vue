@@ -1,8 +1,12 @@
 <template>
   <div class="map" id="map" ref="mapContainer">
-    <ReisepunktErstellen v-show="showPopUp" v-bind:laengengrad="lat" v-bind:breitengrad="long" v-on:updateShow="updateReisepunktErstellenShow($event)"/>
-    <b-button @click="popUpShow = !popUpShow"></b-button>
-    {{popUpShow}}
+    <component
+      v-bind:is="ReisepunktErstellenShow"
+      v-bind:laengengrad="lat"
+      v-bind:breitengrad="long"
+      v-on:updateShow="updateReisepunktErstellenShow($event)"
+    >
+    </component>
   </div>
 </template>
 
@@ -14,10 +18,9 @@ export default {
   name: 'Map',
   data () {
     return {
-      popUpShow: true,
-      PopUp: true,
       lat: 53,
-      long: 5
+      long: 5,
+      ReisepunktErstellenShow: null
     }
   },
   components: {
@@ -29,8 +32,11 @@ export default {
   },
   methods: {
     updateReisepunktErstellenShow: function (showProp) {
-      this.popUpShow = showProp
-      alert('Show: ' + this.popUpShow)
+      if (showProp === true) {
+        this.ReisepunktErstellenShow = ReisepunktErstellen
+      } else {
+        this.ReisepunktErstellenShow = null
+      }
     }
   }
 }
