@@ -1,12 +1,11 @@
 <template>
   <div>
-    <b-button @click="updateReisepunktErstellenShow(true)">{{ReisepunktErstellenShow}}</b-button>
     <div class="map" id="map" ref="mapContainer">
     </div>
     <component
         v-bind:is="ReisepunktErstellenShow"
-        v-bind:laengengrad="lat"
-        v-bind:breitengrad="long"
+        v-bind:laengengrad="laengengrad"
+        v-bind:breitengrad="breitengrad"
         v-on:updateShow="updateReisepunktErstellenShow($event)"
         v-on:makeToast="makeToast($event)"
       >
@@ -15,16 +14,16 @@
 </template>
 
 <script>
-import { createMap, loadMarker } from '@/lib/Map'
+import { createMap, loadMarker, L, map } from '@/lib/Map'
 import ReisepunktErstellen from '@/components/ReisepunktErstellen'
 
 export default {
   name: 'Map',
   data () {
     return {
-      lat: 10.3,
-      long: 54.4,
-      ReisepunktErstellenShow: ReisepunktErstellen
+      laengengrad: 10.3,
+      breitengrad: 54.4,
+      ReisepunktErstellenShow: null
     }
   },
   components: {
@@ -38,14 +37,24 @@ export default {
     loadMarker()
   },
   methods: {
+    openPopup: function (e) {
+      var popup = L.popup()
+        .setLatLng([e.latlng.lat, e.latlng.lng])
+        .setContent('<button @click="updateReisepunktErstellenShow(true)">Reisepunkt erstellen</button>')
+        .openOn(map)
+
+      this.laengengrad = e.latlng.lng
+      this.breitengrad = e.latlng.lat
+    },
     updateReisepunktErstellenShow: function (showProp) {
-      alert('updateReisepunkterstellenshow')
+      alert(showProp)
       if (showProp === true) {
         this.ReisepunktErstellenShow = ReisepunktErstellen
+        alert('Reisepunkterstellen ist nun sichtbar')
       } else {
         this.ReisepunktErstellenShow = null
+        alert('Reisepunkterstellen ist nun nicht mehr sichtbar')
       }
-      alert(this.ReisepunktErstellenShow)
     },
     makeToast (array) {
       this.$bvToast.toast(array[2], {

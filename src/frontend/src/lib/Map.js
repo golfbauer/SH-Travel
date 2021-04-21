@@ -1,13 +1,15 @@
 import L from 'leaflet'
 import { getReisepunkte, Reisepunkt } from '@/lib/Reisepunkt'
-import { setPopUpShow } from '@/components/Map'
+import Map from '@/components/Map'
+
+var map = 0
 
 export {
   createMap,
-  loadMarker
+  loadMarker,
+  L,
+  map
 }
-
-var map = 0
 
 function createMap () {
   map = L.map('map', {
@@ -25,7 +27,9 @@ function createMap () {
     }).addTo(map)
 
   // Eventlistener für Doubleclick
-  map.on('click', mouseDoubleclick)
+  map.on('click', function (e) {
+    Map.methods.openPopup(e)
+  })
 
   // Eventlistener für MouseMove
   // map.on('mousemove', function (event) {
@@ -57,16 +61,6 @@ async function loadMarker () {
     console.log('setting marker')
     setMarker(reisepunkte[i])
   }
-}
-
-function mouseDoubleclick (event) {
-  // console.log('Clicked - Menü öffnen zum Erstellen\nKoordinaten lauten: ' + lat + ' : ' + lng)
-  var lat, lng
-  // lat = map.mouseEventToLatLng(event).lat
-  // lng = map.mouseEventToLatLng(event).lng
-  alert(lat + ' ' + lng)
-  // ReisepunktErstellen.methods.showMenu(lat, lng)
-  setPopUpShow()
 }
 
 // function setCoordinates (event) {
