@@ -47,7 +47,6 @@ export default {
       this.laengengrad = lng
       this.breitengrad = lat
       console.log(this.laengengrad + ' ' + this.breitengrad)
-      ReisepunktErstellen.$forceUpdate()
     },
     makeToast (array) {
       this.$bvToast.toast(array[2], {

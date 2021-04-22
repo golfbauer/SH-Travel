@@ -21,6 +21,37 @@
                   required
                 ></b-form-input>
               </b-form-group>
+
+              <b-form-group
+                label-align="left"
+                id="input-group-laengengrad"
+                label="Längengrad"
+                label-for="laengengrad"
+              >
+                <!--  + this.laengengrad -->
+                <b-form-input
+                  id="laengengrad"
+                  v-model="laengengrad"
+                  placeholder="Name eingeben"
+                  required
+                ></b-form-input>
+              </b-form-group>
+
+              <b-form-group
+                label-align="left"
+                id="input-group-breitengrad"
+                label="Breitengrad"
+                label-for="breitengrad"
+              >
+                <!--  + this.laengengrad -->
+                <b-form-input
+                  id="breitengrad"
+                  v-model="breitengrad"
+                  placeholder="Name eingeben"
+                  required
+                ></b-form-input>
+              </b-form-group>
+
             <div class="btn-bar">
               <div class="right">
                 <b-button class="btn-gray" type="reset">Abbrechen</b-button>
@@ -48,6 +79,37 @@
               >
               </b-form-input>
             </b-form-group>
+
+              <b-form-group
+                label-align="left"
+                id="input-group-laengengrad"
+                label="Längengrad"
+                label-for="laengengrad"
+              >
+                <!--  + this.laengengrad -->
+                <b-form-input
+                  id="laengengrad"
+                  v-model="laengengrad"
+                  placeholder="Name eingeben"
+                  required
+                ></b-form-input>
+              </b-form-group>
+
+              <b-form-group
+                label-align="left"
+                id="input-group-breitengrad"
+                label="Breitengrad"
+                label-for="breitengrad"
+              >
+                <!--  + this.laengengrad -->
+                <b-form-input
+                  id="breitengrad"
+                  v-model="breitengrad"
+                  placeholder="Name eingeben"
+                  required
+                ></b-form-input>
+              </b-form-group>
+
             <b-form-group
               label-align="left"
               id="input-group-2"
@@ -106,6 +168,37 @@
               >
               </b-form-input>
             </b-form-group>
+
+              <b-form-group
+                label-align="left"
+                id="input-group-laengengrad"
+                label="Längengrad"
+                label-for="laengengrad"
+              >
+                <!--  + this.laengengrad -->
+                <b-form-input
+                  id="laengengrad"
+                  v-model="laengengrad"
+                  placeholder="Name eingeben"
+                  required
+                ></b-form-input>
+              </b-form-group>
+
+              <b-form-group
+                label-align="left"
+                id="input-group-breitengrad"
+                label="Breitengrad"
+                label-for="breitengrad"
+              >
+                <!--  + this.laengengrad -->
+                <b-form-input
+                  id="breitengrad"
+                  v-model="breitengrad"
+                  placeholder="Name eingeben"
+                  required
+                ></b-form-input>
+              </b-form-group>
+
             <b-form-group
               label-align="left"
               id="input-group-4"
