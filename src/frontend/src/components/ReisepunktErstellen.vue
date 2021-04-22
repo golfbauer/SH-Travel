@@ -120,7 +120,6 @@
                 required
                 rows="2"
                 max-rows="6"
-                :formatter="formatter"
               >
               </b-form-textarea>
             </b-form-group>
@@ -192,6 +191,7 @@ export default {
     onSubmit (event) {
       event.preventDefault()
       const axios = require('axios')
+      console.log(this.laengengrad + ' ' + this.breitengrad)
       if (this.typ === 'punkt') {
         const res = axios.post('/api/punkt', {
           laengengrad: this.laengengrad,

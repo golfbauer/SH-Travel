@@ -1,19 +1,17 @@
 <template>
-  <div>
-    <div class="map" id="map" ref="mapContainer">
-    </div>
-    <component
-        v-bind:is="ReisepunktErstellenShow"
+    <div @dblclick="openPopup()" class="map" id="map" ref="mapContainer">
+      <ReisepunktErstellen
+        v-if="showR"
         v-bind:laengengrad="laengengrad"
         v-bind:breitengrad="breitengrad"
-        v-on:updateShow="updateReisepunktErstellenShow($event)"
+        v-on:updateShow="closePopup($event)"
         v-on:makeToast="makeToast($event)"
-      >
-      </component>
-  </div>
+      />
+    </div>
 </template>
 
 <script>
+import Vue from 'vue'
 import { createMap, loadMarker, L, map } from '@/lib/Map'
 import ReisepunktErstellen from '@/components/ReisepunktErstellen'
 
@@ -21,9 +19,10 @@ export default {
   name: 'Map',
   data () {
     return {
-      laengengrad: 10.3,
-      breitengrad: 54.4,
-      ReisepunktErstellenShow: null
+      laengengrad: 0,
+      breitengrad: 0,
+      ReisepunktErstellenShow: null,
+      showR: false
     }
   },
   components: {
@@ -37,24 +36,18 @@ export default {
     loadMarker()
   },
   methods: {
-    openPopup: function (e) {
-      var popup = L.popup()
-        .setLatLng([e.latlng.lat, e.latlng.lng])
-        .setContent('<button @click="updateReisepunktErstellenShow(true)">Reisepunkt erstellen</button>')
-        .openOn(map)
-
-      this.laengengrad = e.latlng.lng
-      this.breitengrad = e.latlng.lat
+    openPopup: function () {
+      this.showR = true
     },
-    updateReisepunktErstellenShow: function (showProp) {
-      alert(showProp)
-      if (showProp === true) {
-        this.ReisepunktErstellenShow = ReisepunktErstellen
-        alert('Reisepunkterstellen ist nun sichtbar')
-      } else {
-        this.ReisepunktErstellenShow = null
-        alert('Reisepunkterstellen ist nun nicht mehr sichtbar')
-      }
+    closePopup: function (showProp) {
+      this.showR = false
+    },
+    handCoords: function (lat, lng) {
+      console.log(lat + ' ' + lng)
+      this.laengengrad = lng
+      this.breitengrad = lat
+      console.log(this.laengengrad + ' ' + this.breitengrad)
+      ReisepunktErstellen.$forceUpdate()
     },
     makeToast (array) {
       this.$bvToast.toast(array[2], {
