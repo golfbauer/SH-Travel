@@ -286,7 +286,7 @@ export default {
       const axios = require('axios')
       console.log(this.laengengrad + ' ' + this.breitengrad)
       if (this.typ === 'punkt') {
-        const res = axios.post('/api/punkt', {
+        const res = axios.post('/SHTravel/punkt', {
           laengengrad: this.laengengrad,
           breitengrad: this.breitengrad,
           nutzerEmail: this.nutzerEmail,
@@ -302,7 +302,7 @@ export default {
             console.error(error)
           })
       } else if (this.typ === 'sehenswuerdigkeit') {
-        axios.post('/api/sehenswuerdigkeit', {
+        axios.post('/SHTravel/sehenswuerdigkeit', {
           laengengrad: this.laengengrad,
           breitengrad: this.breitengrad,
           nutzerEmail: this.nutzerEmail,
@@ -320,7 +320,7 @@ export default {
             console.error(error)
           })
       } else if (this.typ === 'attraktion') {
-        axios.post('/api/attraktion', {
+        axios.post('/SHTravel/attraktion', {
           laengengrad: this.laengengrad,
           breitengrad: this.breitengrad,
           nutzerEmail: this.nutzerEmail,
