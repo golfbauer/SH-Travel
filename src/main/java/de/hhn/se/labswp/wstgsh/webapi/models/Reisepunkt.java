@@ -67,6 +67,24 @@ public class Reisepunkt {
     this.reisen = reisen;
   }
 
+  /**
+   * Constructor to create an object, which can be implemented into the database if needed.
+   * @param id Id to be created for unique Primary Key.
+   * @param laengengrad Marks exact locaion of Attraktion, North to South.
+   * @param breitengrad Marks exact locaion of Attraktion, West to East.
+   * @param nutzerEmail Email of the creator account.
+   * @param name Name of the created Punkt.
+   */
+  public Reisepunkt(Long id, Float laengengrad, Float breitengrad, String nutzerEmail,
+                    String name) {
+    this.id = id;
+    this.laengengrad = laengengrad;
+    this.breitengrad = breitengrad;
+    this.nutzerEmail = nutzerEmail;
+    this.name = name;
+  }
+
+
   public Long getId() {
     return id;
   }
