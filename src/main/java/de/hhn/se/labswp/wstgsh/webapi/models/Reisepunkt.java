@@ -1,10 +1,10 @@
 package de.hhn.se.labswp.wstgsh.webapi.models;
 
 import de.hhn.se.labswp.wstgsh.exceptions.ReisepunktNotFoundAdvice;
-
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.*;
+
 
 @Entity
 @Table
@@ -21,15 +21,11 @@ public class Reisepunkt {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
-
   private Float laengengrad;
-
 
   private Float breitengrad;
 
-
   private String nutzerEmail;
-
 
   private String name;
 
@@ -62,12 +58,13 @@ public class Reisepunkt {
    * @param name Name of the created Punkt.
    */
   public Reisepunkt(Long id, Float laengengrad, Float breitengrad, String nutzerEmail,
-                    String name) {
+                    String name, List<Reise> reisen) {
     this.id = id;
     this.laengengrad = laengengrad;
     this.breitengrad = breitengrad;
     this.nutzerEmail = nutzerEmail;
     this.name = name;
+    this.reisen = reisen;
   }
 
   public Long getId() {
