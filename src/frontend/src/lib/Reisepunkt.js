@@ -24,7 +24,7 @@ class Reisepunkt {
 
 async function getReisepunkte () {
   try {
-    const { data: response } = await axios.get('/api/reisepunkt')
+    const { data: response } = await axios.get('/SHTravel/reisepunkt')
 
     const length = response.length
     const result = []

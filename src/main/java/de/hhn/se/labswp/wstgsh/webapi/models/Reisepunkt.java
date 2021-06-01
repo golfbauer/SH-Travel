@@ -2,21 +2,12 @@ package de.hhn.se.labswp.wstgsh.webapi.models;
 
 import de.hhn.se.labswp.wstgsh.exceptions.ReisepunktNotFoundAdvice;
 
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.DiscriminatorType;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.Table;
+import javax.persistence.*;
 
-@Entity(name = "reisepunkt")
-@Table(name = "reisepunkt")
+@Entity
+@Table
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(
-        name = "Discriminator",
         discriminatorType = DiscriminatorType.STRING
 )
 @DiscriminatorValue("Reisepunkt")
@@ -25,19 +16,19 @@ public class Reisepunkt {
           org.slf4j.LoggerFactory.getLogger(ReisepunktNotFoundAdvice.class);
 
   @Id
-  @Column(name = "ID", updatable = false)
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
-  @Column(name = "Laengengrad", nullable = false, unique = true)
+
   private Float laengengrad;
 
-  @Column(name = "Breitengrad", nullable = false, unique = true)
+
   private Float breitengrad;
 
-  @Column(name = "NutzerEMail", nullable = false)
+
   private String nutzerEmail;
 
-  @Column(name = "Name", nullable = false)
+
   private String name;
 
   /**

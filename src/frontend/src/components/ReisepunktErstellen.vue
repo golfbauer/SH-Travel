@@ -1,492 +1,389 @@
 <template>
- <div id="HintergrundPanel">
-    <div id="AttraktionErstellen">
+  <b-container id="punkterstellen" fluid>
+    <b-card no-body>
+      <!-- Tabs -->
+      <b-tabs card justified>
+        <b-tab title="Punkt" @click="typ = 'punkt'" active>
+          <!-- Textfield Punkt -->
+          <div>
+            <b-form @submit="onSubmit" @reset="onReset">
+              <b-form-group
+                label-align="left"
+                id="input-group-1"
+                label="Name"
+                label-for="input-1"
+              >
+                <!--  + this.laengengrad -->
+                <b-form-input
+                  id="input-1"
+                  v-model="name"
+                  placeholder="Name eingeben"
+                  required
+                ></b-form-input>
+              </b-form-group>
 
-    </div>
+              <b-form-group
+                label-align="left"
+                id="input-group-laengengrad"
+                label="Längengrad"
+                label-for="laengengrad"
+              >
+                <!--  + this.laengengrad -->
+                <b-form-input
+                  id="laengengrad"
+                  v-model="laengengrad"
+                  placeholder="Name eingeben"
+                  required
+                ></b-form-input>
+              </b-form-group>
 
- </div>
+              <b-form-group
+                label-align="left"
+                id="input-group-breitengrad"
+                label="Breitengrad"
+                label-for="breitengrad"
+              >
+                <!--  + this.laengengrad -->
+                <b-form-input
+                  id="breitengrad"
+                  v-model="breitengrad"
+                  placeholder="Name eingeben"
+                  required
+                ></b-form-input>
+              </b-form-group>
+
+            <div class="btn-bar">
+              <div class="right">
+                <b-button class="btn-gray" type="reset">Abbrechen</b-button>
+                <b-button class="btn-orange" type="submit">Erstellen</b-button>
+              </div>
+            </div>
+            </b-form>
+          </div>
+          <!-- End Textfield Punkt -->
+        </b-tab>
+        <b-tab title="Sehenswürdigkeit" @click="typ = 'sehenswuerdigkeit'">
+        <!-- Textfield Sehenswürdigkeit -->
+          <b-form @submit="onSubmit" @reset="onReset">
+            <b-form-group
+              label-align="left"
+              id="input-group-1"
+              label="Name"
+              label-for="input-1"
+            >
+              <b-form-input
+                id="input-1"
+                v-model="name"
+                placeholder="Name eingeben"
+                required
+              >
+              </b-form-input>
+            </b-form-group>
+
+              <b-form-group
+                label-align="left"
+                id="input-group-laengengrad"
+                label="Längengrad"
+                label-for="laengengrad"
+              >
+                <!--  + this.laengengrad -->
+                <b-form-input
+                  id="laengengrad"
+                  v-model="laengengrad"
+                  placeholder="Name eingeben"
+                  required
+                ></b-form-input>
+              </b-form-group>
+
+              <b-form-group
+                label-align="left"
+                id="input-group-breitengrad"
+                label="Breitengrad"
+                label-for="breitengrad"
+              >
+                <!--  + this.laengengrad -->
+                <b-form-input
+                  id="breitengrad"
+                  v-model="breitengrad"
+                  placeholder="Name eingeben"
+                  required
+                ></b-form-input>
+              </b-form-group>
+
+            <b-form-group
+              label-align="left"
+              id="input-group-2"
+              label="Beschreibung"
+              label-for="input-2"
+            >
+              <b-form-textarea
+                id="input-2"
+                v-model="beschreibung"
+                placeholder="Beschreibung eingeben"
+                rows="2"
+                max-rows="6"
+              >
+              </b-form-textarea>
+            </b-form-group>
+            <b-form-group
+             label-align="left"
+              id="input-group-3"
+              label="Bilder"
+              label-for="input-3"
+            >
+              <b-form-file
+                id="input-3"
+                v-model="bilder"
+                accept="image/*"
+                class="mt-1"
+                placeholder="Wähle Bilder aus oder lege sie hier ab"
+                multiple
+              >
+              </b-form-file>
+              <b-button @click="bilder = []" class="mr-2">Reset Auswahl</b-button>
+            </b-form-group>
+            <div class="btn-bar">
+              <div class="right">
+                <b-button class="btn-gray" type="reset">Abbrechen</b-button>
+                <b-button class="btn-orange" type="submit">Erstellen</b-button>
+              </div>
+            </div>
+          </b-form>
+          <!-- End Textfield Sehenswürdigkeit -->
+        </b-tab>
+        <b-tab title="Attraktion" @click="typ = 'attraktion'">
+        <!-- Textfield Attraktion -->
+          <b-form @submit="onSubmit" @reset="onReset">
+            <b-form-group
+              label-align="left"
+              id="input-group-1"
+              label="Name"
+              label-for="input-1"
+            >
+              <b-form-input
+                id="input-1"
+                v-model="name"
+                placeholder="Name eingeben"
+                required
+              >
+              </b-form-input>
+            </b-form-group>
+
+              <b-form-group
+                label-align="left"
+                id="input-group-laengengrad"
+                label="Längengrad"
+                label-for="laengengrad"
+              >
+                <!--  + this.laengengrad -->
+                <b-form-input
+                  id="laengengrad"
+                  v-model="laengengrad"
+                  placeholder="Name eingeben"
+                  required
+                ></b-form-input>
+              </b-form-group>
+
+              <b-form-group
+                label-align="left"
+                id="input-group-breitengrad"
+                label="Breitengrad"
+                label-for="breitengrad"
+              >
+                <!--  + this.laengengrad -->
+                <b-form-input
+                  id="breitengrad"
+                  v-model="breitengrad"
+                  placeholder="Name eingeben"
+                  required
+                ></b-form-input>
+              </b-form-group>
+
+            <b-form-group
+              label-align="left"
+              id="input-group-4"
+              label="Öffnungszeiten"
+              label-for="input-4"
+              description="z.B. Montag 10:00 - 15:30, Mittwoch 9:00 - 14:00, Freitag 9:00 - 12:00"
+            >
+              <b-form-textarea
+                id="input-4"
+                v-model="oeffnungszeiten"
+                placeholder="Trenne die Wochentage mit einem Komma"
+                required
+                rows="2"
+                max-rows="6"
+              >
+              </b-form-textarea>
+            </b-form-group>
+            <b-form-group
+              label-align="left"
+              id="input-group-2"
+              label="Beschreibung"
+              label-for="input-2"
+            >
+              <b-form-textarea
+                id="input-2"
+                v-model="beschreibung"
+                placeholder="Beschreibung eingeben"
+                rows="2"
+                max-rows="6"
+              >
+              </b-form-textarea>
+            </b-form-group>
+            <b-form-group
+             label-align="left"
+              id="input-group-3"
+              label="Bilder"
+              label-for="input-3"
+            >
+              <b-form-file
+                id="input-3"
+                v-model="bilder"
+                accept="image/*"
+                class="mt-1"
+                placeholder="Wähle Bilder aus oder lege sie hier ab"
+                multiple
+              >
+              </b-form-file>
+              <b-button @click="bilder = []" class="mr-2">Reset Auswahl</b-button>
+            </b-form-group>
+            <div class="btn-bar">
+              <div class="right">
+                <b-button class="btn-gray" type="reset">Abbrechen</b-button>
+                <b-button class="btn-orange" type="submit">Erstellen</b-button>
+              </div>
+            </div>
+          </b-form>
+          <!-- End Textfield Attraktion -->
+        </b-tab>
+        <!-- End Tabs -->
+      </b-tabs>
+    </b-card>
+  </b-container>
 </template>
 
 <script>
 export default {
-  name: "ReisepunktErstellen"
+  name: 'ReisepunktErstellen',
+  props: {
+    laengengrad: Number,
+    breitengrad: Number
+  },
+  data () {
+    return {
+      typ: 'punkt',
+      nutzerEmail: '',
+      name: '',
+      beschreibung: '',
+      oeffnungszeiten: '',
+      bilder: []
+    }
+  },
+  methods: {
+    onSubmit (event) {
+      event.preventDefault()
+      const axios = require('axios')
+      console.log(this.laengengrad + ' ' + this.breitengrad)
+      if (this.typ === 'punkt') {
+        const res = axios.post('/SHTravel/punkt', {
+          laengengrad: this.laengengrad,
+          breitengrad: this.breitengrad,
+          nutzerEmail: this.nutzerEmail,
+          name: this.name
+        })
+          .then(response => {
+            console.log(response)
+            this.makeToast('success', 'Punkt', this.name + ' erfolgreich erstellt')
+            this.disableThisShow()
+          })
+          .catch(error => {
+            this.makeToast('danger', 'Punkt', this.name + ' konnte nicht erstellt werden')
+            console.error(error)
+          })
+      } else if (this.typ === 'sehenswuerdigkeit') {
+        axios.post('/SHTravel/sehenswuerdigkeit', {
+          laengengrad: this.laengengrad,
+          breitengrad: this.breitengrad,
+          nutzerEmail: this.nutzerEmail,
+          name: this.name,
+          beschreibung: this.beschreibung,
+          bilder: this.bilder
+        })
+          .then(response => {
+            console.log(response)
+            this.makeToast('success', 'Sehenswuerdigkeit', this.name + ' erfolgreich erstellt')
+            this.disableThisShow()
+          })
+          .catch(error => {
+            this.makeToast('danger', 'Sehenswuerdigkeit', this.name + ' konnte nicht erstellt werden')
+            console.error(error)
+          })
+      } else if (this.typ === 'attraktion') {
+        axios.post('/SHTravel/attraktion', {
+          laengengrad: this.laengengrad,
+          breitengrad: this.breitengrad,
+          nutzerEmail: this.nutzerEmail,
+          name: this.name,
+          oeffnungszeiten: this.oeffnungszeiten,
+          beschreibung: this.beschreibung,
+          bilder: this.bilder
+        })
+          .then(response => {
+            console.log(response)
+            this.makeToast('success', 'Attraktion', this.name + ' erfolgreich erstellt')
+            this.disableThisShow()
+          })
+          .catch(error => {
+            this.makeToast('danger', 'Attraktion', this.name + ' konnte nicht erstellt werden')
+            console.error(error)
+          })
+      }
+    },
+    onReset (event) {
+      event.preventDefault()
+      this.disableThisShow()
+    },
+    makeToast (variant = null, title = null, body = null) {
+      this.$emit('makeToast', [variant, title, body])
+    },
+    disableThisShow: function () {
+      this.$emit('updateShow', 'false')
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
+$orange: orange;
 
-.AttraktionErstellen {
-  position: absolute;
-  width: 606px;
-  height: 710px;
-  left: 3440px;
-  top: 63px;
+#punkterstellen {
+  position: relative;
+  padding: 0;
+  max-width: 45rem;
+  z-index: 999;
 }
 
+.btn {
+  margin: 0.5rem;
 
-.HintergrundPanel {
-  position: absolute;
-  left: 0%;
-  right: 0%;
-  top: 0%;
-  bottom: 0%;
+  &-gray {
+    background-color: gray;
+    color: #fff;
+  }
 
-  background: #1B998B;
-  border-radius: 5px;
+  &-orange {
+    background-color: $orange;
+    color: #fff;
+  }
+
+  &-bar{
+    overflow: hidden;
+    clear: both;
+  }
 }
 
-.Label_Inputfield_Öffnungszeiten {
-  position: absolute;
-  left: 4.95%;
-  right: 5.28%;
-  top: 10.14%;
-  bottom: 80%;
-}
-.Inputfield {
-  position: absolute;
-  left: 0%;
-  right: 0%;
-  top: 50%;
-  bottom: 0%;
-  background: #ECECEC;
-}
-
-.Name {
-  position: absolute;
-  left: 0%;
-  right: 0%;
-  top: 0%;
-  bottom: 50%;
-
-  font-family: Fira Sans;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 24px;
-  line-height: 29px;
-  display: flex;
-  align-items: center;
-
-  color: #ECECEC;
-}
-
-.Label_Inputfield_Name {
-
-  position: absolute;
-  left: 5.12%;
-  right: 5.12%;
-  top: 21.69%;
-  bottom: 68.45%;
-}
-.Inputfield {
-  position: absolute;
-  left: 0%;
-  right: 0%;
-  top: 50%;
-  bottom: 0%;
-
-  background: #ECECEC;
-}
-
-.Name {
-  position: absolute;
-  left: 0%;
-  right: 0%;
-  top: 0%;
-  bottom: 50%;
-
-  font-family: Fira Sans;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 24px;
-  line-height: 29px;
-  display: flex;
-  align-items: center;
-
-  color: #ECECEC;
-}
-.Label_Inputfield_Large {
-
-  position: absolute;
-  left: 5.12%;
-  right: 5.12%;
-  top: 33.24%;
-  bottom: 56.9%;
-}
-
-.Inputfield {
-
-  position: absolute;
-  left: 0%;
-  right: 0%;
-  top: 50%;
-  bottom: -100%;
-
-  background: #ECECEC;
-}
-
-.Beschreibung {
-  position: absolute;
-  left: 0%;
-  right: 0%;
-  top: 0%;
-  bottom: 50%;
-
-  font-family: Fira Sans;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 24px;
-  line-height: 29px;
-  display: flex;
-  align-items: center;
-
-  color: #ECECEC;
-}
-
-.Buttons {
-  position: absolute;
-  width: 361px;
-  height: 45px;
-  left: 204px;
-  top: 644px;
-}
-
-
-.Button_Grau {
-
-  position: absolute;
-  left: 33.66%;
-  right: 37.95%;
-  top: 90.7%;
-  bottom: 2.96%;
-
-  mix-blend-mode: normal;
-  opacity: 0.9;
-}
-.Btn_Reisen {
-  position: absolute;
-  left: 0%;
-  right: 0%;
-  top: 0%;
-  bottom: 0%;
-
-  background: #4F4F4F;
-  border-radius: 5px;
-}
-.Reisen {
-  position: absolute;
-  left: 0%;
-  right: 0%;
-  top: 0%;
-  bottom: 0%;
-
-  font-family: Fira Sans;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 24px;
-  line-height: 29px;
-  display: flex;
-  align-items: center;
-  text-align: center;
-
-  color: #ECECEC;
-}
-
-.Button_Orange {
-  position: absolute;
-  left: 64.85%;
-  right: 6.77%;
-  top: 90.7%;
-  bottom: 2.96%;
-
-  mix-blend-mode: normal;
-  opacity: 0.9;
-}
-.Btn_Reisen {
-  position: absolute;
-  left: 0%;
-  right: 0%;
-  top: 0%;
-  bottom: 0%;
-
-  background: #FF9B71;
-  border-radius: 5px;
-}
-
-.Reisen {
-  position: absolute;
-  left: 0%;
-  right: 0%;
-  top: 0%;
-  bottom: 0%;
-
-  font-family: Fira Sans;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 24px;
-  line-height: 29px;
-  display: flex;
-  align-items: center;
-  text-align: center;
-
-  color: #ECECEC;
-}
-.Auswahl_Reisepunkt {
-  position: absolute;
-  left: 0%;
-  right: 0%;
-  top: 0%;
-  bottom: 92.96%;
-}
-
-.Button {
-  position: absolute;
-  left: 0%;
-  right: 66.67%;
-  top: 0%;
-  bottom: 0%;
-
-  mix-blend-mode: normal;
-}
-
-.Btn_Reisen {
-  position: absolute;
-  left: 0%;
-  right: 0%;
-  top: 0%;
-  bottom: 0%;
-
-  background: #147D72;
-  border-radius: 5px;
-}
-
-.Reisen {
-  position: absolute;
-  left: 0%;
-  right: 0%;
-  top: 0%;
-  bottom: 0%;
-
-  font-family: Fira Sans;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 24px;
-  line-height: 29px;
-  display: flex;
-  align-items: center;
-  text-align: center;
-
-  color: #ECECEC;
-}
-
-
-.Button {
-  position: absolute;
-  left: 33.33%;
-  right: 33.33%;
-  top: 0%;
-  bottom: 0%;
-
-  mix-blend-mode: normal;
-}
-
-.Btn_Reisen {
-  position: absolute;
-  left: 0%;
-  right: 0%;
-  top: 0%;
-  bottom: 0%;
-
-  background: #147D72;
-  border-radius: 5px;
-}
-
-.Reisen {
-  position: absolute;
-  left: 0%;
-  right: 0%;
-  top: 0%;
-  bottom: 0%;
-
-  font-family: Fira Sans;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 24px;
-  line-height: 29px;
-  display: flex;
-  align-items: center;
-  text-align: center;
-
-  color: #ECECEC;
-}
-
-
-.Button {
-  position: absolute;
-  left: 66.67%;
-  right: 0%;
-  top: 0%;
-  bottom: 0%;
-
-  mix-blend-mode: normal;
-}
-
-.Btn_Reisen {
-  position: absolute;
-  left: 0%;
-  right: 0%;
-  top: 0%;
-  bottom: 0%;
-
-  background: #32B2A3;
-  border-radius: 5px;
-}
-
-.Reisen {
-  position: absolute;
-  left: 0%;
-  right: 0%;
-  top: 0%;
-  bottom: 0%;
-
-  font-family: Fira Sans;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 24px;
-  line-height: 29px;
-  display: flex;
-  align-items: center;
-  text-align: center;
-
-  color: #ECECEC;
-}
-.Bilder {
-  position: absolute;
-  width: 535px;
-  height: 232px;
-  left: 30px;
-  top: 382px;
-}
-
-.Bilder {
-  position: absolute;
-  left: 5.12%;
-  right: 6.77%;
-  top: 53.8%;
-  bottom: 41.27%;
-
-  font-family: Fira Sans;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 24px;
-  line-height: 29px;
-  display: flex;
-  align-items: center;
-
-  color: #ECECEC;
-}
-
-.Button_Small {
-  position: absolute;
-  left: 4.95%;
-  right: 68.15%;
-  top: 59.15%;
-  bottom: 37.04%;
-
-  mix-blend-mode: normal;
-  opacity: 0.9;
-}
-.Btn_Reisen {
-  position: absolute;
-  left: 0%;
-  right: 0%;
-  top: 0%;
-  bottom: 0%;
-
-  background: #4F4F4F;
-  border-radius: 5px;
-}
-
-.Reisen {
-  position: absolute;
-  left: 0%;
-  right: 0%;
-  top: 0%;
-  bottom: 0%;
-
-  font-family: Fira Sans;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 17px;
-  display: flex;
-  align-items: center;
-  text-align: center;
-
-  color: #ECECEC;
-}
-.Button_Small {
-  position: absolute;
-  left: 32.67%;
-  right: 40.43%;
-  top: 59.15%;
-  bottom: 37.04%;
-
-  mix-blend-mode: normal;
-  opacity: 0.9;
-}
-
-.Btn_Reisen {
-  position: absolute;
-  left: 0%;
-  right: 0%;
-  top: 0%;
-  bottom: 0%;
-
-  background: #4F4F4F;
-  border-radius: 5px;
-}
-.Reisen {
-  position: absolute;
-  left: 0%;
-  right: 0%;
-  top: 0%;
-  bottom: 0%;
-
-  font-family: Fira Sans;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 14px;
-  line-height: 17px;
-  display: flex;
-  align-items: center;
-  text-align: center;
-
-  color: #ECECEC;
-}
-
-.Horizontal Scrollbar {
-  position: absolute;
-  left: 5.12%;
-  right: 8.25%;
-  top: 85.07%;
-  bottom: 13.52%;
-}
-.Background {
-  position: absolute;
-  left: 0%;
-  right: 0%;
-  top: 0%;
-  bottom: 0%;
-
-  background: #ECECEC;
-}
-.Bar {
-  position: absolute;
-  left: 0%;
-  right: 9.33%;
-  top: 0%;
-  bottom: 0%;
-
-  background: #4C5756;
+.right{
+  float: right;
 }
 </style>

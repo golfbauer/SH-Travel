@@ -57,12 +57,12 @@ export default {
           href: '/',
           title: 'Startseite',
           component: 'item'
-        },
+        } /*,
         {
           href: '/reisepunkterstellen',
           title: 'Reisepunkt erstellen',
           component: 'item'
-        } /*,
+        } ,
         {
           href: '/reisepunkterstellen',
           title: 'Reisepunkt erstellen',
