@@ -3,6 +3,8 @@ package de.hhn.se.labswp.wstgsh.webapi.models;
 import de.hhn.se.labswp.wstgsh.exceptions.ReisepunktNotFoundAdvice;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table
@@ -30,6 +32,9 @@ public class Reisepunkt {
 
 
   private String name;
+
+  @ManyToMany(mappedBy = "reisepunkte")
+  List<Reise> reisen = new ArrayList<>();
 
   /**
    * Constructor to be used in Reiseüunkt Controller if needed.
