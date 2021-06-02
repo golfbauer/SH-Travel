@@ -54,7 +54,7 @@ export default {
       },
       menu: [
         {
-          href: '/',
+          href: '/SHTravel',
           title: 'Startseite',
           component: 'item'
         } /*,
