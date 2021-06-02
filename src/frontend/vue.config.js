@@ -9,10 +9,10 @@ module.exports = {
   devServer: {
     port: '3000',
     proxy: {
-      '^/api': {
+      '^/SHTravel': {
         target: 'http://localhost:8080',
         changeOrigin: true,
-        pathRewrite: { '^/api' : '/' }
+        pathRewrite: { '^/SHTravel' : '/' }
       }
     }
   }
