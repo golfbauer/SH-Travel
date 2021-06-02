@@ -1,13 +1,15 @@
 import L from 'leaflet'
 import { getReisepunkte, Reisepunkt } from '@/lib/Reisepunkt'
-import { setPopUpShow } from '@/components/Map'
+import Map from '@/components/Map'
+
+var map = 0
 
 export {
   createMap,
-  loadMarker
+  loadMarker,
+  L,
+  map
 }
-
-var map = 0
 
 function createMap () {
   map = L.map('map', {
@@ -25,7 +27,12 @@ function createMap () {
     }).addTo(map)
 
   // Eventlistener für Doubleclick
-  map.on('dblclick', mouseDoubleclick)
+  map.on('dblclick', function (e) {
+    var latlng = map.mouseEventToLatLng(e.originalEvent)
+    var lat = latlng.lat
+    var lng = latlng.lng
+    Map.methods.handCoords(lat, lng)
+  })
 
   // Eventlistener für MouseMove
   // map.on('mousemove', function (event) {
@@ -34,30 +41,29 @@ function createMap () {
 }
 
 function setMarker (reisepunkt) {
-  console.log(reisepunkt)
+  // console.log(reisepunkt)
+  if (reisepunkt.breitengrad === null || reisepunkt.laengengrad === null) {
+    return
+  }
   var marker = L.marker([reisepunkt.breitengrad, reisepunkt.laengengrad]).addTo(map)
-  marker.bindPopup(reisepunkt.name)
+  marker.bindPopup(
+    reisepunkt.name +
+    ' <br> Längengrad: ' +
+    reisepunkt.laengengrad +
+    ' <br>Breitengrad: ' +
+    reisepunkt.breitengrad)
 }
 
 async function loadMarker () {
   var reisepunkte = await getReisepunkte()
-  console.log(reisepunkte)
+  // console.log(reisepunkte)
   var length = reisepunkte.length
-  console.log(length)
+  // console.log(length)
 
   for (let i = 0; i < length; i++) {
-    console.log('setting marker')
+    // console.log('setting marker')
     setMarker(reisepunkte[i])
   }
-}
-
-function mouseDoubleclick (event) {
-  // console.log('Clicked - Menü öffnen zum Erstellen\nKoordinaten lauten: ' + lat + ' : ' + lng)
-  var lat, lng
-  // lat = map.mouseEventToLatLng(event).lat
-  // lng = map.mouseEventToLatLng(event).lng
-  // ReisepunktErstellen.methods.showMenu(lat, lng)
-  setPopUpShow()
 }
 
 // function setCoordinates (event) {
