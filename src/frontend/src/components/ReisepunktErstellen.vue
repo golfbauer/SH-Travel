@@ -266,10 +266,10 @@
 <script>
 export default {
   name: 'ReisepunktErstellen',
-  props: {
+  /*props: {
     laengengrad: Number,
     breitengrad: Number
-  },
+  },*/
   data () {
     return {
       typ: 'punkt',
@@ -277,7 +277,9 @@ export default {
       name: '',
       beschreibung: '',
       oeffnungszeiten: '',
-      bilder: []
+      bilder: [],
+      laengengrad: '',
+      breitengrad: ''
     }
   },
   methods: {

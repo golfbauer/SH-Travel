@@ -4,8 +4,6 @@
 module.exports = {
 
   publicPath: process.env.NODE_ENV === 'production' ? '/SHTravel' : '',
-
-  // https://cli.vuejs.org/config/#devserver-proxy
   devServer: {
     port: '3000',
     proxy: {
