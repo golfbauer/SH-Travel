@@ -24,6 +24,10 @@ public class Reise {
   @JoinColumn(nullable = false)
   List<Reisepunkt> reisepunkte = new ArrayList<>();
 
+  @ManyToMany(cascade = CascadeType.ALL)
+  @JoinColumn(nullable = false)
+  List<Reisekatalog> reisekatalog = new ArrayList<>();
+
   /**
    * Constructor for test purposes.
    * @param id ID of the Reise.
@@ -95,6 +99,18 @@ public class Reise {
     this.reisepunkte = reisepunkte;
   }
 
+  public void addReisekatalog(Reisekatalog reisekatalog){
+    this.reisekatalog.add(reisekatalog);
+  }
+  public void removeReisekatalog(Reisekatalog reisekatalog){
+    this.reisekatalog.remove(reisekatalog);
+  }
+  public void addReisepunkt(Reisepunkt reisepunkt){
+    this.reisepunkte.add(reisepunkt);
+  }
+  public void removeReisepunkt(Reisekatalog reisepunkt){
+    this.reisepunkte.remove(reisepunkt);
+  }
   @Override
   public String toString() {
     return "Reise{"
