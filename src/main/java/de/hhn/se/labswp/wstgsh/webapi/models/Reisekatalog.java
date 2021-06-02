@@ -7,13 +7,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity(name = "reisekatalog")
-@Table(name = "reisekatalog")
+@Entity
+@Table
 public class Reisekatalog {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
-  @Column(name = "eMail")
   private String eMail;
 
   public Reisekatalog(Long id, String eMail){
