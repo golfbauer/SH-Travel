@@ -38,6 +38,49 @@ function createMap () {
   // map.on('mousemove', function (event) {
   //   setCoordinates(event)
   // })
+  // Zum testen vom Marker für das Popup
+  var lat, lng
+  lat = 10.13
+  lng = 54.3225
+
+  // Div erstellen
+  var content = L.DomUtil.create('div', 'popupContainer')
+
+  // Childs erstellen
+  var title = L.DomUtil.create('h4', 'popupTitle')
+  title.textContent = 'ICH BIN TITEL'
+
+  var lngText = L.DomUtil.create('p')
+  lngText.textContent = 'Längengrad: ' + lng
+
+  var latText = L.DomUtil.create('p')
+  latText.textContent = 'Breitengrad: ' + lat
+
+  var beschreibungText = L.DomUtil.create('p')
+  beschreibungText.textContent = 'Hier wohnt meine Oma, weil sie hier wohnt.'
+
+  var addButton = L.DomUtil.create('button', 'popupAddButton')
+  var buttonText = L.DomUtil.create('p')
+  buttonText.textContent = 'Hinzufügen'
+  addButton.appendChild(buttonText)
+
+  // Zusammenfügen
+  content.appendChild(title)
+  content.appendChild(lngText)
+  content.appendChild(latText)
+  content.appendChild(beschreibungText)
+  content.appendChild(addButton)
+
+  // Event hinzufügen
+  L.DomEvent.addListener(addButton, 'click', function (event) {
+    console.log('Hinzugefügt!')
+  })
+
+  // Popup erstellen
+  var popup = L.popup().setContent(content)
+  var markerTest = L.marker([lng, lat]).addTo(map)
+
+  markerTest.bindPopup(popup)
 }
 
 function setMarker (reisepunkt) {
@@ -45,13 +88,45 @@ function setMarker (reisepunkt) {
   if (reisepunkt.breitengrad === null || reisepunkt.laengengrad === null) {
     return
   }
-  var marker = L.marker([reisepunkt.breitengrad, reisepunkt.laengengrad]).addTo(map)
-  marker.bindPopup(
-    reisepunkt.name +
-    ' <br> Längengrad: ' +
-    reisepunkt.laengengrad +
-    ' <br>Breitengrad: ' +
-    reisepunkt.breitengrad)
+  // Erstellen des Markers 2.0
+  // Div erstellen
+  var content = L.DomUtil.create('div', 'popupContainer')
+
+  // Childs erstellen
+  var title = L.DomUtil.create('h4', 'popupTitle')
+  title.textContent = reisepunkt.name
+
+  var lngText = L.DomUtil.create('p')
+  lngText.textContent = 'Längengrad: ' + reisepunkt.laengengrad
+
+  var latText = L.DomUtil.create('p')
+  latText.textContent = 'Breitengrad: ' + reisepunkt.breitengrad
+
+  var beschreibungText = L.DomUtil.create('p')
+  beschreibungText.textContent = 'Ich bin ein Sampletext.'
+
+  var addButton = L.DomUtil.create('button', 'popupAddButton')
+  var buttonText = L.DomUtil.create('p')
+  buttonText.textContent = 'Hinzufügen'
+  addButton.appendChild(buttonText)
+
+  // Zusammenfügen
+  content.appendChild(title)
+  content.appendChild(lngText)
+  content.appendChild(latText)
+  content.appendChild(beschreibungText)
+  content.appendChild(addButton)
+
+  // Event hinzufügen
+  L.DomEvent.addListener(addButton, 'click', function (event) {
+    console.log('Hinzugefügt!')
+  })
+
+  // Popup erstellen
+  var popup = L.popup().setContent(content)
+  var markerTest = L.marker([reisepunkt.breitengrad, reisepunkt.laengengrad]).addTo(map)
+
+  markerTest.bindPopup(popup)
 }
 
 async function loadMarker () {
@@ -61,7 +136,7 @@ async function loadMarker () {
   // console.log(length)
 
   for (let i = 0; i < length; i++) {
-    // console.log('setting marker')
+    console.log('setting marker')
     setMarker(reisepunkte[i])
   }
 }

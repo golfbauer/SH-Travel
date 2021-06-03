@@ -7,6 +7,11 @@
         v-on:updateShow="closePopup($event)"
         v-on:makeToast="makeToast($event)"
       />
+      <PopupButton
+        color="white"
+        background="darkslateblue"
+        disabled="false"
+      />
     </div>
 </template>
 
