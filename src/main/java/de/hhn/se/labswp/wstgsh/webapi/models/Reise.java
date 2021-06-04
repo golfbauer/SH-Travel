@@ -109,7 +109,7 @@ public class Reise {
     this.name = name;
   }
 
-  public boolean isOeffentlich() {
+  public boolean getOeffentlich() {
     return oeffentlich;
   }
 
