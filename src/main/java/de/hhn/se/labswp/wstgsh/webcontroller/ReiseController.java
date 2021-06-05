@@ -2,12 +2,10 @@ package de.hhn.se.labswp.wstgsh.webcontroller;
 
 import de.hhn.se.labswp.wstgsh.webapi.models.Reise;
 import de.hhn.se.labswp.wstgsh.webapi.models.ReiseRepository;
-import de.hhn.se.labswp.wstgsh.webapi.models.Reisepunkt;
 import de.hhn.se.labswp.wstgsh.webapi.models.ReisepunktRepository;
+import java.util.List;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class ReiseController {
