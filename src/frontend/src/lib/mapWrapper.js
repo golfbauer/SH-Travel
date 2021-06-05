@@ -1,17 +1,17 @@
 import L from 'leaflet'
-import { getReisepunkte, Reisepunkt } from '@/lib/Reisepunkt'
-import Map from '@/components/Map'
+import { getReisepunkte } from '@/lib/Reisepunkt'
+/**
+ * This script contains functions to create a leaflet map, as well as loading 'Reisepunkte' as mapmarkers and placing
+ * them on the map.
+ */
 
-var map = 0
+// Declaring leaflet map variable.
+var map = ''
 
-export {
-  createMap,
-  loadMarker,
-  L,
-  map
-}
-
-function createMap () {
+/*
+ * This function instantiates a leaflet map and adds an event listener to handle doubleklicks.
+ */
+function createMap (mapComponent) {
   map = L.map('map', {
     minZoom: 8,
     maxZoom: 18,
@@ -26,22 +26,20 @@ function createMap () {
       attribution: 'Map data (c) <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
     }).addTo(map)
 
-  // Eventlistener für Doubleclick
+  // eventlistener for double clicking the map
   map.on('dblclick', function (e) {
     var latlng = map.mouseEventToLatLng(e.originalEvent)
     var lat = latlng.lat
     var lng = latlng.lng
-    Map.methods.handCoords(lat, lng)
+    console.log()
+    mapComponent.setClickedCoords(lat, lng)
   })
-
-  // Eventlistener für MouseMove
-  // map.on('mousemove', function (event) {
-  //   setCoordinates(event)
-  // })
 }
 
+/*
+ * This function is used to place mapmarker.
+ */
 function setMarker (reisepunkt) {
-  // console.log(reisepunkt)
   if (reisepunkt.breitengrad === null || reisepunkt.laengengrad === null) {
     return
   }
@@ -54,20 +52,19 @@ function setMarker (reisepunkt) {
     reisepunkt.breitengrad)
 }
 
+/*
+ * This function loads new 'Reisepunkt' objects rom the backend api and places them as mapmarkers on the map.
+ */
 async function loadMarker () {
   var reisepunkte = await getReisepunkte()
-  // console.log(reisepunkte)
   var length = reisepunkte.length
-  // console.log(length)
 
   for (let i = 0; i < length; i++) {
-    // console.log('setting marker')
     setMarker(reisepunkte[i])
   }
 }
 
-// function setCoordinates (event) {
-//   lat = event.latlng.lat
-//   lng = event.latlng.lng
-//   console.log(lat + ' : ' + lng)
-// }
+export {
+  createMap,
+  loadMarker
+}

@@ -10,7 +10,7 @@ module.exports = {
       '^/SHTravel': {
         target: 'http://localhost:8080',
         changeOrigin: true,
-        pathRewrite: { '^/SHTravel' : '/' }
+        pathRewrite: { '^/SHTravel': '/' }
       }
     }
   }
