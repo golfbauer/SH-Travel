@@ -23,7 +23,9 @@ public class ReiseControllerTest {
 
   @Mock
   private ReiseRepository reiseRepository;
+  @Mock
   private ReisepunktRepository reisepunktRepository;
+
   private ReiseController underTest;
 
   @BeforeEach
@@ -118,19 +120,19 @@ public class ReiseControllerTest {
     verify(reiseRepository).deleteById(id);
   }
 
-  /**
-   @Test
+
+  @Test
   void canAddaReisepunktToReise() {
     //given
-    Reisepunkt reisepunkt = new Reisepunkt(12L, 10.41f, 51.32f,
-            "nutzer@web.de", "Aussicht");
-
     List<Reisepunkt> reisepunkte = new ArrayList<>();
     reisepunkte.add(new Reisepunkt(34L, 4.1f, 32.32f,
-            "nutzer", "jas"));
+            "nutzer", "NewTestReisepunkt"));
     List<Reisekatalog> reisekatalogs = new ArrayList<>();
     Reise reise = new Reise(new Date(), "TestReise", true,
             reisepunkte, reisekatalogs);
+
+    Reisepunkt reisepunkt = new Reisepunkt(12L, 10.41f, 51.32f,
+            "nutzer@web.de", "Aussicht");
 
     long idReise = 1;
     long idReisepunkt = 12;
@@ -151,7 +153,35 @@ public class ReiseControllerTest {
     Reise capturedReise = reiseArgumentCaptor.getValue();
     reise.addReisepunkt(reisepunkt);
     assertThat(capturedReise).isEqualTo(reise);
-  }*/
+  }
+
+  @Test
+  void reisepunktIsAlreadyAddedToReise() {
+    //given
+    Reisepunkt reisepunkt = new Reisepunkt(12L, 10.41f, 51.32f,
+            "nutzer@web.de", "Aussicht");
+
+    List<Reisepunkt> reisepunkte = new ArrayList<>();
+    reisepunkte.add(new Reisepunkt(34L, 4.1f, 32.32f,
+            "nutzer", "NewTestReisepunkt"));
+    reisepunkte.add(reisepunkt);
+    List<Reisekatalog> reisekatalogs = new ArrayList<>();
+    Reise reise = new Reise(new Date(), "TestReise", true,
+            reisepunkte, reisekatalogs);
+
+    long idReise = 1;
+    long idReisepunkt = 12;
+
+    given(reiseRepository.findById(idReise)).willReturn(java.util.Optional.of(reise));
+
+    given(reisepunktRepository.findById(idReisepunkt))
+            .willReturn(java.util.Optional.of(reisepunkt));
+
+    //when, then
+    assertThatThrownBy(() -> underTest.addReisepunkt(idReisepunkt, idReise))
+            .isInstanceOf(IllegalStateException.class)
+            .hasMessageContaining("Reise already contains the Reisepunkt");
+  }
 
   @Test
   void canChangeThePrivacySettingOfReise() {
