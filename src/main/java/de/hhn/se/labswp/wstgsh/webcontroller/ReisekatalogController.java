@@ -7,7 +7,6 @@ import de.hhn.se.labswp.wstgsh.webapi.models.ReisekatalogRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 public class ReisekatalogController {
     private final ReisekatalogRepository repository;
@@ -24,8 +23,8 @@ public class ReisekatalogController {
     }
 
     @GetMapping(path = "/reisekatalog/{id}")
-    Optional<Reisekatalog> one(@PathVariable Long id) {
-        return repository.findById(id);
+    Reisekatalog one(@PathVariable Long id) {
+        return repository.findById(id).orElseThrow(()-> new IllegalStateException("Id nicht gefunden."));
     }
 
     @PostMapping(path = "/reisekatalog")
@@ -34,7 +33,7 @@ public class ReisekatalogController {
     }
 
     @DeleteMapping(path = "/reisekatalog/{id}")
-    void deleteReisepunkt(@PathVariable Long id) {
+    void deleteReise(@PathVariable Long id) {
         repository.deleteById(id);
     }
 
@@ -44,13 +43,13 @@ public class ReisekatalogController {
             reiseRepository.findById(idReise).map(reise -> {
                 for (int i = 0; i < reisekatalog.getReise().size(); i++) {
                     if (reisekatalog.getId().equals(reisekatalog.getReise().get(i).getId())) {
-                        throw new IllegalStateException("Reisekatalog already contains this Reise");
+                        throw new IllegalStateException("Reisekatalog enthält bereits Reise.");
                     }
                 }
                 reisekatalog.addReise(reise);
                 return reiseRepository.save(reise);
-            }).orElseThrow(() -> new IllegalStateException("Could not save Reise"));
+            }).orElseThrow(() -> new IllegalStateException("Reise konnte nicht gespeichert werden."));
             return repository.save(reisekatalog);
-        }).orElseThrow(() -> new IllegalStateException("Could not add Reise to Reisekatalog"));
+        }).orElseThrow(() -> new IllegalStateException("Reise konnte nicht zu Reisekatalog hinzugefügt werden."));
     }
 }
