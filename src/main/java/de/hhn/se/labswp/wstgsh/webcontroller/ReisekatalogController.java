@@ -1,6 +1,7 @@
 package de.hhn.se.labswp.wstgsh.webcontroller;
 
-import de.hhn.se.labswp.wstgsh.webapi.models.Reise;
+
+import de.hhn.se.labswp.wstgsh.webapi.models.ReiseRepository;
 import de.hhn.se.labswp.wstgsh.webapi.models.Reisekatalog;
 import de.hhn.se.labswp.wstgsh.webapi.models.ReisekatalogRepository;
 import org.springframework.web.bind.annotation.*;
@@ -10,9 +11,11 @@ import java.util.Optional;
 
 public class ReisekatalogController {
     private final ReisekatalogRepository repository;
+    private final ReiseRepository reiseRepository;
 
-    ReisekatalogController(ReisekatalogRepository repository) {
+    ReisekatalogController(ReisekatalogRepository repository, ReiseRepository reiseRepository) {
         this.repository = repository;
+        this.reiseRepository = reiseRepository;
     }
 
     @GetMapping(path = "/reisekatalog")
@@ -44,7 +47,7 @@ public class ReisekatalogController {
                         throw new IllegalStateException("Reisekatalog already contains this Reise");
                     }
                 }
-                reisekatalog.addReise(reiseRepository.findById(idReise));
+                reisekatalog.addReise(reise);
                 return reiseRepository.save(reise);
             }).orElseThrow(() -> new IllegalStateException("Could not save Reise"));
             return repository.save(reisekatalog);
