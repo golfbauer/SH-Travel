@@ -58,6 +58,8 @@ public class Reisekatalog {
     return this.eMail;
   }
 
+  public Long getId() { return this.getId();}
+
   public void seteMail(String eMail) {
     this.eMail = eMail;
   }
