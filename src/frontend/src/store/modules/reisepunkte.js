@@ -8,7 +8,7 @@ import axios from 'axios'
  * Data is an array of 'Reisepunkt' objects.
  */
 const state = {
-  reisepunkte: {}
+  reisepunkte: []
 }
 
 // The getters used to retrieve data/state from the store.
@@ -18,17 +18,17 @@ const getters = {
 
 // Actions are called to use mutations. (they can be asynchronous)
 const actions = {
-  fetchReisepunkte ({ commit }) {
-    const response = axios.get('/SHTravel/reisepunkt')
+  async fetchReisepunkte ({ commit }) {
+    const response = await axios.get('/SHTravel/reisepunkt')
+    console.log(response.data)
+    commit('setReisepunkte', response.data)
   }
 
 }
 
 // Mutations are called to change a state.
 const mutations = {
-  setReisepunkte (state, payload) {
-
-  }
+  setReisepunkte: (state, reisepunkte) => (this.state.reisepunkte = reisepunkte)
 }
 
 export default {
