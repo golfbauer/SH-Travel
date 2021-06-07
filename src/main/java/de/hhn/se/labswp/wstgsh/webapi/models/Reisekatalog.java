@@ -27,10 +27,10 @@ public class Reisekatalog {
   List<Reise> reise = new ArrayList<>();
 
   /**
-   * Constructor for Reisekatalog with an already existing List of Reisen in it.
-   * @param id id of this Reisekatalog
-   * @param eMail String of the Nutzers eMail
-   * @param reise a List with Reisen in it.
+   * Constructor für Reisekatalog mit einer bereits existierenden Liste von Reisen.
+   * @param id id dieses Reisekatalog.
+   * @param eMail String der NutzerEmail.
+   * @param reise Liste mit Reisen in ihr.
    */
   public Reisekatalog(Long id, String eMail, List<Reise> reise) {
     this.id = id;
@@ -39,9 +39,9 @@ public class Reisekatalog {
   }
 
   /**
-   * Constructor for Reisekatalog without existing Reisen in it.
-   * @param id id of this Reisekatalog
-   * @param eMail String of the Nutzers eMail
+   * Constructor für Reisekatalog ohne Liste mit Reisen.
+   * @param id id des Reisekatalogs.
+   * @param eMail String der NutzerEmail.
    */
   public Reisekatalog(Long id, String eMail) {
     this.id = id;
@@ -49,7 +49,7 @@ public class Reisekatalog {
   }
 
   /**
-   * Empty Constructor for Purposes.
+   * Leerer Constructor für Testzwecke.
    */
   public Reisekatalog() {
   }
@@ -73,16 +73,16 @@ public class Reisekatalog {
   }
 
   /**
-   * Adds a Reise to this Reisekatalog.
-   * @param reise Reise you want to add.
+   * Fügt eine Reise zu diesem Reisekatalog hinzu.
+   * @param reise Reise die du hinzufügen möchtest.
    */
   public void addReise(Reise reise) {
     this.reise.add(reise);
   }
 
   /**
-   * Removes a Reise from this Reisekatalog.
-   * @param reise Reise you want to remove.
+   * Entfernt eine Reise aus diesem Reisekatalog.
+   * @param reise Reise die du entfernen möchtest.
    */
   public void removeReise(Reise reise) {
     this.reise.remove(reise);
