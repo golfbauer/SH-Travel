@@ -34,7 +34,8 @@ public class ReiseController {
    */
   @GetMapping(path = "/reise/{id}")
   Reise one(@PathVariable Long id) {
-    return  repository.findById(id).orElseThrow(() -> new IllegalStateException("Id not found."));
+    return  repository.findById(id).orElseThrow(() ->
+            new IllegalStateException("Id nicht gefunden."));
   }
 
   /**
@@ -62,7 +63,7 @@ public class ReiseController {
       reise.setReisepunkte(newReise.getReisepunkte());
       reise.setReisekatalog(newReise.getReisekatalog());
       return repository.save(reise);
-    }).orElseThrow(() -> new IllegalStateException("Could not configure Reise"));
+    }).orElseThrow(() -> new IllegalStateException("Konnte Reise nicht verändern."));
   }
 
   /**
@@ -87,7 +88,7 @@ public class ReiseController {
       reisepunktRepository.findById(idReisepunkt).map(reisepunkt -> {
         for (int i = 0; i < reise.getReisepunkte().size(); i++) {
           if (reisepunkt.getId().equals(reise.getReisepunkte().get(i).getId())) {
-            throw new IllegalStateException("Reise already contains the Reisepunkt");
+            throw new IllegalStateException("Reisepunkt ist bereits in Reise vorhanden.");
           }
         }
         reise.addReisepunkt(reisepunkt);
@@ -108,7 +109,7 @@ public class ReiseController {
     return repository.findById(id).map(reise -> {
       reise.setOeffentlich(oeffentlich);
       return repository.save(reise);
-    }).orElseThrow(() -> new IllegalStateException("Could not configure privacy settings"));
+    }).orElseThrow(() -> new IllegalStateException("Konnte Oeffentlichkeit nicht verändern."));
   }
 }
 

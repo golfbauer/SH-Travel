@@ -2,9 +2,7 @@ package de.hhn.se.labswp.wstgsh.webapi.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import de.hhn.se.labswp.wstgsh.exceptions.ReisepunktNotFoundAdvice;
-
 import javax.persistence.*;
-
 
 @Entity
 @Table

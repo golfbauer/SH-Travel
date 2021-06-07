@@ -40,7 +40,7 @@ public class SehenswuerdigkeitController {
   @GetMapping(path = "/sehenswuerdigkeit/{id}")
   public Sehenswuerdigkeit getSehenswuerdigkeit(@PathVariable("id") Long id) {
     return sehenswuerdigkeitRepository.findById(id).orElseThrow(() -> new IllegalStateException(
-            "ID not found"));
+            "ID nicht gefunden."));
   }
 
   /**
@@ -62,7 +62,7 @@ public class SehenswuerdigkeitController {
   public void editSehenswuerdigkeit(@PathVariable("id") Long id,
                                     @RequestBody Sehenswuerdigkeit newSehenswuerdigkeit) {
     if (!newSehenswuerdigkeit.getId().equals(id)) {
-      throw new IllegalStateException("New Sehenswürdigkeit must have same id as old one");
+      throw new IllegalStateException("Neue Sehenswuerdigkeit muss selbe id, wie die Alte haben.");
     }
     deleteSehenswuerdigkeit(id);
     newSehenswuerdigkeit(newSehenswuerdigkeit);

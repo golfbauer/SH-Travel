@@ -36,7 +36,8 @@ public class PunktController {
    */
   @GetMapping(path = "/punkt/{id}")
   Punkt one(@PathVariable Long id) {
-    return  repository.findById(id).orElseThrow(() -> new IllegalStateException("Id not found."));
+    return  repository.findById(id).orElseThrow(() ->
+            new IllegalStateException("Id nicht gefunden."));
   }
 
   /**
@@ -57,7 +58,7 @@ public class PunktController {
   @PutMapping(path = "/punkt/{id}")
   void replacePunkt(@RequestBody Punkt newPunkt, @PathVariable Long id) {
     if (!newPunkt.getId().equals(id)) {
-      throw new IllegalStateException("New Punkt must have same id as old one");
+      throw new IllegalStateException("Neuer Punkt muss selbe id, wie der Alte haben.");
     }
     deletePunkt(id);
     newPunkt(newPunkt);

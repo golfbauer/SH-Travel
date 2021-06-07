@@ -1,11 +1,9 @@
 package de.hhn.se.labswp.wstgsh.webapi.models;
 
 import de.hhn.se.labswp.wstgsh.exceptions.ReisepunktNotFoundAdvice;
-
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
+import javax.persistence.*;
 
 @Entity
 @Table
@@ -60,7 +58,8 @@ public class Attraktion extends Reisepunkt {
     this.beschreibung = beschreibung;
   }
 
-  public void SetAttraktionOeffnungszeiten(List<AttraktionOeffnungszeit> attraktionOeffnungszeiten) {
+  public void SetAttraktionOeffnungszeiten(
+          List<AttraktionOeffnungszeit> attraktionOeffnungszeiten) {
     this.attraktionOeffnungszeiten = attraktionOeffnungszeiten;
   }
 }
