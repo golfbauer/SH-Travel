@@ -17,26 +17,50 @@ public class ReisekatalogController {
         this.reiseRepository = reiseRepository;
     }
 
+    /**
+     * Gibt eine Liste aller Reisekataloge zurück.
+     * @return Liste aller Reisen.
+     */
     @GetMapping(path = "/reisekatalog")
     List<Reisekatalog> all() {
         return repository.findAll();
     }
 
+    /**
+     * Gibt den Reisekatalog mit angegebener id zurück.
+     * @param id des Reisekatalog den du willst.
+     * @return Angegebener Reisekatalog.
+     */
     @GetMapping(path = "/reisekatalog/{id}")
     Reisekatalog one(@PathVariable Long id) {
         return repository.findById(id).orElseThrow(()-> new IllegalStateException("Id nicht gefunden."));
     }
 
+    /**
+     * Speichert einen neuen Reisekatalog in der Datenbank.
+     * @param newReisekatalog Reisekatalog den du speichern möchtest.
+     * @return Der gespeicherte Reisekatalog.
+     */
     @PostMapping(path = "/reisekatalog")
     Reisekatalog newReisekatalog(@RequestBody Reisekatalog newReisekatalog) {
         return repository.save(newReisekatalog);
     }
 
+    /**
+     * Löscht den angegebenen Reisekatalog.
+     * @param id des zu löschenden Reisekatalog.
+     */
     @DeleteMapping(path = "/reisekatalog/{id}")
     void deleteReise(@PathVariable Long id) {
         repository.deleteById(id);
     }
 
+    /**
+     * Fügt angegebene Reise zum angegebenen Reisekatalog hinzu.
+     * @param idReise id der hinzuzufügenden Reise.
+     * @param idReisekatalog id des Reisekatalogs in den du die Reise hinzufügen möchtest.
+     * @return Der neue Reisekatalog mit eingespeicherter Reise.
+     */
     @PutMapping(path = "/reisekatalog/reise/{idReisekatalog}")
     Reisekatalog addReise(@RequestParam Long idReise, @PathVariable Long idReisekatalog) {
         return repository.findById(idReisekatalog).map(reisekatalog -> {
