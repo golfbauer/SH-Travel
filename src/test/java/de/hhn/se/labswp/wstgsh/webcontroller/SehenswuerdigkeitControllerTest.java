@@ -61,7 +61,7 @@ class SehenswuerdigkeitControllerTest {
     //then
     assertThatThrownBy(() -> underTest.getSehenswuerdigkeit(id))
             .isInstanceOf(IllegalStateException.class)
-            .hasMessageContaining("ID not found");
+            .hasMessageContaining("ID nicht gefunden.");
   }
 
   @Test
@@ -114,7 +114,7 @@ class SehenswuerdigkeitControllerTest {
     //then
     assertThatThrownBy(() -> underTest.editSehenswuerdigkeit(69L, temp2))
             .isInstanceOf(IllegalStateException.class)
-            .hasMessageContaining("New Sehenswürdigkeit must have same id as old one");
+            .hasMessageContaining("Neue Sehenswuerdigkeit muss selbe id, wie die Alte haben.");
     verify(sehenswuerdigkeitRepository, never()).deleteById(any());
   }
 

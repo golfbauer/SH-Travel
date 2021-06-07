@@ -61,7 +61,7 @@ public class ReiseControllerTest {
     //then
     assertThatThrownBy(() -> underTest.one(id))
             .isInstanceOf(IllegalStateException.class)
-            .hasMessageContaining("Id not found");
+            .hasMessageContaining("Id nicht gefunden.");
   }
 
   @Test
@@ -180,7 +180,7 @@ public class ReiseControllerTest {
     //when, then
     assertThatThrownBy(() -> underTest.addReisepunkt(idReisepunkt, idReise))
             .isInstanceOf(IllegalStateException.class)
-            .hasMessageContaining("Reise already contains the Reisepunkt");
+            .hasMessageContaining("Reisepunkt ist bereits in Reise vorhanden.");
   }
 
   @Test

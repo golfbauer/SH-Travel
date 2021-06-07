@@ -57,7 +57,7 @@ class PunktControllerTest {
     //then
     assertThatThrownBy(() -> underTest.one(id))
             .isInstanceOf(IllegalStateException.class)
-            .hasMessageContaining("Id not found");
+            .hasMessageContaining("Id nicht gefunden.");
   }
 
   @Test
@@ -98,7 +98,7 @@ class PunktControllerTest {
     //when //then
     assertThatThrownBy(() -> underTest.replacePunkt(punkt, id))
             .isInstanceOf(IllegalStateException.class)
-            .hasMessageContaining("New Punkt must have same id as old one");
+            .hasMessageContaining("Neuer Punkt muss selbe id, wie der Alte haben.");
 
     verify(punktRepository, never()).deleteById(any());
     verify(punktRepository, never()).save(any());
