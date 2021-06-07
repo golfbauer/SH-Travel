@@ -31,9 +31,10 @@ public class Attraktion extends Reisepunkt {
    * @param beschreibung Short description, which gives a explenation of the Attraktion.
    */
   public Attraktion(Float laengengrad, Float breitengrad, String nutzerEmail, String name,
-                    String beschreibung) {
+                    String beschreibung, List<AttraktionOeffnungszeit> list) {
     super(laengengrad, breitengrad, nutzerEmail, name);
     this.beschreibung = beschreibung;
+    this.attraktionOeffnungszeiten = list;
   }
 
   public Attraktion(Long id, Float laengengrad, Float breitengrad, String nutzerEmail, String name,
