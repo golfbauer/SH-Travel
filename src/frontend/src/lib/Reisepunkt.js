@@ -1,5 +1,12 @@
 import axios from 'axios'
+/** !!!UNDER RECONSTRUCTION!!! (MAY BE REPLACED BY 'Reisepunkte' VUEX DATA STORE)
+ * This script contains a 'Reisepunkt' class and a async getReisepunkte function, which fetches new 'Reisepunkt' objects
+ * from the backend api.
+ */
 
+/*
+ * Class representing a 'Reisepunkt' (data-)object.
+ */
 class Reisepunkt {
   constructor (input) {
     if (input === undefined) {
@@ -22,6 +29,9 @@ class Reisepunkt {
   }
 }
 
+/*
+ * This function fetches new 'Reisepunkt' objects from the backend api.
+ */
 async function getReisepunkte () {
   try {
     const { data: response } = await axios.get('/SHTravel/reisepunkt')

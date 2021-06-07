@@ -1,27 +1,26 @@
 <template>
-    <div @dblclick="openPopup()" class="map" id="map" ref="mapContainer">
+    <div class="map" id="map" ref="mapContainer">
       <ReisepunktErstellen
         v-if="showR"
-        v-bind:laengengrad="laengengrad"
-        v-bind:breitengrad="breitengrad"
         v-on:updateShow="closePopup($event)"
         v-on:makeToast="makeToast($event)"
+      />
+      <PopupButton
+        color="white"
+        background="darkslateblue"
+        disabled="false"
       />
     </div>
 </template>
 
 <script>
-import Vue from 'vue'
-import { createMap, loadMarker, L, map } from '@/lib/Map'
+import { createMap, loadMarker, L, map } from '@/lib/mapWrapper'
 import ReisepunktErstellen from '@/components/ReisepunktErstellen'
 
 export default {
   name: 'Map',
   data () {
     return {
-      laengengrad: 0,
-      breitengrad: 0,
-      ReisepunktErstellenShow: null,
       showR: false
     }
   },
@@ -29,7 +28,7 @@ export default {
     ReisepunktErstellen
   },
   mounted () {
-    createMap()
+    createMap(this)
     loadMarker()
   },
   updated () {
@@ -42,13 +41,11 @@ export default {
     closePopup: function (showProp) {
       this.showR = false
     },
-    handCoords: function (lat, lng) {
-      console.log(lat + ' ' + lng)
-      this.laengengrad = lng
-      this.breitengrad = lat
-      console.log(this.laengengrad + ' ' + this.breitengrad)
+    setClickedCoords: function (lat, lng) {
+      this.$store.dispatch('chooseCoords', { lng: lng, lat: lat })
+      this.openPopup()
     },
-    makeToast (array) {
+    makeToast: function (array) {
       this.$bvToast.toast(array[2], {
         title: array[1],
         variant: array[0],

@@ -4,9 +4,6 @@
 + Java 11
 + gradle
 + node.js (if not installed with node you also need **npm**)
-+ vue cli can be installed via
-  > npm install -g @vue/cli
-
 
 
 ## Development instructions:
