@@ -325,7 +325,7 @@ export default {
           breitengrad: this.breitengrad,
           nutzerEmail: this.nutzerEmail,
           name: this.name,
-          oeffnungszeiten: this.oeffnungszeiten,
+          attraktionOeffnungszeiten: this.splitOeffungszeiten(),
           beschreibung: this.beschreibung,
           bilder: this.bilder
         })
@@ -349,6 +349,14 @@ export default {
     },
     disableThisShow: function () {
       this.$emit('updateShow', 'false')
+    },
+    splitOeffungszeiten () {
+      const attraktionOeffnungszeiten = []
+      var oeffnungszeitenArray = this.oeffnungszeiten.split(',')
+      for (let i = 0; i < oeffnungszeitenArray.length; i++) {
+        attraktionOeffnungszeiten.push({ oeffnungszeit: oeffnungszeitenArray[i].trim() })
+      }
+      return attraktionOeffnungszeiten
     }
   },
   created () {
