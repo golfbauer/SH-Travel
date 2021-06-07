@@ -264,12 +264,9 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'ReisepunktErstellen',
-  props: {
-    laengengrad: Number,
-    breitengrad: Number
-  },
   data () {
     return {
       typ: 'punkt',
@@ -277,9 +274,12 @@ export default {
       name: '',
       beschreibung: '',
       oeffnungszeiten: '',
-      bilder: []
+      bilder: [],
+      laengengrad: '',
+      breitengrad: ''
     }
   },
+  computed: mapGetters(['getCoords']),
   methods: {
     onSubmit (event) {
       event.preventDefault()
@@ -350,6 +350,11 @@ export default {
     disableThisShow: function () {
       this.$emit('updateShow', 'false')
     }
+  },
+  created () {
+    const coords = this.getCoords
+    this.laengengrad = coords.laengengrad
+    this.breitengrad = coords.breitengrad
   }
 }
 </script>
