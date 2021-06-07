@@ -28,7 +28,8 @@ public class Reisekatalog {
 
   /**
    * Constructor für Reisekatalog mit einer bereits existierenden Liste von Reisen.
-   * @param id id dieses Reisekatalog.
+   *
+   * @param id    id dieses Reisekatalog.
    * @param eMail String der NutzerEmail.
    * @param reise Liste mit Reisen in ihr.
    */
@@ -40,7 +41,8 @@ public class Reisekatalog {
 
   /**
    * Constructor für Reisekatalog ohne Liste mit Reisen.
-   * @param id id des Reisekatalogs.
+   *
+   * @param id    id des Reisekatalogs.
    * @param eMail String der NutzerEmail.
    */
   public Reisekatalog(Long id, String eMail) {
@@ -58,7 +60,9 @@ public class Reisekatalog {
     return this.eMail;
   }
 
-  public Long getId() { return this.getId();}
+  public Long getId() {
+    return this.getId();
+  }
 
   public void seteMail(String eMail) {
     this.eMail = eMail;
@@ -74,6 +78,7 @@ public class Reisekatalog {
 
   /**
    * Fügt eine Reise zu diesem Reisekatalog hinzu.
+   *
    * @param reise Reise die du hinzufügen möchtest.
    */
   public void addReise(Reise reise) {
@@ -82,6 +87,7 @@ public class Reisekatalog {
 
   /**
    * Entfernt eine Reise aus diesem Reisekatalog.
+   *
    * @param reise Reise die du entfernen möchtest.
    */
   public void removeReise(Reise reise) {

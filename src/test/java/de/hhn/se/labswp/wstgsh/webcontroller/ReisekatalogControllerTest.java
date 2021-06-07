@@ -20,94 +20,109 @@ import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 public class ReisekatalogControllerTest {
-    @Mock
-    private ReisekatalogRepository reisekatalogRepository;
+  @Mock
+  private ReisekatalogRepository reisekatalogRepository;
 
-    @Mock
-    private ReiseRepository reiseRepository;
+  @Mock
+  private ReiseRepository reiseRepository;
 
-    private ReisekatalogController underTest;
+  private ReisekatalogController underTest;
 
-    @BeforeEach
-    void setup() {
-        underTest = new ReisekatalogController(reisekatalogRepository, reiseRepository);
-    }
+  @BeforeEach
+  void setup() {
+    underTest = new ReisekatalogController(reisekatalogRepository, reiseRepository);
+  }
 
-    @Test
-    void canGetAllReisekataloge() {
-        //when
-        underTest.all();
-        //then
-        verify(reisekatalogRepository).findAll();
-    }
+  @Test
+  void canGetAllReisekataloge() {
+    //when
+    underTest.all();
+    //then
+    verify(reisekatalogRepository).findAll();
+  }
 
-    @Test
-    void canGetReisekatalogWithId() {
-        //given
-        long id = 10;
-        given(reisekatalogRepository.findById(id)).willReturn(java.util.Optional.of(new Reisekatalog()));
-        //when
-        underTest.one(id);
-        //then
-        verify(reisekatalogRepository).findById(id);
-    }
+  @Test
+  void canGetReisekatalogWithId() {
+    //given
+    long id = 10;
+    given(reisekatalogRepository.findById(id)).willReturn(java.util.Optional.of(new Reisekatalog()));
+    //when
+    underTest.one(id);
+    //then
+    verify(reisekatalogRepository).findById(id);
+  }
 
-    @Test
-    void reisekatalogWithIdDoesntExist() {
-        //given
-        long id = 10;
-        given(reisekatalogRepository.findById(id)).willReturn(Optional.empty());
-        //then
-        assertThatThrownBy(() -> underTest.one(id))
-                .isInstanceOf(IllegalStateException.class)
-                .hasMessageContaining("Id nicht gefunden.");
-    }
+  @Test
+  void reisekatalogWithIdDoesntExist() {
+    //given
+    long id = 10;
+    given(reisekatalogRepository.findById(id)).willReturn(Optional.empty());
+    //then
+    assertThatThrownBy(() -> underTest.one(id))
+            .isInstanceOf(IllegalStateException.class)
+            .hasMessageContaining("Id nicht gefunden.");
+  }
 
-    @Test
-    void canDeleteReisekatalog() {
-        //given
-        long id = 10;
-        //when
-        underTest.deleteReise(id);
-        //then
-        verify(reisekatalogRepository).deleteById(id);
-    }
+  @Test
+  void canDeleteReisekatalog() {
+    //given
+    long id = 10;
+    //when
+    underTest.deleteReise(id);
+    //then
+    verify(reisekatalogRepository).deleteById(id);
+  }
 
-    @Test
-    void canAddReiseToReisekatalog() {
-        //given
-        List<Reisepunkt> reisepunkte = new ArrayList<>();
-        reisepunkte.add(new Reisepunkt(34L, 4.1f, 32.32f,
-                "nutzer@example.com", "NewTestReisepunkt"));
-        List<Reisekatalog> reisekataloge = new ArrayList<>();
-        Reise reise = new Reise(new Date(), "TestReise", true,
-                reisepunkte, reisekataloge);
-        Long id = 1L;
-        Reisekatalog reisekatalog = new Reisekatalog(id, "nutzer@secondExample.com");
+  @Test
+  void canAddReiseToReisekatalog() {
+    //given
+    List<Reisepunkt> reisepunkte = new ArrayList<>();
+    reisepunkte.add(new Reisepunkt(34L, 4.1f, 32.32f,
+            "nutzer@example.com", "NewTestReisepunkt"));
+    List<Reisekatalog> reisekataloge = new ArrayList<>();
+    Reise reise = new Reise(4L, new Date(), "TestReise", true,
+            reisepunkte, reisekataloge);
+    Long id = 1L;
+    Reisekatalog reisekatalog = new Reisekatalog(id, "nutzer@secondExample.com");
 
-        //when
-        underTest.addReise(reise.getId(),id);
-        //then
-        ArgumentCaptor<Reisekatalog> reisekatalogArgumentCaptor = ArgumentCaptor.forClass(Reisekatalog.class);
-        verify(reisekatalogRepository).save(reisekatalogArgumentCaptor.capture());
-        Reisekatalog capturedReisekatalog = reisekatalogArgumentCaptor.getValue();
-        reisekatalog.addReise(reise);
-        assertThat(capturedReisekatalog).isEqualTo(reisekatalog);
-    }
+    given(reisekatalogRepository.findById(id)).willReturn(Optional.of(reisekatalog));
+    given(reisekatalogRepository.save(reisekatalog)).willReturn(reisekatalog);
 
-    @Test
-    void addReiseThrowsExceptionIfAlreayAdded(){
-        //given
-        Long id = 10L;
-        Reise reise = new Reise();
-        List<Reise> reisen = new ArrayList<>();
-        reisen.add(reise);
+    given(reiseRepository.findById(4L)).willReturn(Optional.of(reise));
+    given(reiseRepository.save(reise)).willReturn(reise);
 
-        Reisekatalog reisekatalog = new Reisekatalog(id,"Nutzer@example.com",reisen);
+    //when
+    underTest.addReise(reise.getId(), id);
+    //then
+    ArgumentCaptor<Reisekatalog> reisekatalogArgumentCaptor = ArgumentCaptor.forClass(Reisekatalog.class);
+    verify(reisekatalogRepository).save(reisekatalogArgumentCaptor.capture());
+    Reisekatalog capturedReisekatalog = reisekatalogArgumentCaptor.getValue();
+    reisekatalog.addReise(reise);
+    assertThat(capturedReisekatalog).isEqualTo(reisekatalog);
+  }
 
-        //then
-        assertThatThrownBy(() -> underTest.addReise(reise.getId(),id))
-                .isInstanceOf(IllegalStateException.class)
-                .hasMessageContaining("Reise konnte nicht zu Reisekatalog hinzugefügt werden.");
-    }
+  @Test
+  void addReiseThrowsExceptionIfAlreayAdded() {
+    //given
+    Long id = 10L;
+    List<Reisepunkt> reisepunkte = new ArrayList<>();
+    reisepunkte.add(new Reisepunkt(34L, 4.1f, 32.32f,
+            "nutzer@example.com", "NewTestReisepunkt"));
+    List<Reisekatalog> reisekataloge = new ArrayList<>();
+    Reise reise = new Reise(4L, new Date(), "TestReise", true,
+            reisepunkte, reisekataloge);
+    List<Reise> reisen = new ArrayList<>();
+    reisen.add(reise);
+
+
+    Reisekatalog reisekatalog = new Reisekatalog(id, "Nutzer@example.com", reisen);
+
+    given(reisekatalogRepository.findById(id)).willReturn(Optional.of(reisekatalog));
+    given(reiseRepository.findById(4L)).willReturn(Optional.of(reise));
+
+    //then
+    assertThatThrownBy(() -> underTest.addReise(reise.getId(), id))
+            .isInstanceOf(IllegalStateException.class)
+            .hasMessageContaining("Reisekatalog enthält bereits Reise.");
+  }
 }
