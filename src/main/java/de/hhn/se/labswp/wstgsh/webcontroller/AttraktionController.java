@@ -1,6 +1,7 @@
 package de.hhn.se.labswp.wstgsh.webcontroller;
 
 import de.hhn.se.labswp.wstgsh.webapi.models.Attraktion;
+import de.hhn.se.labswp.wstgsh.webapi.models.AttraktionOeffnungszeit;
 import de.hhn.se.labswp.wstgsh.webapi.models.AttraktionRepository;
 import java.util.List;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -47,6 +48,15 @@ public class AttraktionController {
   @PostMapping(path = "/attraktion")
   Attraktion newAttraktion(@RequestBody Attraktion newAttraktion) {
     return repository.save(newAttraktion);
+  }
+
+  @PostMapping(path = "/attraktion/oeffnungszeit/{id}")
+  void addOeffnungszeit(@RequestBody String string, @PathVariable Long id) {
+    repository.findById(id).map(attraktion -> {
+      AttraktionOeffnungszeit oeffnungszeit = new AttraktionOeffnungszeit(string, attraktion);
+      attraktion.getAttraktionOeffnungszeiten().add(oeffnungszeit);
+      return repository.save(attraktion);
+    });
   }
 
   /**
