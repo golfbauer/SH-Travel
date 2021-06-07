@@ -46,10 +46,19 @@ public class AttraktionController {
    * @return the just saved Attraktion Object.
    */
   @PostMapping(path = "/attraktion")
-  Attraktion newAttraktion(@RequestBody Attraktion newAttraktion) {
-    return repository.save(newAttraktion);
+  void newAttraktion(@RequestBody Attraktion newAttraktion) {
+    List<AttraktionOeffnungszeit> oeffnungszeiten = newAttraktion.getAttraktionOeffnungszeiten();
+    for (AttraktionOeffnungszeit oeffnungszeit : oeffnungszeiten) {
+      oeffnungszeit.setAttraktion(newAttraktion);
+    }
+    repository.save(newAttraktion);
   }
 
+  /**
+   * Adds a new Oeffnungszeit to Attraktion.
+   * @param string Content of Oeffnungszeit.
+   * @param id ID of Attraktion.
+   */
   @PostMapping(path = "/attraktion/oeffnungszeit/{id}")
   void addOeffnungszeit(@RequestBody String string, @PathVariable Long id) {
     repository.findById(id).map(attraktion -> {
@@ -66,16 +75,20 @@ public class AttraktionController {
    * @return the eddited Attraktion.
    */
   @PutMapping(path = "/attraktion/{id}")
-  void replaceAttraktion(@RequestBody Attraktion newAttraktion, @PathVariable Long id) {
-    if (!newAttraktion.getId().equals(id)) {
-      throw new IllegalStateException("New Attraktion must have same id as old one");
-    }
-    deleteAttraktion(id);
-    newAttraktion(newAttraktion);
+  Attraktion replaceAttraktion(@RequestBody Attraktion newAttraktion, @PathVariable Long id) {
+    return repository.findById(id).map(attraktion -> {
+      attraktion.setBreitengrad(newAttraktion.getBreitengrad());
+      attraktion.setLaengengrad(newAttraktion.getLaengengrad());
+      attraktion.setNutzerEmail(newAttraktion.getNutzerEmail());
+      attraktion.setName(newAttraktion.getName());
+      return repository.save(attraktion);
+    }).orElseThrow(
+            () -> new IllegalStateException("Could not configure Attraktion.")
+    );
   }
 
   /**
-   * Deletes specified Attraktion
+   * Deletes specified Attraktion.
    * @param id of the Attraktion you want to delete.
    */
   @DeleteMapping(path = "/attraktion/{id}")
