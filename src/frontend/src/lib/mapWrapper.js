@@ -34,37 +34,39 @@ function createMap (mapComponent) {
     console.log()
     mapComponent.setClickedCoords(lat, lng)
   })
-}
 
-/*
- * This function is used to place mapmarker.
- */
-function setMarker (reisepunkt) {
-  if (reisepunkt.breitengrad === null || reisepunkt.laengengrad === null) {
-    return
-  }
+  // TEST MARKER
+  var lo, la
+  lo = 10.160293579101564
+  la = 54.321932521030156
 
-  // Erstellen des Markers 2.0
   // Div erstellen
   var content = L.DomUtil.create('div', 'popupContainer')
+  content.style = 'align-content: center;'
 
   // Childs erstellen
   var title = L.DomUtil.create('h4', 'popupTitle')
-  title.textContent = reisepunkt.name
+  title.style = 'width: 200px;'
+  title.textContent = 'reisepunkt.name'
 
   var lngText = L.DomUtil.create('p')
-  lngText.textContent = 'Längengrad: ' + reisepunkt.laengengrad
+  lngText.innerHTML = 'Längengrad: ' + '<i>' + lo + '</i>'
+  lngText.style = 'overflow-wrap: break-word; width: 200px;'
 
   var latText = L.DomUtil.create('p')
-  latText.textContent = 'Breitengrad: ' + reisepunkt.breitengrad
+  latText.innerHTML = 'Breitengrad: ' + '<i>' + la + '</i>'
+  latText.style = 'overflow-wrap: break-word; width: 200px;'
 
   var beschreibungText = L.DomUtil.create('p')
-  beschreibungText.textContent = 'Ich bin ein Sampletext.'
+  beschreibungText.style = 'width: 200px;'
+  beschreibungText.textContent = 'Ich bin ein Sampletext. bkashdkahsdas dklasdkl adkla jdlkad jsldasjd lasdjakldajsd lkasjd al dajdkla sjdalkd jas' +
+    'asdm alksdal kdmalskd alkd alkd ajldk asjdlkas jdakld jaskld ajsldkj ldk asjdlkasdj lakdj alkdj ajdl ajd lkasd jalkdjaslkd askld '
+  // beschreibungText.style = 'overflow-wrap: break-word'
 
   var addButton = L.DomUtil.create('button', 'popupAddButton')
-  var buttonText = L.DomUtil.create('p')
-  buttonText.textContent = 'Hinzufügen'
-  addButton.appendChild(buttonText)
+  // addButton.innerHTML = '<button>height: 100px; width: 500px; background-color: powderblue;</button>'
+  addButton.textContent = 'Hinzufügen'
+  addButton.style = 'width: 200px; height: 30px; align-content: center;'
 
   // Zusammenfügen
   content.appendChild(title)
@@ -80,7 +82,59 @@ function setMarker (reisepunkt) {
 
   // Popup erstellen
   var popup = L.popup().setContent(content)
-  var markerTest = L.marker([reisepunkt.breitengrad, reisepunkt.laengengrad]).addTo(map)
+  var markerTest = L.marker([la, lo]).addTo(map)
+
+  markerTest.bindPopup(popup)
+}
+
+/*
+ * This function is used to place mapmarker.
+ */
+function setMarker (reisepunkt) {
+  if (reisepunkt.breitengrad === null || reisepunkt.laengengrad === null) {
+    return
+  }
+
+  // Div erstellen
+  var content = L.DomUtil.create('div', 'popupContainer')
+  content.style = 'align-content: center;'
+
+  // Childs erstellen
+  var title = L.DomUtil.create('h4', 'popupTitle')
+  title.style = 'width: 200px;'
+  title.textContent = reisepunkt.name
+
+  var lngText = L.DomUtil.create('p')
+  lngText.innerHTML = 'Längengrad: ' + '<i>' + reisepunkt.laengengrad + '</i>'
+  lngText.style = 'overflow-wrap: break-word; width: 200px;'
+
+  var latText = L.DomUtil.create('p')
+  latText.innerHTML = 'Breitengrad: ' + '<i>' + reisepunkt.breitengrad + '</i>'
+  latText.style = 'overflow-wrap: break-word; width: 200px;'
+
+  var beschreibungText = L.DomUtil.create('p')
+  beschreibungText.style = 'width: 200px;'
+  beschreibungText.textContent = 'Beschreibung hier einfügen...'
+
+  var addButton = L.DomUtil.create('button', 'popupAddButton')
+  addButton.textContent = 'Hinzufügen'
+  addButton.style = 'width: 200px; height: 30px; align-content: center;'
+
+  // Zusammenfügen
+  content.appendChild(title)
+  content.appendChild(lngText)
+  content.appendChild(latText)
+  content.appendChild(beschreibungText)
+  content.appendChild(addButton)
+
+  // Event hinzufügen
+  L.DomEvent.addListener(addButton, 'click', function (event) {
+    console.log('Hinzugefügt!')
+  })
+
+  // Popup erstellen
+  var popup = L.popup().setContent(content)
+  var markerTest = L.marker([reisepunkt.laengengrad, reisepunkt.breitengrad]).addTo(map)
 
   markerTest.bindPopup(popup)
 }
