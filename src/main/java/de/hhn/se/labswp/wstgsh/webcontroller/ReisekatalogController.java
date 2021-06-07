@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 /**
- * Reisekataloge beinhaltet eine Liste von Reisen und gehören zu einer Nutzeremail.
+ * Reisekatalog consists of a List of Reisen and is owned by one User via his UserEmail.
  */
 public class ReisekatalogController {
   private final ReisekatalogRepository repository;
@@ -21,7 +21,7 @@ public class ReisekatalogController {
   }
 
   /**
-   * Gibt eine Liste aller Reisekataloge zurück.
+   * Returns a List of all Reisen.
    *
    * @return Liste aller Reisen.
    */
@@ -31,7 +31,7 @@ public class ReisekatalogController {
   }
 
   /**
-   * Gibt den Reisekatalog mit angegebener id zurück.
+   * Returns specified Reisekatalog
    *
    * @param id des Reisekatalog den du willst.
    * @return Angegebener Reisekatalog.
@@ -43,7 +43,7 @@ public class ReisekatalogController {
   }
 
   /**
-   * Speichert einen neuen Reisekatalog in der Datenbank.
+   * Saves a new Reisekatalog in the Databank.
    *
    * @param newReisekatalog Reisekatalog den du speichern möchtest.
    * @return Der gespeicherte Reisekatalog.
@@ -54,7 +54,7 @@ public class ReisekatalogController {
   }
 
   /**
-   * Löscht den angegebenen Reisekatalog.
+   * Deletes specified Reisekatalog.
    *
    * @param id des zu löschenden Reisekatalog.
    */
@@ -64,7 +64,7 @@ public class ReisekatalogController {
   }
 
   /**
-   * Fügt angegebene Reise zum angegebenen Reisekatalog hinzu.
+   * Adds specified Reise to specified Reisekatalog.
    *
    * @param idReise        id der hinzuzufügenden Reise.
    * @param idReisekatalog id des Reisekatalogs in den du die Reise hinzufügen möchtest.

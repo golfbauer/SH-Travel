@@ -14,7 +14,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 /**
- * Reisekatalog Klasse, in dieser werden Reisen gesammelt, gehört einem Nutzer.
+ * Reisekatalog Class, Belongs to one Nutzer and has a List of Reisen.
  */
 @Entity
 @Table
@@ -27,7 +27,7 @@ public class Reisekatalog {
   List<Reise> reise = new ArrayList<>();
 
   /**
-   * Constructor für Reisekatalog mit einer bereits existierenden Liste von Reisen.
+   * Constructor for Reisekatalog with an already existing list of Reisen.
    *
    * @param id    id dieses Reisekatalog.
    * @param eMail String der NutzerEmail.
@@ -40,7 +40,7 @@ public class Reisekatalog {
   }
 
   /**
-   * Constructor für Reisekatalog ohne Liste mit Reisen.
+   * Constructor for Reisekatalog without an existing list of Reisen.
    *
    * @param id    id des Reisekatalogs.
    * @param eMail String der NutzerEmail.
@@ -51,7 +51,7 @@ public class Reisekatalog {
   }
 
   /**
-   * Leerer Constructor für Testzwecke.
+   * Leerer Constructor for Test purposes.
    */
   public Reisekatalog() {
   }
@@ -61,7 +61,7 @@ public class Reisekatalog {
   }
 
   public Long getId() {
-    return this.getId();
+    return this.id;
   }
 
   public void seteMail(String eMail) {
@@ -77,7 +77,7 @@ public class Reisekatalog {
   }
 
   /**
-   * Fügt eine Reise zu diesem Reisekatalog hinzu.
+   * Adds a Reise to this Reisekatalog.
    *
    * @param reise Reise die du hinzufügen möchtest.
    */
@@ -86,7 +86,7 @@ public class Reisekatalog {
   }
 
   /**
-   * Entfernt eine Reise aus diesem Reisekatalog.
+   * Removes a Reise from this Reisekatalog.
    *
    * @param reise Reise die du entfernen möchtest.
    */
