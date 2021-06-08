@@ -17,6 +17,7 @@ function createMap (mapComponent) {
     maxZoom: 18,
     maxBounds: [[57.0, 7.0], [52.0, 13.0]],
     zoomControl: false
+    // dragging: true
   }).setView([54.3227085, 10.1355550], 13)
 
   map.doubleClickZoom.disable()
@@ -28,6 +29,7 @@ function createMap (mapComponent) {
 
   // eventlistener for double clicking the map
   map.on('dblclick', function (e) {
+    toggleDragging(false)
     var latlng = map.mouseEventToLatLng(e.originalEvent)
     var lat = latlng.lat
     var lng = latlng.lng
@@ -78,7 +80,7 @@ function setMarker (reisepunkt) {
 
   // Event hinzufügen
   L.DomEvent.addListener(addButton, 'click', function (event) {
-    //ToDo: Marker in die Reise hinzufügen
+    // ToDo: Marker in die Reise hinzufügen
     console.log('Hinzugefügt!')
   })
 
@@ -102,7 +104,13 @@ async function loadMarker () {
   }
 }
 
+// Toggle dragging for the map
+function toggleDragging (isEnabled) {
+  isEnabled === true ? map.dragging.enable() : map.dragging.disable()
+}
+
 export {
   createMap,
-  loadMarker
+  loadMarker,
+  toggleDragging
 }
