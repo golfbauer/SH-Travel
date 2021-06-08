@@ -17,6 +17,7 @@ function createMap (mapComponent) {
     maxZoom: 18,
     maxBounds: [[57.0, 7.0], [52.0, 13.0]],
     zoomControl: false
+    // dragging: true
   }).setView([54.3227085, 10.1355550], 13)
 
   map.doubleClickZoom.disable()
@@ -28,6 +29,7 @@ function createMap (mapComponent) {
 
   // eventlistener for double clicking the map
   map.on('dblclick', function (e) {
+    toggleDragging(false)
     var latlng = map.mouseEventToLatLng(e.originalEvent)
     var lat = latlng.lat
     var lng = latlng.lng
@@ -44,27 +46,30 @@ function setMarker (reisepunkt) {
     return
   }
 
-  // Erstellen des Markers 2.0
   // Div erstellen
   var content = L.DomUtil.create('div', 'popupContainer')
+  content.style = 'align-content: center;'
 
   // Childs erstellen
   var title = L.DomUtil.create('h4', 'popupTitle')
+  title.style = 'width: 200px;'
   title.textContent = reisepunkt.name
 
   var lngText = L.DomUtil.create('p')
-  lngText.textContent = 'Längengrad: ' + reisepunkt.laengengrad
+  lngText.innerHTML = 'Längengrad: ' + '<i>' + reisepunkt.laengengrad + '</i>'
+  lngText.style = 'overflow-wrap: break-word; width: 200px;'
 
   var latText = L.DomUtil.create('p')
-  latText.textContent = 'Breitengrad: ' + reisepunkt.breitengrad
+  latText.innerHTML = 'Breitengrad: ' + '<i>' + reisepunkt.breitengrad + '</i>'
+  latText.style = 'overflow-wrap: break-word; width: 200px;'
 
   var beschreibungText = L.DomUtil.create('p')
-  beschreibungText.textContent = 'Ich bin ein Sampletext.'
+  beschreibungText.style = 'width: 200px;'
+  beschreibungText.textContent = 'Beschreibung hier einfügen...'
 
   var addButton = L.DomUtil.create('button', 'popupAddButton')
-  var buttonText = L.DomUtil.create('p')
-  buttonText.textContent = 'Hinzufügen'
-  addButton.appendChild(buttonText)
+  addButton.textContent = 'Hinzufügen'
+  addButton.style = 'width: 200px; height: 30px; align-content: center;'
 
   // Zusammenfügen
   content.appendChild(title)
@@ -75,12 +80,13 @@ function setMarker (reisepunkt) {
 
   // Event hinzufügen
   L.DomEvent.addListener(addButton, 'click', function (event) {
+    // ToDo: Marker in die Reise hinzufügen
     console.log('Hinzugefügt!')
   })
 
   // Popup erstellen
   var popup = L.popup().setContent(content)
-  var markerTest = L.marker([reisepunkt.breitengrad, reisepunkt.laengengrad]).addTo(map)
+  var markerTest = L.marker([reisepunkt.laengengrad, reisepunkt.breitengrad]).addTo(map)
 
   markerTest.bindPopup(popup)
 }
@@ -98,7 +104,13 @@ async function loadMarker () {
   }
 }
 
+// Toggle dragging for the map
+function toggleDragging (isEnabled) {
+  isEnabled === true ? map.dragging.enable() : map.dragging.disable()
+}
+
 export {
   createMap,
-  loadMarker
+  loadMarker,
+  toggleDragging
 }
