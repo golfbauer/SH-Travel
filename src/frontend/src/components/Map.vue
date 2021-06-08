@@ -5,16 +5,16 @@
         v-on:updateShow="closePopup($event)"
         v-on:makeToast="makeToast($event)"
       />
-      <PopupButton
-        color="white"
-        background="darkslateblue"
-        disabled="false"
-      />
+<!--      <PopupButton-->
+<!--        color="white"-->
+<!--        background="darkslateblue"-->
+<!--        disabled="false"-->
+<!--      />-->
     </div>
 </template>
 
 <script>
-import { createMap, loadMarker, L, map } from '@/lib/mapWrapper'
+import { createMap, loadMarker, L, map, addRoute } from '@/lib/mapWrapper'
 import ReisepunktErstellen from '@/components/ReisepunktErstellen'
 
 export default {
@@ -30,6 +30,7 @@ export default {
   mounted () {
     createMap(this)
     loadMarker()
+    addRoute(this)
   },
   updated () {
     loadMarker()
@@ -63,5 +64,10 @@ export default {
   bottom: 0;
   left: 0;
   right: 0;
+}
+</style>
+<style>
+.leaflet-control-container .leaflet-routing-container-hide {
+  display: none;
 }
 </style>

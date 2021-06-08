@@ -1,4 +1,5 @@
-import L from 'leaflet'
+import L, { latLng } from 'leaflet'
+import 'leaflet-routing-machine'
 import { getReisepunkte } from '@/lib/Reisepunkt'
 /**
  * This script contains functions to create a leaflet map, as well as loading 'Reisepunkte' as mapmarkers and placing
@@ -8,7 +9,7 @@ import { getReisepunkte } from '@/lib/Reisepunkt'
 // Declaring leaflet map variable.
 var map = ''
 
-/*
+/**
  * This function instantiates a leaflet map and adds an event listener to handle doubleklicks.
  */
 function createMap (mapComponent) {
@@ -36,7 +37,65 @@ function createMap (mapComponent) {
   })
 }
 
-/*
+/**
+ * Adds a router to the UI to display a possible route between multiple points on the map.
+ *
+ * @param mapComponent a reference to the Map.vue components insance ('this' in Map.vue)
+ */
+function addRoute (mapComponent) {
+  /**
+   * !!!UNDER CONSTRUCTION!!!
+   *
+   * remove testing data when api calls are implemented
+   * edit variable names according to final object
+   * remove the control window, just show the actual route
+   */
+
+  // const reise = mapComponent.$store.getters.getChosenReise()
+  console.log('creating reise route with test data 3 waypoints')
+  const reise = [
+    {
+      index: 0,
+      breitengrad: 54.0259,
+      laengengrad: 10.7554
+    },
+    {
+      index: 1,
+      breitengrad: 54.3447,
+      laengengrad: 10.4559
+    },
+    {
+      index: 2,
+      breitengrad: 54.3908,
+      laengengrad: 10.3766
+    }
+  ]
+
+  var points = []
+
+  reise.forEach((punkt) => {
+    // console.log('punkt:', punkt)
+    const point = L.latLng(punkt.breitengrad, punkt.laengengrad)
+    points.push(point)
+  })
+  console.log(points)
+
+  var plan = L.Routing.plan({
+    waypoints: points,
+    draggableWaypoints: false
+  })
+
+  const control = L.Routing.control({
+    waypoints: points,
+    draggableWaypoints: false,
+    lineOptions: {
+      addWaypoints: false
+    }
+  }).addTo(map)
+  control.hide()
+}
+
+/**
  * This function is used to place mapmarker.
  */
 function setMarker (reisepunkt) {
@@ -85,7 +144,7 @@ function setMarker (reisepunkt) {
   markerTest.bindPopup(popup)
 }
 
-/*
+/**
  * This function loads new 'Reisepunkt' objects rom the backend api and places them as mapmarkers on the map.
  */
 async function loadMarker () {
@@ -100,5 +159,6 @@ async function loadMarker () {
 
 export {
   createMap,
-  loadMarker
+  loadMarker,
+  addRoute
 }

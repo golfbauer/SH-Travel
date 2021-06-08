@@ -82,6 +82,9 @@ export default {
     get: function () {
       this.$http.get('')
     }
+  },
+  created () {
+    this.$store.dispatch('fetchReisen')
   }
 }
 </script>
