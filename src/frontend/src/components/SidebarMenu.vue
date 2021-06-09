@@ -23,7 +23,7 @@
       <!-- SidebarMenuItems -->
       <nav class="mb-3">
         <b-nav vertical>
-          <sidebar-menu-item v-for="(item, index) in menu" :key="index" :item="item" :content="item.content"/>
+          <sidebar-menu-item v-for="(item, index) in menu" :key="index" :item="item"/>
         </b-nav>
       </nav>
       <!-- End SidebarMenuItems -->
@@ -63,15 +63,17 @@ export default {
     loadMenueItems () {
       this.menu = [
         {
-          title: 'Startseite',
+          name: 'Startseite',
           component: 'item',
           href: '/SHTravel'
         },
         {
-          title: 'Mein Reisen',
+          name: 'Mein Reisen',
           component: 'parent',
+          category: 'reisen',
           content: this.getReisen
-        }]
+        }
+      ]
     }
   },
   created () {

@@ -7,7 +7,8 @@ import { getReisepunkte } from '@/lib/Reisepunkt'
  */
 
 // Declaring leaflet map variable.
-var map = ''
+var map
+var routeControl
 
 /**
  * This function instantiates a leaflet map and adds an event listener to handle doubleklicks.
@@ -40,29 +41,34 @@ function createMap (mapComponent) {
 /**
  * Adds a router to the UI to display a possible route between multiple points on the map.
  *
- * @param mapComponent a reference to the Map.vue components insance ('this' in Map.vue)
+ * @param route the route (Reise) to be displayed
  */
 function addRoute (route) {
-  /**
-   * !!!UNDER CONSTRUCTION!!!
-   *
-   * edit variable names according to final object
-   */
+  console.log(route)
+
+  removeRoute()
+
   var waypoints = []
-  route.forEach((point) => {
-    const waypoint = L.latLng(point.breitengrad, point.laengengrad)
+  route.punkte.forEach((point) => {
+    const waypoint = L.latLng(point.reisepunkt.breitengrad, point.reisepunkt.laengengrad)
     waypoints.push(waypoint)
   })
   console.log(waypoints)
 
-  const control = L.Routing.control({
+  routeControl = L.Routing.control({
     waypoints: waypoints,
     draggableWaypoints: false,
     lineOptions: {
       addWaypoints: false
     }
   }).addTo(map)
-  control.hide()
+  routeControl.hide()
+}
+
+function removeRoute () {
+  if (routeControl !== undefined) {
+    routeControl.remove()
+  }
 }
 
 /**
@@ -128,5 +134,6 @@ async function loadMarker () {
 export {
   createMap,
   loadMarker,
-  addRoute
+  addRoute,
+  removeRoute
 }
