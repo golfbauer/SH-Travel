@@ -5,8 +5,6 @@
     <button class="reiseoptionbuttons" id="btnspeichern" @click="onSaveClick">Speichern</button>
     <div class="reiseansicht" id="reiseansicht">
       <ul id="reiseliste">
-        <li class="reiseitem"><span class="reiseitembutton">1</span>List Item One</li>
-
         <li class="reiseitem" v-for="markeritem in markeritems" v-bind:key="markeritem">
           {{ markeritem }}
           <button class="reiseitembutton" @click="onDeleteClick">-</button>
@@ -26,7 +24,7 @@ export default {
     return {
       isHovered: false,
       reisename: 'Unbekannte Reise',
-      markeritems: ['das eine reise', 'diese zwei reisen', 'mein vier okok', 'meeeeeeeeeehr', 'viel meeeeeeeehr']
+      markeritems: ['Oma Renata', 'Dienststelle No.2039', 'Burgerhouse', 'Eine wunderschöne Statue', '2000 Jahre alter Baum', 'See mit Spielplatz', 'Feinkostladen', 'Schokoladenfabrik', 'Reginas Wohnung', 'Hotel Kiel', 'Japan Garten', 'Nationalpark', 'Schönes Cafe', 'Kleiner Park', 'Autovermietung']
     }
   },
   methods: {
