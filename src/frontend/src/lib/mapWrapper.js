@@ -109,8 +109,14 @@ function toggleDragging (isEnabled) {
   isEnabled === true ? map.dragging.enable() : map.dragging.disable()
 }
 
+// Toggle scrolling for map
+function toggleScrolling (isEnabled) {
+  isEnabled === true ? map.scrollWheelZoom.enable() : map.scrollWheelZoom.disable()
+}
+
 export {
   createMap,
   loadMarker,
-  toggleDragging
+  toggleDragging,
+  toggleScrolling
 }

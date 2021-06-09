@@ -6,6 +6,7 @@
         v-on:makeToast="makeToast($event)"
       />
       <ReiseAnsicht
+        v-if="showReiseAnsicht"
       />
     </div>
 </template>
@@ -19,7 +20,8 @@ export default {
   name: 'Map',
   data () {
     return {
-      showR: false
+      showR: false,
+      showReiseAnsicht: true
     }
   },
   components: {
