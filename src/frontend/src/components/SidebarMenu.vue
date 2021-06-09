@@ -17,7 +17,7 @@
         <div id="profile-typ">{{ profile.typ }}</div>
       </div>
       <div class="menu-header" v-else>
-        <b-button type="button" class="btn btn-orange">Registrieren</b-button>
+        <!-- b-button type="button" class="btn btn-orange">Registrieren</b-button -->
         <b-button type="button" class="btn btn-gray">Anmelden</b-button>
       </div>
       <!-- SidebarMenuItems -->
