@@ -4,35 +4,57 @@
       <div v-if="item.component==='parent'">
         <b-nav-item @click="toggle()" class="bor-bot"> <!--:href='item.href'-->
           <div class="dropdown-toggle">
-            {{ item.title }}
+            {{ item.name }}
           </div>
         </b-nav-item>
         <div v-if="showChild">
-          <sidebar-menu-item v-for="(subitem, index) in item.items" :key="index" :item="subitem"/>
+          <sidebar-menu-item v-on:click.native="handleClick(subitem)" v-for="(subitem, index) in item.content" :key="index" :item="subitem"/>
         </div>
       </div>
       <b-nav-item :href='item.href' v-else class="bor-bot">
-        {{ item.title }}
+        {{ item.name }}
       </b-nav-item>
     </div>
   </div>
 </template>
 
 <script>
+import { addRoute, removeRoute } from '@/lib/mapWrapper'
+
 export default {
   name: 'SidebarMenuItem',
   data () {
     return {
-      showChild: false
+      showChild: false,
+      chosenChild: undefined
     }
   },
   props: {
     item: {
       type: Object,
-      required: true
+      required: true,
+      // optional properties
+      component: undefined,
+      category: undefined,
+      content: undefined
     }
   },
   methods: {
+    handleClick (subitem) {
+      switch (this.item.category) {
+        case 'reisen':
+          if (subitem === this.chosenChild) {
+            this.chosenChild = undefined
+            removeRoute()
+          } else {
+            this.chosenChild = subitem
+            addRoute(subitem)
+          }
+          break
+        case undefined:
+          break
+      }
+    },
     toggle () {
       if (this.item.component === 'parent' && this.showChild === false) {
         this.showChild = true

@@ -63,15 +63,17 @@ export default {
     loadMenueItems () {
       this.menu = [
         {
-          title: 'Startseite',
+          name: 'Startseite',
           component: 'item',
           href: '/SHTravel'
         },
         {
-          title: 'Mein Reisen',
+          name: 'Mein Reisen',
           component: 'parent',
-          items: this.getReisen
-        }]
+          category: 'reisen',
+          content: this.getReisen
+        }
+      ]
     }
   },
   created () {

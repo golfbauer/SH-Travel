@@ -7,7 +7,8 @@ import { getReisepunkte } from '@/lib/Reisepunkt'
  */
 
 // Declaring leaflet map variable.
-var map = ''
+var map
+var routeControl
 
 /**
  * This function instantiates a leaflet map and adds an event listener to handle doubleklicks.
@@ -42,50 +43,34 @@ function createMap (mapComponent) {
 /**
  * Adds a router to the UI to display a possible route between multiple points on the map.
  *
- * @param mapComponent a reference to the Map.vue components insance ('this' in Map.vue)
+ * @param route the route (Reise) to be displayed
  */
 function addRoute (route) {
-  /**
-   * !!!UNDER CONSTRUCTION!!!
-   *
-   * remove testing data when api calls are implemented
-   * edit variable names according to final object
-   */
-  // console.log('creating reise route with test data 3 waypoints')
-  // const reise = [
-  //   {
-  //     index: 0,
-  //     breitengrad: 54.0259,
-  //     laengengrad: 10.7554
-  //   },
-  //   {
-  //     index: 1,
-  //     breitengrad: 54.3447,
-  //     laengengrad: 10.4559
-  //   },
-  //   {
-  //     index: 2,
-  //     breitengrad: 54.3908,
-  //     laengengrad: 10.3766
-  //   }
-  // ]
+  console.log(route)
 
-  var points = []
-  route.forEach((punkt) => {
-    // console.log('punkt:', punkt)
-    const point = L.latLng(punkt.breitengrad, punkt.laengengrad)
-    points.push(point)
+  removeRoute()
+
+  var waypoints = []
+  route.punkte.forEach((point) => {
+    const waypoint = L.latLng(point.reisepunkt.breitengrad, point.reisepunkt.laengengrad)
+    waypoints.push(waypoint)
   })
-  console.log(points)
+  console.log(waypoints)
 
-  const control = L.Routing.control({
-    waypoints: points,
+  routeControl = L.Routing.control({
+    waypoints: waypoints,
     draggableWaypoints: false,
     lineOptions: {
       addWaypoints: false
     }
   }).addTo(map)
-  control.hide()
+  routeControl.hide()
+}
+
+function removeRoute () {
+  if (routeControl !== undefined) {
+    routeControl.remove()
+  }
 }
 
 /**
@@ -163,5 +148,6 @@ export {
   createMap,
   loadMarker,
   addRoute,
-  toggleDragging
+  toggleDragging,
+  removeRoute
 }

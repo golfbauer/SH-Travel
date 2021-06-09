@@ -1,13 +1,11 @@
 import axios from 'axios'
 
 const state = {
-  reisen: [],
-  chosenReise: ''
+  reisen: []
 }
 
 const getters = {
-  getReisen: (state) => state.reisen,
-  getChosenReise: (state) => state.chosenReise
+  getReisen: (state) => state.reisen
 }
 
 const actions = {
@@ -19,6 +17,7 @@ const actions = {
     // commit('setReisen', response.data)
 
     // constructed TestData needs to be removed for deployment
+    // resembling response.data
     const reisen = [
       {
         name: 'Timmendorf nach Travemünde',
@@ -40,13 +39,39 @@ const actions = {
             }
           }
         ]
+      },
+      {
+        name: 'Einfache Test Reise',
+        punkte: [
+          {
+            index: 0,
+            reisepunkt: {
+              name: 'Test Punkt 1',
+              breitengrad: 54.0259,
+              laengengrad: 10.7554
+            }
+          },
+          {
+            index: 1,
+            reisepunkt: {
+              name: 'Test Punkt 2',
+              breitengrad: 54.3447,
+              laengengrad: 10.4559
+            }
+          },
+          {
+            index: 2,
+            reisepunkt: {
+              name: 'Test Punkt 3',
+              breitengrad: 54.3908,
+              laengengrad: 10.3766
+            }
+          }
+        ]
       }
     ]
     console.log(reisen)
     commit('setReisen', reisen)
-  },
-  chooseReise ({ commit }, reise) {
-    commit('setReise', reise)
   }
 }
 
@@ -54,8 +79,7 @@ const mutations = {
   setReisen: function (state, reisen) {
     console.log(reisen)
     state.reisen = reisen
-  },
-  setReise: (state, reise) => (state.chosenReise = reise)
+  }
 }
 
 export default {
