@@ -3,20 +3,21 @@
     <h2 id="reisetitel">{{ reisename }}</h2>
     <button class="reiseoptionbuttons" id="btnabbrechen" @click="onCancelClick">Abbrechen</button>
     <button class="reiseoptionbuttons" id="btnspeichern" @click="onSaveClick">Speichern</button>
+
     <div class="reiseansicht" id="reiseansicht">
       <ul id="reiseliste">
         <li class="reiseitem" v-for="markeritem in markeritems" v-bind:key="markeritem">
           {{ markeritem }}
           <button class="reiseitembutton" @click="onDeleteClick">-</button>
         </li>
-
       </ul>
     </div>
+
   </div>
 </template>
 
 <script>
-import { toggleScrolling } from '@/lib/mapWrapper'
+import { toggleScrolling, toggleDragging } from '@/lib/mapWrapper'
 
 export default {
   name: 'ReiseAnsicht',
@@ -30,9 +31,11 @@ export default {
   methods: {
     mouseOver () {
       toggleScrolling(false)
+      toggleDragging(false)
     },
     mouseLeave () {
       toggleScrolling(true)
+      toggleDragging(true)
     },
     onSaveClick () {
       console.log('Reise wurde gespeichert.')
