@@ -30,7 +30,8 @@ export default {
     item: {
       type: Object,
       required: true
-    }
+    },
+    content: []
   },
   methods: {
     toggle () {

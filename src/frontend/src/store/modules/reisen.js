@@ -40,6 +40,35 @@ const actions = {
             }
           }
         ]
+      },
+      {
+        name: 'Einfache Test Reise',
+        punkte: [
+          {
+            index: 0,
+            reisepunkt: {
+              name: 'Test Punkt 1',
+              breitengrad: 54.0259,
+              laengengrad: 10.7554
+            }
+          },
+          {
+            index: 1,
+            reisepunkt: {
+              name: 'Test Punkt 2',
+              breitengrad: 54.3447,
+              laengengrad: 10.4559
+            }
+          },
+          {
+            index: 2,
+            reisepunkt: {
+              name: 'Test Punkt 3',
+              breitengrad: 54.3908,
+              laengengrad: 10.3766
+            }
+          }
+        ]
       }
     ]
     console.log(reisen)

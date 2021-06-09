@@ -46,38 +46,17 @@ function addRoute (route) {
   /**
    * !!!UNDER CONSTRUCTION!!!
    *
-   * remove testing data when api calls are implemented
    * edit variable names according to final object
    */
-  // console.log('creating reise route with test data 3 waypoints')
-  // const reise = [
-  //   {
-  //     index: 0,
-  //     breitengrad: 54.0259,
-  //     laengengrad: 10.7554
-  //   },
-  //   {
-  //     index: 1,
-  //     breitengrad: 54.3447,
-  //     laengengrad: 10.4559
-  //   },
-  //   {
-  //     index: 2,
-  //     breitengrad: 54.3908,
-  //     laengengrad: 10.3766
-  //   }
-  // ]
-
-  var points = []
-  route.forEach((punkt) => {
-    // console.log('punkt:', punkt)
-    const point = L.latLng(punkt.breitengrad, punkt.laengengrad)
-    points.push(point)
+  var waypoints = []
+  route.forEach((point) => {
+    const waypoint = L.latLng(point.breitengrad, point.laengengrad)
+    waypoints.push(waypoint)
   })
-  console.log(points)
+  console.log(waypoints)
 
   const control = L.Routing.control({
-    waypoints: points,
+    waypoints: waypoints,
     draggableWaypoints: false,
     lineOptions: {
       addWaypoints: false

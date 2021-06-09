@@ -23,7 +23,7 @@
       <!-- SidebarMenuItems -->
       <nav class="mb-3">
         <b-nav vertical>
-          <sidebar-menu-item v-for="(item, index) in menu" :key="index" :item="item"/>
+          <sidebar-menu-item v-for="(item, index) in menu" :key="index" :item="item" :content="item.content"/>
         </b-nav>
       </nav>
       <!-- End SidebarMenuItems -->
@@ -70,7 +70,7 @@ export default {
         {
           title: 'Mein Reisen',
           component: 'parent',
-          items: this.getReisen
+          content: this.getReisen
         }]
     }
   },
