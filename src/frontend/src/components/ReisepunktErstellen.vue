@@ -19,6 +19,7 @@
                   v-model="name"
                   placeholder="Name eingeben"
                   required
+                  maxlength="30"
                 ></b-form-input>
               </b-form-group>
 
@@ -76,6 +77,7 @@
                 v-model="name"
                 placeholder="Name eingeben"
                 required
+                maxlength="30"
               >
               </b-form-input>
             </b-form-group>
@@ -165,6 +167,7 @@
                 v-model="name"
                 placeholder="Name eingeben"
                 required
+                maxlength="30"
               >
               </b-form-input>
             </b-form-group>
