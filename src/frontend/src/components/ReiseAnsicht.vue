@@ -83,7 +83,6 @@ export default {
   bottom: 0;
   width: 50%;
   height: 20%;
-  /*background-color: #000000AA;*/
   border: none;
   color: white;
   padding: 15px 32px;
@@ -99,6 +98,14 @@ export default {
 
 #btnspeichern {
   background-color: #FF9B71;
+}
+
+#btnabbrechen:active {
+  background-color: #6b7776;
+}
+
+#btnspeichern:active {
+  background-color: #ffba71;
 }
 
 .reiseoptionbuttons:hover {

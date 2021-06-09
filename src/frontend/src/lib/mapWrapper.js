@@ -1,5 +1,6 @@
 import L from 'leaflet'
 import { getReisepunkte } from '@/lib/Reisepunkt'
+
 /**
  * This script contains functions to create a leaflet map, as well as loading 'Reisepunkte' as mapmarkers and placing
  * them on the map.
@@ -86,7 +87,7 @@ function setMarker (reisepunkt) {
 
   // Popup erstellen
   var popup = L.popup().setContent(content)
-  var markerTest = L.marker([reisepunkt.laengengrad, reisepunkt.breitengrad]).addTo(map)
+  var markerTest = L.marker([reisepunkt.laengengrad, reisepunkt.breitengrad]).addTo(map) // <- ist kein "test" mehr
 
   markerTest.bindPopup(popup)
 }
