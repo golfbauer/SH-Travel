@@ -18,7 +18,7 @@
       </div>
       <div class="menu-header" v-else>
         <b-button type="button" class="btn btn-orange">Registrieren</b-button>
-        <b-button type="button" class="btn btn-gray">Anmelden</b-button>
+        <!-- b-button type="button" class="btn btn-gray">Anmelden</b-button -->
       </div>
       <!-- SidebarMenuItems -->
       <nav class="mb-3">
