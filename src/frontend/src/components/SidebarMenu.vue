@@ -37,6 +37,7 @@
 
 <script>
 import SidebarMenuItem from '@/components/SidebarMenuItem'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Menu',
@@ -52,39 +53,30 @@ export default {
         img: 'https://api-magazin.single.de/fileman/uploads/Neuer%20Ordner/gutes_profilbild_beispiel_4.jpg',
         typ: 'ExampleNutzer'
       },
-      menu: [
-        {
-          href: '/SHTravel',
-          title: 'Startseite',
-          component: 'item'
-        } /*,
-        {
-          href: '/reisepunkterstellen',
-          title: 'Reisepunkt erstellen',
-          component: 'item'
-        } ,
-        {
-          href: '/reisepunkterstellen',
-          title: 'Reisepunkt erstellen',
-          component: 'parent',
-          child: [
-            {
-              href: '/charts/sublink',
-              title: 'Sub Link',
-              component: 'child'
-            }
-          ]
-        } */
-      ]
+      menu: []
     }
   },
+  computed: {
+    ...mapGetters(['getReisen'])
+  },
   methods: {
-    get: function () {
-      this.$http.get('')
+    loadMenueItems () {
+      this.menu = [
+        {
+          title: 'Startseite',
+          component: 'item',
+          href: '/SHTravel'
+        },
+        {
+          title: 'Mein Reisen',
+          component: 'parent',
+          items: this.getReisen
+        }]
     }
   },
   created () {
     this.$store.dispatch('fetchReisen')
+    this.loadMenueItems()
   }
 }
 </script>

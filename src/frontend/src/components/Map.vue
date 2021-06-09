@@ -30,7 +30,7 @@ export default {
   mounted () {
     createMap(this)
     loadMarker()
-    addRoute(this)
+    // addRoute(this)
   },
   updated () {
     loadMarker()

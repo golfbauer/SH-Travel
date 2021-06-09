@@ -42,48 +42,39 @@ function createMap (mapComponent) {
  *
  * @param mapComponent a reference to the Map.vue components insance ('this' in Map.vue)
  */
-function addRoute (mapComponent) {
+function addRoute (route) {
   /**
    * !!!UNDER CONSTRUCTION!!!
    *
    * remove testing data when api calls are implemented
    * edit variable names according to final object
-   * remove the control window, just show the actual route
    */
-
-  // const reise = mapComponent.$store.getters.getChosenReise()
-  console.log('creating reise route with test data 3 waypoints')
-  const reise = [
-    {
-      index: 0,
-      breitengrad: 54.0259,
-      laengengrad: 10.7554
-    },
-    {
-      index: 1,
-      breitengrad: 54.3447,
-      laengengrad: 10.4559
-    },
-    {
-      index: 2,
-      breitengrad: 54.3908,
-      laengengrad: 10.3766
-    }
-  ]
+  // console.log('creating reise route with test data 3 waypoints')
+  // const reise = [
+  //   {
+  //     index: 0,
+  //     breitengrad: 54.0259,
+  //     laengengrad: 10.7554
+  //   },
+  //   {
+  //     index: 1,
+  //     breitengrad: 54.3447,
+  //     laengengrad: 10.4559
+  //   },
+  //   {
+  //     index: 2,
+  //     breitengrad: 54.3908,
+  //     laengengrad: 10.3766
+  //   }
+  // ]
 
   var points = []
-
-  reise.forEach((punkt) => {
+  route.forEach((punkt) => {
     // console.log('punkt:', punkt)
     const point = L.latLng(punkt.breitengrad, punkt.laengengrad)
     points.push(point)
   })
   console.log(points)
-
-  var plan = L.Routing.plan({
-    waypoints: points,
-    draggableWaypoints: false
-  })
 
   const control = L.Routing.control({
     waypoints: points,
@@ -121,9 +112,7 @@ function setMarker (reisepunkt) {
   beschreibungText.textContent = 'Ich bin ein Sampletext.'
 
   var addButton = L.DomUtil.create('button', 'popupAddButton')
-  var buttonText = L.DomUtil.create('p')
-  buttonText.textContent = 'Hinzufügen'
-  addButton.appendChild(buttonText)
+  addButton.textContent = 'Hinzufügen'
 
   // Zusammenfügen
   content.appendChild(title)

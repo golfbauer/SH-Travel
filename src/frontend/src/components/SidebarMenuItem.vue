@@ -8,7 +8,7 @@
           </div>
         </b-nav-item>
         <div v-if="showChild">
-          <sidebar-menu-item v-for="(subitem, index) in item.child" :key="index" :item="subitem"/>
+          <sidebar-menu-item v-for="(subitem, index) in item.items" :key="index" :item="subitem"/>
         </div>
       </div>
       <b-nav-item :href='item.href' v-else class="bor-bot">
