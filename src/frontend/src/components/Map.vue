@@ -5,17 +5,15 @@
         v-on:updateShow="closePopup($event)"
         v-on:makeToast="makeToast($event)"
       />
-<!--      <PopupButton-->
-<!--        color="white"-->
-<!--        background="darkslateblue"-->
-<!--        disabled="false"-->
-<!--      />-->
+      <ReiseAnsicht
+      />
     </div>
 </template>
 
 <script>
 import { createMap, loadMarker, L, map, addRoute } from '@/lib/mapWrapper'
 import ReisepunktErstellen from '@/components/ReisepunktErstellen'
+import ReiseAnsicht from '@/components/ReiseAnsicht'
 
 export default {
   name: 'Map',
@@ -25,7 +23,8 @@ export default {
     }
   },
   components: {
-    ReisepunktErstellen
+    ReisepunktErstellen,
+    ReiseAnsicht
   },
   mounted () {
     createMap(this)
