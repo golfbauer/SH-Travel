@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { createMap, loadMarker, L, map, addRoute } from '@/lib/mapWrapper'
+import { createMap, loadMarker, L, map } from '@/lib/mapWrapper'
 import ReisepunktErstellen from '@/components/ReisepunktErstellen'
 import ReiseAnsicht from '@/components/ReiseAnsicht'
 
@@ -29,7 +29,6 @@ export default {
   mounted () {
     createMap(this)
     loadMarker()
-    // addRoute(this)
   },
   updated () {
     loadMarker()
