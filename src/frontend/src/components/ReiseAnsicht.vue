@@ -5,36 +5,13 @@
     <button class="reiseoptionbuttons" id="btnspeichern" @click="onSaveClick">Speichern</button>
     <div class="reiseansicht" id="reiseansicht">
       <ul id="reiseliste">
-        <li class="reiseitem"><span class="reiseitemprefix">1</span>List Item One</li>
-        <li class="reiseitem"><span class="reiseitemprefix">2</span>List Item Two</li>
-        <li class="reiseitem"><span class="reiseitemprefix">3</span>List Item Three</li>
-        <li class="reiseitem"><span class="reiseitemprefix">4</span>List Item Four</li>
-        <li class="reiseitem"><span class="reiseitemprefix">5</span>List Item Five</li>
-        <li class="reiseitem"><span class="reiseitemprefix">6</span>List Item Six</li>
-        <li class="reiseitem"><span class="reiseitemprefix">1</span>List Item One</li>
-        <li class="reiseitem"><span class="reiseitemprefix">2</span>List Item Two</li>
-        <li class="reiseitem"><span class="reiseitemprefix">3</span>List Item Three</li>
-        <li class="reiseitem"><span class="reiseitemprefix">4</span>List Item Four</li>
-        <li class="reiseitem"><span class="reiseitemprefix">5</span>List Item Five</li>
-        <li class="reiseitem"><span class="reiseitemprefix">6</span>List Item Six</li>
-        <li class="reiseitem"><span class="reiseitemprefix">1</span>List Item One</li>
-        <li class="reiseitem"><span class="reiseitemprefix">2</span>List Item Two</li>
-        <li class="reiseitem"><span class="reiseitemprefix">3</span>List Item Three</li>
-        <li class="reiseitem"><span class="reiseitemprefix">4</span>List Item Four</li>
-        <li class="reiseitem"><span class="reiseitemprefix">5</span>List Item Five</li>
-        <li class="reiseitem"><span class="reiseitemprefix">6</span>List Item Six</li>
-        <li class="reiseitem"><span class="reiseitemprefix">1</span>List Item One</li>
-        <li class="reiseitem"><span class="reiseitemprefix">2</span>List Item Two</li>
-        <li class="reiseitem"><span class="reiseitemprefix">3</span>List Item Three</li>
-        <li class="reiseitem"><span class="reiseitemprefix">4</span>List Item Four</li>
-        <li class="reiseitem"><span class="reiseitemprefix">5</span>List Item Five</li>
-        <li class="reiseitem"><span class="reiseitemprefix">6</span>List Item Six</li>
-        <li class="reiseitem"><span class="reiseitemprefix">1</span>List Item One</li>
-        <li class="reiseitem"><span class="reiseitemprefix">2</span>List Item Two</li>
-        <li class="reiseitem"><span class="reiseitemprefix">3</span>List Item Three</li>
-        <li class="reiseitem"><span class="reiseitemprefix">4</span>List Item Four</li>
-        <li class="reiseitem"><span class="reiseitemprefix">5</span>List Item Five</li>
-        <li class="reiseitem"><span class="reiseitemprefix">6</span>List Item Six</li>
+        <li class="reiseitem"><span class="reiseitembutton">1</span>List Item One</li>
+
+        <li class="reiseitem" v-for="markeritem in markeritems" v-bind:key="markeritem">
+          {{ markeritem }}
+          <button class="reiseitembutton" @click="onDeleteClick">-</button>
+        </li>
+
       </ul>
     </div>
   </div>
@@ -48,7 +25,8 @@ export default {
   data () {
     return {
       isHovered: false,
-      reisename: 'Unbekannte Reise'
+      reisename: 'Unbekannte Reise',
+      markeritems: ['das eine reise', 'diese zwei reisen', 'mein vier okok', 'meeeeeeeeeehr', 'viel meeeeeeeehr']
     }
   },
   methods: {
@@ -63,6 +41,12 @@ export default {
     },
     onCancelClick () {
       console.log('Änderungen nicht übernommen.')
+    },
+    onDeleteClick () {
+      console.log('Marker aus Reiseliste entfernen')
+    },
+    addMarkerToReiseAnsicht (newMarker) {
+      this.markeritems.push(newMarker)
     }
   }
 }
@@ -149,6 +133,7 @@ export default {
   transition: transform .5s;
   color: white;
   text-align: left;
+  font-size: 16px;
 }
 
 #reiseliste:hover reiseitem {
@@ -165,7 +150,7 @@ export default {
   font-weight: bold;
 }
 
-.reiseitemprefix {
+.reiseitembutton {
   width: 20px;
   height: 20px;
   text-align: center;
@@ -175,14 +160,18 @@ export default {
   display: inline-block;
   border-radius: 50%;
   margin-right: 10px;
-  font-size: 12px;
+  font-size: 22px;
   font-weight: 600;
   transform: translateY(-2px);
-  float: left;
+  float: right;
+  border: none;
+  text-decoration: none;
+  display: inline-block;
 }
 
-.reiseitem:hover reiseitemprefix {
+.reiseitembutton:hover {
+  transform: scale(1.1);
   background: #fff;
-  color: #FF9B71;
+  color: #ff9b71;
 }
 </style>
