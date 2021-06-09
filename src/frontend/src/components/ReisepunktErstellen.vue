@@ -265,6 +265,8 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { toggleDragging } from '@/lib/mapWrapper'
+
 export default {
   name: 'ReisepunktErstellen',
   data () {
@@ -339,10 +341,14 @@ export default {
             console.error(error)
           })
       }
+
+      toggleDragging(true)
     },
     onReset (event) {
       event.preventDefault()
       this.disableThisShow()
+
+      toggleDragging(true)
     },
     makeToast (variant = null, title = null, body = null) {
       this.$emit('makeToast', [variant, title, body])
