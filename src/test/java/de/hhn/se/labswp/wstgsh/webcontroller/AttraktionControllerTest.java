@@ -65,9 +65,10 @@ class AttraktionControllerTest {
   @Test
   void canAddNewAttraktion() {
     //given
-    List<AttraktionOeffnungszeit> set = new ArrayList<>();
-    Attraktion attraktion = new Attraktion(9999L, 45.6F, 45.6F,
-            "test@web.de", "Eine Attraktion", "Dies ist ein test", set);
+    Attraktion attraktion = new Attraktion(45.6F, 45.6F,
+            "test@web.de", "Eine Attraktion", "Dies ist ein test");
+    attraktion.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
+            "Samstag", attraktion));
     //when
     underTest.newAttraktion(attraktion);
     //then
@@ -80,33 +81,49 @@ class AttraktionControllerTest {
   }
 
   @Test
-  void canEditaAttraktion() {
+  void canAddNewOeffnungszeitToAttraktion() {
     //given
-    long id = 9;
-    List<AttraktionOeffnungszeit> set = new ArrayList<>();
-    Attraktion attraktion = new Attraktion(9L, 45.6F, 45.6F,
-            "test@web.de", "Ein Punkt", "Dies ist ein test", set);
+    Long id = 10L;
+    String oeffnungszeit = "Sonntag: 18 bis 19";
+    Attraktion attraktion = new Attraktion(45.6F, 45.6F,
+            "test@web.de", "Eine Attraktion", "Dies ist ein test");
+
+    given(attraktionRepository.findById(id)).willReturn(Optional.of(attraktion));
+    given(attraktionRepository.save(attraktion)).willReturn(attraktion);
     //when
-    underTest.replaceAttraktion(attraktion, id);
+    underTest.addOeffnungszeit(oeffnungszeit, id);
     //then
-    verify(attraktionRepository).deleteById(id);
-    verify(attraktionRepository).save(attraktion);
+    ArgumentCaptor<Attraktion> attraktionArgumentCaptor = ArgumentCaptor.forClass(Attraktion.class);
+    verify(attraktionRepository).save(attraktionArgumentCaptor.capture());
+
+    Attraktion attraktionCaptured = attraktionArgumentCaptor.getValue();
+    attraktion.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(oeffnungszeit,
+            attraktion));
+    assertThat(attraktionCaptured).isEqualTo(attraktion);
   }
 
   @Test
-  void willThrowExceptionCauseOfId() {
+  void canEditaAttraktion() {
     //given
-    long id = 9;
-    List<AttraktionOeffnungszeit> set = new ArrayList<>();
-    Attraktion attraktion = new Attraktion(10L, 45.6F, 45.6F,
-            "test@web.de", "Ein Punkt", "Dies ist ein test", set);
-    //when //then
-    assertThatThrownBy(() -> underTest.replaceAttraktion(attraktion, id))
-            .isInstanceOf(IllegalStateException.class)
-            .hasMessageContaining("New Attraktion must have same id as old one");
+    Long id = 10L;
+    Attraktion attraktion = new Attraktion(45.6F, 45.6F,
+            "test@web.de", "Eine Attraktion", "Dies ist ein test");
+    Attraktion newAttraktion = new Attraktion(45.6F, 45.6F,
+            "test@web.de", "Replaced",
+            "Dies ist ein test der ersetzt wurde");
 
-    verify(attraktionRepository, never()).deleteById(any());
-    verify(attraktionRepository, never()).save(any());
+    given(attraktionRepository.findById(id)).willReturn(Optional.of(attraktion));
+    given(attraktionRepository.save(attraktion)).willReturn(attraktion);
+    //when
+    underTest.replaceAttraktion(newAttraktion, id);
+    //then
+    ArgumentCaptor<Attraktion> attraktionArgumentCaptor = ArgumentCaptor.forClass(Attraktion.class);
+    verify(attraktionRepository).save(attraktionArgumentCaptor.capture());
+
+    Attraktion attraktionCaptured = attraktionArgumentCaptor.getValue();
+    attraktion.setName("Replaced");
+    attraktion.setBeschreibung("Dies ist ein test der ersetzt wurde");
+    assertThat(attraktionCaptured).isEqualTo(attraktion);
   }
 
   @Test
