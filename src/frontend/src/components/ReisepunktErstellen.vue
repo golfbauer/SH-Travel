@@ -198,7 +198,7 @@
                   required
                 ></b-form-input>
               </b-form-group>
-
+            <!-- Öffnungszeiten -->
             <b-form-group
               label-align="left"
               id="input-group-4"
@@ -206,15 +206,90 @@
               label-for="input-4"
               description="z.B. Montag 10:00 - 15:30, Mittwoch 9:00 - 14:00, Freitag 9:00 - 12:00"
             >
-              <b-form-textarea
-                id="input-4"
-                v-model="oeffnungszeiten"
-                placeholder="Trenne die Wochentage mit einem Komma"
-                required
-                rows="2"
-                max-rows="6"
-              >
-              </b-form-textarea>
+              <b-input-group>
+                <label class="oeffnungszeitlabel">Montag</label>
+                <b-input class="inpvonzeit" v-model="mo_von"></b-input>
+                <label class="bislabel" >bis</label>
+                <b-input class="inpbiszeit" v-model="mo_bis"></b-input>
+
+                <b-checkbox-group>
+                  <label class="ganztaegiglabel">Ganztägig</label>
+                  <b-checkbox class="cbganztaegig" v-model="mo_ganztaegig"></b-checkbox>
+                </b-checkbox-group>
+              </b-input-group>
+
+              <b-input-group>
+                <label class="oeffnungszeitlabel">Dienstag</label>
+                <b-input class="inpvonzeit" v-model="di_von"></b-input>
+                <label class="bislabel">bis</label>
+                <b-input class="inpbiszeit" v-model="di_bis"></b-input>
+
+                <b-checkbox-group>
+                  <label class="ganztaegiglabel">Ganztägig</label>
+                  <b-checkbox class="cbganztaegig" v-model="di_ganztaegig"></b-checkbox>
+                </b-checkbox-group>
+              </b-input-group>
+
+              <b-input-group>
+                <label class="oeffnungszeitlabel">Mittwoch</label>
+                <b-input class="inpvonzeit" v-model="mi_von"></b-input>
+                <label class="bislabel">bis</label>
+                <b-input class="inpbiszeit" v-model="mi_bis"></b-input>
+
+                <b-checkbox-group>
+                  <label class="ganztaegiglabel">Ganztägig</label>
+                  <b-checkbox class="cbganztaegig" v-model="mi_ganztaegig"></b-checkbox>
+                </b-checkbox-group>
+              </b-input-group>
+
+              <b-input-group>
+                <label class="oeffnungszeitlabel">Donnerstag</label>
+                <b-input class="inpvonzeit" v-model="do_von"></b-input>
+                <label class="bislabel">bis</label>
+                <b-input class="inpbiszeit" v-model="do_bis"></b-input>
+
+                <b-checkbox-group>
+                  <label class="ganztaegiglabel">Ganztägig</label>
+                  <b-checkbox class="cbganztaegig" v-model="do_ganztaegig"></b-checkbox>
+                </b-checkbox-group>
+              </b-input-group>
+
+              <b-input-group>
+                <label class="oeffnungszeitlabel">Freitag</label>
+                <b-input class="inpvonzeit" v-model="fr_von"></b-input>
+                <label class="bislabel">bis</label>
+                <b-input class="inpbiszeit" v-model="fr_bis"></b-input>
+
+                <b-checkbox-group>
+                  <label class="ganztaegiglabel">Ganztägig</label>
+                  <b-checkbox class="cbganztaegig" v-model="fr_ganztaegig"></b-checkbox>
+                </b-checkbox-group>
+              </b-input-group>
+
+              <b-input-group>
+                <label class="oeffnungszeitlabel">Samstag</label>
+                <b-input class="inpvonzeit" v-model="sa_von"></b-input>
+                <label class="bislabel">bis</label>
+                <b-input class="inpbiszeit" v-model="sa_bis"></b-input>
+
+                <b-checkbox-group>
+                  <label class="ganztaegiglabel">Ganztägig</label>
+                  <b-checkbox class="cbganztaegig" v-model="sa_ganztaegig"></b-checkbox>
+                </b-checkbox-group>
+              </b-input-group>
+
+              <b-input-group>
+                <label class="oeffnungszeitlabel">Sonntag</label>
+                <b-input class="inpvonzeit" v-model="so_von"></b-input>
+                <label class="bislabel">bis</label>
+                <b-input class="inpbiszeit" v-model="so_bis"></b-input>
+
+                <b-checkbox-group>
+                  <label class="ganztaegiglabel">Ganztägig</label>
+                  <b-checkbox class="cbganztaegig" v-model="so_ganztaegig"></b-checkbox>
+                </b-checkbox-group>
+              </b-input-group>
+
             </b-form-group>
             <b-form-group
               label-align="left"
@@ -275,7 +350,27 @@ export default {
       nutzerEmail: '',
       name: '',
       beschreibung: '',
-      oeffnungszeiten: '',
+      mo_von: '',
+      mo_bis: '',
+      di_von: '',
+      di_bis: '',
+      mi_von: '',
+      mi_bis: '',
+      do_von: '',
+      do_bis: '',
+      fr_von: '',
+      fr_bis: '',
+      sa_von: '',
+      sa_bis: '',
+      so_von: '',
+      so_bis: '',
+      mo_ganztaegig: false,
+      di_ganztaegig: false,
+      mi_ganztaegig: false,
+      do_ganztaegig: false,
+      fr_ganztaegig: false,
+      sa_ganztaegig: false,
+      so_ganztaegig: false,
       bilder: [],
       laengengrad: '',
       breitengrad: ''
@@ -327,7 +422,27 @@ export default {
           breitengrad: this.breitengrad,
           nutzerEmail: this.nutzerEmail,
           name: this.name,
-          attraktionOeffnungszeiten: this.splitOeffungszeiten(),
+          mo_von: this.formatOeffnungszeit(this.mo_von),
+          mo_bis: this.formatOeffnungszeit(this.mo_bis),
+          di_von: this.formatOeffnungszeit(this.di_von),
+          di_bis: this.formatOeffnungszeit(this.di_bis),
+          mi_von: this.formatOeffnungszeit(this.mi_von),
+          mi_bis: this.formatOeffnungszeit(this.mi_bis),
+          do_von: this.formatOeffnungszeit(this.do_von),
+          do_bis: this.formatOeffnungszeit(this.do_bis),
+          fr_von: this.formatOeffnungszeit(this.fr_von),
+          fr_bis: this.formatOeffnungszeit(this.fr_bis),
+          sa_von: this.formatOeffnungszeit(this.sa_von),
+          sa_bis: this.formatOeffnungszeit(this.sa_bis),
+          so_von: this.formatOeffnungszeit(this.so_von),
+          so_bis: this.formatOeffnungszeit(this.so_bis),
+          mo_ganztaegig: this.mo_ganztaegig,
+          di_ganztaegig: this.di_ganztaegig,
+          mi_ganztaegig: this.mi_ganztaegig,
+          do_ganztaegig: this.do_ganztaegig,
+          fr_ganztaegig: this.fr_ganztaegig,
+          sa_ganztaegig: this.sa_ganztaegig,
+          so_ganztaegig: this.so_ganztaegig,
           beschreibung: this.beschreibung,
           bilder: this.bilder
         })
@@ -356,13 +471,14 @@ export default {
     disableThisShow: function () {
       this.$emit('updateShow', 'false')
     },
-    splitOeffungszeiten () {
-      const attraktionOeffnungszeiten = []
-      var oeffnungszeitenArray = this.oeffnungszeiten.split(',')
-      for (let i = 0; i < oeffnungszeitenArray.length; i++) {
-        attraktionOeffnungszeiten.push({ oeffnungszeit: oeffnungszeitenArray[i].trim() })
-      }
-      return attraktionOeffnungszeiten
+    formatOeffnungszeit (inputZeit) {
+      var time = new Date()
+      time.setHours(inputZeit.split(':')[0])
+      time.setMinutes(inputZeit.split(':')[1])
+
+      var ret = time.toLocaleTimeString('it-IT') // 01:50:10
+      ret = ret.substring(0, ret.length - 3)
+      return ret
     }
   },
   created () {
@@ -404,5 +520,52 @@ $orange: orange;
 
 .right{
   float: right;
+}
+
+.oeffnungszeitlabel {
+  font-size: 16px;
+  transform: translateY(+5px);
+  display: inline-block;
+  width: 100px;
+  text-align: right;
+  padding-right: 10px;
+  padding-bottom: 10px;
+}
+
+.bislabel {
+  font-size: 16px;
+  transform: translateY(+5px);
+  display: inline-block;
+  width: 50px;
+  text-align: center;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+.inpbiszeit {
+  max-width: 250px;
+  min-width: 100px;
+  align-self: flex-end;
+}
+
+.inpvonzeit {
+  max-width: 250px;
+  min-width: 100px;
+  align-self: flex-start;
+}
+
+.ganztaegiglabel {
+  font-size: 16px;
+  transform: translateY(+5px);
+  display: inline-block;
+  width: 100px;
+  text-align: center;
+  padding-right: 5px;
+  padding-left: 10px;
+}
+
+.cbganztaegig {
+  size: auto;
+  transform: translateY(+11px);
 }
 </style>
