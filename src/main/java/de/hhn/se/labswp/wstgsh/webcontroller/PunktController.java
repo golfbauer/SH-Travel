@@ -47,6 +47,9 @@ public class PunktController {
    */
   @PostMapping(path = "/punkt")
   Punkt newPunkt(@RequestBody Punkt newPunkt) {
+    if (newPunkt.getName().length() > 30) {
+      throw new IllegalStateException("Name des Punktes ist zu lang.");
+    }
     return repository.save(newPunkt);
   }
 
