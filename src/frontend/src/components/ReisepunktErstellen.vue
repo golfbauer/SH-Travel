@@ -208,9 +208,9 @@
             >
               <b-input-group>
                 <label class="oeffnungszeitlabel">Montag</label>
-                <b-input class="inpvonzeit" v-model="mo_von"></b-input>
+                <b-input class="inpvonzeit" v-model="mo_von" :disabled="mo_ganztaegig"></b-input>
                 <label class="bislabel" >bis</label>
-                <b-input class="inpbiszeit" v-model="mo_bis"></b-input>
+                <b-input class="inpbiszeit" v-model="mo_bis" :disabled="mo_ganztaegig"></b-input>
 
                 <b-checkbox-group>
                   <label class="ganztaegiglabel">Ganztägig</label>
@@ -220,9 +220,9 @@
 
               <b-input-group>
                 <label class="oeffnungszeitlabel">Dienstag</label>
-                <b-input class="inpvonzeit" v-model="di_von"></b-input>
+                <b-input class="inpvonzeit" v-model="di_von" :disabled="di_ganztaegig"></b-input>
                 <label class="bislabel">bis</label>
-                <b-input class="inpbiszeit" v-model="di_bis"></b-input>
+                <b-input class="inpbiszeit" v-model="di_bis" :disabled="di_ganztaegig"></b-input>
 
                 <b-checkbox-group>
                   <label class="ganztaegiglabel">Ganztägig</label>
@@ -232,9 +232,9 @@
 
               <b-input-group>
                 <label class="oeffnungszeitlabel">Mittwoch</label>
-                <b-input class="inpvonzeit" v-model="mi_von"></b-input>
+                <b-input class="inpvonzeit" v-model="mi_von" :disabled="mi_ganztaegig"></b-input>
                 <label class="bislabel">bis</label>
-                <b-input class="inpbiszeit" v-model="mi_bis"></b-input>
+                <b-input class="inpbiszeit" v-model="mi_bis" :disabled="mi_ganztaegig"></b-input>
 
                 <b-checkbox-group>
                   <label class="ganztaegiglabel">Ganztägig</label>
@@ -244,9 +244,9 @@
 
               <b-input-group>
                 <label class="oeffnungszeitlabel">Donnerstag</label>
-                <b-input class="inpvonzeit" v-model="do_von"></b-input>
+                <b-input class="inpvonzeit" v-model="do_von" :disabled="do_ganztaegig"></b-input>
                 <label class="bislabel">bis</label>
-                <b-input class="inpbiszeit" v-model="do_bis"></b-input>
+                <b-input class="inpbiszeit" v-model="do_bis" :disabled="do_ganztaegig"></b-input>
 
                 <b-checkbox-group>
                   <label class="ganztaegiglabel">Ganztägig</label>
@@ -256,9 +256,9 @@
 
               <b-input-group>
                 <label class="oeffnungszeitlabel">Freitag</label>
-                <b-input class="inpvonzeit" v-model="fr_von"></b-input>
+                <b-input class="inpvonzeit" v-model="fr_von" :disabled="fr_ganztaegig"></b-input>
                 <label class="bislabel">bis</label>
-                <b-input class="inpbiszeit" v-model="fr_bis"></b-input>
+                <b-input class="inpbiszeit" v-model="fr_bis" :disabled="fr_ganztaegig"></b-input>
 
                 <b-checkbox-group>
                   <label class="ganztaegiglabel">Ganztägig</label>
@@ -268,9 +268,9 @@
 
               <b-input-group>
                 <label class="oeffnungszeitlabel">Samstag</label>
-                <b-input class="inpvonzeit" v-model="sa_von"></b-input>
+                <b-input class="inpvonzeit" v-model="sa_von" :disabled="sa_ganztaegig"></b-input>
                 <label class="bislabel">bis</label>
-                <b-input class="inpbiszeit" v-model="sa_bis"></b-input>
+                <b-input class="inpbiszeit" v-model="sa_bis" :disabled="sa_ganztaegig"></b-input>
 
                 <b-checkbox-group>
                   <label class="ganztaegiglabel">Ganztägig</label>
@@ -280,9 +280,9 @@
 
               <b-input-group>
                 <label class="oeffnungszeitlabel">Sonntag</label>
-                <b-input class="inpvonzeit" v-model="so_von"></b-input>
+                <b-input class="inpvonzeit" v-model="so_von" :disabled="so_ganztaegig"></b-input>
                 <label class="bislabel">bis</label>
-                <b-input class="inpbiszeit" v-model="so_bis"></b-input>
+                <b-input class="inpbiszeit" v-model="so_bis" :disabled="so_ganztaegig"></b-input>
 
                 <b-checkbox-group>
                   <label class="ganztaegiglabel">Ganztägig</label>
@@ -432,50 +432,50 @@ export default {
           attraktionOeffnungszeiten: [
             {
               tagDerWoche: 'MONDAY',
-              oeffnetUm: this.mo_von,
-              schliestUm: this.mo_bis,
+              oeffnetUm: this.clearIfGanztaegig(this.mo_ganztaegig, this.mo_von),
+              schliestUm: this.clearIfGanztaegig(this.mo_ganztaegig, this.mo_bis),
               ganztaegig: this.mo_ganztaegig[0],
               geschlossen: this.checkIfGeschlossen(this.mo_ganztaegig, this.mo_von, this.mo_bis)
             },
             {
               tagDerWoche: 'TUESDAY',
-              oeffnetUm: this.di_von,
-              schliestUm: this.di_bis,
+              oeffnetUm: this.clearIfGanztaegig(this.di_ganztaegig, this.di_von),
+              schliestUm: this.clearIfGanztaegig(this.di_ganztaegig, this.di_bis),
               ganztaegig: this.di_ganztaegig[0],
               geschlossen: this.checkIfGeschlossen(this.di_ganztaegig, this.di_von, this.di_bis)
             },
             {
               tagDerWoche: 'WEDNESDAY',
-              oeffnetUm: this.mi_von,
-              schliestUm: this.mi_bis,
+              oeffnetUm: this.clearIfGanztaegig(this.mi_ganztaegig, this.mi_von),
+              schliestUm: this.clearIfGanztaegig(this.mi_ganztaegig, this.mi_bis),
               ganztaegig: this.mi_ganztaegig[0],
               geschlossen: this.checkIfGeschlossen(this.mi_ganztaegig, this.mi_von, this.mi_bis)
             },
             {
               tagDerWoche: 'THURSDAY',
-              oeffnetUm: this.do_von,
-              schliestUm: this.do_bis,
+              oeffnetUm: this.clearIfGanztaegig(this.do_ganztaegig, this.do_von),
+              schliestUm: this.clearIfGanztaegig(this.do_ganztaegig, this.do_bis),
               ganztaegig: this.do_ganztaegig[0],
               geschlossen: this.checkIfGeschlossen(this.do_ganztaegig, this.do_von, this.do_bis)
             },
             {
               tagDerWoche: 'FRIDAY',
-              oeffnetUm: this.fr_von,
-              schliestUm: this.fr_bis,
+              oeffnetUm: this.clearIfGanztaegig(this.fr_ganztaegig, this.fr_von),
+              schliestUm: this.clearIfGanztaegig(this.fr_ganztaegig, this.fr_bis),
               ganztaegig: this.fr_ganztaegig[0],
               geschlossen: this.checkIfGeschlossen(this.fr_ganztaegig, this.fr_von, this.fr_bis)
             },
             {
               tagDerWoche: 'SATURDAY',
-              oeffnetUm: this.sa_von,
-              schliestUm: this.sa_bis,
+              oeffnetUm: this.clearIfGanztaegig(this.sa_ganztaegig, this.sa_von),
+              schliestUm: this.clearIfGanztaegig(this.sa_ganztaegig, this.sa_bis),
               ganztaegig: this.sa_ganztaegig[0],
               geschlossen: this.checkIfGeschlossen(this.sa_ganztaegig, this.sa_von, this.sa_bis)
             },
             {
               tagDerWoche: 'SUNDAY',
-              oeffnetUm: this.so_von,
-              schliestUm: this.so_bis,
+              oeffnetUm: this.clearIfGanztaegig(this.so_ganztaegig, this.so_von),
+              schliestUm: this.clearIfGanztaegig(this.so_ganztaegig, this.so_bis),
               ganztaegig: this.so_ganztaegig[0],
               geschlossen: this.checkIfGeschlossen(this.so_ganztaegig, this.so_von, this.so_bis)
             }
@@ -508,17 +508,23 @@ export default {
     disableThisShow: function () {
       this.$emit('updateShow', 'false')
     },
-    formatOeffnungszeit (inputZeit) {
+    formatOeffnungszeit (inputZeit) { // ToDo entfernen?
+      // ToDo: Ist Leer/Null Check
+
       var time = new Date()
       time.setHours(inputZeit.split(':')[0])
       time.setMinutes(inputZeit.split(':')[1])
 
       var ret = time.toLocaleTimeString('it-IT') // 01:50:10
       ret = ret.substring(0, ret.length - 3)
+      console.log(ret)
       return ret
     },
     checkIfGeschlossen (ganztaegig, von, bis) {
       return !ganztaegig && von === '' && bis === ''
+    },
+    clearIfGanztaegig (ganztaegig, zeit) {
+      return ganztaegig === true ? null : zeit
     }
   },
   created () {
