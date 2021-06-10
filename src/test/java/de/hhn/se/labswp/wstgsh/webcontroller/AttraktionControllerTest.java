@@ -2,15 +2,15 @@ package de.hhn.se.labswp.wstgsh.webcontroller;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 import de.hhn.se.labswp.wstgsh.webapi.models.Attraktion;
 import de.hhn.se.labswp.wstgsh.webapi.models.AttraktionOeffnungszeit;
 import de.hhn.se.labswp.wstgsh.webapi.models.AttraktionRepository;
 
+import java.time.DayOfWeek;
+import java.time.LocalTime;
 import java.util.*;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -59,16 +59,38 @@ class AttraktionControllerTest {
     //then
     assertThatThrownBy(() -> underTest.one(id))
             .isInstanceOf(IllegalStateException.class)
-            .hasMessageContaining("Id not found");
+            .hasMessageContaining("Id nicht gefunden");
   }
 
   @Test
-  void canAddNewAttraktion() {
+  void canAddNewAttraktionWithTime() {
     //given
     Attraktion attraktion = new Attraktion(45.6F, 45.6F,
             "test@web.de", "Eine Attraktion", "Dies ist ein test");
+    DayOfWeek dayOfWeek = DayOfWeek.of(5);
     attraktion.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-            "Samstag", attraktion));
+            dayOfWeek, LocalTime.of(8, 0), LocalTime.of(19, 0), attraktion
+    ));
+    //when
+    underTest.newAttraktion(attraktion);
+    //then
+    ArgumentCaptor<Attraktion> attraktionArgumentCaptor = ArgumentCaptor.forClass(Attraktion.class);
+    verify(attraktionRepository).save(attraktionArgumentCaptor.capture());
+
+    Attraktion attraktionCaptured = attraktionArgumentCaptor.getValue();
+
+    assertThat(attraktionCaptured).isEqualTo(attraktion);
+  }
+
+  @Test
+  void canAddNewAttraktionWithGanztaegig() {
+    //given
+    Attraktion attraktion = new Attraktion(45.6F, 45.6F,
+            "test@web.de", "Eine Attraktion", "Dies ist ein test");
+    DayOfWeek dayOfWeek = DayOfWeek.of(5);
+    attraktion.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
+            dayOfWeek, true, attraktion
+    ));
     //when
     underTest.newAttraktion(attraktion);
     //then
@@ -84,9 +106,12 @@ class AttraktionControllerTest {
   void canAddNewOeffnungszeitToAttraktion() {
     //given
     Long id = 10L;
-    String oeffnungszeit = "Sonntag: 18 bis 19";
     Attraktion attraktion = new Attraktion(45.6F, 45.6F,
             "test@web.de", "Eine Attraktion", "Dies ist ein test");
+    AttraktionOeffnungszeit oeffnungszeit = new AttraktionOeffnungszeit(
+            DayOfWeek.of(5), LocalTime.of(8, 0), LocalTime.of(19, 0),
+            attraktion
+    );
 
     given(attraktionRepository.findById(id)).willReturn(Optional.of(attraktion));
     given(attraktionRepository.save(attraktion)).willReturn(attraktion);
@@ -97,8 +122,7 @@ class AttraktionControllerTest {
     verify(attraktionRepository).save(attraktionArgumentCaptor.capture());
 
     Attraktion attraktionCaptured = attraktionArgumentCaptor.getValue();
-    attraktion.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(oeffnungszeit,
-            attraktion));
+    attraktion.getAttraktionOeffnungszeiten().add(oeffnungszeit);
     assertThat(attraktionCaptured).isEqualTo(attraktion);
   }
 
