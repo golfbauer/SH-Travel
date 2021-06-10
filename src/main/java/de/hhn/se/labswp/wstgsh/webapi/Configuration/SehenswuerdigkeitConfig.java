@@ -50,10 +50,7 @@ public class SehenswuerdigkeitConfig {
               568L, 8.498268127441408f, 54.71708518710868f,
               "Dennis@gmx.de", "Kaserne Nord Eckernförde",
               "Die militärische Tradition reicht bis 1912 zurück, als Eckernförde "
-                      + "erstmalig Garnisonsstadt und Marinestützpunkt wurde. Auch zukünftig wird "
-                      + "mit dem 1.Ubootgeschwader, Seebataillion, Kommando Spezialkräfte der "
-                      + "Marine und weiteren Dienststellen die Marine in Eckernförde beheimatet "
-                      + " sein."
+                      + "erstmalig Garnisonsstadt und Marinestützpunkt wurde. "
       );
       Sehenswuerdigkeit halligenInsel = new Sehenswuerdigkeit(
               568L, 8.6011334579367f, 54.63848717848078f,
@@ -65,9 +62,7 @@ public class SehenswuerdigkeitConfig {
               568L, 10.09471893310547f, 53.934161372242194f,
               "Brian@gmx.de", "Segeberger Staatsforst",
               "Der Segeberger Staatsforst – früher Segeberger Heide – liegt im Kreis "
-                      + "Segeberg, hat eine Fläche von über 4.000 ha und ist damit hinter dem "
-                      + "Sachsenwald das zweitgrößte zusammenhängende Waldgebiet in "
-                      + "Schleswig-Holstein."
+                      + "Segeberg, hat eine Fläche von über 4.000."
       );
       Sehenswuerdigkeit kuechensee = new Sehenswuerdigkeit(
               568L, 10.761795043945312f, 53.68989646326055f,
@@ -86,16 +81,33 @@ public class SehenswuerdigkeitConfig {
               568L, 9.968032836914064f, 54.765691084839936f,
               "Henri@gmx.de", "Gettinger Bucht",
               "Die Geltinger Bucht ist eine Bucht der Ostsee an der nordöstlichen Küste "
-                      + "von der Region Angeln am Ausgang der Flensburger Förde bei Gelting. Somit "
-                      + "erstreckt sich die Bucht von Habernis im Nordwesten über das südlich "
-                      + "gelegene Wackerballig zum östlich gelegenen Naturschutzgebiet Geltinger "
-                      + "Birk."
+                      + "von der Region Angeln am Ausgang der Flensburger Förde bei Gelting. "
       );
       Sehenswuerdigkeit leuchtturm = new Sehenswuerdigkeit(
               568L, 11.017671854493297f, 54.44096335508482f,
               "Henri@gmx.de", "Leuchtturm Fluegge",
               "Der Leuchtturm Flügge steht im Südwesten der Insel Fehmarn, "
                       + "wenige Kilometer westlich der Fehmarnsundbrücke."
+      );
+      Sehenswuerdigkeit tauchen = new Sehenswuerdigkeit(
+              568L, 10.750465393066408f, 54.03842534637411f,
+              "Henri@gmx.de", "Tauchenostsee - das TAUCH-SPORT-ZENTRUM",
+              "Schnuppertauchkurse Pool/Pool & Ostsee\n" +
+                      "Schnorchelfreitauchen in der Ostsee\n" +
+                      "Wrack-Boots-Tauchen\n" +
+                      "Set-Betreuung und Filmtaucher\n" +
+                      "Ausbildung"
+      );
+      Sehenswuerdigkeit duene = new Sehenswuerdigkeit(
+              568L, 8.330898284912111f, 54.95692001100586f,
+              "Henri@gmx.de", "Uwe-Düne",
+              "Die höchste Erhebung der Insel Sylt, schöner Aussichtspunkt.\n" +
+                      "Auf bequemen 115 Stufen gelangt man auf den mit 52.5 m höchsten Aussichtspunkt der Insel. An klaren Tagen hat man einen Rundblick über ganz Sylt und bis Amrum, Föhr und Dänemark."
+      );
+      Sehenswuerdigkeit fusgaenger = new Sehenswuerdigkeit(
+              568L, 8.30171585083008f, 54.90829727896416f,
+              "Henri@gmx.de", "Fußgängerzone Friedrichstraße",
+              "Verblüffende Dichte von Designer-Läden und elegant sortierten Modegeschäften"
       );
       list.add(foehr);
       list.add(schiesgebiet);
@@ -107,6 +119,9 @@ public class SehenswuerdigkeitConfig {
       list.add(travenmunderStrand);
       list.add(bucht);
       list.add(leuchtturm);
+      list.add(tauchen);
+      list.add(duene);
+      list.add(fusgaenger);
       sehenswuerdigkeitRepository.saveAll(list);*/
     };
   }

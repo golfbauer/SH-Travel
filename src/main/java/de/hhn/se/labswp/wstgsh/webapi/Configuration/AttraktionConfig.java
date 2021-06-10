@@ -32,7 +32,7 @@ public class AttraktionConfig {
                                                 AttraktionOeffnungszeitRepository
                                                         attraktionOeffnungszeitRepository) {
     return args -> {
-      List<Attraktion> list = new ArrayList<>();
+      /*List<Attraktion> list = new ArrayList<>();
 
       Attraktion one = new Attraktion(
               10.67966025840837f, 53.8662401645461f, "brian.didTheJob@gmx.de", "Museum Holstentor",
@@ -41,25 +41,25 @@ public class AttraktionConfig {
                       + "bei einer Modernisierung der Befestigungsanlagen an der Traveseite erbaut."
       );
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(1), LocalTime.of(11, 0), LocalTime.of(17, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(2), LocalTime.of(11, 0), LocalTime.of(17, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(3), LocalTime.of(11, 0), LocalTime.of(17, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(4), LocalTime.of(11, 0), LocalTime.of(17, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(5), LocalTime.of(11, 0), LocalTime.of(17, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(6), LocalTime.of(11, 0), LocalTime.of(17, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(7), LocalTime.of(11, 0), LocalTime.of(17, 0), one
       ));
       list.add(one);
       Attraktion two = new Attraktion(
@@ -70,25 +70,25 @@ public class AttraktionConfig {
               + "Traveseite erbaut."
       );
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(1), LocalTime.of(9, 30), LocalTime.of(18, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(2), LocalTime.of(9, 30), LocalTime.of(18, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(3), LocalTime.of(9, 30), LocalTime.of(18, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(4), LocalTime.of(9, 30), LocalTime.of(18, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(5), LocalTime.of(9, 30), LocalTime.of(18, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(6), LocalTime.of(9, 30), LocalTime.of(18, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(7), LocalTime.of(9, 30), LocalTime.of(18, 0), one
       ));
       list.add(two);
       Attraktion three = new Attraktion(
@@ -97,25 +97,25 @@ public class AttraktionConfig {
               + "Informationszentrum für den Nationalpark Schleswig-Holsteinisches Wattenmeer."
       );
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(1), LocalTime.of(10, 0), LocalTime.of(17, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(2), LocalTime.of(10, 0), LocalTime.of(17, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(3), LocalTime.of(10, 0), LocalTime.of(17, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(4), LocalTime.of(10, 0), LocalTime.of(17, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(5), LocalTime.of(10, 0), LocalTime.of(17, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(6), LocalTime.of(10, 0), LocalTime.of(17, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(7), LocalTime.of(10, 0), LocalTime.of(17, 0), one
       ));
       list.add(three);
       Attraktion four = new Attraktion(
@@ -126,25 +126,25 @@ public class AttraktionConfig {
                       + "Schleswig-Holsteins."
       );
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(1), false, one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(2), LocalTime.of(11, 0), LocalTime.of(17, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(3), LocalTime.of(11, 0), LocalTime.of(17, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(4), LocalTime.of(11, 0), LocalTime.of(17, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(5), LocalTime.of(11, 0), LocalTime.of(17, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(6), LocalTime.of(11, 0), LocalTime.of(17, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(7), LocalTime.of(11, 0), LocalTime.of(17, 0), one
       ));
       list.add(four);
       Attraktion five = new Attraktion(
@@ -153,25 +153,25 @@ public class AttraktionConfig {
               + "Ostseeinsel Fehmarn."
       );
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(1), LocalTime.of(10, 0), LocalTime.of(18, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(2), LocalTime.of(10, 0), LocalTime.of(18, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(3), LocalTime.of(10, 0), LocalTime.of(18, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(4), LocalTime.of(10, 0), LocalTime.of(18, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(5), LocalTime.of(10, 0), LocalTime.of(18, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(6), LocalTime.of(10, 0), LocalTime.of(18, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(7), LocalTime.of(10, 0), LocalTime.of(18, 0), one
       ));
       list.add(five);
       Attraktion six = new Attraktion(
@@ -181,25 +181,25 @@ public class AttraktionConfig {
                       + "Schlossmuseum."
       );
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(1), false, one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(2), LocalTime.of(11, 0), LocalTime.of(17, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(3), LocalTime.of(11, 0), LocalTime.of(17, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(4), LocalTime.of(11, 0), LocalTime.of(17, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(5), LocalTime.of(11, 0), LocalTime.of(17, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(6), LocalTime.of(11, 0), LocalTime.of(17, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(7), LocalTime.of(11, 0), LocalTime.of(17, 0), one
       ));
       list.add(six);
       Attraktion seven = new Attraktion(
@@ -208,25 +208,25 @@ public class AttraktionConfig {
               + " Seehunden und Kegelrobben! Wir freuen uns auf Ihren Besuch!"
       );
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(1), LocalTime.of(10, 0), LocalTime.of(18, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(2), LocalTime.of(10, 0), LocalTime.of(18, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(3), LocalTime.of(10, 0), LocalTime.of(18, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(4), LocalTime.of(10, 0), LocalTime.of(18, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(5), LocalTime.of(10, 0), LocalTime.of(18, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(6), LocalTime.of(10, 0), LocalTime.of(18, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(7), LocalTime.of(10, 0), LocalTime.of(18, 0), one
       ));
       list.add(seven);
       Attraktion eight = new Attraktion(
@@ -235,25 +235,25 @@ public class AttraktionConfig {
               + "archäologischen Museen Deutschlands."
       );
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(1), LocalTime.of(9, 0), LocalTime.of(17, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(2), LocalTime.of(9, 0), LocalTime.of(17, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(3), LocalTime.of(9, 0), LocalTime.of(17, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(4), LocalTime.of(9, 0), LocalTime.of(17, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(5), LocalTime.of(9, 0), LocalTime.of(17, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(6), LocalTime.of(9, 0), LocalTime.of(17, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(7), LocalTime.of(9, 0), LocalTime.of(17, 0), one
       ));
       list.add(eight);
       Attraktion nine = new Attraktion(
@@ -263,25 +263,25 @@ public class AttraktionConfig {
                       + " Fische aus Korallenriffen spezialisiert hat."
       );
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(1), LocalTime.of(10, 0), LocalTime.of(18, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(2), LocalTime.of(10, 0), LocalTime.of(18, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(3), LocalTime.of(10, 0), LocalTime.of(18, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(4), LocalTime.of(10, 0), LocalTime.of(18, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(5), LocalTime.of(10, 0), LocalTime.of(18, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(6), LocalTime.of(10, 0), LocalTime.of(18, 0), one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(7), LocalTime.of(10, 0), LocalTime.of(18, 0), one
       ));
       list.add(nine);
       Attraktion ten = new Attraktion(
@@ -292,30 +292,80 @@ public class AttraktionConfig {
               + "Attraktionen."
       );
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(1), false, one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(2), false, one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(3), false, one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(4), false, one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(5), false, one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(6), false, one
       ));
       one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
-              DayOfWeek.of(1), LocalTime.of(8, 0), LocalTime.of(18, 0), one
+              DayOfWeek.of(7), false, one
       ));
       list.add(ten);
-      attraktionRepository.saveAll(list);
-
-
+      Attraktion eleven = new Attraktion(
+              10.769004821777346f, 54.01261077755602f, "brian.didTheJob@gmx.de",
+              "Ostseetherme", "Erlebnisbad mit Saunalandschaft, Dampfbädern und Strandzugang. Zwei große Wasserrutschen, ein Strömungskreisel und Wasserspritzen begeistern Kinder. "
+      );
+      one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
+              DayOfWeek.of(1), LocalTime.of(10, 0), LocalTime.of(22, 0), one
+      ));
+      one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
+              DayOfWeek.of(2), LocalTime.of(10, 0), LocalTime.of(22, 0), one
+      ));
+      one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
+              DayOfWeek.of(3), LocalTime.of(10, 0), LocalTime.of(22, 0), one
+      ));
+      one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
+              DayOfWeek.of(4), LocalTime.of(10, 0), LocalTime.of(22, 0), one
+      ));
+      one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
+              DayOfWeek.of(5), LocalTime.of(10, 0), LocalTime.of(22, 0), one
+      ));
+      one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
+              DayOfWeek.of(6), LocalTime.of(10, 0), LocalTime.of(22, 0), one
+      ));
+      one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
+              DayOfWeek.of(7), LocalTime.of(10, 0), LocalTime.of(22, 0), one
+      ));
+      list.add(eleven);
+      Attraktion twelve = new Attraktion(
+              10.755615234375002f, 54.02703260975642f, "brian.didTheJob@gmx.de",
+              "Park-golf", "Ein schöner Minigolfplatz mitten im Kurpark"
+      );
+      one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
+              DayOfWeek.of(1), LocalTime.of(8, 30), LocalTime.of(12, 30), one
+      ));
+      one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
+              DayOfWeek.of(2), LocalTime.of(8, 30), LocalTime.of(12, 30), one
+      ));
+      one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
+              DayOfWeek.of(3), LocalTime.of(8, 30), LocalTime.of(12, 30), one
+      ));
+      one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
+              DayOfWeek.of(4), LocalTime.of(8, 30), LocalTime.of(18, 00), one
+      ));
+      one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
+              DayOfWeek.of(5), false, one
+      ));
+      one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
+              DayOfWeek.of(6), LocalTime.of(8, 30), LocalTime.of(12, 30), one
+      ));
+      one.getAttraktionOeffnungszeiten().add(new AttraktionOeffnungszeit(
+              DayOfWeek.of(7), LocalTime.of(8, 30), LocalTime.of(12, 30), one
+      ));
+      list.add(twelve);
+      attraktionRepository.saveAll(list);*/
     };
   }
 }

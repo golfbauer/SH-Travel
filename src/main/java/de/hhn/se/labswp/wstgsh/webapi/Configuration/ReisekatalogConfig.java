@@ -17,7 +17,7 @@ public class ReisekatalogConfig {
           org.slf4j.LoggerFactory.getLogger(ReisepunktNotFoundAdvice.class);
 
   @Bean
-  CommandLineRunner commandLineRunnerReise(ReisekatalogRepository repository) {
+  CommandLineRunner commandLineRunnerReisekatalog(ReisekatalogRepository repository) {
     return args -> {
       List<Reisekatalog> list = new ArrayList<>();
 
