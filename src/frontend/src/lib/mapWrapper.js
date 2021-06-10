@@ -1,4 +1,5 @@
-import L from 'leaflet'
+import L, { latLng } from 'leaflet'
+import 'leaflet-routing-machine'
 import { getReisepunkte } from '@/lib/Reisepunkt'
 
 /**
@@ -7,9 +8,10 @@ import { getReisepunkte } from '@/lib/Reisepunkt'
  */
 
 // Declaring leaflet map variable.
-var map = ''
+var map
+var routeControl
 
-/*
+/**
  * This function instantiates a leaflet map and adds an event listener to handle doubleklicks.
  */
 function createMap (mapComponent) {
@@ -39,10 +41,44 @@ function createMap (mapComponent) {
   })
 }
 
-/*
+/**
+ * Adds a router to the UI to display a possible route between multiple points on the map.
+ *
+ * @param route the route (Reise) to be displayed
+ */
+function addRoute (route) {
+  console.log(route)
+
+  removeRoute()
+
+  var waypoints = []
+  route.punkte.forEach((point) => {
+    const waypoint = L.latLng(point.reisepunkt.breitengrad, point.reisepunkt.laengengrad)
+    waypoints.push(waypoint)
+  })
+  console.log(waypoints)
+
+  routeControl = L.Routing.control({
+    waypoints: waypoints,
+    draggableWaypoints: false,
+    lineOptions: {
+      addWaypoints: false
+    },
+    serviceUrl: 'http://picoaio.de:5000/route/v1'
+  }).addTo(map)
+  routeControl.hide()
+}
+
+function removeRoute () {
+  if (routeControl !== undefined) {
+    routeControl.remove()
+  }
+}
+
+/**
  * This function is used to place mapmarker.
  */
-function setMarker (reisepunkt) {
+function setMarker (reisepunkt, mapComponent) {
   if (reisepunkt.breitengrad === null || reisepunkt.laengengrad === null) {
     return
   }
@@ -82,26 +118,27 @@ function setMarker (reisepunkt) {
   // Event hinzufügen
   L.DomEvent.addListener(addButton, 'click', function (event) {
     // ToDo: Marker in die Reise hinzufügen
+    mapComponent.openReiseAuswahl(reisepunkt)
     console.log('Hinzugefügt!')
   })
 
   // Popup erstellen
   var popup = L.popup().setContent(content)
-  var markerTest = L.marker([reisepunkt.laengengrad, reisepunkt.breitengrad]).addTo(map) // <- ist kein "test" mehr
+  var markerTest = L.marker([reisepunkt.breitengrad, reisepunkt.laengengrad]).addTo(map)
 
   markerTest.bindPopup(popup)
 }
 
-/*
+/**
  * This function loads new 'Reisepunkt' objects rom the backend api and places them as mapmarkers on the map.
  */
-async function loadMarker () {
+async function loadMarker (mapComponent) {
   var reisepunkte = await getReisepunkte()
   var length = reisepunkte.length
 
   for (let i = 0; i < length; i++) {
     console.log('setting marker')
-    setMarker(reisepunkte[i])
+    setMarker(reisepunkte[i], mapComponent)
   }
 }
 
@@ -119,5 +156,7 @@ export {
   createMap,
   loadMarker,
   toggleDragging,
-  toggleScrolling
+  toggleScrolling,
+  addRoute,
+  removeRoute
 }

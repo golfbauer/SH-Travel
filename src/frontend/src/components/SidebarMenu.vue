@@ -17,8 +17,8 @@
         <div id="profile-typ">{{ profile.typ }}</div>
       </div>
       <div class="menu-header" v-else>
-        <b-button type="button" class="btn btn-orange">Registrieren</b-button>
-        <b-button type="button" class="btn btn-gray">Anmelden</b-button>
+        <!-- b-button type="button" class="btn btn-orange">Registrieren</b-button -->
+        <!-- b-button type="button" class="btn btn-gray">Anmelden</b-button -->
       </div>
       <!-- SidebarMenuItems -->
       <nav class="mb-3">
@@ -37,6 +37,7 @@
 
 <script>
 import SidebarMenuItem from '@/components/SidebarMenuItem'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Menu',
@@ -52,36 +53,32 @@ export default {
         img: 'https://api-magazin.single.de/fileman/uploads/Neuer%20Ordner/gutes_profilbild_beispiel_4.jpg',
         typ: 'ExampleNutzer'
       },
-      menu: [
+      menu: []
+    }
+  },
+  computed: {
+    ...mapGetters(['getReisen'])
+  },
+  methods: {
+    loadMenueItems () {
+      this.menu = [
         {
-          href: '/SHTravel',
-          title: 'Startseite',
-          component: 'item'
-        } /*,
+          name: 'Startseite',
+          component: 'item',
+          href: '/SHTravel'
+        },
         {
-          href: '/reisepunkterstellen',
-          title: 'Reisepunkt erstellen',
-          component: 'item'
-        } ,
-        {
-          href: '/reisepunkterstellen',
-          title: 'Reisepunkt erstellen',
+          name: 'Mein Reisen',
           component: 'parent',
-          child: [
-            {
-              href: '/charts/sublink',
-              title: 'Sub Link',
-              component: 'child'
-            }
-          ]
-        } */
+          category: 'reisen',
+          content: this.getReisen
+        }
       ]
     }
   },
-  methods: {
-    get: function () {
-      this.$http.get('')
-    }
+  created () {
+    this.$store.dispatch('fetchReisen')
+    this.loadMenueItems()
   }
 }
 </script>
