@@ -63,7 +63,7 @@ export default {
 
 #reiseansichtcontainer {
   position: absolute;
-  right: 0%;
+  right: 2%;
   top: 5vh;
 }
 

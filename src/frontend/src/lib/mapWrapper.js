@@ -42,7 +42,7 @@ function createMap (mapComponent) {
 /*
  * This function is used to place mapmarker.
  */
-function setMarker (reisepunkt) {
+function setMarker (reisepunkt, mapComponent) {
   if (reisepunkt.breitengrad === null || reisepunkt.laengengrad === null) {
     return
   }
@@ -82,6 +82,7 @@ function setMarker (reisepunkt) {
   // Event hinzufügen
   L.DomEvent.addListener(addButton, 'click', function (event) {
     // ToDo: Marker in die Reise hinzufügen
+    mapComponent.openReiseAuswahl(reisepunkt)
     console.log('Hinzugefügt!')
   })
 
@@ -95,13 +96,13 @@ function setMarker (reisepunkt) {
 /*
  * This function loads new 'Reisepunkt' objects rom the backend api and places them as mapmarkers on the map.
  */
-async function loadMarker () {
+async function loadMarker (mapComponent) {
   var reisepunkte = await getReisepunkte()
   var length = reisepunkte.length
 
   for (let i = 0; i < length; i++) {
     console.log('setting marker')
-    setMarker(reisepunkte[i])
+    setMarker(reisepunkte[i], mapComponent)
   }
 }
 

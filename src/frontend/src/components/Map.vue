@@ -1,13 +1,9 @@
 <template>
     <div class="map" id="map" ref="mapContainer">
-      <ReisepunktErstellen
-        v-if="showR"
-        v-on:updateShow="closePopup($event)"
-        v-on:makeToast="makeToast($event)"
-      />
-      <ReiseAnsicht
-        v-if="showReiseAnsicht"
-      />
+      <ReisepunktErstellen v-if="showReisepunktErstellen" v-on:updateShow="closeReisepunktErstellen($event)"
+                           v-on:makeToast="makeToast($event)"/>
+      <ReiseAuswahl v-if="showReiseAuswahl" v-on:selected="closeReiseAuswahl($event)"/>
+      <ReiseAnsicht v-if="showReiseAnsicht"/>
     </div>
 </template>
 
@@ -15,18 +11,21 @@
 import { createMap, loadMarker, L, map } from '@/lib/mapWrapper'
 import ReisepunktErstellen from '@/components/ReisepunktErstellen'
 import ReiseAnsicht from '@/components/ReiseAnsicht'
+import ReiseAuswahl from '@/components/ReiseAuswahl'
 
 export default {
   name: 'Map',
   data () {
     return {
-      showR: false,
+      showReisepunktErstellen: false,
+      showReiseAuswahl: true,
       showReiseAnsicht: true
     }
   },
   components: {
     ReisepunktErstellen,
-    ReiseAnsicht
+    ReiseAnsicht,
+    ReiseAuswahl
   },
   mounted () {
     createMap(this)
@@ -36,15 +35,22 @@ export default {
     loadMarker()
   },
   methods: {
-    openPopup: function () {
-      this.showR = true
+    openReisepunktErstellen: function () {
+      this.showReisepunktErstellen = true
     },
-    closePopup: function (showProp) {
-      this.showR = false
+    closeReisepunktErstellen: function (showProp) {
+      this.showReisepunktErstellen = false
+    },
+    openReiseAuswahl: function (reisepunkt) {
+      this.$store.dispatch('selectReisepunkt', reisepunkt)
+      this.showReiseAuswahl = true
+    },
+    closeReiseAuswahl: function (showProp) {
+      this.showReiseAuswahl = false
     },
     setClickedCoords: function (lat, lng) {
       this.$store.dispatch('chooseCoords', { lng: lng, lat: lat })
-      this.openPopup()
+      this.openReisepunktErstellen()
     },
     makeToast: function (array) {
       this.$bvToast.toast(array[2], {

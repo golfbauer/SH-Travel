@@ -1,5 +1,3 @@
-import axios from 'axios'
-
 const state = {
   reisen: []
 }
@@ -11,14 +9,175 @@ const getters = {
 const actions = {
   // might need to change the url
   async fetchReisen ({ commit }) {
-    const response = await axios.get('/SHTravel/reisen')
-    console.log(response.data)
-    commit('setReisen', response.data)
+    // const response = await axios.get('/SHTravel/reisen')
+    // console.log(response.data)
+    // constructed TestData needs to be removed for deployment
+    // resembling response.data
+    const reisen = [
+      {
+        name: 'Timmendorf nach Travemünde',
+        punkte: [
+          {
+            index: 0,
+            reisepunkt: {
+              name: 'Timmendorfer Strand',
+              breitengrad: 54.0004,
+              laengengrad: 10.7824
+            }
+          },
+          {
+            index: 1,
+            reisepunkt: {
+              name: 'Travemünder Strand',
+              breitengrad: 53.9568,
+              laengengrad: 10.8946
+            }
+          }
+        ]
+      },
+      {
+        name: 'Einfache Test Reise',
+        punkte: [
+          {
+            index: 0,
+            reisepunkt: {
+              name: 'Test Punkt 1',
+              breitengrad: 54.0259,
+              laengengrad: 10.7554
+            }
+          },
+          {
+            index: 1,
+            reisepunkt: {
+              name: 'Test Punkt 2',
+              breitengrad: 54.3447,
+              laengengrad: 10.4559
+            }
+          },
+          {
+            index: 2,
+            reisepunkt: {
+              name: 'Test Punkt 3',
+              breitengrad: 54.3908,
+              laengengrad: 10.3766
+            }
+          }
+        ]
+      },
+      {
+        name: 'Timmendorf nach Travemünde',
+        punkte: [
+          {
+            index: 0,
+            reisepunkt: {
+              name: 'Timmendorfer Strand',
+              breitengrad: 54.0004,
+              laengengrad: 10.7824
+            }
+          },
+          {
+            index: 1,
+            reisepunkt: {
+              name: 'Travemünder Strand',
+              breitengrad: 53.9568,
+              laengengrad: 10.8946
+            }
+          }
+        ]
+      },
+      {
+        name: 'Timmendorf nach Travemünde',
+        punkte: [
+          {
+            index: 0,
+            reisepunkt: {
+              name: 'Timmendorfer Strand',
+              breitengrad: 54.0004,
+              laengengrad: 10.7824
+            }
+          },
+          {
+            index: 1,
+            reisepunkt: {
+              name: 'Travemünder Strand',
+              breitengrad: 53.9568,
+              laengengrad: 10.8946
+            }
+          }
+        ]
+      },
+      {
+        name: 'Timmendorf nach Travemünde',
+        punkte: [
+          {
+            index: 0,
+            reisepunkt: {
+              name: 'Timmendorfer Strand',
+              breitengrad: 54.0004,
+              laengengrad: 10.7824
+            }
+          },
+          {
+            index: 1,
+            reisepunkt: {
+              name: 'Travemünder Strand',
+              breitengrad: 53.9568,
+              laengengrad: 10.8946
+            }
+          }
+        ]
+      },
+      {
+        name: 'Timmendorf nach Travemünde',
+        punkte: [
+          {
+            index: 0,
+            reisepunkt: {
+              name: 'Timmendorfer Strand',
+              breitengrad: 54.0004,
+              laengengrad: 10.7824
+            }
+          },
+          {
+            index: 1,
+            reisepunkt: {
+              name: 'Travemünder Strand',
+              breitengrad: 53.9568,
+              laengengrad: 10.8946
+            }
+          }
+        ]
+      },
+      {
+        name: 'Timmendorf nach Travemünde',
+        punkte: [
+          {
+            index: 0,
+            reisepunkt: {
+              name: 'Timmendorfer Strand',
+              breitengrad: 54.0004,
+              laengengrad: 10.7824
+            }
+          },
+          {
+            index: 1,
+            reisepunkt: {
+              name: 'Travemünder Strand',
+              breitengrad: 53.9568,
+              laengengrad: 10.8946
+            }
+          }
+        ]
+      }
+    ]
+    commit('setReisen', reisen)
   }
 }
 
 const mutations = {
-  setReisen: (state, reisen) => (this.state.reisen = reisen)
+  setReisen: function (state, reisen) {
+    state.reisen = reisen
+  }
 }
 
 export default {
