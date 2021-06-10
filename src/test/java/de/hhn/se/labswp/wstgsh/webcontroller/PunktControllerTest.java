@@ -10,6 +10,8 @@ import static org.mockito.Mockito.verify;
 import de.hhn.se.labswp.wstgsh.webapi.models.Punkt;
 import de.hhn.se.labswp.wstgsh.webapi.models.PunktRepository;
 import java.util.Optional;
+
+import de.hhn.se.labswp.wstgsh.webapi.models.Sehenswuerdigkeit;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -74,6 +76,18 @@ class PunktControllerTest {
     Punkt capturedPunkt = punktArgumentCaptor.getValue();
 
     assertThat(capturedPunkt).isEqualTo(punkt);
+  }
+
+  @Test
+  void nameIsToLong() {
+    //given
+    Punkt punkt = new Punkt(9999L, 45.6F, 45.6F, "test@web.de",
+            "Sehenswürdig mit einem Namen der zu Lang ist, "
+                    + " als das wir diesen erlauben könnten                           ");
+    //when
+    assertThatThrownBy(() -> underTest.newPunkt(punkt))
+            .isInstanceOf(IllegalStateException.class)
+            .hasMessageContaining("Name des Punktes ist zu lang.");
   }
 
   @Test

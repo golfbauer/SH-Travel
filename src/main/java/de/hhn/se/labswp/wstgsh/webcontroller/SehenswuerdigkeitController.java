@@ -49,6 +49,9 @@ public class SehenswuerdigkeitController {
    */
   @PostMapping(path = "/sehenswuerdigkeit")
   public void newSehenswuerdigkeit(@RequestBody Sehenswuerdigkeit sehenswuerdigkeit) {
+    if (sehenswuerdigkeit.getName().length() > 30) {
+      throw new IllegalStateException("Name der Sehenswuerdigkeit ist zu lang.");
+    }
     sehenswuerdigkeitRepository.save(sehenswuerdigkeit);
   }
 

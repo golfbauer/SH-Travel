@@ -49,6 +49,9 @@ public class AttraktionController {
    */
   @PostMapping(path = "/attraktion")
   void newAttraktion(@RequestBody Attraktion newAttraktion) {
+    if (newAttraktion.getName().length() > 30) {
+      throw new IllegalStateException("Name der Attraktion ist zu lang.");
+    }
     List<AttraktionOeffnungszeit> oeffnungszeiten = newAttraktion.getAttraktionOeffnungszeiten();
     for (AttraktionOeffnungszeit oeffnungszeit : oeffnungszeiten) {
       oeffnungszeit.setAttraktion(newAttraktion);
