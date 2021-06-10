@@ -3,8 +3,6 @@ package de.hhn.se.labswp.wstgsh.webcontroller;
 import de.hhn.se.labswp.wstgsh.webapi.models.Attraktion;
 import de.hhn.se.labswp.wstgsh.webapi.models.AttraktionOeffnungszeit;
 import de.hhn.se.labswp.wstgsh.webapi.models.AttraktionRepository;
-
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,8 +37,8 @@ public class AttraktionController {
    */
   @GetMapping(path = "/attraktion/{id}")
   Attraktion one(@PathVariable Long id) {
-    return  repository.findById(id).orElseThrow(() -> new IllegalStateException("Id nicht " +
-            "gefunden"));
+    return  repository.findById(id).orElseThrow(() -> new IllegalStateException("Id nicht "
+            + "gefunden"));
   }
 
   /**
@@ -71,6 +69,11 @@ public class AttraktionController {
         if (oeffnungszeit.getSchliestUm() == null) {
           throw new IllegalStateException("Oeffnungszeit hat schließt um, aber kein oeffnet um.");
         }
+
+        if (oeffnungszeit.isGeschlossen() || oeffnungszeit.isGanztaegig()) {
+          throw new IllegalStateException("Oeffnungszeit schließt, oeffnet, ist geschlossen "
+                  + "oder ganztaegig geoeffnet");
+        }
       }
     }
     repository.save(newAttraktion);
@@ -78,13 +81,13 @@ public class AttraktionController {
 
   /**
    * Adds a new Oeffnungszeit to Attraktion.
-   * @param string Content of Oeffnungszeit.
+   * @param oeffnungszeit The Oeffnungszeit to be added to Attraktion.
    * @param id ID of Attraktion.
    */
   @PostMapping(path = "/attraktion/oeffnungszeit/{id}")
-  void addOeffnungszeit(@RequestBody String string, @PathVariable Long id) {
+  void addOeffnungszeit(@RequestBody AttraktionOeffnungszeit oeffnungszeit, @PathVariable Long id) {
     repository.findById(id).map(attraktion -> {
-      AttraktionOeffnungszeit oeffnungszeit = new AttraktionOeffnungszeit(string, attraktion);
+      oeffnungszeit.setAttraktion(attraktion);
       attraktion.getAttraktionOeffnungszeiten().add(oeffnungszeit);
       return repository.save(attraktion);
     });
