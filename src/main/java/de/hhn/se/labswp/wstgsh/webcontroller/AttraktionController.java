@@ -3,6 +3,8 @@ package de.hhn.se.labswp.wstgsh.webcontroller;
 import de.hhn.se.labswp.wstgsh.webapi.models.Attraktion;
 import de.hhn.se.labswp.wstgsh.webapi.models.AttraktionOeffnungszeit;
 import de.hhn.se.labswp.wstgsh.webapi.models.AttraktionRepository;
+
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,19 +39,39 @@ public class AttraktionController {
    */
   @GetMapping(path = "/attraktion/{id}")
   Attraktion one(@PathVariable Long id) {
-    return  repository.findById(id).orElseThrow(() -> new IllegalStateException("Id not found."));
+    return  repository.findById(id).orElseThrow(() -> new IllegalStateException("Id nicht " +
+            "gefunden"));
   }
 
   /**
-   * Saves a new Attraktion in the DB
+   * Saves a new Attraktion in the DB.
    * @param newAttraktion New Attraktion Objekt you want to save in the DB.
-   * @return the just saved Attraktion Object.
    */
   @PostMapping(path = "/attraktion")
   void newAttraktion(@RequestBody Attraktion newAttraktion) {
     List<AttraktionOeffnungszeit> oeffnungszeiten = newAttraktion.getAttraktionOeffnungszeiten();
     for (AttraktionOeffnungszeit oeffnungszeit : oeffnungszeiten) {
       oeffnungszeit.setAttraktion(newAttraktion);
+      if (oeffnungszeit.getOeffnetUm() == null) {
+        if (oeffnungszeit.getSchliestUm() == null) {
+          if (oeffnungszeit.isGeschlossen()) {
+            if (oeffnungszeit.isGanztaegig()) {
+              throw new IllegalStateException("Oeffnungszeit ist geschlossen und ganztägig "
+                      + "geöffnet");
+            }
+          } else {
+            if (!oeffnungszeit.isGanztaegig()) {
+              throw new IllegalStateException("Oeffnungszeit hat keine Angabe.");
+            }
+          }
+        } else {
+          throw new IllegalStateException("Oeffnungszeit hat offnet um, aber kein schließt um.");
+        }
+      } else {
+        if (oeffnungszeit.getSchliestUm() == null) {
+          throw new IllegalStateException("Oeffnungszeit hat schließt um, aber kein oeffnet um.");
+        }
+      }
     }
     repository.save(newAttraktion);
   }
