@@ -23,6 +23,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import { toggleDragging, toggleScrolling } from '@/lib/mapWrapper'
+import { addReisepunkt } from '@/lib/reisen'
 
 export default {
   name: 'ReiseAuswahl',
@@ -48,6 +49,10 @@ export default {
       this.$store.dispatch('selectReise', reise)
       this.proceedThis()
     },
+    addReisepunkt (reise) {
+      const reisepunkt = this.getReisepunkt
+      addReisepunkt(reise, reisepunkt)
+    },
     proceedThis () {
       this.$emit('selected')
     },
@@ -56,7 +61,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getReisen'])
+    ...mapGetters(['getReisen', 'getReisepunkt'])
   },
   created () {
     this.init()

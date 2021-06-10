@@ -35,17 +35,8 @@ export default {
   },
   methods: {
     init () {
-      // const reise = this.getReise
-      // if (reise !== undefined) {
-      //   this.reisename = reisename
-      //   this.reisepunkte = reise.punkte
-      //   const reisepunkt = this.getReisepunkt
-      //   this.addReisepunkt(reisepunkt)
-      //   console.log(this.reisepunkte)
-      // } else {
       const reisepunkt = this.getReisepunkt
       this.reisepunkte.push(reisepunkt)
-      // }
     },
     makeToast (variant = null, title = null, body = null) {
       this.$emit('makeToast', [variant, title, body])

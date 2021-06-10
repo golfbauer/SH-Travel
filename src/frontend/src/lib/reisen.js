@@ -12,6 +12,15 @@ async function postReise (reise) {
   const response = await axios.post(reiseUrl, { name, termin, oeffentlich, reisepunkte, reisekatalog })
 }
 
+async function addReisepunkt (reise, reisepunkt) {
+  const reiseId = reise.id
+  const reisepunktId = reisepunkt.id
+
+  const putUrl = reiseUrl + '/reisepunkt/' + reiseId + '?idReisepunkt=' + reisepunktId
+  console.log(putUrl)
+  // const response = await axios.put(putUrl)
+}
+
 function createReise (reise) {
   if (formCheck(reise)) {
     postReise(reise)
@@ -30,5 +39,6 @@ function formCheck (reise) {
 }
 
 export {
-  createReise
+  createReise,
+  addReisepunkt
 }
