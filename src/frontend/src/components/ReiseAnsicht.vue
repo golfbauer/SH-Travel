@@ -49,6 +49,10 @@ export default {
     addReisepunkt (reisepunkt) {
       const length = this.reisepunkte.length
       this.reisepunkte.push({ index: length, reisepunkt: reisepunkt })
+      this.makeToast('success', 'Reisepunkt', reisepunkt.name + ' zur Reise ' + this.reise.name + ' hinzugefügt')
+    },
+    makeToast (variant = null, title = null, body = null) {
+      this.$emit('makeToast', [variant, title, body])
     },
     mouseOver () {
       toggleScrolling(false)

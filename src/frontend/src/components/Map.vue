@@ -4,7 +4,7 @@
                            v-on:makeToast="makeToast($event)"/>
       <ReiseAuswahl v-if="showReiseAuswahl" v-on:selected="openReiseAnsicht($event)"
                     v-on:cancel="closeReiseAuswahl($event)"/>
-      <ReiseAnsicht v-if="showReiseAnsicht"/>
+      <ReiseAnsicht v-if="showReiseAnsicht" v-on:makeToast="makeToast($event)"/>
     </div>
 </template>
 
