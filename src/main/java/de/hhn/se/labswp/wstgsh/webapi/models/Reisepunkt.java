@@ -1,6 +1,7 @@
 package de.hhn.se.labswp.wstgsh.webapi.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import de.hhn.se.labswp.wstgsh.exceptions.ReisepunktNotFoundAdvice;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,7 @@ public class Reisepunkt {
   private String name;
 
   @ManyToMany(mappedBy = "reisepunkte")
-  @JsonIgnore
+  @JsonIgnoreProperties("reisepunkte")
   List<Reise> reisen = new ArrayList<>();
 
   /**
