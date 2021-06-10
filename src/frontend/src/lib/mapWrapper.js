@@ -63,8 +63,8 @@ function addRoute (route) {
       draggableWaypoints: false,
       lineOptions: {
         addWaypoints: false
-      },
-      serviceUrl: 'http://picoaio.de:5000/route/v1'
+      }
+      // serviceUrl: 'https://picoaio.de:5000/route/v1'
     }).addTo(map)
     routeControl.hide()
   } else {
