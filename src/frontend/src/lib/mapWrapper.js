@@ -52,21 +52,24 @@ function addRoute (route) {
   removeRoute()
 
   var waypoints = []
-  route.punkte.forEach((point) => {
-    const waypoint = L.latLng(point.reisepunkt.breitengrad, point.reisepunkt.laengengrad)
+  route.reisepunkte.forEach((point) => {
+    const waypoint = L.latLng(point.breitengrad, point.laengengrad)
     waypoints.push(waypoint)
   })
   console.log(waypoints)
-
-  routeControl = L.Routing.control({
-    waypoints: waypoints,
-    draggableWaypoints: false,
-    lineOptions: {
-      addWaypoints: false
-    },
-    serviceUrl: 'http://picoaio.de:5000/route/v1'
-  }).addTo(map)
-  routeControl.hide()
+  if (waypoints.length > 1) {
+    routeControl = L.Routing.control({
+      waypoints: waypoints,
+      draggableWaypoints: false,
+      lineOptions: {
+        addWaypoints: false
+      },
+      serviceUrl: 'http://picoaio.de:5000/route/v1'
+    }).addTo(map)
+    routeControl.hide()
+  } else {
+    console.log('Reise hat nur einen Punkt')
+  }
 }
 
 function removeRoute () {

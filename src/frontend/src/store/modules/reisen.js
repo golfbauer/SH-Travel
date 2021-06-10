@@ -9,13 +9,9 @@ const getters = {
 }
 
 const actions = {
-  // might need to change the url
   async fetchReisen ({ commit }) {
-    console.log('Fetching Reisen')
     const response = await axios.get('/SHTravel/reise')
-    console.log(response.data)
     commit('setReisen', response.data)
-
     // constructed TestData needs to be removed for deployment
     // resembling response.data
     // const reisen = [

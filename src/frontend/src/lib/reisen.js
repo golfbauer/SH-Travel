@@ -18,7 +18,7 @@ async function addReisepunkt (reise, reisepunkt) {
 
   const putUrl = reiseUrl + '/reisepunkt/' + reiseId + '?idReisepunkt=' + reisepunktId
   console.log(putUrl)
-  // const response = await axios.put(putUrl)
+  const response = await axios.put(putUrl)
 }
 
 function createReise (reise) {

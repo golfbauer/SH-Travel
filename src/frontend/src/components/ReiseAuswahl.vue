@@ -7,7 +7,7 @@
       </div>
       <hr>
       <ul id="auswahl_body">
-        <li v-for="(reise, index) in reisen" :key="index" v-on:click="selectReise(reise)">
+        <li v-for="(reise, index) in reisen" :key="index" v-on:click="addReisepunkt(reise)">
           <h5>{{ reise.name }}</h5>
         </li>
       </ul>
@@ -52,11 +52,16 @@ export default {
     addReisepunkt (reise) {
       const reisepunkt = this.getReisepunkt
       addReisepunkt(reise, reisepunkt)
+      this.cancelThis()
     },
     proceedThis () {
+      toggleScrolling(true)
+      toggleDragging(true)
       this.$emit('selected')
     },
     cancelThis () {
+      toggleScrolling(true)
+      toggleDragging(true)
       this.$emit('cancel')
     }
   },
