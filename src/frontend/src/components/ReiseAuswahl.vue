@@ -3,7 +3,7 @@
     <div id="auswahl_container" @mouseover="mouseOver" @mouseleave="mouseLeave">
       <div id="auswahl_header">
         <h5>Speichern in...</h5>
-        <font-awesome-icon icon="times" @click="closeThis"/>
+        <font-awesome-icon icon="times" @click="cancelThis"/>
       </div>
       <hr>
       <ul id="auswahl_body">

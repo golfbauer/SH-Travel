@@ -89,15 +89,15 @@ export default {
   position: absolute;
   right: 2%;
   top: 5vh;
+  background: #000000AA;
+  border: 1px solid #000000AA;
+  border-radius: 10px;
+  padding-bottom: 20px;
 }
 
 #reiseansicht {
   width: 300px;
   height: 600px;
-  position: fixed;
-  border-bottom: 20px solid #000000AA;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
   overflow: hidden;
   overflow-y: scroll;
 }
@@ -142,7 +142,6 @@ export default {
 
 #reisetitel {
   width: 300px;
-  background: #000000AA;
   padding: 10px 20px;
   font-size: 20px;
   font-weight: 700;
@@ -153,7 +152,6 @@ export default {
 
 #reiseliste {
   position: relative;
-  background: #000000AA;
 }
 
 .reiseitem {
