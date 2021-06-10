@@ -30,6 +30,7 @@ public class AttraktionConfig {
                                                         attraktionOeffnungszeitRepository) {
     return args -> {
       List<Attraktion> list = new ArrayList<>();
+      /*
       Attraktion one = new Attraktion(
               10.67966025840837f, 53.8662401645461f, "brian.didTheJob@gmx.de", "Museum Holstentor",
               "Das Lübecker Holstentor ist wohl das bekannteste Stadttor in Deutschland. Es wurde"
@@ -100,6 +101,8 @@ public class AttraktionConfig {
       );
       list.add(ten);
       attraktionRepository.saveAll(list);
+
+       */
     };
   }
 }
