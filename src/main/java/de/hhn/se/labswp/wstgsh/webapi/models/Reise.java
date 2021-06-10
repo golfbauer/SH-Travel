@@ -1,6 +1,8 @@
 package de.hhn.se.labswp.wstgsh.webapi.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -25,7 +27,6 @@ public class Reise {
    * containing ids of each class, called reise_reisepunkt.
    */
   @ManyToMany(cascade = {
-          CascadeType.PERSIST,
           CascadeType.MERGE
   })
   @JoinColumn(nullable = false)
@@ -34,6 +35,7 @@ public class Reise {
           joinColumns = @JoinColumn(name = "reise_id"),
           inverseJoinColumns = @JoinColumn(name = "reisepunkte_id")
   )
+  @JsonIgnoreProperties("reisen")
   List<Reisepunkt> reisepunkte = new ArrayList<>();
 
   /**
@@ -41,7 +43,6 @@ public class Reise {
    * containing ids of each class, called reise_reisekatalog.
    */
   @ManyToMany(cascade = {
-          CascadeType.PERSIST,
           CascadeType.MERGE
   })
   @JoinTable(

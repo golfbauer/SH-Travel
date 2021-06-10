@@ -1,46 +1,85 @@
 <template>
-  <div id="reiseansichtcontainer">
+  <div id="reiseansichtcontainer" @mouseover="mouseOver" @mouseleave="mouseLeave">
+    <header>
+      <input type="text" id="reisetitel" placeholder="Name eingeben">
+      <div>
+        <button class="reiseoptionbuttons" id="btnabbrechen" @click="onCancelClick">Abbrechen</button>
+        <button class="reiseoptionbuttons" id="btnspeichern" @click="onSaveClick">Speichern</button>
+      </div>
+    </header>
+
     <div class="reiseansicht" id="reiseansicht">
-      <h2 id="reisetitel">Reisename</h2>
       <ul id="reiseliste">
-        <li class="reiseitem"><span class="reiseitemprefix">1</span>List Item One</li>
-        <li class="reiseitem"><span class="reiseitemprefix">2</span>List Item Two</li>
-        <li class="reiseitem"><span class="reiseitemprefix">3</span>List Item Three</li>
-        <li class="reiseitem"><span class="reiseitemprefix">4</span>List Item Four</li>
-        <li class="reiseitem"><span class="reiseitemprefix">5</span>List Item Five</li>
-        <li class="reiseitem"><span class="reiseitemprefix">6</span>List Item Six</li>
-        <li class="reiseitem"><span class="reiseitemprefix">1</span>List Item One</li>
-        <li class="reiseitem"><span class="reiseitemprefix">2</span>List Item Two</li>
-        <li class="reiseitem"><span class="reiseitemprefix">3</span>List Item Three</li>
-        <li class="reiseitem"><span class="reiseitemprefix">4</span>List Item Four</li>
-        <li class="reiseitem"><span class="reiseitemprefix">5</span>List Item Five</li>
-        <li class="reiseitem"><span class="reiseitemprefix">6</span>List Item Six</li>
-        <li class="reiseitem"><span class="reiseitemprefix">1</span>List Item One</li>
-        <li class="reiseitem"><span class="reiseitemprefix">2</span>List Item Two</li>
-        <li class="reiseitem"><span class="reiseitemprefix">3</span>List Item Three</li>
-        <li class="reiseitem"><span class="reiseitemprefix">4</span>List Item Four</li>
-        <li class="reiseitem"><span class="reiseitemprefix">5</span>List Item Five</li>
-        <li class="reiseitem"><span class="reiseitemprefix">6</span>List Item Six</li>
-        <li class="reiseitem"><span class="reiseitemprefix">1</span>List Item One</li>
-        <li class="reiseitem"><span class="reiseitemprefix">2</span>List Item Two</li>
-        <li class="reiseitem"><span class="reiseitemprefix">3</span>List Item Three</li>
-        <li class="reiseitem"><span class="reiseitemprefix">4</span>List Item Four</li>
-        <li class="reiseitem"><span class="reiseitemprefix">5</span>List Item Five</li>
-        <li class="reiseitem"><span class="reiseitemprefix">6</span>List Item Six</li>
-        <li class="reiseitem"><span class="reiseitemprefix">1</span>List Item One</li>
-        <li class="reiseitem"><span class="reiseitemprefix">2</span>List Item Two</li>
-        <li class="reiseitem"><span class="reiseitemprefix">3</span>List Item Three</li>
-        <li class="reiseitem"><span class="reiseitemprefix">4</span>List Item Four</li>
-        <li class="reiseitem"><span class="reiseitemprefix">5</span>List Item Five</li>
-        <li class="reiseitem"><span class="reiseitemprefix">6</span>List Item Six</li>
+        <li class="reiseitem" v-for="(item, index) in reisepunkte" :key="index">
+          {{ item.name }}
+          <button class="reiseitembutton" @click="onDeleteClick">-</button>
+        </li>
       </ul>
     </div>
+
   </div>
 </template>
 
 <script>
+import { createReise } from '@/lib/reisen'
+import { toggleScrolling, toggleDragging } from '@/lib/mapWrapper'
+import { mapGetters } from 'vuex'
+
 export default {
-  name: 'ReiseAnsicht'
+  name: 'ReiseAnsicht',
+  data () {
+    return {
+      reiseName: undefined,
+      reisepunkte: []
+    }
+  },
+  methods: {
+    init () {
+      const reisepunkt = this.getReisepunkt
+      this.reisepunkte.push(reisepunkt)
+    },
+    makeToast (variant = null, title = null, body = null) {
+      this.$emit('makeToast', [variant, title, body])
+    },
+    mouseOver () {
+      toggleScrolling(false)
+      toggleDragging(false)
+    },
+    mouseLeave () {
+      toggleScrolling(true)
+      toggleDragging(true)
+    },
+    onSaveClick () {
+      this.reiseName = document.getElementById('reisetitel').value
+      const reise = {
+        name: this.reiseName,
+        termin: undefined,
+        oeffentlich: true,
+        reisepunkte: this.reisepunkte,
+        reisekatalog: undefined
+      }
+      if (createReise(reise)) {
+        console.log('posted reise')
+        this.makeToast('success', 'Reise ', this.reiseName + ' wurde erfolgreich angelegt')
+        this.$emit('cancel')
+      } else {
+        this.makeToast('danger', 'Fehler beim erstellen von ' + this.reiseName)
+      }
+    },
+    onCancelClick () {
+      this.$emit('cancel')
+      console.log('Änderungen nicht übernommen.')
+    },
+    onDeleteClick () {
+      console.log('Marker aus Reiseliste entfernen')
+    }
+  },
+  computed: {
+    ...mapGetters(['getReise', 'getReisepunkt'])
+  },
+  created () {
+    this.init()
+  }
 }
 </script>
 
@@ -54,35 +93,72 @@ export default {
 
 #reiseansichtcontainer {
   position: absolute;
-  right: 15%;
+  right: 2%;
   top: 5vh;
+  background: #000000AA;
+  border: 1px solid #000000AA;
+  border-radius: 10px;
+  padding-bottom: 20px;
 }
 
 #reiseansicht {
   width: 300px;
   height: 600px;
-  position: fixed;
-  border-bottom: 20px solid #000000AA;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
   overflow: hidden;
   overflow-y: scroll;
 }
 
+.reiseoptionbuttons {
+  position: relative;
+  bottom: 0;
+  width: 50%;
+  height: 20%;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+#btnabbrechen {
+  background-color: #4A5655;
+}
+
+#btnspeichern {
+  background-color: #FF9B71;
+}
+
+#btnabbrechen:active {
+  background-color: #6b7776;
+}
+
+#btnspeichern:active {
+  background-color: #ffba71;
+}
+
+.reiseoptionbuttons:hover {
+  z-index: 100;
+  background-color: #ffffff;
+  color: #fff;
+  opacity: 1;
+  font-weight: bold;
+}
+
 #reisetitel {
   width: 300px;
-  background: #000000AA;
   padding: 10px 20px;
   font-size: 20px;
   font-weight: 700;
-  color: white;
+  background-color: transparent;
+  color: #ffffff;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
 
 #reiseliste {
   position: relative;
-  background: #000000AA;
 }
 
 .reiseitem {
@@ -94,6 +170,7 @@ export default {
   transition: transform .5s;
   color: white;
   text-align: left;
+  font-size: 16px;
 }
 
 #reiseliste:hover reiseitem {
@@ -110,7 +187,7 @@ export default {
   font-weight: bold;
 }
 
-.reiseitemprefix {
+.reiseitembutton {
   width: 20px;
   height: 20px;
   text-align: center;
@@ -120,14 +197,18 @@ export default {
   display: inline-block;
   border-radius: 50%;
   margin-right: 10px;
-  font-size: 12px;
+  font-size: 22px;
   font-weight: 600;
   transform: translateY(-2px);
-  float: left;
+  float: right;
+  border: none;
+  text-decoration: none;
+  display: inline-block;
 }
 
-.reiseitem:hover reiseitemprefix {
+.reiseitembutton:hover {
+  transform: scale(1.1);
   background: #fff;
-  color: #FF9B71;
+  color: #ff9b71;
 }
 </style>

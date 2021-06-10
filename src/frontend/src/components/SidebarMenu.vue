@@ -61,6 +61,7 @@ export default {
   },
   methods: {
     loadMenueItems () {
+      console.log('loading Menu')
       this.menu = [
         {
           name: 'Startseite',
@@ -76,9 +77,10 @@ export default {
       ]
     }
   },
-  created () {
-    this.$store.dispatch('fetchReisen')
-    this.loadMenueItems()
+  async mounted () {
+    this.$store.dispatch('fetchReisen').then(() => {
+      this.loadMenueItems()
+    })
   }
 }
 </script>

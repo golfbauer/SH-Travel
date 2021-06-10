@@ -1,12 +1,10 @@
 <template>
     <div class="map" id="map" ref="mapContainer">
-      <ReisepunktErstellen
-        v-if="showR"
-        v-on:updateShow="closePopup($event)"
-        v-on:makeToast="makeToast($event)"
-      />
-<!--      <ReiseAnsicht-->
-<!--      />-->
+      <ReisepunktErstellen v-if="showReisepunktErstellen" v-on:updateShow="closeReisepunktErstellen($event)"
+                           v-on:makeToast="makeToast($event)"/>
+      <ReiseAuswahl v-if="showReiseAuswahl" v-on:selected="openReiseAnsicht($event)"
+                    v-on:cancel="closeReiseAuswahl($event)"/>
+      <ReiseAnsicht v-if="showReiseAnsicht" v-on:cancel="closeReiseAnsicht" v-on:makeToast="makeToast($event)"/>
     </div>
 </template>
 
@@ -14,35 +12,53 @@
 import { createMap, loadMarker, L, map } from '@/lib/mapWrapper'
 import ReisepunktErstellen from '@/components/ReisepunktErstellen'
 import ReiseAnsicht from '@/components/ReiseAnsicht'
+import ReiseAuswahl from '@/components/ReiseAuswahl'
 
 export default {
   name: 'Map',
   data () {
     return {
-      showR: false
+      showReisepunktErstellen: false,
+      showReiseAuswahl: false,
+      showReiseAnsicht: false
     }
   },
   components: {
-    ReisepunktErstellen// ,
-    // ReiseAnsicht
+    ReisepunktErstellen,
+    ReiseAnsicht,
+    ReiseAuswahl
   },
   mounted () {
     createMap(this)
-    loadMarker()
+    loadMarker(this)
   },
   updated () {
-    loadMarker()
+    loadMarker(this)
   },
   methods: {
-    openPopup: function () {
-      this.showR = true
+    openReisepunktErstellen: function () {
+      this.showReisepunktErstellen = true
     },
-    closePopup: function (showProp) {
-      this.showR = false
+    closeReisepunktErstellen: function () {
+      this.showReisepunktErstellen = false
+    },
+    openReiseAuswahl: function (reisepunkt) {
+      this.$store.dispatch('selectReisepunkt', reisepunkt)
+      this.showReiseAuswahl = true
+    },
+    closeReiseAuswahl: function () {
+      this.showReiseAuswahl = false
+    },
+    openReiseAnsicht: function () {
+      this.closeReiseAuswahl()
+      this.showReiseAnsicht = true
+    },
+    closeReiseAnsicht: function () {
+      this.showReiseAnsicht = false
     },
     setClickedCoords: function (lat, lng) {
       this.$store.dispatch('chooseCoords', { lng: lng, lat: lat })
-      this.openPopup()
+      this.openReisepunktErstellen()
     },
     makeToast: function (array) {
       this.$bvToast.toast(array[2], {

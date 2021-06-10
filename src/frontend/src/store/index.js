@@ -2,7 +2,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import Reisepunkte from './modules/reisepunkte'
 import ClickedCoords from './modules/clickedCoords'
-import reisen from './modules/reisen'
+import Reisen from './modules/reisen'
+import CreateReisen from './modules/createReisen'
 
 /**
  * This script creates and exports a Vuex (data-)store.
@@ -17,6 +18,7 @@ export const store = new Vuex.Store({
   modules: {
     Reisepunkte,
     ClickedCoords,
-    reisen
+    Reisen,
+    CreateReisen
   }
 })

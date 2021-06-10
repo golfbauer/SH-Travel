@@ -62,6 +62,9 @@ export default {
         this.showChild = false
       }
     }
+  },
+  created () {
+    console.log(this.content)
   }
 }
 </script>
