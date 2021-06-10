@@ -3,6 +3,8 @@ package de.hhn.se.labswp.wstgsh.webcontroller;
 import de.hhn.se.labswp.wstgsh.webapi.models.Attraktion;
 import de.hhn.se.labswp.wstgsh.webapi.models.AttraktionOeffnungszeit;
 import de.hhn.se.labswp.wstgsh.webapi.models.AttraktionRepository;
+
+import java.time.LocalTime;
 import java.util.List;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,32 +39,45 @@ public class AttraktionController {
    */
   @GetMapping(path = "/attraktion/{id}")
   Attraktion one(@PathVariable Long id) {
-    return  repository.findById(id).orElseThrow(() -> new IllegalStateException("Id not found."));
+    return  repository.findById(id).orElseThrow(() -> new IllegalStateException("Id nicht "
+            + "gefunden"));
   }
 
   /**
-   * Saves a new Attraktion in the DB
+   * Saves a new Attraktion in the DB.
    * @param newAttraktion New Attraktion Objekt you want to save in the DB.
-   * @return the just saved Attraktion Object.
    */
   @PostMapping(path = "/attraktion")
   void newAttraktion(@RequestBody Attraktion newAttraktion) {
+    if (newAttraktion.getName().length() > 30) {
+      throw new IllegalStateException("Name der Attraktion ist zu lang.");
+    }
     List<AttraktionOeffnungszeit> oeffnungszeiten = newAttraktion.getAttraktionOeffnungszeiten();
     for (AttraktionOeffnungszeit oeffnungszeit : oeffnungszeiten) {
       oeffnungszeit.setAttraktion(newAttraktion);
+      if (oeffnungszeit.isGanztaegig()) {
+        oeffnungszeit.setOeffnetUm(LocalTime.of(0, 0, 0));
+        oeffnungszeit.setSchliestUm(LocalTime.of(23, 59, 0));
+        oeffnungszeit.setGeschlossen(false);
+      }
+      if (oeffnungszeit.isGeschlossen()) {
+        oeffnungszeit.setOeffnetUm(null);
+        oeffnungszeit.setSchliestUm(null);
+        oeffnungszeit.setGanztaegig(false);
+      }
     }
     repository.save(newAttraktion);
   }
 
   /**
    * Adds a new Oeffnungszeit to Attraktion.
-   * @param string Content of Oeffnungszeit.
+   * @param oeffnungszeit The Oeffnungszeit to be added to Attraktion.
    * @param id ID of Attraktion.
    */
   @PostMapping(path = "/attraktion/oeffnungszeit/{id}")
-  void addOeffnungszeit(@RequestBody String string, @PathVariable Long id) {
+  void addOeffnungszeit(@RequestBody AttraktionOeffnungszeit oeffnungszeit, @PathVariable Long id) {
     repository.findById(id).map(attraktion -> {
-      AttraktionOeffnungszeit oeffnungszeit = new AttraktionOeffnungszeit(string, attraktion);
+      oeffnungszeit.setAttraktion(attraktion);
       attraktion.getAttraktionOeffnungszeiten().add(oeffnungszeit);
       return repository.save(attraktion);
     });

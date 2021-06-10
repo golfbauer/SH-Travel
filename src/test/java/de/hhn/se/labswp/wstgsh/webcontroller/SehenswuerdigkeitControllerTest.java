@@ -83,6 +83,19 @@ class SehenswuerdigkeitControllerTest {
   }
 
   @Test
+  void nameIsToLong() {
+    //given
+    Sehenswuerdigkeit temp = new Sehenswuerdigkeit(69L, 95.123f, 78.456f,
+            "nutzerEmail@mail.com", "Sehenswürdig mit einem Namen der zu Lang ist, "
+            + "als das wir diesen erlauben könnten",
+            "Eine Sehenswürdige Sehenswürdigkeit");
+    //when
+    assertThatThrownBy(() -> underTest.newSehenswuerdigkeit(temp))
+            .isInstanceOf(IllegalStateException.class)
+            .hasMessageContaining("Name der Sehenswuerdigkeit ist zu lang.");
+  }
+
+  @Test
  void editSehenswuerdigkeit() {
     //given
     Long id = 69L;

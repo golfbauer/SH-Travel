@@ -5,8 +5,8 @@
         v-on:updateShow="closePopup($event)"
         v-on:makeToast="makeToast($event)"
       />
-      <ReiseAnsicht
-      />
+<!--      <ReiseAnsicht-->
+<!--      />-->
     </div>
 </template>
 
@@ -23,8 +23,8 @@ export default {
     }
   },
   components: {
-    ReisepunktErstellen,
-    ReiseAnsicht
+    ReisepunktErstellen// ,
+    // ReiseAnsicht
   },
   mounted () {
     createMap(this)
