@@ -5,7 +5,6 @@ import ClickedCoords from './modules/clickedCoords'
 import Reisen from './modules/reisen'
 import CreateReisen from './modules/createReisen'
 
-
 /**
  * This script creates and exports a Vuex (data-)store.
  * It also registers store modules which represent different data stores.
