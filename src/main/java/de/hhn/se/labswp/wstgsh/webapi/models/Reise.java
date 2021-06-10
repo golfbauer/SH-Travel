@@ -25,7 +25,6 @@ public class Reise {
    * containing ids of each class, called reise_reisepunkt.
    */
   @ManyToMany(cascade = {
-          CascadeType.PERSIST,
           CascadeType.MERGE
   })
   @JoinColumn(nullable = false)
@@ -41,7 +40,6 @@ public class Reise {
    * containing ids of each class, called reise_reisekatalog.
    */
   @ManyToMany(cascade = {
-          CascadeType.PERSIST,
           CascadeType.MERGE
   })
   @JoinTable(

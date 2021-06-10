@@ -45,6 +45,12 @@ public class ReiseController {
    */
   @PostMapping(path = "/reise")
   Reise newReise(@RequestBody Reise newReise) {
+    for (int i = 0; i < newReise.getReisepunkte().size(); i++) {
+      reisepunktRepository.findById(newReise.getReisepunkte().get(i).getId()).map(reisepunkt -> {
+        reisepunkt.addReise(newReise);
+        return reisepunktRepository.save(reisepunkt);
+      });
+    }
     return repository.save(newReise);
   }
 
@@ -92,6 +98,7 @@ public class ReiseController {
           }
         }
         reise.addReisepunkt(reisepunkt);
+        reisepunkt.addReise(reise);
         return reisepunktRepository.save(reisepunkt);
       }).orElseThrow(() -> new IllegalStateException("Could not save Reisepunkt"));
       return repository.save(reise);
