@@ -116,89 +116,89 @@
               id="input-group-4"
               label="Öffnungszeiten"
               label-for="input-4"
-              description="z.B. Montag 10:00 - 15:30, Mittwoch 9:00 - 14:00, Freitag 9:00 - 12:00"
+              description="Zeitangabe: 14:00, 15:30,... | Geschlossen - Felder leer lassen"
             >
               <b-input-group>
                 <label class="oeffnungszeitlabel">Montag</label>
-                <b-input class="inpvonzeit" v-model="mo_von" :disabled="mo_ganztaegig"></b-input>
+                <b-input class="inpvonzeit" v-model="mo_von" :disabled="mo_ganztaegig == true"></b-input>
                 <label class="bislabel" >bis</label>
-                <b-input class="inpbiszeit" v-model="mo_bis" :disabled="mo_ganztaegig"></b-input>
+                <b-input class="inpbiszeit" v-model="mo_bis" :disabled="mo_ganztaegig == true"></b-input>
 
-                <b-checkbox-group>
+                <b-checkbox-group v-model="mo_ganztaegig">
                   <label class="ganztaegiglabel">Ganztägig</label>
-                  <b-checkbox class="cbganztaegig" v-model="mo_ganztaegig"></b-checkbox>
+                  <b-checkbox class="cbganztaegig"></b-checkbox>
                 </b-checkbox-group>
               </b-input-group>
 
               <b-input-group>
                 <label class="oeffnungszeitlabel">Dienstag</label>
-                <b-input class="inpvonzeit" v-model="di_von" :disabled="di_ganztaegig"></b-input>
+                <b-input class="inpvonzeit" v-model="di_von" :disabled="di_ganztaegig == true"></b-input>
                 <label class="bislabel">bis</label>
-                <b-input class="inpbiszeit" v-model="di_bis" :disabled="di_ganztaegig"></b-input>
+                <b-input class="inpbiszeit" v-model="di_bis" :disabled="di_ganztaegig == true"></b-input>
 
-                <b-checkbox-group>
+                <b-checkbox-group v-model="di_ganztaegig">
                   <label class="ganztaegiglabel">Ganztägig</label>
-                  <b-checkbox class="cbganztaegig" v-model="di_ganztaegig"></b-checkbox>
+                  <b-checkbox class="cbganztaegig"></b-checkbox>
                 </b-checkbox-group>
               </b-input-group>
 
               <b-input-group>
                 <label class="oeffnungszeitlabel">Mittwoch</label>
-                <b-input class="inpvonzeit" v-model="mi_von" :disabled="mi_ganztaegig"></b-input>
+                <b-input class="inpvonzeit" v-model="mi_von" :disabled="mi_ganztaegig == true"></b-input>
                 <label class="bislabel">bis</label>
-                <b-input class="inpbiszeit" v-model="mi_bis" :disabled="mi_ganztaegig"></b-input>
+                <b-input class="inpbiszeit" v-model="mi_bis" :disabled="mi_ganztaegig == true"></b-input>
 
-                <b-checkbox-group>
+                <b-checkbox-group v-model="mi_ganztaegig">
                   <label class="ganztaegiglabel">Ganztägig</label>
-                  <b-checkbox class="cbganztaegig" v-model="mi_ganztaegig"></b-checkbox>
+                  <b-checkbox class="cbganztaegig"></b-checkbox>
                 </b-checkbox-group>
               </b-input-group>
 
               <b-input-group>
                 <label class="oeffnungszeitlabel">Donnerstag</label>
-                <b-input class="inpvonzeit" v-model="do_von" :disabled="do_ganztaegig"></b-input>
+                <b-input class="inpvonzeit" v-model="do_von" :disabled="do_ganztaegig == true"></b-input>
                 <label class="bislabel">bis</label>
-                <b-input class="inpbiszeit" v-model="do_bis" :disabled="do_ganztaegig"></b-input>
+                <b-input class="inpbiszeit" v-model="do_bis" :disabled="do_ganztaegig == true"></b-input>
 
-                <b-checkbox-group>
+                <b-checkbox-group v-model="do_ganztaegig">
                   <label class="ganztaegiglabel">Ganztägig</label>
-                  <b-checkbox class="cbganztaegig" v-model="do_ganztaegig"></b-checkbox>
+                  <b-checkbox class="cbganztaegig"></b-checkbox>
                 </b-checkbox-group>
               </b-input-group>
 
               <b-input-group>
                 <label class="oeffnungszeitlabel">Freitag</label>
-                <b-input class="inpvonzeit" v-model="fr_von" :disabled="fr_ganztaegig"></b-input>
+                <b-input class="inpvonzeit" v-model="fr_von" :disabled="fr_ganztaegig == true"></b-input>
                 <label class="bislabel">bis</label>
-                <b-input class="inpbiszeit" v-model="fr_bis" :disabled="fr_ganztaegig"></b-input>
+                <b-input class="inpbiszeit" v-model="fr_bis" :disabled="fr_ganztaegig == true"></b-input>
 
-                <b-checkbox-group>
+                <b-checkbox-group v-model="fr_ganztaegig">
                   <label class="ganztaegiglabel">Ganztägig</label>
-                  <b-checkbox class="cbganztaegig" v-model="fr_ganztaegig"></b-checkbox>
+                  <b-checkbox class="cbganztaegig"></b-checkbox>
                 </b-checkbox-group>
               </b-input-group>
 
               <b-input-group>
                 <label class="oeffnungszeitlabel">Samstag</label>
-                <b-input class="inpvonzeit" v-model="sa_von" :disabled="sa_ganztaegig"></b-input>
+                <b-input class="inpvonzeit" v-model="sa_von" :disabled="sa_ganztaegig == true"></b-input>
                 <label class="bislabel">bis</label>
-                <b-input class="inpbiszeit" v-model="sa_bis" :disabled="sa_ganztaegig"></b-input>
+                <b-input class="inpbiszeit" v-model="sa_bis" :disabled="sa_ganztaegig == true"></b-input>
 
-                <b-checkbox-group>
+                <b-checkbox-group v-model="sa_ganztaegig">
                   <label class="ganztaegiglabel">Ganztägig</label>
-                  <b-checkbox class="cbganztaegig" v-model="sa_ganztaegig"></b-checkbox>
+                  <b-checkbox class="cbganztaegig"></b-checkbox>
                 </b-checkbox-group>
               </b-input-group>
 
               <b-input-group>
                 <label class="oeffnungszeitlabel">Sonntag</label>
-                <b-input class="inpvonzeit" v-model="so_von" :disabled="so_ganztaegig"></b-input>
+                <b-input class="inpvonzeit" v-model="so_von" :disabled="so_ganztaegig == true"></b-input>
                 <label class="bislabel">bis</label>
-                <b-input class="inpbiszeit" v-model="so_bis" :disabled="so_ganztaegig"></b-input>
+                <b-input class="inpbiszeit" v-model="so_bis" :disabled="so_ganztaegig == true"></b-input>
 
-                <b-checkbox-group>
+                <b-checkbox-group v-model="so_ganztaegig">
                   <label class="ganztaegiglabel">Ganztägig</label>
-                  <b-checkbox class="cbganztaegig" v-model="so_ganztaegig"></b-checkbox>
+                  <b-checkbox class="cbganztaegig"></b-checkbox>
                 </b-checkbox-group>
               </b-input-group>
 
@@ -437,6 +437,10 @@ export default {
     },
     clearIfGanztaegig (ganztaegig, zeit) {
       return ganztaegig === true ? null : zeit
+    },
+    moToggle () { // ToDo entfernen?
+      this.moEnabled = !this.moEnabled
+      console.log(this.moEnabled)
     }
   },
   created () {
