@@ -30,6 +30,10 @@ public class Punkt extends Reisepunkt {
     super(id, laengengrad, breitengrad, nutzerEmail, name);
   }
 
+  public Punkt(Float laengengrad, Float breitengrad, String nutzerEmail, String name) {
+    super(laengengrad, breitengrad, nutzerEmail, name);
+  }
+
   public Punkt() {
 
   }
