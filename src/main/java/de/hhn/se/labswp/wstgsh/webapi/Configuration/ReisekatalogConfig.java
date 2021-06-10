@@ -19,9 +19,9 @@ public class ReisekatalogConfig {
   @Bean
   CommandLineRunner commandLineRunnerReisekatalog(ReisekatalogRepository repository) {
     return args -> {
-      List<Reisekatalog> list = new ArrayList<>();
+      /*List<Reisekatalog> list = new ArrayList<>();
 
-      repository.saveAll(list);
+      repository.saveAll(list);*/
     };
   }
 }

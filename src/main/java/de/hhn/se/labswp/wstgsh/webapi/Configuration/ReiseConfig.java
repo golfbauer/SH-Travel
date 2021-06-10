@@ -19,9 +19,9 @@ public class ReiseConfig {
   @Bean
   CommandLineRunner commandLineRunnerReise(ReiseRepository repository) {
     return args -> {
-      List<Reise> list = new ArrayList<>();
+      /*List<Reise> list = new ArrayList<>();
 
-      repository.saveAll(list);
+      repository.saveAll(list);*/
     };
   }
 }
