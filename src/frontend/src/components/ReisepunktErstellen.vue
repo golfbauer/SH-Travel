@@ -108,9 +108,6 @@
               >
               </b-form-input>
             </b-form-group>
-
-<<<<<<< HEAD
-=======
               <b-form-group
                 label-align="left"
                 id="input-group-laengengrad"
@@ -141,13 +138,12 @@
                 ></b-form-input>
               </b-form-group>
             <!-- Öffnungszeiten -->
->>>>>>> bugfix/243_Oeffnungszeiten_Format
             <b-form-group
               label-align="left"
               id="input-group-4"
               label="Öffnungszeiten"
               label-for="input-4"
-              description="z.B. Montag 10:00 - 15:30, Mittwoch 9:00 - 14:00, Freitag 9:00 - 12:00"
+              description="Zeitangabe: 14:00, 15:30,... | Geschlossen - Felder leer lassen"
             >
               <b-input-group>
                 <label class="oeffnungszeitlabel">Montag</label>
