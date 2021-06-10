@@ -62,11 +62,15 @@ export default {
         console.log('posted reise')
         this.makeToast('success', 'Reise ', this.reiseName + ' wurde erfolgreich angelegt')
         this.$emit('cancel')
+        toggleScrolling(true)
+        toggleDragging(true)
       } else {
         this.makeToast('danger', 'Fehler beim erstellen von ' + this.reiseName)
       }
     },
     onCancelClick () {
+      toggleScrolling(true)
+      toggleDragging(true)
       this.$emit('cancel')
       console.log('Änderungen nicht übernommen.')
     },
