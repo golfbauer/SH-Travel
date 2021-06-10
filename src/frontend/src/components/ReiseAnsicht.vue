@@ -1,13 +1,13 @@
 <template>
   <div id="reiseansichtcontainer" @mouseover="mouseOver" @mouseleave="mouseLeave">
-    <h2 id="reisetitel">{{ reisename }}</h2>
+    <h2 id="reisetitel">{{ reise.name }}</h2>
     <button class="reiseoptionbuttons" id="btnabbrechen" @click="onCancelClick">Abbrechen</button>
     <button class="reiseoptionbuttons" id="btnspeichern" @click="onSaveClick">Speichern</button>
 
     <div class="reiseansicht" id="reiseansicht">
       <ul id="reiseliste">
-        <li class="reiseitem" v-for="markeritem in markeritems" v-bind:key="markeritem">
-          {{ markeritem }}
+        <li class="reiseitem" v-for="(item, index) in reisepunkte" :key="index">
+          {{ item.reisepunkt.name }}
           <button class="reiseitembutton" @click="onDeleteClick">-</button>
         </li>
       </ul>
@@ -18,17 +18,38 @@
 
 <script>
 import { toggleScrolling, toggleDragging } from '@/lib/mapWrapper'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'ReiseAnsicht',
   data () {
     return {
-      isHovered: false,
-      reisename: 'Unbekannte Reise',
-      markeritems: ['Oma Renata', 'Dienststelle No.2039', 'Burgerhouse', 'Eine wunderschöne Statue', '2000 Jahre alter Baum', 'See mit Spielplatz', 'Feinkostladen', 'Schokoladenfabrik', 'Reginas Wohnung', 'Hotel Kiel', 'Japan Garten', 'Nationalpark', 'Schönes Cafe', 'Kleiner Park', 'Autovermietung']
+      reise: undefined,
+      reisepunkte: []
     }
   },
   methods: {
+    init () {
+      const reise = this.getReise
+      if (reise !== undefined) {
+        this.reise = reise
+        this.reisepunkte = reise.punkte
+        const reisepunkt = this.getReisepunkt
+        this.addReisepunkt(reisepunkt)
+        console.log(this.reisepunkte)
+      } else {
+        this.reise = {
+          name: 'Name eingeben',
+          punkte: []
+        }
+        const reisepunkt = this.getReisepunkt
+        this.addReisepunkt(reisepunkt)
+      }
+    },
+    addReisepunkt (reisepunkt) {
+      const length = this.reisepunkte.length
+      this.reisepunkte.push({ index: length, reisepunkt: reisepunkt })
+    },
     mouseOver () {
       toggleScrolling(false)
       toggleDragging(false)
@@ -45,10 +66,13 @@ export default {
     },
     onDeleteClick () {
       console.log('Marker aus Reiseliste entfernen')
-    },
-    addMarkerToReiseAnsicht (newMarker) {
-      this.markeritems.push(newMarker)
     }
+  },
+  computed: {
+    ...mapGetters(['getReise', 'getReisepunkt'])
+  },
+  created () {
+    this.init()
   }
 }
 </script>

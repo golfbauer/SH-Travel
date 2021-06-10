@@ -12,7 +12,7 @@
         </li>
       </ul>
       <hr>
-      <div id="auswahl_footer">
+      <div id="auswahl_footer" @click="selectReise()">
         <h5>Neue Reise erstellen</h5>
         <font-awesome-icon icon="plus"/>
       </div>
@@ -46,10 +46,13 @@ export default {
     },
     selectReise (reise) {
       this.$store.dispatch('selectReise', reise)
-      this.closeThis()
+      this.proceedThis()
     },
-    closeThis () {
-      this.$emit('selected', false)
+    proceedThis () {
+      this.$emit('selected')
+    },
+    cancelThis () {
+      this.$emit('cancel')
     }
   },
   computed: {

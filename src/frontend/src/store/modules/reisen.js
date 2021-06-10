@@ -44,6 +44,7 @@ const actions = {
           {
             index: 0,
             reisepunkt: {
+              id: 1,
               name: 'Test Punkt 1',
               breitengrad: 54.0259,
               laengengrad: 10.7554
@@ -52,6 +53,7 @@ const actions = {
           {
             index: 1,
             reisepunkt: {
+              id: 2,
               name: 'Test Punkt 2',
               breitengrad: 54.3447,
               laengengrad: 10.4559
@@ -60,6 +62,7 @@ const actions = {
           {
             index: 2,
             reisepunkt: {
+              id: 34,
               name: 'Test Punkt 3',
               breitengrad: 54.3908,
               laengengrad: 10.3766

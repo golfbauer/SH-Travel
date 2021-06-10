@@ -2,7 +2,8 @@
     <div class="map" id="map" ref="mapContainer">
       <ReisepunktErstellen v-if="showReisepunktErstellen" v-on:updateShow="closeReisepunktErstellen($event)"
                            v-on:makeToast="makeToast($event)"/>
-      <ReiseAuswahl v-if="showReiseAuswahl" v-on:selected="closeReiseAuswahl($event)"/>
+      <ReiseAuswahl v-if="showReiseAuswahl" v-on:selected="openReiseAnsicht($event)"
+                    v-on:cancel="closeReiseAuswahl($event)"/>
       <ReiseAnsicht v-if="showReiseAnsicht"/>
     </div>
 </template>
@@ -38,15 +39,19 @@ export default {
     openReisepunktErstellen: function () {
       this.showReisepunktErstellen = true
     },
-    closeReisepunktErstellen: function (showProp) {
+    closeReisepunktErstellen: function () {
       this.showReisepunktErstellen = false
     },
     openReiseAuswahl: function (reisepunkt) {
       this.$store.dispatch('selectReisepunkt', reisepunkt)
       this.showReiseAuswahl = true
     },
-    closeReiseAuswahl: function (showProp) {
+    closeReiseAuswahl: function () {
       this.showReiseAuswahl = false
+    },
+    openReiseAnsicht: function () {
+      this.closeReiseAuswahl()
+      this.showReiseAnsicht = true
     },
     setClickedCoords: function (lat, lng) {
       this.$store.dispatch('chooseCoords', { lng: lng, lat: lat })
