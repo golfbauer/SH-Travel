@@ -19,13 +19,13 @@ public class AttraktionOeffnungszeit {
 
   private DayOfWeek tagDerWoche;
 
-  private LocalTime oeffnetUm;
+  private LocalTime oeffnetUm = null;
 
-  private LocalTime schliestUm;
+  private LocalTime schliestUm = null;
 
-  private boolean ganztaegig;
+  private boolean ganztaegig = false;
 
-  private boolean geschlossen;
+  private boolean geschlossen = false;
 
   @ManyToOne
   @JoinColumn(nullable = false)

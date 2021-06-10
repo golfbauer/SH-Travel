@@ -86,7 +86,7 @@ function setMarker (reisepunkt) {
 
   // Popup erstellen
   var popup = L.popup().setContent(content)
-  var markerTest = L.marker([reisepunkt.laengengrad, reisepunkt.breitengrad]).addTo(map)
+  var markerTest = L.marker([reisepunkt.breitengrad, reisepunkt.laengengrad]).addTo(map)
 
   markerTest.bindPopup(popup)
 }

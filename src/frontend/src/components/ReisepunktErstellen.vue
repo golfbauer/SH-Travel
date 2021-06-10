@@ -371,6 +371,13 @@ export default {
       fr_ganztaegig: false,
       sa_ganztaegig: false,
       so_ganztaegig: false,
+      mo_geschlossen: false,
+      di_geschlossen: false,
+      mi_geschlossen: false,
+      do_geschlossen: false,
+      fr_geschlossen: false,
+      sa_geschlossen: false,
+      so_geschlossen: false,
       bilder: [],
       laengengrad: '',
       breitengrad: ''
@@ -422,27 +429,57 @@ export default {
           breitengrad: this.breitengrad,
           nutzerEmail: this.nutzerEmail,
           name: this.name,
-          mo_von: this.formatOeffnungszeit(this.mo_von),
-          mo_bis: this.formatOeffnungszeit(this.mo_bis),
-          di_von: this.formatOeffnungszeit(this.di_von),
-          di_bis: this.formatOeffnungszeit(this.di_bis),
-          mi_von: this.formatOeffnungszeit(this.mi_von),
-          mi_bis: this.formatOeffnungszeit(this.mi_bis),
-          do_von: this.formatOeffnungszeit(this.do_von),
-          do_bis: this.formatOeffnungszeit(this.do_bis),
-          fr_von: this.formatOeffnungszeit(this.fr_von),
-          fr_bis: this.formatOeffnungszeit(this.fr_bis),
-          sa_von: this.formatOeffnungszeit(this.sa_von),
-          sa_bis: this.formatOeffnungszeit(this.sa_bis),
-          so_von: this.formatOeffnungszeit(this.so_von),
-          so_bis: this.formatOeffnungszeit(this.so_bis),
-          mo_ganztaegig: this.mo_ganztaegig,
-          di_ganztaegig: this.di_ganztaegig,
-          mi_ganztaegig: this.mi_ganztaegig,
-          do_ganztaegig: this.do_ganztaegig,
-          fr_ganztaegig: this.fr_ganztaegig,
-          sa_ganztaegig: this.sa_ganztaegig,
-          so_ganztaegig: this.so_ganztaegig,
+          attraktionOeffnungszeiten: [
+            {
+              tagDerWoche: 'MONDAY',
+              oeffnetUm: this.mo_von,
+              schliestUm: this.mo_bis,
+              ganztaegig: this.mo_ganztaegig[0],
+              geschlossen: this.checkIfGeschlossen(this.mo_ganztaegig, this.mo_von, this.mo_bis)
+            },
+            {
+              tagDerWoche: 'TUESDAY',
+              oeffnetUm: this.di_von,
+              schliestUm: this.di_bis,
+              ganztaegig: this.di_ganztaegig[0],
+              geschlossen: this.checkIfGeschlossen(this.di_ganztaegig, this.di_von, this.di_bis)
+            },
+            {
+              tagDerWoche: 'WEDNESDAY',
+              oeffnetUm: this.mi_von,
+              schliestUm: this.mi_bis,
+              ganztaegig: this.mi_ganztaegig[0],
+              geschlossen: this.checkIfGeschlossen(this.mi_ganztaegig, this.mi_von, this.mi_bis)
+            },
+            {
+              tagDerWoche: 'THURSDAY',
+              oeffnetUm: this.do_von,
+              schliestUm: this.do_bis,
+              ganztaegig: this.do_ganztaegig[0],
+              geschlossen: this.checkIfGeschlossen(this.do_ganztaegig, this.do_von, this.do_bis)
+            },
+            {
+              tagDerWoche: 'FRIDAY',
+              oeffnetUm: this.fr_von,
+              schliestUm: this.fr_bis,
+              ganztaegig: this.fr_ganztaegig[0],
+              geschlossen: this.checkIfGeschlossen(this.fr_ganztaegig, this.fr_von, this.fr_bis)
+            },
+            {
+              tagDerWoche: 'SATURDAY',
+              oeffnetUm: this.sa_von,
+              schliestUm: this.sa_bis,
+              ganztaegig: this.sa_ganztaegig[0],
+              geschlossen: this.checkIfGeschlossen(this.sa_ganztaegig, this.sa_von, this.sa_bis)
+            },
+            {
+              tagDerWoche: 'SUNDAY',
+              oeffnetUm: this.so_von,
+              schliestUm: this.so_bis,
+              ganztaegig: this.so_ganztaegig[0],
+              geschlossen: this.checkIfGeschlossen(this.so_ganztaegig, this.so_von, this.so_bis)
+            }
+          ],
           beschreibung: this.beschreibung,
           bilder: this.bilder
         })
@@ -479,6 +516,9 @@ export default {
       var ret = time.toLocaleTimeString('it-IT') // 01:50:10
       ret = ret.substring(0, ret.length - 3)
       return ret
+    },
+    checkIfGeschlossen (ganztaegig, von, bis) {
+      return !ganztaegig && von === '' && bis === ''
     }
   },
   created () {
