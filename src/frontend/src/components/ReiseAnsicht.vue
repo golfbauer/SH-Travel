@@ -1,13 +1,17 @@
 <template>
   <div id="reiseansichtcontainer" @mouseover="mouseOver" @mouseleave="mouseLeave">
-    <h2 id="reisetitel">{{ reise.name }}</h2>
-    <button class="reiseoptionbuttons" id="btnabbrechen" @click="onCancelClick">Abbrechen</button>
-    <button class="reiseoptionbuttons" id="btnspeichern" @click="onSaveClick">Speichern</button>
+    <header>
+      <input type="text" id="reisetitel" placeholder="Name eingeben">
+      <div>
+        <button class="reiseoptionbuttons" id="btnabbrechen" @click="onCancelClick">Abbrechen</button>
+        <button class="reiseoptionbuttons" id="btnspeichern" @click="onSaveClick">Speichern</button>
+      </div>
+    </header>
 
     <div class="reiseansicht" id="reiseansicht">
       <ul id="reiseliste">
         <li class="reiseitem" v-for="(item, index) in reisepunkte" :key="index">
-          {{ item.reisepunkt.name }}
+          {{ item.name }}
           <button class="reiseitembutton" @click="onDeleteClick">-</button>
         </li>
       </ul>
@@ -17,6 +21,7 @@
 </template>
 
 <script>
+import { createReise } from '@/lib/reisen'
 import { toggleScrolling, toggleDragging } from '@/lib/mapWrapper'
 import { mapGetters } from 'vuex'
 
@@ -24,32 +29,23 @@ export default {
   name: 'ReiseAnsicht',
   data () {
     return {
-      reise: undefined,
+      reiseName: undefined,
       reisepunkte: []
     }
   },
   methods: {
     init () {
-      const reise = this.getReise
-      if (reise !== undefined) {
-        this.reise = reise
-        this.reisepunkte = reise.punkte
-        const reisepunkt = this.getReisepunkt
-        this.addReisepunkt(reisepunkt)
-        console.log(this.reisepunkte)
-      } else {
-        this.reise = {
-          name: 'Name eingeben',
-          punkte: []
-        }
-        const reisepunkt = this.getReisepunkt
-        this.addReisepunkt(reisepunkt)
-      }
-    },
-    addReisepunkt (reisepunkt) {
-      const length = this.reisepunkte.length
-      this.reisepunkte.push({ index: length, reisepunkt: reisepunkt })
-      this.makeToast('success', 'Reisepunkt', reisepunkt.name + ' zur Reise ' + this.reise.name + ' hinzugefügt')
+      // const reise = this.getReise
+      // if (reise !== undefined) {
+      //   this.reisename = reisename
+      //   this.reisepunkte = reise.punkte
+      //   const reisepunkt = this.getReisepunkt
+      //   this.addReisepunkt(reisepunkt)
+      //   console.log(this.reisepunkte)
+      // } else {
+      const reisepunkt = this.getReisepunkt
+      this.reisepunkte.push(reisepunkt)
+      // }
     },
     makeToast (variant = null, title = null, body = null) {
       this.$emit('makeToast', [variant, title, body])
@@ -63,9 +59,24 @@ export default {
       toggleDragging(true)
     },
     onSaveClick () {
-      console.log('Reise wurde gespeichert.')
+      this.reiseName = document.getElementById('reisetitel').value
+      const reise = {
+        name: this.reiseName,
+        termin: undefined,
+        oeffentlich: true,
+        reisepunkte: this.reisepunkte,
+        reisekatalog: undefined
+      }
+      if (createReise(reise)) {
+        console.log('posted reise')
+        this.makeToast('success', 'Reise ', this.reiseName + ' wurde erfolgreich angelegt')
+        this.$emit('cancel')
+      } else {
+        this.makeToast('danger', 'Fehler beim erstellen von ' + this.reiseName)
+      }
     },
     onCancelClick () {
+      this.$emit('cancel')
       console.log('Änderungen nicht übernommen.')
     },
     onDeleteClick () {
@@ -149,7 +160,8 @@ export default {
   padding: 10px 20px;
   font-size: 20px;
   font-weight: 700;
-  color: white;
+  background-color: transparent;
+  color: #ffffff;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }

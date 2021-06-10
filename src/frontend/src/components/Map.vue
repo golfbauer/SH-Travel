@@ -4,7 +4,7 @@
                            v-on:makeToast="makeToast($event)"/>
       <ReiseAuswahl v-if="showReiseAuswahl" v-on:selected="openReiseAnsicht($event)"
                     v-on:cancel="closeReiseAuswahl($event)"/>
-      <ReiseAnsicht v-if="showReiseAnsicht" v-on:makeToast="makeToast($event)"/>
+      <ReiseAnsicht v-if="showReiseAnsicht" v-on:cancel="closeReiseAnsicht" v-on:makeToast="makeToast($event)"/>
     </div>
 </template>
 
@@ -52,6 +52,9 @@ export default {
     openReiseAnsicht: function () {
       this.closeReiseAuswahl()
       this.showReiseAnsicht = true
+    },
+    closeReiseAnsicht: function () {
+      this.showReiseAnsicht = false
     },
     setClickedCoords: function (lat, lng) {
       this.$store.dispatch('chooseCoords', { lng: lng, lat: lat })
