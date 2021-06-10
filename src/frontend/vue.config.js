@@ -4,6 +4,7 @@
 module.exports = {
 
   publicPath: process.env.NODE_ENV === 'production' ? '/SHTravel' : '',
+
   devServer: {
     port: '3000',
     proxy: {

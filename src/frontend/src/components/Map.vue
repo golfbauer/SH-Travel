@@ -64,3 +64,8 @@ export default {
   right: 0;
 }
 </style>
+<style>
+.leaflet-control-container .leaflet-routing-container-hide {
+  display: none;
+}
+</style>
