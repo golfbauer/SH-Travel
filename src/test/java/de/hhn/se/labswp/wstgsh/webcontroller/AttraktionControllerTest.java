@@ -103,46 +103,6 @@ class AttraktionControllerTest {
   }
 
   @Test
-  void cantAddNewAttraktionCauseGanztaegigAndZeiten() {
-    //given
-    Attraktion attraktion = new Attraktion(45.6F, 45.6F,
-            "test@web.de", "Eine Attraktion", "Dies ist ein test");
-    DayOfWeek dayOfWeek = DayOfWeek.of(5);
-    AttraktionOeffnungszeit oeffnungszeit = new AttraktionOeffnungszeit(
-            dayOfWeek, LocalTime.of(8, 0), LocalTime.of(19, 0), attraktion
-    );
-    oeffnungszeit.setGanztaegig(true);
-    attraktion.getAttraktionOeffnungszeiten().add(oeffnungszeit);
-
-    //when
-    assertThatThrownBy(() -> underTest.newAttraktion(attraktion))
-            .isInstanceOf(IllegalStateException.class)
-            .hasMessageContaining("Oeffnungszeit schließt, oeffnet, ist geschlossen "
-                    + "oder ganztaegig geoeffnet");
-
-  }
-
-  @Test
-  void cantAddNewAttraktionCauseSchliestUmUndKeinOeffnet() {
-    //given
-    Attraktion attraktion = new Attraktion(45.6F, 45.6F,
-            "test@web.de", "Eine Attraktion", "Dies ist ein test");
-    DayOfWeek dayOfWeek = DayOfWeek.of(5);
-    AttraktionOeffnungszeit oeffnungszeit = new AttraktionOeffnungszeit(
-            dayOfWeek, LocalTime.of(8, 0), LocalTime.of(19, 0), attraktion
-    );
-    oeffnungszeit.setGanztaegig(true);
-    attraktion.getAttraktionOeffnungszeiten().add(oeffnungszeit);
-
-    //when
-    assertThatThrownBy(() -> underTest.newAttraktion(attraktion))
-            .isInstanceOf(IllegalStateException.class)
-            .hasMessageContaining("Oeffnungszeit schließt, oeffnet, ist geschlossen "
-                    + "oder ganztaegig geoeffnet");
-
-  }
-
-  @Test
   void canAddNewOeffnungszeitToAttraktion() {
     //given
     Long id = 10L;
