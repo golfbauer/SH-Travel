@@ -3,6 +3,8 @@ package de.hhn.se.labswp.wstgsh.webcontroller;
 import de.hhn.se.labswp.wstgsh.webapi.models.Attraktion;
 import de.hhn.se.labswp.wstgsh.webapi.models.AttraktionOeffnungszeit;
 import de.hhn.se.labswp.wstgsh.webapi.models.AttraktionRepository;
+
+import java.time.LocalTime;
 import java.util.List;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,31 +52,16 @@ public class AttraktionController {
     List<AttraktionOeffnungszeit> oeffnungszeiten = newAttraktion.getAttraktionOeffnungszeiten();
     for (AttraktionOeffnungszeit oeffnungszeit : oeffnungszeiten) {
       oeffnungszeit.setAttraktion(newAttraktion);
-      /*if (oeffnungszeit.getOeffnetUm() == null) {
-        if (oeffnungszeit.getSchliestUm() == null) {
-          if (oeffnungszeit.isGeschlossen()) {
-            if (oeffnungszeit.isGanztaegig()) {
-              throw new IllegalStateException("Oeffnungszeit ist geschlossen und ganztägig "
-                      + "geöffnet");
-            }
-          } else {
-            if (!oeffnungszeit.isGanztaegig()) {
-              throw new IllegalStateException("Oeffnungszeit hat keine Angabe.");
-            }
-          }
-        } else {
-          throw new IllegalStateException("Oeffnungszeit hat offnet um, aber kein schließt um.");
-        }
-      } else {
-        if (oeffnungszeit.getSchliestUm() == null) {
-          throw new IllegalStateException("Oeffnungszeit hat schließt um, aber kein oeffnet um.");
-        }
-
-        if (oeffnungszeit.isGeschlossen() || oeffnungszeit.isGanztaegig()) {
-          throw new IllegalStateException("Oeffnungszeit schließt, oeffnet, ist geschlossen "
-                  + "oder ganztaegig geoeffnet");
-        }
-      }*/
+      if (oeffnungszeit.isGanztaegig()) {
+        oeffnungszeit.setOeffnetUm(LocalTime.of(0, 0, 0));
+        oeffnungszeit.setSchliestUm(LocalTime.of(23, 59, 0));
+        oeffnungszeit.setGeschlossen(false);
+      }
+      if (oeffnungszeit.isGeschlossen()) {
+        oeffnungszeit.setOeffnetUm(null);
+        oeffnungszeit.setSchliestUm(null);
+        oeffnungszeit.setGanztaegig(false);
+      }
     }
     repository.save(newAttraktion);
   }
