@@ -18,8 +18,8 @@ export default {
   data () {
     return {
       showReisepunktErstellen: false,
-      showReiseAuswahl: true,
-      showReiseAnsicht: true
+      showReiseAuswahl: false,
+      showReiseAnsicht: false
     }
   },
   components: {
@@ -29,10 +29,10 @@ export default {
   },
   mounted () {
     createMap(this)
-    loadMarker()
+    loadMarker(this)
   },
   updated () {
-    loadMarker()
+    loadMarker(this)
   },
   methods: {
     openReisepunktErstellen: function () {
