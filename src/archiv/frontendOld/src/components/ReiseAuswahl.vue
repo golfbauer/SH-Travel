@@ -22,8 +22,8 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import * as mapService from '@/service/helper/map'
-import { addReisepunkt } from '@/service/reisen'
+import { toggleDragging, toggleScrolling } from '@/lib/mapWrapper'
+import { addReisepunkt } from '@/lib/reisen'
 
 export default {
   name: 'ReiseAuswahl',
@@ -38,10 +38,12 @@ export default {
       this.reisen = this.getReisen
     },
     mouseOver () {
-      mapService.toggleMapIO(false)
+      toggleScrolling(false)
+      toggleDragging(false)
     },
     mouseLeave () {
-      mapService.toggleMapIO(true)
+      toggleScrolling(true)
+      toggleDragging(true)
     },
     selectReise (reise) {
       this.$store.dispatch('selectReise', reise)
@@ -53,11 +55,13 @@ export default {
       this.cancelThis()
     },
     proceedThis () {
-      mapService.toggleMapIO(true)
+      toggleScrolling(true)
+      toggleDragging(true)
       this.$emit('selected')
     },
     cancelThis () {
-      mapService.toggleMapIO(true)
+      toggleScrolling(true)
+      toggleDragging(true)
       this.$emit('cancel')
     }
   },

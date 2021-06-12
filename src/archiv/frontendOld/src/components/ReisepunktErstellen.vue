@@ -120,9 +120,9 @@
             >
               <b-input-group>
                 <label class="oeffnungszeitlabel">Montag</label>
-                <b-input class="inpvonzeit" v-model="mo_von" :disabled="mo_ganztaegig === true"></b-input>
+                <b-input class="inpvonzeit" v-model="mo_von" :disabled="mo_ganztaegig == true"></b-input>
                 <label class="bislabel" >bis</label>
-                <b-input class="inpbiszeit" v-model="mo_bis" :disabled="mo_ganztaegig === true"></b-input>
+                <b-input class="inpbiszeit" v-model="mo_bis" :disabled="mo_ganztaegig == true"></b-input>
 
                 <b-checkbox-group v-model="mo_ganztaegig">
                   <label class="ganztaegiglabel">Ganztägig</label>
@@ -132,9 +132,9 @@
 
               <b-input-group>
                 <label class="oeffnungszeitlabel">Dienstag</label>
-                <b-input class="inpvonzeit" v-model="di_von" :disabled="di_ganztaegig === true"></b-input>
+                <b-input class="inpvonzeit" v-model="di_von" :disabled="di_ganztaegig == true"></b-input>
                 <label class="bislabel">bis</label>
-                <b-input class="inpbiszeit" v-model="di_bis" :disabled="di_ganztaegig === true"></b-input>
+                <b-input class="inpbiszeit" v-model="di_bis" :disabled="di_ganztaegig == true"></b-input>
 
                 <b-checkbox-group v-model="di_ganztaegig">
                   <label class="ganztaegiglabel">Ganztägig</label>
@@ -144,9 +144,9 @@
 
               <b-input-group>
                 <label class="oeffnungszeitlabel">Mittwoch</label>
-                <b-input class="inpvonzeit" v-model="mi_von" :disabled="mi_ganztaegig === true"></b-input>
+                <b-input class="inpvonzeit" v-model="mi_von" :disabled="mi_ganztaegig == true"></b-input>
                 <label class="bislabel">bis</label>
-                <b-input class="inpbiszeit" v-model="mi_bis" :disabled="mi_ganztaegig === true"></b-input>
+                <b-input class="inpbiszeit" v-model="mi_bis" :disabled="mi_ganztaegig == true"></b-input>
 
                 <b-checkbox-group v-model="mi_ganztaegig">
                   <label class="ganztaegiglabel">Ganztägig</label>
@@ -156,9 +156,9 @@
 
               <b-input-group>
                 <label class="oeffnungszeitlabel">Donnerstag</label>
-                <b-input class="inpvonzeit" v-model="do_von" :disabled="do_ganztaegig === true"></b-input>
+                <b-input class="inpvonzeit" v-model="do_von" :disabled="do_ganztaegig == true"></b-input>
                 <label class="bislabel">bis</label>
-                <b-input class="inpbiszeit" v-model="do_bis" :disabled="do_ganztaegig === true"></b-input>
+                <b-input class="inpbiszeit" v-model="do_bis" :disabled="do_ganztaegig == true"></b-input>
 
                 <b-checkbox-group v-model="do_ganztaegig">
                   <label class="ganztaegiglabel">Ganztägig</label>
@@ -168,9 +168,9 @@
 
               <b-input-group>
                 <label class="oeffnungszeitlabel">Freitag</label>
-                <b-input class="inpvonzeit" v-model="fr_von" :disabled="fr_ganztaegig === true"></b-input>
+                <b-input class="inpvonzeit" v-model="fr_von" :disabled="fr_ganztaegig == true"></b-input>
                 <label class="bislabel">bis</label>
-                <b-input class="inpbiszeit" v-model="fr_bis" :disabled="fr_ganztaegig === true"></b-input>
+                <b-input class="inpbiszeit" v-model="fr_bis" :disabled="fr_ganztaegig == true"></b-input>
 
                 <b-checkbox-group v-model="fr_ganztaegig">
                   <label class="ganztaegiglabel">Ganztägig</label>
@@ -180,9 +180,9 @@
 
               <b-input-group>
                 <label class="oeffnungszeitlabel">Samstag</label>
-                <b-input class="inpvonzeit" v-model="sa_von" :disabled="sa_ganztaegig === true"></b-input>
+                <b-input class="inpvonzeit" v-model="sa_von" :disabled="sa_ganztaegig == true"></b-input>
                 <label class="bislabel">bis</label>
-                <b-input class="inpbiszeit" v-model="sa_bis" :disabled="sa_ganztaegig === true"></b-input>
+                <b-input class="inpbiszeit" v-model="sa_bis" :disabled="sa_ganztaegig == true"></b-input>
 
                 <b-checkbox-group v-model="sa_ganztaegig">
                   <label class="ganztaegiglabel">Ganztägig</label>
@@ -192,9 +192,9 @@
 
               <b-input-group>
                 <label class="oeffnungszeitlabel">Sonntag</label>
-                <b-input class="inpvonzeit" v-model="so_von" :disabled="so_ganztaegig === true"></b-input>
+                <b-input class="inpvonzeit" v-model="so_von" :disabled="so_ganztaegig == true"></b-input>
                 <label class="bislabel">bis</label>
-                <b-input class="inpbiszeit" v-model="so_bis" :disabled="so_ganztaegig === true"></b-input>
+                <b-input class="inpbiszeit" v-model="so_bis" :disabled="so_ganztaegig == true"></b-input>
 
                 <b-checkbox-group v-model="so_ganztaegig">
                   <label class="ganztaegiglabel">Ganztägig</label>
@@ -252,7 +252,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import * as mapService from '@/service/helper/map'
+import { toggleDragging } from '@/lib/mapWrapper'
 
 export default {
   name: 'ReisepunktErstellen',
@@ -276,13 +276,13 @@ export default {
       sa_bis: '',
       so_von: '',
       so_bis: '',
-      mo_ganztaegig: [],
-      di_ganztaegig: [],
-      mi_ganztaegig: [],
-      do_ganztaegig: [],
-      fr_ganztaegig: [],
-      sa_ganztaegig: [],
-      so_ganztaegig: [],
+      mo_ganztaegig: false,
+      di_ganztaegig: false,
+      mi_ganztaegig: false,
+      do_ganztaegig: false,
+      fr_ganztaegig: false,
+      sa_ganztaegig: false,
+      so_ganztaegig: false,
       mo_geschlossen: false,
       di_geschlossen: false,
       mi_geschlossen: false,
@@ -405,16 +405,19 @@ export default {
             console.error(error)
           })
       }
+
+      toggleDragging(true)
     },
     onReset (event) {
       event.preventDefault()
       this.disableThisShow()
+
+      toggleDragging(true)
     },
     makeToast (variant = null, title = null, body = null) {
       this.$emit('makeToast', [variant, title, body])
     },
     disableThisShow: function () {
-      mapService.toggleMapIO(true)
       this.$emit('updateShow', 'false')
     },
     formatOeffnungszeit (inputZeit) { // ToDo entfernen?
@@ -430,10 +433,10 @@ export default {
       return ret
     },
     checkIfGeschlossen (ganztaegig, von, bis) {
-      return !ganztaegig[ganztaegig.length - 1] && von === '' && bis === ''
+      return !ganztaegig && von === '' && bis === ''
     },
     clearIfGanztaegig (ganztaegig, zeit) {
-      return ganztaegig[ganztaegig.length - 1] === true ? null : zeit
+      return ganztaegig === true ? null : zeit
     },
     moToggle () { // ToDo entfernen?
       this.moEnabled = !this.moEnabled
@@ -444,7 +447,6 @@ export default {
     const coords = this.getCoords
     this.laengengrad = coords.laengengrad
     this.breitengrad = coords.breitengrad
-    mapService.toggleMapIO(false)
   }
 }
 </script>

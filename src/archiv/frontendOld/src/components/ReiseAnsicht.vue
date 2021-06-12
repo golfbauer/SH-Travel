@@ -21,8 +21,8 @@
 </template>
 
 <script>
-import { createReise } from '@/service/reisen'
-import * as mapService from '@/service/helper/map'
+import { createReise } from '@/lib/reisen'
+import { toggleScrolling, toggleDragging } from '@/lib/mapWrapper'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -42,10 +42,12 @@ export default {
       this.$emit('makeToast', [variant, title, body])
     },
     mouseOver () {
-      mapService.toggleMapIO(false)
+      toggleScrolling(false)
+      toggleDragging(false)
     },
     mouseLeave () {
-      mapService.toggleMapIO(true)
+      toggleScrolling(true)
+      toggleDragging(true)
     },
     onSaveClick () {
       this.reiseName = document.getElementById('reisetitel').value
@@ -60,13 +62,15 @@ export default {
         console.log('posted reise')
         this.makeToast('success', 'Reise ', this.reiseName + ' wurde erfolgreich angelegt')
         this.$emit('cancel')
-        mapService.toggleMapIO(true)
+        toggleScrolling(true)
+        toggleDragging(true)
       } else {
         this.makeToast('danger', 'Fehler beim erstellen von ' + this.reiseName)
       }
     },
     onCancelClick () {
-      mapService.toggleMapIO(true)
+      toggleScrolling(true)
+      toggleDragging(true)
       this.$emit('cancel')
       console.log('Änderungen nicht übernommen.')
     },

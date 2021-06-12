@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import Reisepunkte from './modules/reisepunkte'
 import ClickedCoords from './modules/clickedCoords'
 import Reisen from './modules/reisen'
 import CreateReisen from './modules/createReisen'
@@ -15,6 +16,7 @@ Vue.use(Vuex)
 // Create data store and register modules which are to contain.
 export const store = new Vuex.Store({
   modules: {
+    Reisepunkte,
     ClickedCoords,
     Reisen,
     CreateReisen

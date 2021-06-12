@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import * as mapService from '@/service/helper/map'
+import { addRoute, removeRoute } from '@/lib/mapWrapper'
 
 export default {
   name: 'SidebarMenuItem',
@@ -45,10 +45,10 @@ export default {
         case 'reisen':
           if (subitem === this.chosenChild) {
             this.chosenChild = undefined
-            mapService.removeRoute()
+            removeRoute()
           } else {
             this.chosenChild = subitem
-            mapService.addRoute(subitem)
+            addRoute(subitem)
           }
           break
         case undefined:

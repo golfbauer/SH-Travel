@@ -1,17 +1,15 @@
 <template>
-  <div id="map_pane">
-    <ReisepunktErstellen v-if="showReisepunktErstellen" v-on:updateShow="closeReisepunktErstellen($event)"
-                         v-on:makeToast="makeToast($event)"/>
-    <ReiseAuswahl v-if="showReiseAuswahl" v-on:selected="openReiseAnsicht($event)"
-                  v-on:cancel="closeReiseAuswahl($event)"/>
-    <ReiseAnsicht v-if="showReiseAnsicht" v-on:cancel="closeReiseAnsicht" v-on:makeToast="makeToast($event)"/>
-  </div>
+    <div class="map" id="map" ref="mapContainer">
+      <ReisepunktErstellen v-if="showReisepunktErstellen" v-on:updateShow="closeReisepunktErstellen($event)"
+                           v-on:makeToast="makeToast($event)"/>
+      <ReiseAuswahl v-if="showReiseAuswahl" v-on:selected="openReiseAnsicht($event)"
+                    v-on:cancel="closeReiseAuswahl($event)"/>
+      <ReiseAnsicht v-if="showReiseAnsicht" v-on:cancel="closeReiseAnsicht" v-on:makeToast="makeToast($event)"/>
+    </div>
 </template>
 
 <script>
-// import { createMap, loadMarker, L, map } from '@/service/helper/map'
-import * as mapService from '@/service/helper/map'
-
+import { createMap, loadMarker, L, map } from '@/lib/mapWrapper'
 import ReisepunktErstellen from '@/components/ReisepunktErstellen'
 import ReiseAnsicht from '@/components/ReiseAnsicht'
 import ReiseAuswahl from '@/components/ReiseAuswahl'
@@ -31,11 +29,11 @@ export default {
     ReiseAuswahl
   },
   mounted () {
-    mapService.createMap(this)
-    mapService.loadMarker()
+    createMap(this)
+    loadMarker(this)
   },
   updated () {
-    mapService.loadMarker()
+    loadMarker(this)
   },
   methods: {
     openReisepunktErstellen: function () {
@@ -59,10 +57,7 @@ export default {
       this.showReiseAnsicht = false
     },
     setClickedCoords: function (lat, lng) {
-      this.$store.dispatch('chooseCoords', {
-        lng: lng,
-        lat: lat
-      })
+      this.$store.dispatch('chooseCoords', { lng: lng, lat: lat })
       this.openReisepunktErstellen()
     },
     makeToast: function (array) {
@@ -77,7 +72,7 @@ export default {
 </script>
 
 <style scoped>
-#map_pane {
+.map {
   position: fixed;
   top: 0;
   bottom: 0;
