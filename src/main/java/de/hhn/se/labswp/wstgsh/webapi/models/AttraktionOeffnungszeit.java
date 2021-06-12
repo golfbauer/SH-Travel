@@ -25,7 +25,7 @@ public class AttraktionOeffnungszeit {
 
   private boolean ganztaegig = false;
 
-  private boolean geschlossen = false;
+  private boolean geschlossen = true;
 
   @ManyToOne
   @JoinColumn(nullable = false)
@@ -41,12 +41,15 @@ public class AttraktionOeffnungszeit {
   public AttraktionOeffnungszeit(DayOfWeek tagDerWoche, boolean ganztaegig, Attraktion attraktion) {
     this.tagDerWoche = tagDerWoche;
     this.attraktion = attraktion;
-    this.oeffnetUm = null;
-    this.schliestUm = null;
+
     if (ganztaegig = true) {
       this.ganztaegig = ganztaegig;
+      this.oeffnetUm = LocalTime.of(0, 0, 0);
+      this.schliestUm = LocalTime.of(23, 59, 0);
     } else {
       this.geschlossen = true;
+      this.oeffnetUm = null;
+      this.schliestUm = null;
     }
   }
 

@@ -55,6 +55,9 @@ public class AttraktionController {
     List<AttraktionOeffnungszeit> oeffnungszeiten = newAttraktion.getAttraktionOeffnungszeiten();
     for (AttraktionOeffnungszeit oeffnungszeit : oeffnungszeiten) {
       oeffnungszeit.setAttraktion(newAttraktion);
+      if (oeffnungszeit.isGeschlossen() && oeffnungszeit.isGanztaegig()) {
+        throw new IllegalStateException("Oeffnungszeit ist ganztägig und geschlossen");
+      }
       if (oeffnungszeit.isGanztaegig()) {
         oeffnungszeit.setOeffnetUm(LocalTime.of(0, 0, 0));
         oeffnungszeit.setSchliestUm(LocalTime.of(23, 59, 0));
@@ -64,6 +67,10 @@ public class AttraktionController {
         oeffnungszeit.setOeffnetUm(null);
         oeffnungszeit.setSchliestUm(null);
         oeffnungszeit.setGanztaegig(false);
+      }
+      if (oeffnungszeit.getOeffnetUm() != null && oeffnungszeit.getSchliestUm() != null) {
+        oeffnungszeit.setGanztaegig(false);
+        oeffnungszeit.setGeschlossen(true);
       }
     }
     repository.save(newAttraktion);
