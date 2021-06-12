@@ -23,7 +23,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import * as mapService from '@/service/helper/map'
-import { addReisepunkt } from '@/service/reisen'
+import { addReisepunkt } from '@/service/api/reisen'
 
 export default {
   name: 'ReiseAuswahl',

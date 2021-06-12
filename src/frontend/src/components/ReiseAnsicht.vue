@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { createReise } from '@/service/reisen'
+import { createReise } from '@/service/api/reisen'
 import * as mapService from '@/service/helper/map'
 import { mapGetters } from 'vuex'
 

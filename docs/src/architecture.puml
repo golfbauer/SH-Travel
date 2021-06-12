@@ -1,0 +1,19 @@
+@startuml App Architecture
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+
+Person(user, "Any User")
+System_Boundary(web_app, "Web Application") {
+    Container(web_site, "Single Page Application", "JWT, JSON, Vue", "Provides certain functionalities to users, accessing the backend data api, the osm api as well as the osrm demo-server")
+    Container(web_api, "Web API", "REST, JWT, Java Spring", "Provides access to authetification and data services")
+    ContainerDb(db, "Database", "Maria DB", "Holds data according to data model")
+}
+System(osm, "OSM Tile Server")
+System(osrm, "OSRM Demo Server", "Provides access to routing functionalities")
+
+Rel(user, web_site, "Uses", "https")
+Rel(web_site, web_api, "Uses", "https, JSON, JWT")
+Rel(web_api, db, "Reads/Writes")
+Rel(web_site, osm, "Loads map tiles", "https, JSON")
+Rel(web_site, osrm, "Requests", "https, JSON")
+@enduml
