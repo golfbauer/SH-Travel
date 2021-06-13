@@ -1,7 +1,18 @@
-spring.jpa.hibernate.ddl-auto=create-drop
+server:
+  error:
+    include-message: always
+    include-binding-errors: always
 
-spring.datasource.url=jdbc:postgresql://localhost:5432/registration
-spring.datasource.username=postgres
-spring.datasource.password=Oblivion1
-spring.jpa.show-sql=true
-spring.jpa.properties.hibernate.format_sql=true
+spring:
+  datasource:
+    password: Oblivion1
+    url: jdbc:postgresql://localhost:5432/registration
+    username: postgres
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
