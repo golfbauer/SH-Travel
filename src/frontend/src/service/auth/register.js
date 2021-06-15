@@ -2,44 +2,58 @@ import axios from 'axios'
 
 /* FUNCTIONS */
 
-// a function submitting a register request !!! DUMMY PARAM !!!
-export function submit ({ username: uname, email: mail, password: pword }) {
-  const user = { username: uname, email: mail, password: pword }
+// a function submitting a register request
+export function submit ({
+  vorname: vname,
+  nachname: nname,
+  email: mail,
+  accountname: acname,
+  passwort: pword
+}) {
+  const user = {
+    vorname: vname,
+    nachname: nname,
+    email: mail,
+    accountname: acname,
+    passwort: pword
+  }
 
-  // !!! WIP !!!
-  if (checkUserForm(user)) {
-    return postRegister(user)
+  const form = checkUserForm(user)
+  if (form !== 'success') {
+    return form
   } else {
-    return false
+    console.log(user)
+    // return postRegister(user)
   }
 }
 
 /* PRIVATE */
 function checkUserForm (user) {
-  let name
-  let mail
-  let pw
-
   if (user === undefined) {
     return 'undefined'
   }
-  if (user.username === '') {
-    name = false
-    return 'name'
+  if (user.vorname === '') {
+    return 'vorname'
+  }
+  if (user.nachname === '') {
+    return 'nachname'
   }
   if (user.email === '') {
-    mail = false
-    return 'mail'
+    return 'email'
   }
-  if (user.password === '' || user.password.length < 8) {
-    pw = false
-    return 'pw'
+  if (user.accountname === '') {
+    return 'accountname'
   }
-  if (name && mail && pw) {
-    return 'success'
+  if (user.password === '') {
+    return 'passwort'
   }
+  return 'success'
 }
 
-function postRegister (user) {
-  return true
+async function postRegister (user) {
+  const response = await axios.post('/SHTravel/register', user)
+  if (response.status === 200) {
+    return true
+  }
+  return false
 }

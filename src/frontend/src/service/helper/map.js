@@ -57,6 +57,7 @@ export function addRoute (routeIn) {
 
   // creating waypoints based on given routes existing points
   const points = []
+  /* routeIn.reisepunkte.forEach */
   routeIn.forEach((point) => {
     const coords = L.latLng(point.breitengrad, point.laengengrad)
     points.push(coords)

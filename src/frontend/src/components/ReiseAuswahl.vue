@@ -23,7 +23,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import * as mapService from '@/service/helper/map'
-import { addReisepunkt } from '@/service/api/reisen'
+import * as journeyService from '@/service/api/journey'
 
 export default {
   name: 'ReiseAuswahl',
@@ -49,7 +49,7 @@ export default {
     },
     addReisepunkt (reise) {
       const reisepunkt = this.getReisepunkt
-      addReisepunkt(reise, reisepunkt)
+      journeyService.addReisepunkt(reise, reisepunkt)
       this.cancelThis()
     },
     proceedThis () {

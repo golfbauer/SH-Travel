@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { createReise } from '@/service/api/reisen'
+import * as journeyService from '@/service/api/journey'
 import * as mapService from '@/service/helper/map'
 import { mapGetters } from 'vuex'
 
@@ -56,7 +56,7 @@ export default {
         reisepunkte: this.reisepunkte,
         reisekatalog: undefined
       }
-      if (createReise(reise)) {
+      if (journeyService.createReise(reise)) {
         console.log('posted reise')
         this.makeToast('success', 'Reise ', this.reiseName + ' wurde erfolgreich angelegt')
         this.$emit('cancel')
