@@ -3,7 +3,9 @@ package de.hhn.se.labswp.wstgsh.webcontroller;
 import de.hhn.se.labswp.wstgsh.webapi.models.Reise;
 import de.hhn.se.labswp.wstgsh.webapi.models.ReiseRepository;
 import de.hhn.se.labswp.wstgsh.webapi.models.ReisepunktRepository;
+
 import java.util.List;
+
 import org.springframework.web.bind.annotation.*;
 
 
@@ -20,6 +22,7 @@ public class ReiseController {
 
   /**
    * Returns a List of every Reisen.
+   *
    * @return List of every Reisen.
    */
   @GetMapping(path = "/reise")
@@ -29,22 +32,25 @@ public class ReiseController {
 
   /**
    * Returns the Reise with the specified id.
+   *
    * @param id of the Reise you want.
    * @return specified(id) Reise.
    */
   @GetMapping(path = "/reise/{id}")
   Reise one(@PathVariable Long id) {
-    return  repository.findById(id).orElseThrow(() ->
+    return repository.findById(id).orElseThrow(() ->
             new IllegalStateException("Id nicht gefunden."));
   }
 
   /**
    * Saves a new Reise in the DB
+   *
    * @param newReise New Reise Objekt you want to save in the DB.
    * @return the just saved Reise Object.
    */
   @PostMapping(path = "/reise")
   Reise newReise(@RequestBody Reise newReise) {
+    formcheckReise(newReise);
     for (int i = 0; i < newReise.getReisepunkte().size(); i++) {
       reisepunktRepository.findById(newReise.getReisepunkte().get(i).getId()).map(reisepunkt -> {
         reisepunkt.addReise(newReise);
@@ -56,12 +62,14 @@ public class ReiseController {
 
   /**
    * Overwrites Reise(id) with new one.
+   *
    * @param newReise Reise you want to use for overwriting the previous one.
-   * @param id of the Reise you want to overwrite.
+   * @param id       of the Reise you want to overwrite.
    * @return the eddited Reise.
    */
   @PutMapping(path = "/reise/{id}")
   Reise replaceReise(@RequestBody Reise newReise, @PathVariable Long id) {
+    formcheckReise(newReise);
     return repository.findById(id).map(reise -> {
       reise.setName(newReise.getName());
       reise.setTermin(newReise.getTermin());
@@ -74,6 +82,7 @@ public class ReiseController {
 
   /**
    * Deletes specified Reise.
+   *
    * @param id of the Reise you want to delete.
    */
   @DeleteMapping(path = "/reise/{id}")
@@ -84,8 +93,9 @@ public class ReiseController {
   /**
    * Adds a new Reisepunkt to the Reise. Both have to exist in the Database already.
    * Will throw a Exception if Reise already contains same Reisepunkt.
+   *
    * @param idReisepunkt ID of the Reisepunkt.
-   * @param idReise ID of the Reise.
+   * @param idReise      ID of the Reise.
    * @return Configured Reise with new Reisepunkt.
    */
   @PutMapping(path = "/reise/reisepunkt/{idReise}")
@@ -107,8 +117,9 @@ public class ReiseController {
 
   /**
    * Changes the Privacy inside a Reise, by changing the boolean oeffentlich.
+   *
    * @param oeffentlich To be changed boolean true = oeffentlich, false = privat.
-   * @param id ID of the Reise.
+   * @param id          ID of the Reise.
    * @return Configured Reise with altered Privacy Setting.
    */
   @PutMapping(path = "/reise/oeffentlich/{id}")
@@ -117,6 +128,20 @@ public class ReiseController {
       reise.setOeffentlich(oeffentlich);
       return repository.save(reise);
     }).orElseThrow(() -> new IllegalStateException("Konnte Oeffentlichkeit nicht verändern."));
+  }
+
+  /**
+   * Checks if the given Reise has flaws in its Attributes and Throws an
+   * IllegalStateException if that's the case.
+   * @param reise Reise you want to formcheck.
+   */
+  void formcheckReise(Reise reise) {
+    if (reise.getName() == null || reise.getName().length() == 0) {
+      throw new IllegalStateException("Name der Reise darf nicht leer bleiben.");
+    }
+    if (reise.getName().length() > 50) {
+      throw new IllegalStateException("Name der Reise darf nicht länger als 50 Zeichen sein.");
+    }
   }
 }
 
