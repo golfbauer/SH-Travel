@@ -3,7 +3,6 @@ package de.hhn.se.labswp.wstgsh.webcontroller;
 import de.hhn.se.labswp.wstgsh.webapi.models.Attraktion;
 import de.hhn.se.labswp.wstgsh.webapi.models.AttraktionOeffnungszeit;
 import de.hhn.se.labswp.wstgsh.webapi.models.AttraktionRepository;
-
 import java.time.LocalTime;
 import java.util.List;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -49,9 +48,7 @@ public class AttraktionController {
    */
   @PostMapping(path = "/attraktion")
   void newAttraktion(@RequestBody Attraktion newAttraktion) {
-    if (newAttraktion.getName().length() > 30) {
-      throw new IllegalStateException("Name der Attraktion ist zu lang.");
-    }
+    formcheckAttraktion(newAttraktion);
     List<AttraktionOeffnungszeit> oeffnungszeiten = newAttraktion.getAttraktionOeffnungszeiten();
     for (AttraktionOeffnungszeit oeffnungszeit : oeffnungszeiten) {
       oeffnungszeit.setAttraktion(newAttraktion);
@@ -98,6 +95,7 @@ public class AttraktionController {
    */
   @PutMapping(path = "/attraktion/{id}")
   Attraktion replaceAttraktion(@RequestBody Attraktion newAttraktion, @PathVariable Long id) {
+    formcheckAttraktion(newAttraktion);
     return repository.findById(id).map(attraktion -> {
       attraktion.setBreitengrad(newAttraktion.getBreitengrad());
       attraktion.setLaengengrad(newAttraktion.getLaengengrad());
@@ -116,5 +114,26 @@ public class AttraktionController {
   @DeleteMapping(path = "/attraktion/{id}")
   void deleteAttraktion(@PathVariable Long id) {
     repository.deleteById(id);
+  }
+
+  /**
+   * Checks if the given Attraktion has flaws in its Attributes and Throws an
+   * IllegalStateException if thats the case.
+   * @param attraktion Attraktion you want to formcheck.
+   */
+  void formcheckAttraktion(Attraktion attraktion) {
+    if (attraktion.getName().length() > 30) {
+      throw new IllegalStateException("Name der Attraktion ist zu lang.");
+    }
+    if (attraktion.getName()==null || attraktion.getName().length() == 0) {
+      throw new IllegalStateException("Name der Attraktion darf nicht leer sein.");
+    }
+    List<AttraktionOeffnungszeit> oeffnungszeiten = attraktion.getAttraktionOeffnungszeiten();
+    for (AttraktionOeffnungszeit oeffnungszeit : oeffnungszeiten) {
+      oeffnungszeit.setAttraktion(attraktion);
+      if (oeffnungszeit.isGeschlossen() && oeffnungszeit.isGanztaegig()) {
+        throw new IllegalStateException("Oeffnungszeit ist ganztägig und geschlossen");
+      }
+    }
   }
 }
