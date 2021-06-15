@@ -118,7 +118,7 @@ public class AttraktionController {
 
   /**
    * Checks if the given Attraktion has flaws in its Attributes and Throws an
-   * IllegalStateException if thats the case.
+   * IllegalStateException if that's the case.
    * @param attraktion Attraktion you want to formcheck.
    */
   void formcheckAttraktion(Attraktion attraktion) {
@@ -127,6 +127,12 @@ public class AttraktionController {
     }
     if (attraktion.getName()==null || attraktion.getName().length() == 0) {
       throw new IllegalStateException("Name der Attraktion darf nicht leer sein.");
+    }
+    if(attraktion.getBreitengrad()==null ||attraktion.getBreitengrad()>90f||attraktion.getBreitengrad()<-90f){
+      throw new IllegalStateException("Breitengrad der Attraktion existiert nicht.");
+    }
+    if(attraktion.getLaengengrad()==null||attraktion.getLaengengrad()>180f||attraktion.getLaengengrad()<-180f){
+      throw new IllegalStateException("Längengrad der Attraktion existiert nicht.");
     }
     List<AttraktionOeffnungszeit> oeffnungszeiten = attraktion.getAttraktionOeffnungszeiten();
     for (AttraktionOeffnungszeit oeffnungszeit : oeffnungszeiten) {

@@ -47,9 +47,7 @@ public class PunktController {
    */
   @PostMapping(path = "/punkt")
   Punkt newPunkt(@RequestBody Punkt newPunkt) {
-    if (newPunkt.getName().length() > 30) {
-      throw new IllegalStateException("Name des Punktes ist zu lang.");
-    }
+    formcheckPunkt(newPunkt);
     return repository.save(newPunkt);
   }
 
@@ -63,6 +61,7 @@ public class PunktController {
     if (!newPunkt.getId().equals(id)) {
       throw new IllegalStateException("Neuer Punkt muss selbe id, wie der Alte haben.");
     }
+    formcheckPunkt(newPunkt);
     deletePunkt(id);
     newPunkt(newPunkt);
     /*return repository.findById(id).map(Punkt -> {
@@ -83,6 +82,21 @@ public class PunktController {
   @DeleteMapping(path = "/punkt/{id}")
   void deletePunkt(@PathVariable Long id) {
     repository.deleteById(id);
+  }
+
+  void formcheckPunkt(Punkt punkt){
+    if (punkt.getName().length() > 30) {
+      throw new IllegalStateException("Name des Punkts ist zu lang.");
+    }
+    if (punkt.getName()==null || punkt.getName().length() == 0) {
+      throw new IllegalStateException("Name des Punkts darf nicht leer sein.");
+    }
+    if(punkt.getBreitengrad()==null ||punkt.getBreitengrad()>90f||punkt.getBreitengrad()<-90f){
+      throw new IllegalStateException("Breitengrad des Punkts existiert nicht.");
+    }
+    if(punkt.getLaengengrad()==null||punkt.getLaengengrad()>180f||punkt.getLaengengrad()<-180f){
+      throw new IllegalStateException("Längengrad des Punkts existiert nicht.");
+    }
   }
 }
 
