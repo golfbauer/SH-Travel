@@ -25,6 +25,7 @@ public class SehenswuerdigkeitController {
 
   /**
    * Shows all existing Sehenswuerdigkeiten inside the database.
+   *
    * @return List of every Sehenswuerdigkeit.
    */
   @GetMapping(path = "/sehenswuerdigkeit")
@@ -34,6 +35,7 @@ public class SehenswuerdigkeitController {
 
   /**
    * Shows a Sehenswuerdigkeit with specific id.
+   *
    * @param id Request identifier to get the right Sehenswuerdigkeit.
    * @return The Sehenswuerdigkeit with spefic id.
    */
@@ -45,19 +47,19 @@ public class SehenswuerdigkeitController {
 
   /**
    * Takes a Sehenswuerdigkeit object and parses it into the database.
+   *
    * @param sehenswuerdigkeit Object that is to be put into the database.
    */
   @PostMapping(path = "/sehenswuerdigkeit")
   public void newSehenswuerdigkeit(@RequestBody Sehenswuerdigkeit sehenswuerdigkeit) {
-    if (sehenswuerdigkeit.getName().length() > 30) {
-      throw new IllegalStateException("Name der Sehenswuerdigkeit ist zu lang.");
-    }
+    formcheckSehenswuerdigkeit(sehenswuerdigkeit);
     sehenswuerdigkeitRepository.save(sehenswuerdigkeit);
   }
 
   /**
    * Edits a specific Sehenswuerdigkeit.
-   * @param id Identification for Sehenswuerdigkeit.
+   *
+   * @param id                   Identification for Sehenswuerdigkeit.
    * @param newSehenswuerdigkeit Sehenswuerdigkeit with the altered information.
    */
   @PutMapping(path = "/sehenswuerdigkeit/{id}")
@@ -67,16 +69,41 @@ public class SehenswuerdigkeitController {
     if (!newSehenswuerdigkeit.getId().equals(id)) {
       throw new IllegalStateException("Neue Sehenswuerdigkeit muss selbe id, wie die Alte haben.");
     }
+    formcheckSehenswuerdigkeit(newSehenswuerdigkeit);
     deleteSehenswuerdigkeit(id);
     newSehenswuerdigkeit(newSehenswuerdigkeit);
   }
 
   /**
    * Deletes a specific Sehenswuerdigkeit.
+   *
    * @param id Identification for Sehenswuerdigkeit.
    */
   @DeleteMapping(path = "/sehenswuerdigkeit/{id}")
   public void deleteSehenswuerdigkeit(@PathVariable("id") Long id) {
     sehenswuerdigkeitRepository.deleteById(id);
+  }
+
+  /**
+   * Checks if the given Sehenswürdigkeit has flaws in its Attributes and Throws an
+   * IllegalStateException if that's the case.
+   *
+   * @param sehenswuerdigkeit you want to formcheck.
+   */
+  void formcheckSehenswuerdigkeit(Sehenswuerdigkeit sehenswuerdigkeit) {
+    if (sehenswuerdigkeit.getName().length() > 30) {
+      throw new IllegalStateException("Name der Sehenswürdigkeit ist zu lang.");
+    }
+    if (sehenswuerdigkeit.getName() == null || sehenswuerdigkeit.getName().length() == 0) {
+      throw new IllegalStateException("Name der Sehenswurdigkeit darf nicht leer sein.");
+    }
+    if (sehenswuerdigkeit.getBreitengrad() == null || sehenswuerdigkeit.getBreitengrad() > 90f
+            || sehenswuerdigkeit.getBreitengrad() < -90f) {
+      throw new IllegalStateException("Breitengrad der Sehenswurdigkeit existiert nicht.");
+    }
+    if (sehenswuerdigkeit.getLaengengrad() == null || sehenswuerdigkeit.getLaengengrad() > 180f
+            || sehenswuerdigkeit.getLaengengrad() < -180f) {
+      throw new IllegalStateException("Längengrad der Sehenswurdigkeit existiert nicht.");
+    }
   }
 }
