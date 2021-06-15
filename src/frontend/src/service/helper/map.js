@@ -57,8 +57,7 @@ export function addRoute (routeIn) {
 
   // creating waypoints based on given routes existing points
   const points = []
-  /* routeIn.reisepunkte.forEach */
-  routeIn.forEach((point) => {
+  routeIn.reisepunkte.forEach((point) => {
     const coords = L.latLng(point.breitengrad, point.laengengrad)
     points.push(coords)
   })
@@ -66,14 +65,16 @@ export function addRoute (routeIn) {
 
   // check if the route contains more than one waypoint
   if (points.length > 1) {
+    console.log('lade route')
     route = L.Routing.control({
       waypoints: points,
       draggableWaypoints: false,
       lineOptions: {
         addWaypoints: false
       }
-      // serviceUrl: osrmUrl,
-    })
+      // serviceUrl: osrmUrl
+    }).addTo(lMap)
+    route.hide()
     return true
   }
   return false
