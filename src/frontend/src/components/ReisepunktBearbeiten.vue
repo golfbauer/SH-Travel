@@ -2,9 +2,9 @@
   <b-container id="punkterstellen" fluid>
     <b-card no-body>
       <!-- Tabs -->
-      <h1>Name des Punktes</h1>
+      <h1>{{ this.name }}</h1>
       <b-tabs card justified>
-        <b-tab title="Punkt" @click="typ = 'punkt'" active>
+        <b-tab title="Punkt" :disabled="typ != 'punkt'">
           <!-- Textfield Punkt -->
           <div>
             <b-form @submit="onSubmit" @reset="onReset">
@@ -27,14 +27,14 @@
               <div class="btn-bar">
                 <div class="right">
                   <b-button class="btn-gray" type="reset">Abbrechen</b-button>
-                  <b-button class="btn-orange" type="submit">Erstellen</b-button>
+                  <b-button class="btn-orange" type="submit">Speichern</b-button>
                 </div>
               </div>
             </b-form>
           </div>
           <!-- End Textfield Punkt -->
         </b-tab>
-        <b-tab title="Sehenswürdigkeit" @click="typ = 'sehenswuerdigkeit'">
+        <b-tab title="Sehenswürdigkeit" :disabled="typ != 'sehenswuerdigkeit'">
           <!-- Textfield Sehenswürdigkeit -->
           <b-form @submit="onSubmit" @reset="onReset">
             <b-form-group
@@ -88,13 +88,13 @@
             <div class="btn-bar">
               <div class="right">
                 <b-button class="btn-gray" type="reset">Abbrechen</b-button>
-                <b-button class="btn-orange" type="submit">Erstellen</b-button>
+                <b-button class="btn-orange" type="submit">Speichern</b-button>
               </div>
             </div>
           </b-form>
           <!-- End Textfield Sehenswürdigkeit -->
         </b-tab>
-        <b-tab title="Attraktion" @click="typ = 'attraktion'">
+        <b-tab title="Attraktion" :disabled="typ != 'attraktion'">
           <!-- Textfield Attraktion -->
           <b-form @submit="onSubmit" @reset="onReset">
             <b-form-group
@@ -239,7 +239,7 @@
             <div class="btn-bar">
               <div class="right">
                 <b-button class="btn-gray" type="reset">Abbrechen</b-button>
-                <b-button class="btn-orange" type="submit">Erstellen</b-button>
+                <b-button class="btn-orange" type="submit">Speichern</b-button>
               </div>
             </div>
           </b-form>
@@ -253,7 +253,64 @@
 
 <script>
 export default {
-  name: 'ReisepunktBearbeiten'
+  name: 'ReisepunktBearbeiten',
+  data () {
+    return {
+      typ: 'sehenswuerdigkeit',
+      nutzerEmail: '',
+      name: 'empty',
+      beschreibung: '',
+      mo_von: '',
+      mo_bis: '',
+      di_von: '',
+      di_bis: '',
+      mi_von: '',
+      mi_bis: '',
+      do_von: '',
+      do_bis: '',
+      fr_von: '',
+      fr_bis: '',
+      sa_von: '',
+      sa_bis: '',
+      so_von: '',
+      so_bis: '',
+      mo_ganztaegig: [],
+      di_ganztaegig: [],
+      mi_ganztaegig: [],
+      do_ganztaegig: [],
+      fr_ganztaegig: [],
+      sa_ganztaegig: [],
+      so_ganztaegig: [],
+      mo_geschlossen: false,
+      di_geschlossen: false,
+      mi_geschlossen: false,
+      do_geschlossen: false,
+      fr_geschlossen: false,
+      sa_geschlossen: false,
+      so_geschlossen: false,
+      bilder: [],
+      laengengrad: '',
+      breitengrad: ''
+    }
+  },
+  methods: {
+    loadMarkerData (point) {
+      this.typ = point.typ
+      this.nutzerEmail = point.nutzerEmail
+      this.name = point.name
+      this.beschreibung = point.beschreibung
+      console.log('Marker in Felder geladen geladen')
+    },
+    onSubmit (event) {
+      // ToDo: In der Datenbank überschreiben
+      console.log('Speichern')
+    },
+    onReset (event) {
+      // ToDo: Schließen
+      this.$emit('cancel')
+      console.log('Änderungen nicht übernommen.')
+    }
+  }
 }
 </script>
 

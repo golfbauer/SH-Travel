@@ -5,7 +5,7 @@
     <ReiseAuswahl v-if="showReiseAuswahl" v-on:selected="openReiseAnsicht($event)"
                   v-on:cancel="closeReiseAuswahl($event)"/>
     <ReiseAnsicht v-if="showReiseAnsicht" v-on:cancel="closeReiseAnsicht" v-on:makeToast="makeToast($event)"/>
-    <ReisepunktBearbeiten v-if="showReisepunktBearbeiten"></ReisepunktBearbeiten>
+    <ReisepunktBearbeiten v-if="showReisepunktBearbeiten" v-on:cancel="closeReisepunktBearbeiten"></ReisepunktBearbeiten>
   </div>
 </template>
 
@@ -25,7 +25,7 @@ export default {
       showReisepunktErstellen: false,
       showReiseAuswahl: false,
       showReiseAnsicht: false,
-      showReisepunktBearbeiten: true
+      showReisepunktBearbeiten: false
     }
   },
   components: {
@@ -61,6 +61,14 @@ export default {
     },
     closeReiseAnsicht: function () {
       this.showReiseAnsicht = false
+    },
+    openReisepunktBearbeiten: function (point) {
+      this.closeReisepunktBearbeiten()
+      this.showReisepunktBearbeiten = true
+      ReisepunktBearbeiten.loadMarkerData(point)
+    },
+    closeReisepunktBearbeiten: function () {
+      this.showReisepunktBearbeiten = false
     },
     setClickedCoords: function (lat, lng) {
       this.$store.dispatch('chooseCoords', {

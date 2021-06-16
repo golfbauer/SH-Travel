@@ -45,7 +45,6 @@ export function createMap (component /* reference to the vue component implement
     const lat = latlng.lat
     const lng = latlng.lng
     console.log(latlng)
-    /* WORK IN PROGRESS */
     mapComponent.setClickedCoords(lat, lng)
   })
 }
@@ -153,7 +152,7 @@ export function setMarker (point) {
   })
 
   L.DomEvent.addListener(editButton, 'click', () => {
-    // ToDo: Bearbeiten Fenster öffnen
+    mapComponent.openReisepunktBearbeiten(point)
     console.log('Bearbeiten Fenster öffnen')
   })
 
