@@ -134,17 +134,27 @@ export function setMarker (point) {
   addButton.textContent = 'Hinzufügen'
   addButton.style = 'width: 200px; height: 30px; align-content: center;'
 
+  const editButton = L.DomUtil.create('button', 'popupEditButton')
+  editButton.textContent = 'Bearbeiten'
+  editButton.style = 'width: 200px; height: 30px; align-content: center;'
+
   // Zusammenfügen
   content.appendChild(title)
   content.appendChild(lngText)
   content.appendChild(latText)
   content.appendChild(beschreibungText)
   content.appendChild(addButton)
+  content.appendChild(editButton)
 
   // Event hinzufügen
   L.DomEvent.addListener(addButton, 'click', () => {
     // ToDo: Marker in die Reise hinzufügen
     mapComponent.openReiseAuswahl(point)
+  })
+
+  L.DomEvent.addListener(editButton, 'click', () => {
+    // ToDo: Bearbeiten Fenster öffnen
+    console.log('Bearbeiten Fenster öffnen')
   })
 
   // Popup erstellen
