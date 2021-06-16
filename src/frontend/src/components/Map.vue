@@ -5,6 +5,7 @@
     <ReiseAuswahl v-if="showReiseAuswahl" v-on:selected="openReiseAnsicht($event)"
                   v-on:cancel="closeReiseAuswahl($event)"/>
     <ReiseAnsicht v-if="showReiseAnsicht" v-on:cancel="closeReiseAnsicht" v-on:makeToast="makeToast($event)"/>
+    <ReisepunktBearbeiten v-if="showReisepunktBearbeiten"></ReisepunktBearbeiten>
   </div>
 </template>
 
@@ -15,6 +16,7 @@ import * as mapService from '@/service/helper/map'
 import ReisepunktErstellen from '@/components/ReisepunktErstellen'
 import ReiseAnsicht from '@/components/ReiseAnsicht'
 import ReiseAuswahl from '@/components/ReiseAuswahl'
+import ReisepunktBearbeiten from '@/components/ReisepunktBearbeiten'
 
 export default {
   name: 'Map',
@@ -22,13 +24,15 @@ export default {
     return {
       showReisepunktErstellen: false,
       showReiseAuswahl: false,
-      showReiseAnsicht: false
+      showReiseAnsicht: false,
+      showReisepunktBearbeiten: true
     }
   },
   components: {
     ReisepunktErstellen,
     ReiseAnsicht,
-    ReiseAuswahl
+    ReiseAuswahl,
+    ReisepunktBearbeiten
   },
   mounted () {
     mapService.createMap(this)
