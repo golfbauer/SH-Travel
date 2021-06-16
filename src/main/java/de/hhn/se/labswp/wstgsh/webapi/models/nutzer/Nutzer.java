@@ -53,6 +53,14 @@ public class Nutzer implements UserDetails {
     this.enabled = enabled;
   }
 
+  /**
+   * Creating user without booleans.
+   * @param vorname Firstname of Nutzer.
+   * @param nachname Lastname of NUtzer.
+   * @param email Email adress of Nutzer, which is unique
+   * @param passwort Password of Nutzer.
+   * @param nutzerRolle Role of Nutzer which can be Anbieter, Admin and Kunde.
+   */
   public Nutzer(String vorname, String nachname, String email, String accountname,
                 String passwort, NutzerRolle nutzerRolle) {
     this.vorname = vorname;
@@ -159,5 +167,9 @@ public class Nutzer implements UserDetails {
 
   public String getAccountname() {
     return accountname;
+  }
+
+  public Long getId() {
+    return id;
   }
 }
