@@ -34,7 +34,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     "/reise/reisepunkt/*", "/**")
             .permitAll()
             .anyRequest()
-            .authenticated().and()
+            .authenticated()
+            .and()
             .formLogin();
   }
 

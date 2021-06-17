@@ -17,8 +17,8 @@
         <div id="profile-typ">{{ profile.typ }}</div>
       </div>
       <div class="menu-header" v-else>
-        <!-- b-button type="button" class="btn btn-orange">Registrieren</b-button -->
-        <!-- b-button type="button" class="btn btn-gray">Anmelden</b-button -->
+         <b-button @click="loadRegister" type="button" class="btn btn-orange">Registrieren</b-button>
+         <b-button @click="loadLogin" type="button" class="btn btn-gray">Anmelden</b-button>
       </div>
       <!-- SidebarMenuItems -->
       <nav class="mb-3">
@@ -38,6 +38,7 @@
 <script>
 import SidebarMenuItem from '@/components/SidebarMenuItem'
 import { mapGetters } from 'vuex'
+import router from '@/router'
 
 export default {
   name: 'Menu',
@@ -64,17 +65,18 @@ export default {
       console.log('loading Menu')
       this.menu = [
         {
-          name: 'Startseite',
-          component: 'item',
-          href: '/SHTravel'
-        },
-        {
           name: 'Mein Reisen',
           component: 'parent',
           category: 'reisen',
           content: this.getReisen
         }
       ]
+    },
+    async loadRegister () {
+      await router.push('/register')
+    },
+    async loadLogin () {
+      await router.push('/login')
     }
   },
   async mounted () {

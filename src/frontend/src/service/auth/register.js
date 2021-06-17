@@ -3,57 +3,33 @@ import axios from 'axios'
 /* FUNCTIONS */
 
 // a function submitting a register request
-export function submit ({
-  vorname: vname,
-  nachname: nname,
-  email: mail,
-  accountname: acname,
-  passwort: pword
-}) {
-  const user = {
-    vorname: vname,
-    nachname: nname,
-    email: mail,
-    accountname: acname,
-    passwort: pword
-  }
-
-  const form = checkUserForm(user)
-  if (form !== 'success') {
-    return form
-  } else {
-    console.log(user)
-    // return postRegister(user)
+export async function submit (user) {
+  try {
+    const response = await axios.post('/SHTravel/register', user)
+    console.log(response)
+    return true
+  } catch (e) {
+    console.log(e)
+    return false
   }
 }
 
-/* PRIVATE */
-function checkUserForm (user) {
-  if (user === undefined) {
-    return 'undefined'
+// This function checks if the entered values are defined and not empty
+export function checkRegisterForm (user) {
+  if (user.vorname === '' || user.vorname === undefined) {
+    return 'Vorname'
   }
-  if (user.vorname === '') {
-    return 'vorname'
+  if (user.nachname === '' || user.nachname === undefined) {
+    return 'Nachname'
   }
-  if (user.nachname === '') {
-    return 'nachname'
+  if (user.accountname === '' || user.accountname === undefined) {
+    return 'Accountname'
   }
-  if (user.email === '') {
-    return 'email'
+  if (user.email === '' || user.email === undefined) {
+    return 'Email'
   }
-  if (user.accountname === '') {
-    return 'accountname'
-  }
-  if (user.password === '') {
-    return 'passwort'
+  if (user.passwort === '' || user.passwort === undefined) {
+    return 'Passwort'
   }
   return 'success'
-}
-
-async function postRegister (user) {
-  const response = await axios.post('/SHTravel/register', user)
-  if (response.status === 200) {
-    return true
-  }
-  return false
 }

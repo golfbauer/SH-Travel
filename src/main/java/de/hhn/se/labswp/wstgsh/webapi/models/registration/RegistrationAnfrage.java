@@ -1,5 +1,7 @@
 package de.hhn.se.labswp.wstgsh.webapi.models.registration;
 
+
+import de.hhn.se.labswp.wstgsh.webapi.models.nutzer.NutzerRolle;
 import java.util.Objects;
 
 public class RegistrationAnfrage {
@@ -14,6 +16,8 @@ public class RegistrationAnfrage {
 
   private final String passwort;
 
+  private final NutzerRolle nutzerRolle;
+
   /**
    * Constructor containing all params.
    * @param vorname Firstname of Nutzer.
@@ -21,14 +25,16 @@ public class RegistrationAnfrage {
    * @param email Email of Nutzer.
    * @param accountname Username of Nutzer.
    * @param passwort Password of Nutzer.
+   * @param nutzerRolle Roles of User.
    */
   public RegistrationAnfrage(String vorname, String nachname, String email, String accountname,
-                             String passwort) {
+                             String passwort, NutzerRolle nutzerRolle) {
     this.vorname = vorname;
     this.nachname = nachname;
     this.email = email;
     this.accountname = accountname;
     this.passwort = passwort;
+    this.nutzerRolle = nutzerRolle;
   }
 
   public String getVorname() {
@@ -49,6 +55,10 @@ public class RegistrationAnfrage {
 
   public String getPasswort() {
     return passwort;
+  }
+
+  public NutzerRolle getNutzerRolle() {
+    return nutzerRolle;
   }
 
   @Override

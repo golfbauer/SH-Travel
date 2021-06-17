@@ -11,9 +11,9 @@
           <sidebar-menu-item v-on:click.native="handleClick(subitem)" v-for="(subitem, index) in item.content" :key="index" :item="subitem"/>
         </div>
       </div>
-      <b-nav-item :href='item.href' v-else class="bor-bot">
-        {{ item.name }}
-      </b-nav-item>
+<!--      <b-nav-item :href='item.href' v-else class="bor-bot">-->
+<!--        {{ item.name }}-->
+<!--      </b-nav-item>-->
     </div>
   </div>
 </template>

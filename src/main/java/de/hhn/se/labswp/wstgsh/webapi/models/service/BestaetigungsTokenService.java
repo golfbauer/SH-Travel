@@ -1,11 +1,9 @@
 package de.hhn.se.labswp.wstgsh.webapi.models.service;
 
-
-import java.time.LocalDateTime;
-import java.util.Optional;
-
 import de.hhn.se.labswp.wstgsh.webapi.models.token.BestaetigungsToken;
 import de.hhn.se.labswp.wstgsh.webapi.models.token.BestaetigungsTokenRepository;
+import java.time.LocalDateTime;
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 @Service
