@@ -1,7 +1,7 @@
 <template>
   <div class="backgroung-image">
     <main class="form-signin">
-      <form>
+      <div>
         <h1 class="h3 mb-3 fw-normal">Registrieren</h1>
         <div class="form-floating">
           <input type="text" class="form-control" id="floatingFirstName" placeholder="Vorname" ref="vorname">
@@ -29,12 +29,12 @@
         </div>
         <div>
           <select class="form-select" aria-label="Default select example" ref="rolle">
-            <option value="Reisender">Reisender</option>
-            <option value="Anbieter">Anbieter</option>
+            <option value="REISENDER">Reisender</option>
+            <option value="ANBIETER">Anbieter</option>
           </select>
         </div>
-        <button @click="backToHome" class="w-100 btn btn-lg btn-primary" type="submit">Abschicken</button>
-      </form>
+        <button @click="onSubmit" class="w-100 btn btn-lg btn-primary" type="submit">Abschicken</button>
+      </div>
     </main>
   </div>
 </template>
@@ -62,34 +62,32 @@ export default {
           email: email,
           accountname: accountname,
           passwort: passwort,
-          rolle: rolle
+          nutzerRolle: rolle
         }
+        console.log(user)
         const form = registerService.checkRegisterForm(user)
-        if (form !== 'succes') {
-          this.makeToast('warning', form, 'muss noch eingetragen werden')
+        if (form !== 'success') {
+          this.makeToast('error', form + ' muss noch eingetragen werden')
         } else {
-          if (registerService.submit(user)) {
-            this.makeToast('success', 'Account', 'wurde erfolgreich angelegt')
-            await router.push('/login')
-          } else {
-            this.makeToast('warning', 'Fehler:', 'Konnte Account nicht anlegen.')
-            await router.push('/')
-          }
+          await registerService.submit(user).then(async (result) => {
+            if (result) {
+              this.makeToast('success', 'Account wurde erfolgreich angelegt')
+              await router.push('/login')
+            } else {
+              this.makeToast('error', 'Fehler: Konnte Account nicht anlegen.')
+              await router.push('/')
+            }
+          })
         }
       } else {
-        console.log('Eingegebene Passwörter stimmen nicht überein')
-        this.makeToast('success', 'Passwörter', 'stimmen nicht überein')
+        this.makeToast('error', 'Passwörter stimmen nicht überein')
       }
     },
-    makeToast: function (variant, title, message) {
-      this.$bvToast.toast(message, {
-        title: title,
-        variant: variant,
-        solid: true
+    makeToast: function (variant, message) {
+      this.$toasted.show(message, {
+        type: variant,
+        duration: 3000
       })
-    },
-    async backToHome () {
-      await router.push('/')
     }
   }
 }

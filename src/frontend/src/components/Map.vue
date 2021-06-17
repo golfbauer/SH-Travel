@@ -9,7 +9,6 @@
 </template>
 
 <script>
-// import { createMap, loadMarker, L, map } from '@/service/helper/map'
 import * as mapService from '@/service/helper/map'
 
 import ReisepunktErstellen from '@/components/ReisepunktErstellen'

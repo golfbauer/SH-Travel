@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 public enum NutzerRolle {
-  KUNDE(Sets.newHashSet(REISEPUNKT_READ, REISEPUNKT_WRITE, REISE_READ, REISE_WRITE,
+  REISENDER(Sets.newHashSet(REISEPUNKT_READ, REISEPUNKT_WRITE, REISE_READ, REISE_WRITE,
           REISEKATALOG_READ, REISEKATALOG_WRITE)),
   ANBIETER(Sets.newHashSet(REISEPUNKT_READ, REISEPUNKT_WRITE, REISE_READ, REISE_WRITE,
           REISEKATALOG_READ, REISEKATALOG_WRITE)),
