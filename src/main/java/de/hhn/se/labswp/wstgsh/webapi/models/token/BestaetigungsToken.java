@@ -1,9 +1,8 @@
 package de.hhn.se.labswp.wstgsh.webapi.models.token;
 
 import de.hhn.se.labswp.wstgsh.webapi.models.nutzer.Nutzer;
-
-import javax.persistence.*;
 import java.time.LocalDateTime;
+import javax.persistence.*;
 
 @Entity
 public class BestaetigungsToken {
@@ -23,7 +22,7 @@ public class BestaetigungsToken {
 
   private LocalDateTime beastaetigtUm;
 
-  @ManyToOne
+  @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(
           nullable = false,
           name = "nutzer_id"
@@ -47,6 +46,13 @@ public class BestaetigungsToken {
     this.nutzer = nutzer;
   }
 
+  /**
+   * Without Confirmed at.
+   * @param token String representing token.
+   * @param erstelltUm Created at.
+   * @param verfaelltUm Expires at.
+   * @param nutzer Nutzer to be registered.
+   */
   public BestaetigungsToken(String token, LocalDateTime erstelltUm, LocalDateTime verfaelltUm,
                             Nutzer nutzer) {
     this.token = token;

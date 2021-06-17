@@ -3,14 +3,12 @@ package de.hhn.se.labswp.wstgsh.webapi.models.service;
 import de.hhn.se.labswp.wstgsh.webapi.models.email.EmailSender;
 import de.hhn.se.labswp.wstgsh.webapi.models.email.EmailValidator;
 import de.hhn.se.labswp.wstgsh.webapi.models.nutzer.Nutzer;
-import de.hhn.se.labswp.wstgsh.webapi.models.nutzer.NutzerRepository;
-import de.hhn.se.labswp.wstgsh.webapi.models.nutzer.NutzerRolle;
 import de.hhn.se.labswp.wstgsh.webapi.models.registration.RegistrationAnfrage;
+import de.hhn.se.labswp.wstgsh.webapi.models.registration.RegistrationAntwort;
 import de.hhn.se.labswp.wstgsh.webapi.models.token.BestaetigungsToken;
+import java.time.LocalDateTime;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
 
 @Service
 public class RegistrationService {
@@ -41,27 +39,44 @@ public class RegistrationService {
    * @param anfrage Contains all Nutzer information.
    * @return Token.
    */
-  public String register(RegistrationAnfrage anfrage) {
+  public RegistrationAntwort register(RegistrationAnfrage anfrage) {
     boolean valideEmail = emailValidator.test(anfrage.getEmail());
 
     if (!valideEmail) {
       throw new IllegalStateException("Email nicht valide!");
     }
-    // TODO: Nutzerrolle muss entweder in Objekt oder seperat übergeben werden, vorerst hardcoded
-    String token = nutzerService.signUpNutzer(
+    RegistrationAntwort antwort = nutzerService.signUpNutzer(
             new Nutzer(
                     anfrage.getVorname(),
                     anfrage.getNachname(),
                     anfrage.getEmail(),
                     anfrage.getAccountname(),
                     anfrage.getPasswort(),
-                    NutzerRolle.Kunde
+                    anfrage.getNutzerRolle()
             )
     );
-    String link = "http://localhost:8080/register/confirm?token=" + token;
+    String link = "http://localhost:8080/register/confirm?token=" + antwort.getToken();
 
-    emailSender.sendMailViaGmail(anfrage.getEmail(), baueEmail(link, anfrage.getVorname()));
-    return token;
+    sendEmail(anfrage.getEmail(), link, anfrage.getVorname());
+    return antwort;
+  }
+
+  /**
+   * Resending Token for Nutzer.
+   * @param email Email of Nutzer.
+   * @return Answer containing Token and String answer.
+   */
+  public RegistrationAntwort resendToken(String email) {
+    RegistrationAntwort antwort = nutzerService.resendToken(email);
+
+    String link = "http://localhost:8080/register/confirm?token=" + antwort.getToken();
+
+    sendEmail(email, link, "Nutzer");
+    return antwort;
+  }
+
+  public void sendEmail(String email, String link, String vorname) {
+    emailSender.sendMailViaGmail(email, baueEmail(link, vorname));
   }
 
   /**
@@ -74,7 +89,8 @@ public class RegistrationService {
     BestaetigungsToken bestaetigungsToken = bestaetigungsTokenService
             .getToken(token)
             .orElseThrow(() ->
-                    new IllegalStateException("Token nicht gefunden!"));
+                    new IllegalStateException("Token nicht gefunden! Bitte gehen Sie in die "
+                            + "Einstellungen und lassen sie sich erneut eine email senden."));
 
     if (bestaetigungsToken.getBeastaetigtUm() != null) {
       throw new IllegalStateException("Email wurde bereits bestätigt!");
