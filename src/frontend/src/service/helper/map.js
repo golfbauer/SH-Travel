@@ -153,7 +153,7 @@ export function setMarker (point) {
 
   L.DomEvent.addListener(editButton, 'click', () => {
     mapComponent.openReisepunktBearbeiten(point)
-    console.log('Bearbeiten Fenster öffnen')
+    console.log('Bearbeiten Fenster öffnen und Daten laden')
   })
 
   // Popup erstellen

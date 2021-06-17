@@ -5,7 +5,7 @@
     <ReiseAuswahl v-if="showReiseAuswahl" v-on:selected="openReiseAnsicht($event)"
                   v-on:cancel="closeReiseAuswahl($event)"/>
     <ReiseAnsicht v-if="showReiseAnsicht" v-on:cancel="closeReiseAnsicht" v-on:makeToast="makeToast($event)"/>
-    <ReisepunktBearbeiten v-if="showReisepunktBearbeiten" v-on:cancel="closeReisepunktBearbeiten"></ReisepunktBearbeiten>
+    <ReisepunktBearbeiten v-if="showReisepunktBearbeiten" v-on:cancel="closeReisepunktBearbeiten"/>
   </div>
 </template>
 
@@ -65,7 +65,8 @@ export default {
     openReisepunktBearbeiten: function (point) {
       this.closeReisepunktBearbeiten()
       this.showReisepunktBearbeiten = true
-      ReisepunktBearbeiten.loadMarkerData(point)
+      this.$emit('update', point)
+      // this.ReisepunktBearbeiten.loadMarkerData(point)
     },
     closeReisepunktBearbeiten: function () {
       this.showReisepunktBearbeiten = false

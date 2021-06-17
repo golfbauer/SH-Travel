@@ -122,7 +122,7 @@
               <b-input-group>
                 <label class="oeffnungszeitlabel">Montag</label>
                 <b-input class="inpvonzeit" v-model="mo_von" :disabled="mo_ganztaegig === true"></b-input>
-                <label class="bislabel" >bis</label>
+                <label class="bislabel">bis</label>
                 <b-input class="inpbiszeit" v-model="mo_bis" :disabled="mo_ganztaegig === true"></b-input>
 
                 <b-checkbox-group v-model="mo_ganztaegig">
@@ -256,12 +256,12 @@ export default {
   name: 'ReisepunktBearbeiten',
   data () {
     return {
-      typ: 'sehenswuerdigkeit',
+      typ: 'attraktion', // attraktion
       nutzerEmail: '',
-      name: 'empty',
-      beschreibung: '',
-      mo_von: '',
-      mo_bis: '',
+      name: '',
+      beschreibung: 'hier sollte eigentlich eine beschreibung reinkommen',
+      mo_von: '13:00',
+      mo_bis: '16:00',
       di_von: '',
       di_bis: '',
       mi_von: '',
@@ -299,7 +299,36 @@ export default {
       this.nutzerEmail = point.nutzerEmail
       this.name = point.name
       this.beschreibung = point.beschreibung
-      console.log('Marker in Felder geladen geladen')
+      this.mo_von = point.mo_von
+      this.mo_bis = point.mo_bis
+      this.di_von = point.di_von
+      this.di_bis = point.di_bis
+      this.mi_von = point.mi_von
+      this.mi_bis = point.mi_bis
+      this.do_bis = point.do_bis
+      this.do_von = point.do_von
+      this.fr_von = point.fr_von
+      this.fr_bis = point.fr_bis
+      this.sa_von = point.sa_von
+      this.sa_bis = point.sa_bis
+      this.so_von = point.so_von
+      this.so_bis = point.so_bis
+      this.mo_ganztaegig = point.mo_ganztaegig
+      this.di_ganztaegig = point.di_ganztaegig
+      this.mi_ganztaegig = point.mi_ganztaegig
+      this.do_ganztaegig = point.do_ganztaegig
+      this.fr_ganztaegig = point.fr_ganztaegig
+      this.sa_ganztaegig = point.sa_ganztaegig
+      this.so_ganztaegig = point.so_ganztaegig
+      this.mo_geschlossen = point.mo_geschlossen
+      this.di_geschlossen = point.di_geschlossen
+      this.mi_geschlossen = point.mi_geschlossen
+      this.do_geschlossen = point.do_geschlossen
+      this.fr_geschlossen = point.fr_geschlossen
+      this.sa_geschlossen = point.sa_geschlossen
+      this.so_geschlossen = point.so_geschlossen
+      this.bilder = point.bilder
+      console.log('HEYYYY ich bin fertig')
     },
     onSubmit (event) {
       // ToDo: In der Datenbank überschreiben
@@ -310,6 +339,9 @@ export default {
       this.$emit('cancel')
       console.log('Änderungen nicht übernommen.')
     }
+  },
+  created () {
+    this.$parent.$on('update', this.loadMarkerData)
   }
 }
 </script>
@@ -337,13 +369,13 @@ $orange: orange;
     color: #fff;
   }
 
-  &-bar{
+  &-bar {
     overflow: hidden;
     clear: both;
   }
 }
 
-.right{
+.right {
   float: right;
 }
 
