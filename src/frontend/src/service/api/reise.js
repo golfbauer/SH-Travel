@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 /* CLASSES */
+
 export class Reise {
   constructor (input) {
     if (input === undefined) {
@@ -9,24 +10,39 @@ export class Reise {
         termin: 'unknown',
         name: 'unknown',
         oeffentlich: false,
-        reisepunkte: [],
-        reisekatalog: []
+        reisepunkte: []
       }
     }
+
     const {
       id,
       termin,
       name,
       oeffentlich,
-      reisepunkte,
-      reisekatalog
+      reisepunkte
     } = input
+
     this.id = id
     this.termin = termin
     this.name = name
     this.oeffentlich = oeffentlich
-    this.reisepunkte = reisepunkte
-    this.reisekatalog = reisekatalog
+    this.reisepunkte = []
+  }
+}
+
+export class Reisepunkt {
+  constructor (input) {
+    if (input === undefined) {
+      input = {
+        laengengrad: 'undefined',
+        breitengrad: 'undefined',
+        nutzerEmail: 'undefined',
+        name: 'undefined',
+        attraktionOeffnungszeiten: [],
+        beschreibung: 'undefined',
+        bilder: 'undefined'
+      }
+    }
   }
 }
 
@@ -35,25 +51,22 @@ export class Reise {
 export async function fetchReisen (reiseId) {
   console.log('fetchReisen')
   const data = await getReisen()
-  console.log(data)
 
   const reisen = []
   const length = data.length
-  console.log(length)
 
   // eslint-disable-next-line no-plusplus
   for (let i = 0; i < length; i++) {
     const reise = new Reise(data[i])
     reisen.push(reise)
   }
-
-  console.log(reisen)
-  return reisen
+  console.log('parsed: ' + JSON.parse(data))
+  return JSON.parse(data)
 }
 
 /* PRIVATE */
 
 async function getReisen () {
-  const response = await axios.get('/SHTravel/reises')
+  const response = await axios.get('/SHTravel/reise')
   return response.data
 }

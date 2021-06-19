@@ -1,6 +1,6 @@
 <template>
   <div id="reise-bearbeiten">
-    <b-card no-body v-bind:header="reise.id">
+    <!--b-card no-body v-bind:header="reise.id">
       <b-list-group flush>
         <b-list-group-item v-for="reisepunkt in this.reise.reisepunkte" :key="reisepunkt.id">{{reisepunkt}}</b-list-group-item>
       </b-list-group>
@@ -9,43 +9,23 @@
         <b-button class="btn-gray" type="reset">Abbrechen</b-button>
         <b-button class="btn-orange" type="submit">Speichern</b-button>
       </b-card-body>
-    </b-card>
+    </b-card-->
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import * as reiseService from '@/service/api/reise'
 export default {
   name: 'ReiseBearbeiten',
   data () {
     return {
-      arrayIndex: 1,
-      reise: {
-        termin: null,
-        name: 'Schloss Besichtigungen',
-        oeffentlich: true,
-        _links: {
-          self: {
-            href: 'http://localhost:8080/reises/2300'
-          },
-          reise: {
-            href: 'http://localhost:8080/reises/2300'
-          },
-          reisekatalog: {
-            href: 'http://localhost:8080/reises/2300/reisekatalog'
-          },
-          reisepunkte: {
-            href: 'http://localhost:8080/reises/2300/reisepunkte'
-          }
-        }
-      }
     }
   },
-  computed: {
-    ...mapGetters(['getReisen'])
+  props: {
+    reiseId: Number
   },
   methods: {
-    ...mapActions(['fetchReisen']),
     getReise: function () {
       console.log('getArrayIndex')
       for (var i = 0; i++; this.getReisen.length) {
@@ -57,7 +37,7 @@ export default {
     }
   },
   created () {
-    this.fetchReisen()
+    console.log('----------' + reiseService.fetchReisen())
   }
 }
 </script>
