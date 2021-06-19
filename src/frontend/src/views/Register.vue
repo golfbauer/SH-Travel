@@ -20,11 +20,11 @@
           <label for="floatingMail">Email Adresse</label>
         </div>
         <div class="form-floating">
-          <input type="password" class="form-control" id="floatingPassword" placeholder="Passwort" ref="passswort">
+          <input type="password" class="form-control" id="floatingPassword" placeholder="Passwort" ref="passwort">
           <label for="floatingPassword">Passwort</label>
         </div>
         <div class="form-floating">
-          <input type="password" class="form-control" id="floatingPasswordConfirmation" placeholder="Passwort bestätigen" ref="passswortConfirm">
+          <input type="password" class="form-control" id="floatingPasswordConfirmation" placeholder="Passwort bestätigen" ref="passwortConfirm">
           <label for="floatingPassword">Passwort bestätigen</label>
         </div>
         <div>
@@ -51,8 +51,8 @@ export default {
       const nachname = this.$refs.nachname.value
       const email = this.$refs.email.value
       const accountname = this.$refs.accountname.value
-      const passwort = this.$refs.passswort.value
-      const passwortConf = this.$refs.passswortConfirm.value
+      const passwort = this.$refs.passwort.value
+      const passwortConf = this.$refs.passwortConfirm.value
       const rolle = this.$refs.rolle.value
 
       if (passwort === passwortConf) {
@@ -95,7 +95,7 @@ export default {
 
 <style scoped>
 .backgroung-image {
-  background-image: url("../assets/images/Germany-Lubeck-Schleswig-Holstein-river-houses_1920x1080.jpg");
+  background-image: url("../assets/images/Strand_Register.jpg");
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
@@ -111,10 +111,6 @@ export default {
   top: 20%;
   background-color: #FFFFFF;
   border-radius: 8px;
-}
-
-.form-signin .checkbox {
-  font-weight: 400;
 }
 
 .form-signin .form-floating:focus-within {
