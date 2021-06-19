@@ -2,7 +2,7 @@
   <div id="reise-bearbeiten">
     <b-card no-body v-bind:header="reise.name">
       <b-list-group flush>
-        <b-list-group-item v-for="reisepunkt in this.reise.reisepunkte" :key="reisepunkt.id">{{reisepunkt}}</b-list-group-item>
+        <b-list-group-item v-for="reisepunkt in this.reise.reisepunkte" :key="reisepunkt.id">{{reisepunkt.name}}</b-list-group-item>
       </b-list-group>
 
       <b-card-body class="btn-bar">
