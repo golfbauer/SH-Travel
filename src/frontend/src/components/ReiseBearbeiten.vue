@@ -1,6 +1,6 @@
 <template>
   <div id="reise-bearbeiten">
-    <b-card no-body v-bind:header="reise.id">
+    <b-card no-body v-bind:header="reise.name + ' ' + reise.id">
       <b-list-group flush>
         <b-list-group-item v-for="reisepunkt in this.reise.reisepunkte" :key="reisepunkt.id">{{reisepunkt}}</b-list-group-item>
       </b-list-group>
@@ -20,7 +20,7 @@ export default {
   name: 'ReiseBearbeiten',
   data () {
     return {
-      selId: 2357,
+      selId: 2298,
       reise: {}
     }
   },
@@ -33,7 +33,15 @@ export default {
     }
   },
   created () {
-    reiseService.getReise(this.selId) // change selId to reiseId
+    const test = reiseService.getReise(this.selId) // change selId to reiseId
+    test.then((msg) => {
+      this.reise = msg
+    })
+    console.log('Test Object: ' + test)
+    console.log('ID: ' + this.reise.id)
+    console.log('ID service: ' + test.id)
+    console.log('------- ' + reiseService.getReise(this.selId))
+    console.log('reise after getting: ' + this.reise)
     console.log('Reisebearbeiten var after fetching ' + this.reisen)
   }
 }
