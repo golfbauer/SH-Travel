@@ -258,7 +258,7 @@ export default {
     return {
       typ: 'attraktion', // attraktion
       nutzerEmail: '',
-      name: '',
+      name: 'Reisepunktname',
       beschreibung: 'hier sollte eigentlich eine beschreibung reinkommen',
       mo_von: '13:00',
       mo_bis: '16:00',
@@ -293,42 +293,46 @@ export default {
       breitengrad: ''
     }
   },
+  props: {
+    reisepunkt: Object //Loaded travelPoint
+  },
   methods: {
-    loadMarkerData (point) {
-      this.typ = point.typ
-      this.nutzerEmail = point.nutzerEmail
-      this.name = point.name
-      this.beschreibung = point.beschreibung
-      this.mo_von = point.mo_von
-      this.mo_bis = point.mo_bis
-      this.di_von = point.di_von
-      this.di_bis = point.di_bis
-      this.mi_von = point.mi_von
-      this.mi_bis = point.mi_bis
-      this.do_bis = point.do_bis
-      this.do_von = point.do_von
-      this.fr_von = point.fr_von
-      this.fr_bis = point.fr_bis
-      this.sa_von = point.sa_von
-      this.sa_bis = point.sa_bis
-      this.so_von = point.so_von
-      this.so_bis = point.so_bis
-      this.mo_ganztaegig = point.mo_ganztaegig
-      this.di_ganztaegig = point.di_ganztaegig
-      this.mi_ganztaegig = point.mi_ganztaegig
-      this.do_ganztaegig = point.do_ganztaegig
-      this.fr_ganztaegig = point.fr_ganztaegig
-      this.sa_ganztaegig = point.sa_ganztaegig
-      this.so_ganztaegig = point.so_ganztaegig
-      this.mo_geschlossen = point.mo_geschlossen
-      this.di_geschlossen = point.di_geschlossen
-      this.mi_geschlossen = point.mi_geschlossen
-      this.do_geschlossen = point.do_geschlossen
-      this.fr_geschlossen = point.fr_geschlossen
-      this.sa_geschlossen = point.sa_geschlossen
-      this.so_geschlossen = point.so_geschlossen
-      this.bilder = point.bilder
-      console.log('HEYYYY ich bin fertig')
+    loadMarkerData () {
+      console.log(this.reisepunkt) //Loaded Point
+
+      this.typ = 'attraktion'// this.reisepunkt.typ
+      this.nutzerEmail = this.reisepunkt.nutzerEmail
+      this.name = this.reisepunkt.name
+      this.beschreibung = this.reisepunkt.beschreibung
+      this.mo_von = this.reisepunkt.mo_von
+      this.mo_bis = this.reisepunkt.mo_bis
+      this.di_von = this.reisepunkt.di_von
+      this.di_bis = this.reisepunkt.di_bis
+      this.mi_von = this.reisepunkt.mi_von
+      this.mi_bis = this.reisepunkt.mi_bis
+      this.do_bis = this.reisepunkt.do_bis
+      this.do_von = this.reisepunkt.do_von
+      this.fr_von = this.reisepunkt.fr_von
+      this.fr_bis = this.reisepunkt.fr_bis
+      this.sa_von = this.reisepunkt.sa_von
+      this.sa_bis = this.reisepunkt.sa_bis
+      this.so_von = this.reisepunkt.so_von
+      this.so_bis = this.reisepunkt.so_bis
+      this.mo_ganztaegig = this.reisepunkt.mo_ganztaegig
+      this.di_ganztaegig = this.reisepunkt.di_ganztaegig
+      this.mi_ganztaegig = this.reisepunkt.mi_ganztaegig
+      this.do_ganztaegig = this.reisepunkt.do_ganztaegig
+      this.fr_ganztaegig = this.reisepunkt.fr_ganztaegig
+      this.sa_ganztaegig = this.reisepunkt.sa_ganztaegig
+      this.so_ganztaegig = this.reisepunkt.so_ganztaegig
+      this.mo_geschlossen = this.reisepunkt.mo_geschlossen
+      this.di_geschlossen = this.reisepunkt.di_geschlossen
+      this.mi_geschlossen = this.reisepunkt.mi_geschlossen
+      this.do_geschlossen = this.reisepunkt.do_geschlossen
+      this.fr_geschlossen = this.reisepunkt.fr_geschlossen
+      this.sa_geschlossen = this.reisepunkt.sa_geschlossen
+      this.so_geschlossen = this.reisepunkt.so_geschlossen
+      this.bilder = this.reisepunkt.bilder
     },
     onSubmit (event) {
       // ToDo: In der Datenbank überschreiben
@@ -341,7 +345,7 @@ export default {
     }
   },
   created () {
-    this.$parent.$on('update', this.loadMarkerData)
+    this.loadMarkerData()
   }
 }
 </script>
