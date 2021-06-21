@@ -32,7 +32,7 @@
             dismissible
           >
             Wollen Sie den Reisepunkt "{{ getReiseName(reisepunktId) }}" wirklich aus der Reise "{{ this.reise.name }}" löschen?
-            <b-button @click="deleteReisepunkt(reisepunkt.id)" variant="outline-success"> Ja </b-button>
+            <b-button @click="deleteReisepunkt(reisepunktId)" variant="outline-success"> Ja </b-button>
             <b-button @click="toggleAlert(0)" variant="outline-danger"> Nein </b-button>
           </b-alert>
       </b-list-group>
@@ -63,6 +63,7 @@ export default {
   methods: {
     deleteReisepunkt (reisepunktId) {
       this.reise = reiseService.delReisepunkt(this.reise, reisepunktId)
+      this.toggleAlert(0)
     },
     toggleAlert (reisepunktId) {
       this.reisepunktId = reisepunktId
@@ -73,6 +74,9 @@ export default {
       }
     },
     getReiseName (reisepunktId) {
+      if (this.reise === undefined || this.reise.reisepunkte === undefined) {
+        return ''
+      }
       const length = this.reise.reisepunkte.length
       for (let i = 0; i < length; i++) {
         if (this.reise.reisepunkte[i].id === reisepunktId) {
