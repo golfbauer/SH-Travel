@@ -1,5 +1,7 @@
 package de.hhn.se.labswp.wstgsh.webapi.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import de.hhn.se.labswp.wstgsh.webapi.models.nutzer.Nutzer;
 
 import java.util.ArrayList;
@@ -17,10 +19,12 @@ public class Reisekatalog {
   private Long id;
 
   @ManyToMany(mappedBy = "reisekatalog")
+  @JsonIgnoreProperties("reisekatalog")
   private List<Reise> reise = new ArrayList<>();
 
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "nutzer_id", referencedColumnName = "id")
+  @JsonIgnore
   private Nutzer nutzer;
 
 

@@ -91,7 +91,6 @@ public class ReisepunktController {
             + "Nutzer gefunden werden."));
     newReisepunkt.setNutzer(nutzer);
     nutzer.addReisepunkte(newReisepunkt);
-    nutzerRepository.save(nutzer);
     return repository.save(newReisepunkt);
   }
 
@@ -112,6 +111,7 @@ public class ReisepunktController {
     );
   }
 
+  // TODO: Deleting Method doesnt work due to foreign key
   @DeleteMapping(path = "/reisepunkt/{id}")
   void deleteReisepunkt(@PathVariable Long id) {
     Reisepunkt reisepunkt = repository.findById(id).orElseThrow(() -> new IllegalStateException(

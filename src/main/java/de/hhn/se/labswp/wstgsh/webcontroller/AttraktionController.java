@@ -135,44 +135,7 @@ public class AttraktionController {
     return repository.save(newAttraktion);
   }
 
-  /**
-   * Adds a new Oeffnungszeit to Attraktion.
-   * @param oeffnungszeit The Oeffnungszeit to be added to Attraktion.
-   * @param id ID of Attraktion.
-   */
-  // TODO: Method has to replace the required Oeffnungszeit not add a new one
-  @PostMapping(path = "/attraktion/oeffnungszeit/{id}")
-  Attraktion addOeffnungszeit(@RequestBody AttraktionOeffnungszeit oeffnungszeit,
-                         @PathVariable Long id) {
-    return repository.findById(id).map(attraktion -> findNutzer().map(nutzer -> {
-      if (nutzer.getId().equals(attraktion.getNutzer().getId())) {
-        oeffnungszeit.setAttraktion(attraktion);
-        if (oeffnungszeit.isGeschlossen() && oeffnungszeit.isGanztaegig()) {
-          throw new IllegalStateException("Oeffnungszeit ist ganztägig und geschlossen");
-        }
-        if (oeffnungszeit.isGanztaegig()) {
-          oeffnungszeit.setOeffnetUm(LocalTime.of(0, 0, 0));
-          oeffnungszeit.setSchliestUm(LocalTime.of(23, 59, 0));
-          oeffnungszeit.setGeschlossen(false);
-        }
-        if (oeffnungszeit.isGeschlossen()) {
-          oeffnungszeit.setOeffnetUm(null);
-          oeffnungszeit.setSchliestUm(null);
-          oeffnungszeit.setGanztaegig(false);
-        }
-        if (oeffnungszeit.getOeffnetUm() != null && oeffnungszeit.getSchliestUm() != null) {
-          oeffnungszeit.setGanztaegig(false);
-          oeffnungszeit.setGeschlossen(true);
-        }
-        attraktion.getAttraktionOeffnungszeiten().add(oeffnungszeit);
-        return repository.save(attraktion);
-      } else {
-        throw new IllegalStateException("Nutzer hat kein Recht den Reisepunkt zu bearbeiten.");
-      }
-    }). orElseThrow(() -> new IllegalStateException("Nutzer nicht gefunden."))).orElseThrow(
-            () -> new ReisepunktNotFoundException(id)
-    );
-  }
+
 
   /**
    * Overwrites Attraktion(id) with new one.
@@ -189,9 +152,7 @@ public class AttraktionController {
         attraktion.setName(newAttraktion.getName());
         attraktion.setBeschreibung(newAttraktion.getBeschreibung());
         attraktion.setOeffentlich(newAttraktion.isOeffentlich());
-        for (int i = 0; i < attraktion.getAttraktionOeffnungszeiten().size(); i++) {
-          attraktion.getAttraktionOeffnungszeiten().remove(i);
-        }
+        attraktion.getAttraktionOeffnungszeiten().clear();
         List<AttraktionOeffnungszeit> oeffnungszeiten = newAttraktion
                 .getAttraktionOeffnungszeiten();
         for (AttraktionOeffnungszeit attraktionOeffnungszeit : oeffnungszeiten) {
@@ -228,6 +189,44 @@ public class AttraktionController {
     }
   }
 
+  /**
+   * Adds a new Oeffnungszeit to Attraktion.
+   * @param oeffnungszeit The Oeffnungszeit to be added to Attraktion.
+   * @param id ID of Attraktion.
+   */
+  // TODO: Method has to replace the required Oeffnungszeit not add a new one
+  @PostMapping(path = "/attraktion/oeffnungszeit/{id}")
+  Attraktion addOeffnungszeit(@RequestBody AttraktionOeffnungszeit oeffnungszeit,
+                              @PathVariable Long id) {
+    return repository.findById(id).map(attraktion -> findNutzer().map(nutzer -> {
+      if (nutzer.getId().equals(attraktion.getNutzer().getId())) {
+        oeffnungszeit.setAttraktion(attraktion);
+        if (oeffnungszeit.isGeschlossen() && oeffnungszeit.isGanztaegig()) {
+          throw new IllegalStateException("Oeffnungszeit ist ganztägig und geschlossen");
+        }
+        if (oeffnungszeit.isGanztaegig()) {
+          oeffnungszeit.setOeffnetUm(LocalTime.of(0, 0, 0));
+          oeffnungszeit.setSchliestUm(LocalTime.of(23, 59, 0));
+          oeffnungszeit.setGeschlossen(false);
+        }
+        if (oeffnungszeit.isGeschlossen()) {
+          oeffnungszeit.setOeffnetUm(null);
+          oeffnungszeit.setSchliestUm(null);
+          oeffnungszeit.setGanztaegig(false);
+        }
+        if (oeffnungszeit.getOeffnetUm() != null && oeffnungszeit.getSchliestUm() != null) {
+          oeffnungszeit.setGanztaegig(false);
+          oeffnungszeit.setGeschlossen(true);
+        }
+        attraktion.getAttraktionOeffnungszeiten().add(oeffnungszeit);
+        return repository.save(attraktion);
+      } else {
+        throw new IllegalStateException("Nutzer hat kein Recht den Reisepunkt zu bearbeiten.");
+      }
+    }). orElseThrow(() -> new IllegalStateException("Nutzer nicht gefunden."))).orElseThrow(
+            () -> new ReisepunktNotFoundException(id)
+    );
+  }
 
   /**
    * Checks if the given Attraktion has flaws in its Attributes and Throws an

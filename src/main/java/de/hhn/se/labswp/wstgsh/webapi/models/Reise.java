@@ -47,11 +47,13 @@ public class Reise {
   @ManyToMany(cascade = {
           CascadeType.MERGE
   })
+  @JoinColumn(nullable = false)
   @JoinTable(
           name = "reise_reisekatalog",
           joinColumns = @JoinColumn(name = "reise_id"),
           inverseJoinColumns = @JoinColumn(name = "reisekatalog_id")
   )
+  @JsonIgnoreProperties("reise")
   private List<Reisekatalog> reisekatalog = new ArrayList<>();
 
   @ManyToOne(cascade = CascadeType.ALL)

@@ -11,12 +11,14 @@ import de.hhn.se.labswp.wstgsh.webapi.models.nutzer.NutzerRepository;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 
 /**
  * Reisekatalog consists of a List of Reisen and is owned by one User via his UserEmail.
  */
+@RestController
 public class ReisekatalogController {
   private final ReisekatalogRepository repository;
   private final ReiseRepository reiseRepository;
@@ -91,7 +93,6 @@ public class ReisekatalogController {
             + "Nutzer gefunden werden."));
     newReisekatalog.setNutzer(nutzer);
     nutzer.setReisekatalog(newReisekatalog);
-    nutzerRepository.save(nutzer);
     List<Reise> reisen = newReisekatalog.getReise();
     for (Reise reise : reisen) {
       reise.addReisekatalog(newReisekatalog);
@@ -103,16 +104,22 @@ public class ReisekatalogController {
   /**
    * Deletes specified Reisekatalog.
    *
-   * @param id des zu löschenden Reisekatalog.
+   * @param idReisekatalog des zu löschenden Reisekatalog.
    */
-  @DeleteMapping(path = "/reisekatalog/{id}")
-  void deleteReise(@PathVariable Long id) {
-    Reisekatalog reisekatalog = repository.findById(id).orElseThrow(() -> new IllegalStateException(
-            "Reisepunkt nicht gefunden."));
+  @PutMapping(path = "/reisekatalog/rmreise/{idReisekatalog}")
+  Reisekatalog deleteReiseFromReisekatalog(@PathVariable Long idReisekatalog,
+                                     @RequestParam Long idReise) {
+    Reisekatalog reisekatalog = repository.findById(idReisekatalog).orElseThrow(
+            () -> new IllegalStateException("Reisepunkt nicht gefunden."));
     Nutzer nutzer = findNutzer().orElseThrow(() -> new IllegalStateException("Nutzer nicht "
             + "gefunden"));
+    Reise reise = reiseRepository.findById(idReise).orElseThrow(() -> new IllegalStateException(
+            "Konnte Reise nicht finden."));
     if (reisekatalog.getNutzer().getId().equals(nutzer.getId())) {
-      repository.deleteById(id);
+      reise.removeReisekatalog(reisekatalog);
+      reiseRepository.save(reise);
+      reisekatalog.getReise().remove(reise);
+      return repository.save(reisekatalog);
     } else {
       throw new IllegalStateException("Nutzer hat kein Recht den Reisepunkt zu löschen.");
     }
@@ -141,8 +148,8 @@ public class ReisekatalogController {
         }
       }
       reise.addReisekatalog(reisekatalog);
-      reisekatalog.addReise(reise);
       reiseRepository.save(reise);
+      reisekatalog.addReise(reise);
       return repository.save(reisekatalog);
     } else {
       throw new IllegalStateException("NUtzer ist nicht Besitzer des Reisekatalogs.");

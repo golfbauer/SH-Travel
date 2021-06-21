@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import de.hhn.se.labswp.wstgsh.webapi.models.Reise;
 import de.hhn.se.labswp.wstgsh.webapi.models.Reisekatalog;
 import de.hhn.se.labswp.wstgsh.webapi.models.Reisepunkt;

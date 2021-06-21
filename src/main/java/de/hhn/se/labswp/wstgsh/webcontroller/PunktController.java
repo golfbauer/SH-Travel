@@ -143,7 +143,7 @@ public class PunktController {
    *
    * @param id of the Punkt you want to delete.
    */
-  // TODO: Delete Method throws exception du to foreign key from reisepunkt
+  // TODO: Delete Method throws exception due to foreign key from reisepunkt
   @DeleteMapping(path = "/punkt/{id}")
   void deletePunkt(@PathVariable Long id) {
     Punkt punkt = repository.findById(id).orElseThrow(() -> new IllegalStateException(

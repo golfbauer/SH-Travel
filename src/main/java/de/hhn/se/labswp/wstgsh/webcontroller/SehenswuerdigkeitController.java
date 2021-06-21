@@ -153,6 +153,7 @@ public class SehenswuerdigkeitController {
    *
    * @param id Identification for Sehenswuerdigkeit.
    */
+  // TODO: Deleting Method doesnt work due to foreign key
   @DeleteMapping(path = "/sehenswuerdigkeit/{id}")
   void deleteSehenswuerdigkeit(@PathVariable Long id) {
     Sehenswuerdigkeit sehenswuerdigkeit = repository.findById(id).orElseThrow(
@@ -165,10 +166,10 @@ public class SehenswuerdigkeitController {
       throw new IllegalStateException("Nutzer hat kein Recht den Reisepunkt zu löschen.");
     }
   }
+
   /**
    * Checks if the given Sehenswürdigkeit has flaws in its Attributes and Throws an
    * IllegalStateException if that's the case.
-   *
    * @param sehenswuerdigkeit you want to formcheck.
    */
   void formcheckSehenswuerdigkeit(Sehenswuerdigkeit sehenswuerdigkeit) {

@@ -5,10 +5,8 @@ import de.hhn.se.labswp.wstgsh.webapi.models.Reise;
 import de.hhn.se.labswp.wstgsh.webapi.models.ReiseRepository;
 import de.hhn.se.labswp.wstgsh.webapi.models.Reisepunkt;
 import de.hhn.se.labswp.wstgsh.webapi.models.ReisepunktRepository;
-
 import java.util.List;
 import java.util.Optional;
-
 import de.hhn.se.labswp.wstgsh.webapi.models.nutzer.Nutzer;
 import de.hhn.se.labswp.wstgsh.webapi.models.nutzer.NutzerRepository;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -116,7 +114,6 @@ public class ReiseController {
             + "Nutzer gefunden werden."));
     newReise.setNutzer(nutzer);
     nutzer.addReise(newReise);
-    nutzerRepository.save(nutzer);
     for (int i = 0; i < newReise.getReisepunkte().size(); i++) {
       reisepunktRepository.findById(newReise.getReisepunkte().get(i).getId()).map(reisepunkt -> {
         reisepunkt.addReise(newReise);
@@ -145,12 +142,20 @@ public class ReiseController {
         reise.setName(newReise.getName());
         reise.setTermin(newReise.getTermin());
         reise.setOeffentlich(newReise.getOeffentlich());
-        reise.setReisepunkte(newReise.getReisepunkte());
+
+        reise.getReisepunkte().clear();
+
         List<Reisepunkt> reisepunkte = newReise.getReisepunkte();
         for (Reisepunkt reisepunkt : reisepunkte) {
-          reisepunkt.removeReise(reise);
-          reisepunkt.addReise(newReise);
+          reise.addReisepunkt(reisepunkt);
+          if (!reisepunkt.getReisen().contains(reise)) {
+            reisepunkt.addReise(reise);
+          }
+          if (reisepunkt.getNutzer() == null) {
+            reisepunkt.setNutzer(nutzer);
+          }
         }
+
         return repository.save(reise);
       } else {
         throw new IllegalStateException("Nutzer ist nicht besitzer der Reise.");
