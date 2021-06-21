@@ -1,6 +1,24 @@
 <template>
   <div id="reise-bearbeiten">
-    <b-card no-body v-bind:header="reise.name">
+    <b-card no-body header="Reise bearbeiten">
+      <div style="padding: 1em;">
+        <b-form-group
+          label-align="left"
+          id="input-group-1"
+          label="Reisename"
+          label-for="input-1"
+        >
+          <!--  + this.laengengrad -->
+          <b-form-input
+            id="input-1"
+            v-model="reise.name"
+            placeholder="Reisename eingeben"
+            required
+            maxlength="30"
+          ></b-form-input>
+        </b-form-group>
+        Reisepunkte:
+      </div>
       <b-list-group flush>
         <b-list-group-item v-for="reisepunkt in this.reise.reisepunkte" :key="reisepunkt.id">{{reisepunkt.name}}</b-list-group-item>
       </b-list-group>
