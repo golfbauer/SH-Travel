@@ -20,7 +20,10 @@
         Reisepunkte:
       </div>
       <b-list-group flush>
-        <b-list-group-item v-for="reisepunkt in this.reise.reisepunkte" :key="reisepunkt.id">{{reisepunkt.name}}</b-list-group-item>
+        <b-list-group-item v-for="reisepunkt in this.reise.reisepunkte" :key="reisepunkt.id">
+          {{reisepunkt.name}}
+          <b-button @click="deleteReisepunkt(reisepunkt.id)" variant="outline-danger" size="sm">Löschen</b-button>
+          </b-list-group-item>
       </b-list-group>
 
       <b-card-body class="btn-bar">
@@ -44,7 +47,11 @@ export default {
   props: {
     reiseId: Number
   },
-  methods: {},
+  methods: {
+    deleteReisepunkt (reisepunktId) {
+      this.reise = reiseService.delReisepunkt(this.reise, reisepunktId)
+    }
+  },
   created () {
     const test = reiseService.getReise(this.selId) // change selId to reiseId
     test.then((msg) => {

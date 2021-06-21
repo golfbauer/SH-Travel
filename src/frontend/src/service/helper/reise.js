@@ -19,3 +19,14 @@ export async function getReise (id) {
     console.log(e)
   }
 }
+
+export function delReisepunkt (reise, reisepunktId) {
+  const length = reise.reisepunkte.length
+  for (let i = 0; i < length; i++) {
+    if (reise.reisepunkte[i].id === reisepunktId) {
+      reise.reisepunkte.splice(i, 1)
+      break
+    }
+  }
+  return reise
+}
