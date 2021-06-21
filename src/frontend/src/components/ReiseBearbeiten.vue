@@ -21,25 +21,35 @@
       </div>
       <b-list-group flush>
         <b-list-group-item v-for="reisepunkt in this.reise.reisepunkte" :key="reisepunkt.id">
-          {{reisepunkt.name}}
-          <b-button @click="toggleAlert(reisepunkt.id)" variant="outline-danger" size="sm">Löschen</b-button>
-          </b-list-group-item>
-          <b-alert
-            v-model="showAlert"
-            class="position-fixed fixed-bottom m-0 rounded-0"
-            style="z-index: 2000;"
-            variant="warning"
-            dismissible
-          >
-            Wollen Sie den Reisepunkt "{{ getReiseName(reisepunktId) }}" wirklich aus der Reise "{{ this.reise.name }}" löschen?
-            <b-button @click="deleteReisepunkt(reisepunktId)" variant="outline-success"> Ja </b-button>
-            <b-button @click="toggleAlert(0)" variant="outline-danger"> Nein </b-button>
-          </b-alert>
+          <div class="flex-container">
+            <b-button-group vertical>
+              <b-button @click="toggleAlert(0)" size="sm">Hoch</b-button>
+              <b-button @click="toggleAlert(0)" size="sm">Runter</b-button>
+            </b-button-group>
+              <b-col>
+              <p>
+                {{reisepunkt.name}}
+              </p>
+              <b-button @click="toggleAlert(reisepunkt.id)" variant="outline-danger" size="sm">Löschen</b-button>
+            </b-col>
+          </div>
+        </b-list-group-item>
+        <b-alert
+          v-model="showAlert"
+          class="position-fixed fixed-bottom m-0 rounded-0"
+          style="z-index: 2000;"
+          variant="warning"
+          dismissible
+        >
+          Wollen Sie den Reisepunkt "{{ getReiseName(reisepunktId) }}" wirklich aus der Reise "{{ this.reise.name }}" löschen?
+          <b-button @click="deleteReisepunkt(reisepunktId)" variant="outline-success"> Ja </b-button>
+          <b-button @click="toggleAlert(0)" variant="outline-danger"> Nein </b-button>
+        </b-alert>
       </b-list-group>
 
-      <b-card-body class="btn-bar">
-        <b-button class="btn-gray" type="reset">Abbrechen</b-button>
-        <b-button class="btn-orange" type="submit">Speichern</b-button>
+      <b-card-body class="vbtn-bar">
+        <b-button class="vbtn-gray" type="reset">Abbrechen</b-button>
+        <b-button class="vbtn-orange" type="submit">Speichern</b-button>
       </b-card-body>
     </b-card>
   </div>
@@ -106,7 +116,7 @@ $orange: orange;
   z-index: 999;
 }
 
-.btn {
+.vbtn {
   margin: 0.5rem;
 
   &-gray {
@@ -123,6 +133,11 @@ $orange: orange;
     overflow: hidden;
     clear: both;
   }
+}
+
+.flex-container {
+  display: flex;
+  gap: 0.5em
 }
 
 </style>
