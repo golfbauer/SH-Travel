@@ -1,11 +1,19 @@
 package de.hhn.se.labswp.wstgsh.webcontroller;
 
+import de.hhn.se.labswp.wstgsh.exceptions.ReisepunktNotFoundException;
 import de.hhn.se.labswp.wstgsh.webapi.models.Reise;
 import de.hhn.se.labswp.wstgsh.webapi.models.ReiseRepository;
+import de.hhn.se.labswp.wstgsh.webapi.models.Reisepunkt;
 import de.hhn.se.labswp.wstgsh.webapi.models.ReisepunktRepository;
 
 import java.util.List;
+import java.util.Optional;
 
+import de.hhn.se.labswp.wstgsh.webapi.models.nutzer.Nutzer;
+import de.hhn.se.labswp.wstgsh.webapi.models.nutzer.NutzerRepository;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -14,10 +22,26 @@ public class ReiseController {
 
   private final ReiseRepository repository;
   private final ReisepunktRepository reisepunktRepository;
+  private final NutzerRepository nutzerRepository;
 
-  ReiseController(ReiseRepository reiseRepository, ReisepunktRepository reisepunktRepository) {
+  ReiseController(ReiseRepository reiseRepository, ReisepunktRepository reisepunktRepository,
+                  NutzerRepository nutzerRepository) {
     this.repository = reiseRepository;
     this.reisepunktRepository = reisepunktRepository;
+    this.nutzerRepository = nutzerRepository;
+  }
+
+  /**
+   * Finds current Nutzer.
+   * @return Nutzer.
+   */
+  public Optional<Nutzer> findNutzer() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (!(authentication instanceof AnonymousAuthenticationToken)) {
+      String currentUserName = authentication.getName();
+      return nutzerRepository.findByEmail(currentUserName);
+    }
+    throw new IllegalStateException("Es konnte kein angemeldeter Nutzer gefunden werden.");
   }
 
   /**
@@ -28,6 +52,24 @@ public class ReiseController {
   @GetMapping(path = "/reise")
   List<Reise> all() {
     return repository.findAll();
+  }
+
+  @GetMapping(path = "/reise/nutzer")
+  List<Reise> allFromNutzer() {
+    return findNutzer().map(Nutzer::getReisen).orElseThrow(
+            () -> new IllegalStateException("Es konnte kein Nutzer gefunden werden."));
+  }
+
+  @GetMapping(path = "/reise/nutzerOroeffentlich")
+  List<Reise> allFromNutzerOrOeffentlich() {
+    return repository.findAllByOeffentlichAndNutzer(findNutzer().orElseThrow(
+            () -> new IllegalStateException("Es konnte kein Nutzer gefunden werden.")
+    ));
+  }
+
+  @GetMapping(path = "/reise/oeffentlich")
+  List<Reise> allPublic() {
+    return repository.findAllByOeffentlich();
   }
 
   /**
@@ -42,18 +84,45 @@ public class ReiseController {
             new IllegalStateException("Id nicht gefunden."));
   }
 
+  @GetMapping(path = "/reise/nutzer/{id}")
+  Reise oneFromNutzerOrPublic(@PathVariable Long id) {
+    return repository.findById(id).map(reise -> {
+      if (reise.isOeffentlich()) {
+        return reise;
+      } else {
+        return findNutzer().map(nutzer -> {
+          if (reise.getNutzer().getId().equals(nutzer.getId())) {
+            return reise;
+          } else {
+            throw new IllegalStateException("Nutzer ist nicht der Besitzer des Reisepunkts.");
+          }
+        }).orElseThrow(() -> new IllegalStateException("Kein Nutzer gefunden"));
+      }
+    }).orElseThrow(() -> new ReisepunktNotFoundException(id));
+  }
+
+
   /**
    * Saves a new Reise in the DB
    *
    * @param newReise New Reise Objekt you want to save in the DB.
    * @return the just saved Reise Object.
    */
+  // TODO: Check if Reise can be created containing Reisepunkte
   @PostMapping(path = "/reise")
   Reise newReise(@RequestBody Reise newReise) {
     formcheckReise(newReise);
+    Nutzer nutzer = findNutzer().orElseThrow(() -> new IllegalStateException("Es konnte kein "
+            + "Nutzer gefunden werden."));
+    newReise.setNutzer(nutzer);
+    nutzer.addReise(newReise);
+    nutzerRepository.save(nutzer);
     for (int i = 0; i < newReise.getReisepunkte().size(); i++) {
       reisepunktRepository.findById(newReise.getReisepunkte().get(i).getId()).map(reisepunkt -> {
         reisepunkt.addReise(newReise);
+        if (reisepunkt.getNutzer() == null) {
+          reisepunkt.setNutzer(nutzer);
+        }
         return reisepunktRepository.save(reisepunkt);
       });
     }
@@ -67,17 +136,27 @@ public class ReiseController {
    * @param id       of the Reise you want to overwrite.
    * @return the eddited Reise.
    */
+  // TODO: Check if Reise can be replaced containing Reisepunkte
   @PutMapping(path = "/reise/{id}")
   Reise replaceReise(@RequestBody Reise newReise, @PathVariable Long id) {
     formcheckReise(newReise);
-    return repository.findById(id).map(reise -> {
-      reise.setName(newReise.getName());
-      reise.setTermin(newReise.getTermin());
-      reise.setOeffentlich(newReise.getOeffentlich());
-      reise.setReisepunkte(newReise.getReisepunkte());
-      reise.setReisekatalog(newReise.getReisekatalog());
-      return repository.save(reise);
-    }).orElseThrow(() -> new IllegalStateException("Konnte Reise nicht verändern."));
+    return repository.findById(id).map(reise -> findNutzer().map(nutzer -> {
+      if (nutzer.getId().equals(reise.getNutzer().getId())) {
+        reise.setName(newReise.getName());
+        reise.setTermin(newReise.getTermin());
+        reise.setOeffentlich(newReise.getOeffentlich());
+        reise.setReisepunkte(newReise.getReisepunkte());
+        List<Reisepunkt> reisepunkte = newReise.getReisepunkte();
+        for (Reisepunkt reisepunkt : reisepunkte) {
+          reisepunkt.removeReise(reise);
+          reisepunkt.addReise(newReise);
+        }
+        return repository.save(reise);
+      } else {
+        throw new IllegalStateException("Nutzer ist nicht besitzer der Reise.");
+      }
+    }).orElseThrow(() -> new IllegalStateException("Es konnte kein Nutzer gefunden werden.")))
+            .orElseThrow(() -> new IllegalStateException("Konnte Reise nicht verändern."));
   }
 
   /**
@@ -85,9 +164,18 @@ public class ReiseController {
    *
    * @param id of the Reise you want to delete.
    */
+  // TODO: Deleting a Reise will throw an error due to foreign keys
   @DeleteMapping(path = "/reise/{id}")
-  void deleteReise(@PathVariable Long id) {
-    repository.deleteById(id);
+  void deleteReisepunkt(@PathVariable Long id) {
+    Reise reise = repository.findById(id).orElseThrow(() -> new IllegalStateException(
+            "Reisepunkt nicht gefunden."));
+    Nutzer nutzer = findNutzer().orElseThrow(() -> new IllegalStateException("Nutzer nicht "
+            + "gefunden"));
+    if (reise.getNutzer().getId().equals(nutzer.getId())) {
+      repository.deleteById(id);
+    } else {
+      throw new IllegalStateException("Nutzer hat kein Recht den Reisepunkt zu löschen.");
+    }
   }
 
   /**
@@ -100,19 +188,26 @@ public class ReiseController {
    */
   @PutMapping(path = "/reise/reisepunkt/{idReise}")
   Reise addReisepunkt(@RequestParam Long idReisepunkt, @PathVariable Long idReise) {
-    return repository.findById(idReise).map(reise -> {
-      reisepunktRepository.findById(idReisepunkt).map(reisepunkt -> {
-        for (int i = 0; i < reise.getReisepunkte().size(); i++) {
-          if (reisepunkt.getId().equals(reise.getReisepunkte().get(i).getId())) {
-            throw new IllegalStateException("Reisepunkt ist bereits in Reise vorhanden.");
-          }
+    Nutzer nutzer = findNutzer().orElseThrow(() -> new IllegalStateException(
+            "Es konnte kein Nutzer gefunden werden."));
+    Reise reise = repository.findById(idReise).orElseThrow(() -> new IllegalStateException(
+            "Es konnte keine Reise gefunden werden"));
+    Reisepunkt reisepunkt = reisepunktRepository.findById(idReisepunkt).orElseThrow(
+            () -> new IllegalStateException("Es konnte kein Reisepunkt gefunden werden"));
+
+    if (nutzer.getId().equals(reise.getNutzer().getId())) {
+      for (int i = 0; i < reise.getReisepunkte().size(); i++) {
+        if (reisepunkt.getId().equals(reise.getReisepunkte().get(i).getId())) {
+          throw new IllegalStateException("Reisepunkt ist bereits in Reise vorhanden.");
         }
-        reise.addReisepunkt(reisepunkt);
-        reisepunkt.addReise(reise);
-        return reisepunktRepository.save(reisepunkt);
-      }).orElseThrow(() -> new IllegalStateException("Could not save Reisepunkt"));
-      return repository.save(reise);
-    }).orElseThrow(() -> new IllegalStateException("Could not add Reisepunkt to Reise"));
+      }
+      reise.addReisepunkt(reisepunkt);
+      reisepunkt.addReise(reise);
+      reisepunktRepository.save(reisepunkt);
+    } else {
+      throw new IllegalStateException("NUtzer ist nicht Besitzer der Reise.");
+    }
+    return repository.save(reise);
   }
 
   /**
@@ -124,10 +219,16 @@ public class ReiseController {
    */
   @PutMapping(path = "/reise/oeffentlich/{id}")
   Reise changePrivacySetting(@RequestParam boolean oeffentlich, @PathVariable Long id) {
-    return repository.findById(id).map(reise -> {
-      reise.setOeffentlich(oeffentlich);
-      return repository.save(reise);
-    }).orElseThrow(() -> new IllegalStateException("Konnte Oeffentlichkeit nicht verändern."));
+    return repository.findById(id).map(reise -> findNutzer().map(nutzer -> {
+      if (nutzer.getId().equals(reise.getNutzer().getId())) {
+        reise.setOeffentlich(oeffentlich);
+        return repository.save(reise);
+      } else {
+        throw new IllegalStateException("Nutzer ist nicht Besitzer der Reise.");
+      }
+    }).orElseThrow(() -> new IllegalStateException("Konnte Nutzer nicht finden.")))
+            .orElseThrow(() -> new IllegalStateException(
+                    "Konnte Oeffentlichkeit nicht verändern."));
   }
 
   /**

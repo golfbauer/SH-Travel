@@ -1,17 +1,10 @@
 package de.hhn.se.labswp.wstgsh.webapi.models;
 
+import de.hhn.se.labswp.wstgsh.webapi.models.nutzer.Nutzer;
+
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Reisekatalog Class, Belongs to one Nutzer and has a List of Reisen.
@@ -22,32 +15,35 @@ public class Reisekatalog {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
-  private String eMail;
+
   @ManyToMany(mappedBy = "reisekatalog")
-  List<Reise> reise = new ArrayList<>();
+  private List<Reise> reise = new ArrayList<>();
+
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "nutzer_id", referencedColumnName = "id")
+  private Nutzer nutzer;
+
 
   /**
    * Constructor for Reisekatalog with an already existing list of Reisen.
-   *
    * @param id    id dieses Reisekatalog.
-   * @param eMail String der NutzerEmail.
    * @param reise Liste mit Reisen in ihr.
+   *  @param nutzer Owner of the Reisekatalog.
    */
-  public Reisekatalog(Long id, String eMail, List<Reise> reise) {
+  public Reisekatalog(Long id, List<Reise> reise, Nutzer nutzer) {
     this.id = id;
-    this.eMail = eMail;
     this.reise = reise;
+    this.nutzer = nutzer;
   }
 
   /**
-   * Constructor for Reisekatalog without an existing list of Reisen.
-   *
-   * @param id    id des Reisekatalogs.
-   * @param eMail String der NutzerEmail.
+   * Constructor for Reisekatalog with an already existing list of Reisen.
+   * @param reisen Liste mit Reisen in ihr.
+   *  @param nutzer Owner of the Reisekatalog.
    */
-  public Reisekatalog(Long id, String eMail) {
-    this.id = id;
-    this.eMail = eMail;
+  public Reisekatalog(List<Reise> reisen, Nutzer nutzer) {
+    this.reise = reisen;
+    this.nutzer = nutzer;
   }
 
   /**
@@ -56,16 +52,8 @@ public class Reisekatalog {
   public Reisekatalog() {
   }
 
-  public String geteMail() {
-    return this.eMail;
-  }
-
   public Long getId() {
     return this.id;
-  }
-
-  public void seteMail(String eMail) {
-    this.eMail = eMail;
   }
 
   public List<Reise> getReise() {
@@ -92,5 +80,13 @@ public class Reisekatalog {
    */
   public void removeReise(Reise reise) {
     this.reise.remove(reise);
+  }
+
+  public Nutzer getNutzer() {
+    return nutzer;
+  }
+
+  public void setNutzer(Nutzer nutzer) {
+    this.nutzer = nutzer;
   }
 }

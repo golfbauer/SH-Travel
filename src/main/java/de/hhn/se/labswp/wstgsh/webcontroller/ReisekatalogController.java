@@ -1,10 +1,16 @@
 package de.hhn.se.labswp.wstgsh.webcontroller;
 
 
-import de.hhn.se.labswp.wstgsh.webapi.models.ReiseRepository;
-import de.hhn.se.labswp.wstgsh.webapi.models.Reisekatalog;
-import de.hhn.se.labswp.wstgsh.webapi.models.ReisekatalogRepository;
+import de.hhn.se.labswp.wstgsh.webapi.models.*;
+
 import java.util.List;
+import java.util.Optional;
+
+import de.hhn.se.labswp.wstgsh.webapi.models.nutzer.Nutzer;
+import de.hhn.se.labswp.wstgsh.webapi.models.nutzer.NutzerRepository;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -14,10 +20,27 @@ import org.springframework.web.bind.annotation.*;
 public class ReisekatalogController {
   private final ReisekatalogRepository repository;
   private final ReiseRepository reiseRepository;
+  private final NutzerRepository nutzerRepository;
 
-  ReisekatalogController(ReisekatalogRepository repository, ReiseRepository reiseRepository) {
+  ReisekatalogController(ReisekatalogRepository repository, ReiseRepository reiseRepository,
+                         NutzerRepository nutzerRepository) {
     this.repository = repository;
     this.reiseRepository = reiseRepository;
+    this.nutzerRepository = nutzerRepository;
+  }
+
+  /**
+   * Finds current Nutzer.
+   *
+   * @return Nutzer.
+   */
+  public Optional<Nutzer> findNutzer() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (!(authentication instanceof AnonymousAuthenticationToken)) {
+      String currentUserName = authentication.getName();
+      return nutzerRepository.findByEmail(currentUserName);
+    }
+    throw new IllegalStateException("Es konnte kein angemeldeter Nutzer gefunden werden.");
   }
 
   /**
@@ -42,6 +65,20 @@ public class ReisekatalogController {
             -> new IllegalStateException("Id nicht gefunden."));
   }
 
+  @GetMapping(path = "/reisekatalog/nutzer/{id}")
+  Reisekatalog oneFromNutzer(@PathVariable Long id) {
+    Reisekatalog reisekatalog = repository.findById(id).orElseThrow(()
+            -> new IllegalStateException("Id nicht gefunden."));
+
+    return findNutzer().map(nutzer -> {
+      if (nutzer.getId().equals(reisekatalog.getNutzer().getId())) {
+        return reisekatalog;
+      } else {
+        throw new IllegalStateException("NUtzer ist nicht Besitzer des Reisekatalogs");
+      }
+    }).orElseThrow(() -> new IllegalStateException("Nutzer konnten icht gefunden werden."));
+  }
+
   /**
    * Saves a new Reisekatalog in the Databank.
    *
@@ -50,6 +87,16 @@ public class ReisekatalogController {
    */
   @PostMapping(path = "/reisekatalog")
   Reisekatalog newReisekatalog(@RequestBody Reisekatalog newReisekatalog) {
+    Nutzer nutzer = findNutzer().orElseThrow(() -> new IllegalStateException("Es konnte kein "
+            + "Nutzer gefunden werden."));
+    newReisekatalog.setNutzer(nutzer);
+    nutzer.setReisekatalog(newReisekatalog);
+    nutzerRepository.save(nutzer);
+    List<Reise> reisen = newReisekatalog.getReise();
+    for (Reise reise : reisen) {
+      reise.addReisekatalog(newReisekatalog);
+      reiseRepository.save(reise);
+    }
     return repository.save(newReisekatalog);
   }
 
@@ -60,7 +107,15 @@ public class ReisekatalogController {
    */
   @DeleteMapping(path = "/reisekatalog/{id}")
   void deleteReise(@PathVariable Long id) {
-    repository.deleteById(id);
+    Reisekatalog reisekatalog = repository.findById(id).orElseThrow(() -> new IllegalStateException(
+            "Reisepunkt nicht gefunden."));
+    Nutzer nutzer = findNutzer().orElseThrow(() -> new IllegalStateException("Nutzer nicht "
+            + "gefunden"));
+    if (reisekatalog.getNutzer().getId().equals(nutzer.getId())) {
+      repository.deleteById(id);
+    } else {
+      throw new IllegalStateException("Nutzer hat kein Recht den Reisepunkt zu löschen.");
+    }
   }
 
   /**
@@ -72,18 +127,25 @@ public class ReisekatalogController {
    */
   @PutMapping(path = "/reisekatalog/reise/{idReisekatalog}")
   Reisekatalog addReise(@RequestParam Long idReise, @PathVariable Long idReisekatalog) {
-    return repository.findById(idReisekatalog).map(reisekatalog -> {
-      reiseRepository.findById(idReise).map(reise -> {
-        for (int i = 0; i < reisekatalog.getReise().size(); i++) {
-          if (reise.getId().equals(reisekatalog.getReise().get(i).getId())) {
-            throw new IllegalStateException("Reisekatalog enthält bereits Reise.");
-          }
+    Nutzer nutzer = findNutzer().orElseThrow(() -> new IllegalStateException(
+            "Es konnte kein Nutzer gefunden werden."));
+    Reise reise = reiseRepository.findById(idReise).orElseThrow(() -> new IllegalStateException(
+            "Es konnte keine Reise gefunden werden"));
+    Reisekatalog reisekatalog = repository.findById(idReisekatalog).orElseThrow(
+            () -> new IllegalStateException("Es konnte kein Reisepunkt gefunden werden"));
+
+    if (nutzer.getId().equals(reisekatalog.getNutzer().getId())) {
+      for (int i = 0; i < reisekatalog.getReise().size(); i++) {
+        if (reise.getId().equals(reisekatalog.getReise().get(i).getId())) {
+          throw new IllegalStateException("Reisekatalog enthält bereits Reise.");
         }
-        reisekatalog.addReise(reise);
-        return reiseRepository.save(reise);
-      }).orElseThrow(() -> new IllegalStateException("Reise konnte nicht gespeichert werden."));
+      }
+      reise.addReisekatalog(reisekatalog);
+      reisekatalog.addReise(reise);
+      reiseRepository.save(reise);
       return repository.save(reisekatalog);
-    }).orElseThrow(()
-            -> new IllegalStateException("Reise konnte nicht zu Reisekatalog hinzugefügt werden."));
+    } else {
+      throw new IllegalStateException("NUtzer ist nicht Besitzer des Reisekatalogs.");
+    }
   }
 }

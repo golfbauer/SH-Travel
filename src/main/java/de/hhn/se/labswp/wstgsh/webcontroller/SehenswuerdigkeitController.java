@@ -1,11 +1,20 @@
 package de.hhn.se.labswp.wstgsh.webcontroller;
 
 
+import de.hhn.se.labswp.wstgsh.exceptions.ReisepunktNotFoundException;
+import de.hhn.se.labswp.wstgsh.webapi.models.Punkt;
 import de.hhn.se.labswp.wstgsh.webapi.models.Sehenswuerdigkeit;
 import de.hhn.se.labswp.wstgsh.webapi.models.SehenswuerdigkeitRepository;
 import java.util.List;
+import java.util.Optional;
 import javax.transaction.Transactional;
+
+import de.hhn.se.labswp.wstgsh.webapi.models.nutzer.Nutzer;
+import de.hhn.se.labswp.wstgsh.webapi.models.nutzer.NutzerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,11 +25,28 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class SehenswuerdigkeitController {
-  private final SehenswuerdigkeitRepository sehenswuerdigkeitRepository;
+
+  private final SehenswuerdigkeitRepository repository;
+  private final NutzerRepository nutzerRepository;
 
   @Autowired
-  public SehenswuerdigkeitController(SehenswuerdigkeitRepository sehenswuerdigkeitRepository) {
-    this.sehenswuerdigkeitRepository = sehenswuerdigkeitRepository;
+  public SehenswuerdigkeitController(SehenswuerdigkeitRepository repository,
+                                     NutzerRepository nutzerRepository) {
+    this.repository = repository;
+    this.nutzerRepository = nutzerRepository;
+  }
+
+  /**
+   * Finds current Nutzer.
+   * @return Nutzer.
+   */
+  public Optional<Nutzer> findNutzer() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (!(authentication instanceof AnonymousAuthenticationToken)) {
+      String currentUserName = authentication.getName();
+      return nutzerRepository.findByEmail(currentUserName);
+    }
+    throw new IllegalStateException("Es konnte kein angemeldeter Nutzer gefunden werden.");
   }
 
   /**
@@ -30,7 +56,26 @@ public class SehenswuerdigkeitController {
    */
   @GetMapping(path = "/sehenswuerdigkeit")
   public List<Sehenswuerdigkeit> getSehenswuerdigkeiten() {
-    return sehenswuerdigkeitRepository.findAll();
+    return repository.findAll();
+  }
+
+  @GetMapping(path = "/sehenswuerdigkeit/nutzer")
+  List<Sehenswuerdigkeit> allFromNutzer() {
+    return findNutzer().map(nutzer ->
+            repository.findAllByNutzerId(nutzer.getId()))
+            .orElseThrow(() -> new IllegalStateException("Es wurde kein Punkt gefunden"));
+  }
+
+  @GetMapping(path = "/sehenswuerdigkeit/oeffentlich")
+  List<Sehenswuerdigkeit> allPublic() {
+    return repository.findAllByOeffentlich();
+  }
+
+  @GetMapping(path = "/sehenswuerdigkeit/nutzerOroeffentlich")
+  List<Sehenswuerdigkeit> allFromNutzerOrOeffentlich() {
+    return repository.findAllByOeffentlichAndNutzer(findNutzer().orElseThrow(
+            () -> new IllegalStateException("Es konnte kein Nutzer gefunden werden.")
+    ).getId());
   }
 
   /**
@@ -41,19 +86,39 @@ public class SehenswuerdigkeitController {
    */
   @GetMapping(path = "/sehenswuerdigkeit/{id}")
   public Sehenswuerdigkeit getSehenswuerdigkeit(@PathVariable("id") Long id) {
-    return sehenswuerdigkeitRepository.findById(id).orElseThrow(() -> new IllegalStateException(
+    return repository.findById(id).orElseThrow(() -> new IllegalStateException(
             "ID nicht gefunden."));
+  }
+
+  @GetMapping(path = "/sehenswuerdigkeit/nutzer/{id}")
+  Sehenswuerdigkeit oneFromNutzerOrPublic(@PathVariable Long id) {
+    return repository.findById(id).map(sehenswuerdigkeit -> {
+      if (sehenswuerdigkeit.isOeffentlich()) {
+        return sehenswuerdigkeit;
+      } else {
+        return findNutzer().map(nutzer -> {
+          if (sehenswuerdigkeit.getNutzer().getId().equals(nutzer.getId())) {
+            return sehenswuerdigkeit;
+          } else {
+            throw new IllegalStateException("Nutzer ist nicht der Besitzer des Punkts.");
+          }
+        }).orElseThrow(() -> new IllegalStateException("Kein Nutzer gefunden."));
+      }
+    }).orElseThrow(() -> new ReisepunktNotFoundException(id));
   }
 
   /**
    * Takes a Sehenswuerdigkeit object and parses it into the database.
-   *
-   * @param sehenswuerdigkeit Object that is to be put into the database.
    */
-  @PostMapping(path = "/sehenswuerdigkeit")
-  public void newSehenswuerdigkeit(@RequestBody Sehenswuerdigkeit sehenswuerdigkeit) {
-    formcheckSehenswuerdigkeit(sehenswuerdigkeit);
-    sehenswuerdigkeitRepository.save(sehenswuerdigkeit);
+  @PostMapping(path = "/sehenswuerdigkeit/nutzer")
+  Sehenswuerdigkeit newSehenswuerdigkeitWithNutzer(
+          @RequestBody Sehenswuerdigkeit newSehenswuerdigkeit) {
+    formcheckSehenswuerdigkeit(newSehenswuerdigkeit);
+    Nutzer nutzer = findNutzer().orElseThrow(() -> new IllegalStateException("Es konnte kein "
+            + "Nutzer gefunden werden."));
+    newSehenswuerdigkeit.setNutzer(nutzer);
+    nutzer.addReisepunkte(newSehenswuerdigkeit);
+    return repository.save(newSehenswuerdigkeit);
   }
 
   /**
@@ -64,14 +129,23 @@ public class SehenswuerdigkeitController {
    */
   @PutMapping(path = "/sehenswuerdigkeit/{id}")
   @Transactional
-  public void editSehenswuerdigkeit(@PathVariable("id") Long id,
-                                    @RequestBody Sehenswuerdigkeit newSehenswuerdigkeit) {
-    if (!newSehenswuerdigkeit.getId().equals(id)) {
-      throw new IllegalStateException("Neue Sehenswuerdigkeit muss selbe id, wie die Alte haben.");
-    }
+  Sehenswuerdigkeit replaceSehenswuerdigkeit(@RequestBody Sehenswuerdigkeit newSehenswuerdigkeit,
+                             @PathVariable Long id) {
     formcheckSehenswuerdigkeit(newSehenswuerdigkeit);
-    deleteSehenswuerdigkeit(id);
-    newSehenswuerdigkeit(newSehenswuerdigkeit);
+    return repository.findById(id).map(sehenswuerdigkeit -> findNutzer().map(nutzer -> {
+      if (nutzer.getId().equals(sehenswuerdigkeit.getNutzer().getId())) {
+        sehenswuerdigkeit.setBreitengrad(newSehenswuerdigkeit.getBreitengrad());
+        sehenswuerdigkeit.setLaengengrad(newSehenswuerdigkeit.getLaengengrad());
+        sehenswuerdigkeit.setName(newSehenswuerdigkeit.getName());
+        sehenswuerdigkeit.setOeffentlich(newSehenswuerdigkeit.isOeffentlich());
+        sehenswuerdigkeit.setBeschreibung(newSehenswuerdigkeit.getBeschreibung());
+        return repository.save(sehenswuerdigkeit);
+      } else {
+        throw new IllegalStateException("Nutzer hat kein Recht den Reisepunkt zu bearbeiten.");
+      }
+    }). orElseThrow(() -> new IllegalStateException("Nutzer nicht gefunden."))).orElseThrow(
+            () -> new ReisepunktNotFoundException(id)
+    );
   }
 
   /**
@@ -80,10 +154,17 @@ public class SehenswuerdigkeitController {
    * @param id Identification for Sehenswuerdigkeit.
    */
   @DeleteMapping(path = "/sehenswuerdigkeit/{id}")
-  public void deleteSehenswuerdigkeit(@PathVariable("id") Long id) {
-    sehenswuerdigkeitRepository.deleteById(id);
+  void deleteSehenswuerdigkeit(@PathVariable Long id) {
+    Sehenswuerdigkeit sehenswuerdigkeit = repository.findById(id).orElseThrow(
+            () -> new IllegalStateException("Reisepunkt nicht gefunden."));
+    Nutzer nutzer = findNutzer().orElseThrow(() -> new IllegalStateException("Nutzer nicht "
+            + "gefunden"));
+    if (sehenswuerdigkeit.getNutzer().getId().equals(nutzer.getId())) {
+      repository.deleteById(id);
+    } else {
+      throw new IllegalStateException("Nutzer hat kein Recht den Reisepunkt zu löschen.");
+    }
   }
-
   /**
    * Checks if the given Sehenswürdigkeit has flaws in its Attributes and Throws an
    * IllegalStateException if that's the case.

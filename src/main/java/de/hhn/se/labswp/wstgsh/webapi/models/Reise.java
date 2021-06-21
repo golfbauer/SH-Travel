@@ -1,7 +1,9 @@
 package de.hhn.se.labswp.wstgsh.webapi.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import de.hhn.se.labswp.wstgsh.webapi.models.nutzer.Nutzer;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -50,7 +52,15 @@ public class Reise {
           joinColumns = @JoinColumn(name = "reise_id"),
           inverseJoinColumns = @JoinColumn(name = "reisekatalog_id")
   )
-  List<Reisekatalog> reisekatalog = new ArrayList<>();
+  private List<Reisekatalog> reisekatalog = new ArrayList<>();
+
+  @ManyToOne(cascade = CascadeType.ALL)
+  @JoinColumn(
+          name = "nutzer_id",
+          nullable = false
+  )
+  @JsonIgnore
+  private Nutzer nutzer;
 
   /**
    * Constructor for test purposes.
@@ -61,13 +71,14 @@ public class Reise {
    * @param reisepunkte List of all Reisepunkte inside the Reise.
    */
   public Reise(Long id, Date termin, String name, boolean oeffentlich,
-               List<Reisepunkt> reisepunkte, List<Reisekatalog> reisekatalog) {
+               List<Reisepunkt> reisepunkte, List<Reisekatalog> reisekatalog, Nutzer nutzer) {
     this.id = id;
     this.termin = termin;
     this.name = name;
     this.oeffentlich = oeffentlich;
     this.reisepunkte = reisepunkte;
     this.reisekatalog = reisekatalog;
+    this.nutzer = nutzer;
   }
 
   /**
@@ -78,12 +89,13 @@ public class Reise {
    * @param reisepunkte List of all Reisepunkte inside the Reise.
    */
   public Reise(Date termin, String name, boolean oeffentlich, List<Reisepunkt> reisepunkte,
-               List<Reisekatalog> reisekatalog) {
+               List<Reisekatalog> reisekatalog, Nutzer nutzer) {
     this.termin = termin;
     this.name = name;
     this.oeffentlich = oeffentlich;
     this.reisepunkte = reisepunkte;
     this.reisekatalog = reisekatalog;
+    this.nutzer = nutzer;
   }
 
   public Reise() {
@@ -148,6 +160,18 @@ public class Reise {
 
   public void removeReisepunkt(Reisepunkt reisepunkt) {
     this.reisepunkte.remove(reisepunkt);
+  }
+
+  public boolean isOeffentlich() {
+    return oeffentlich;
+  }
+
+  public Nutzer getNutzer() {
+    return nutzer;
+  }
+
+  public void setNutzer(Nutzer nutzer) {
+    this.nutzer = nutzer;
   }
 
   @Override

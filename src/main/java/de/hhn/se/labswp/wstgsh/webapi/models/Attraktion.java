@@ -1,6 +1,8 @@
 package de.hhn.se.labswp.wstgsh.webapi.models;
 
 import de.hhn.se.labswp.wstgsh.exceptions.ReisepunktNotFoundAdvice;
+import de.hhn.se.labswp.wstgsh.webapi.models.nutzer.Nutzer;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
@@ -21,22 +23,29 @@ public class Attraktion extends Reisepunkt {
 
   /**
    * Constructor to create an object, which can be implemented into the database if needed.
-   *
    * @param laengengrad  Marks exact locaion of Attraktion, North to South.
    * @param breitengrad  Marks exact locaion of Attraktion, West to East.
-   * @param nutzerEmail  Email of the creator account.
    * @param name         Name of the created Attraktion.
    * @param beschreibung Short description, which gives a explenation of the Attraktion.
    */
-  public Attraktion(Float laengengrad, Float breitengrad, String nutzerEmail, String name,
-                    String beschreibung) {
-    super(laengengrad, breitengrad, nutzerEmail, name);
+  public Attraktion(Float laengengrad, Float breitengrad, String name,
+                    String beschreibung, boolean oeffentlich, List<Reise> reisen, Nutzer nutzer) {
+    super(laengengrad, breitengrad, name, oeffentlich, reisen, nutzer);
     this.beschreibung = beschreibung;
   }
 
-  public Attraktion(Long id, Float laengengrad, Float breitengrad, String nutzerEmail, String name,
-                    String beschreibung, List<AttraktionOeffnungszeit> list) {
-    super(id, laengengrad, breitengrad, nutzerEmail, name);
+  /**
+   * Constructor to create an object, which can be implemented into the database if needed.
+   * @param id Id of Attraktion.
+   * @param laengengrad  Marks exact locaion of Attraktion, North to South.
+   * @param breitengrad  Marks exact locaion of Attraktion, West to East.
+   * @param name         Name of the created Attraktion.
+   * @param beschreibung Short description, which gives a explenation of the Attraktion.
+   */
+  public Attraktion(Long id, Float laengengrad, Float breitengrad, String name,
+                    String beschreibung, List<AttraktionOeffnungszeit> list,
+                    boolean oeffentlich, List<Reise> reisen, Nutzer nutzer) {
+    super(id, laengengrad, breitengrad, name, oeffentlich, reisen, nutzer);
     this.beschreibung = beschreibung;
     this.attraktionOeffnungszeiten = list;
   }
@@ -60,5 +69,9 @@ public class Attraktion extends Reisepunkt {
   public void SetAttraktionOeffnungszeiten(
           List<AttraktionOeffnungszeit> attraktionOeffnungszeiten) {
     this.attraktionOeffnungszeiten = attraktionOeffnungszeiten;
+  }
+
+  public void addAttraktionOeffnungszeiten(AttraktionOeffnungszeit attraktionOeffnungszeit) {
+    attraktionOeffnungszeiten.add(attraktionOeffnungszeit);
   }
 }

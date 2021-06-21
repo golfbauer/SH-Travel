@@ -1,8 +1,14 @@
 package de.hhn.se.labswp.wstgsh.webapi.models.nutzer;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import javax.persistence.*;
+
+import de.hhn.se.labswp.wstgsh.webapi.models.Reise;
+import de.hhn.se.labswp.wstgsh.webapi.models.Reisekatalog;
+import de.hhn.se.labswp.wstgsh.webapi.models.Reisepunkt;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,6 +36,15 @@ public class Nutzer implements UserDetails {
   private Boolean locked;
 
   private Boolean enabled;
+
+  @OneToMany(mappedBy = "nutzer", cascade = CascadeType.ALL)
+  private List<Reisepunkt> reisepunkte = new ArrayList<>();
+
+  @OneToMany(mappedBy = "nutzer", cascade = CascadeType.ALL)
+  private List<Reise> reisen = new ArrayList<>();
+
+  @OneToOne(mappedBy = "nutzer")
+  private Reisekatalog reisekatalog;
 
   /**
    * Constructor used to create a new Nutzer, which contains all parameters.
@@ -171,5 +186,37 @@ public class Nutzer implements UserDetails {
 
   public Long getId() {
     return id;
+  }
+
+  public List<Reisepunkt> getReisepunkte() {
+    return reisepunkte;
+  }
+
+  public void addReisepunkte(Reisepunkt reisepunkt) {
+    this.reisepunkte.add(reisepunkt);
+  }
+
+  public void setReisepunkte(List<Reisepunkt> reisepunkte) {
+    this.reisepunkte = reisepunkte;
+  }
+
+  public List<Reise> getReisen() {
+    return reisen;
+  }
+
+  public void setReisen(List<Reise> reisen) {
+    this.reisen = reisen;
+  }
+
+  public void addReise(Reise reise) {
+    reisen.add(reise);
+  }
+
+  public Reisekatalog getReisekatalog() {
+    return reisekatalog;
+  }
+
+  public void setReisekatalog(Reisekatalog reisekatalog) {
+    this.reisekatalog = reisekatalog;
   }
 }
