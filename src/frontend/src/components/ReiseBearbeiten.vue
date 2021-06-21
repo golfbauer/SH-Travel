@@ -22,8 +22,19 @@
       <b-list-group flush>
         <b-list-group-item v-for="reisepunkt in this.reise.reisepunkte" :key="reisepunkt.id">
           {{reisepunkt.name}}
-          <b-button @click="deleteReisepunkt(reisepunkt.id)" variant="outline-danger" size="sm">Löschen</b-button>
+          <b-button @click="toggleAlert(reisepunkt.id)" variant="outline-danger" size="sm">Löschen</b-button>
           </b-list-group-item>
+          <b-alert
+            v-model="showAlert"
+            class="position-fixed fixed-bottom m-0 rounded-0"
+            style="z-index: 2000;"
+            variant="warning"
+            dismissible
+          >
+            Wollen Sie den Reisepunkt "{{ getReiseName(reisepunktId) }}" wirklich aus der Reise "{{ this.reise.name }}" löschen?
+            <b-button @click="deleteReisepunkt(reisepunkt.id)" variant="outline-success"> Ja </b-button>
+            <b-button @click="toggleAlert(0)" variant="outline-danger"> Nein </b-button>
+          </b-alert>
       </b-list-group>
 
       <b-card-body class="btn-bar">
@@ -41,7 +52,9 @@ export default {
   data () {
     return {
       selId: 2298,
-      reise: {}
+      reise: {},
+      showAlert: false,
+      reisepunktId: 0
     }
   },
   props: {
@@ -50,6 +63,23 @@ export default {
   methods: {
     deleteReisepunkt (reisepunktId) {
       this.reise = reiseService.delReisepunkt(this.reise, reisepunktId)
+    },
+    toggleAlert (reisepunktId) {
+      this.reisepunktId = reisepunktId
+      if (this.showAlert) {
+        this.showAlert = false
+      } else {
+        this.showAlert = true
+      }
+    },
+    getReiseName (reisepunktId) {
+      const length = this.reise.reisepunkte.length
+      for (let i = 0; i < length; i++) {
+        if (this.reise.reisepunkte[i].id === reisepunktId) {
+          return this.reise.reisepunkte[i].name
+        }
+      }
+      return undefined
     }
   },
   created () {
