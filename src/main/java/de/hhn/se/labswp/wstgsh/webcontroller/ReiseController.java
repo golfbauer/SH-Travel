@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import de.hhn.se.labswp.wstgsh.webapi.models.nutzer.Nutzer;
 import de.hhn.se.labswp.wstgsh.webapi.models.nutzer.NutzerRepository;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -48,17 +49,20 @@ public class ReiseController {
    * @return List of every Reisen.
    */
   @GetMapping(path = "/reise")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   List<Reise> all() {
     return repository.findAll();
   }
 
   @GetMapping(path = "/reise/nutzer")
+  @PreAuthorize("hasAnyRole('ROLE_REISENDER','ROLE_ANBIETER')")
   List<Reise> allFromNutzer() {
     return findNutzer().map(Nutzer::getReisen).orElseThrow(
             () -> new IllegalStateException("Es konnte kein Nutzer gefunden werden."));
   }
 
   @GetMapping(path = "/reise/nutzerOroeffentlich")
+  @PreAuthorize("hasAnyRole('ROLE_REISENDER','ROLE_ANBIETER')")
   List<Reise> allFromNutzerOrOeffentlich() {
     return repository.findAllByOeffentlichAndNutzer(findNutzer().orElseThrow(
             () -> new IllegalStateException("Es konnte kein Nutzer gefunden werden.")
@@ -66,6 +70,7 @@ public class ReiseController {
   }
 
   @GetMapping(path = "/reise/oeffentlich")
+  @PreAuthorize("hasAnyRole('ROLE_REISENDER','ROLE_ANBIETER')")
   List<Reise> allPublic() {
     return repository.findAllByOeffentlich();
   }
@@ -77,12 +82,14 @@ public class ReiseController {
    * @return specified(id) Reise.
    */
   @GetMapping(path = "/reise/{id}")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   Reise one(@PathVariable Long id) {
     return repository.findById(id).orElseThrow(() ->
             new IllegalStateException("Id nicht gefunden."));
   }
 
   @GetMapping(path = "/reise/nutzer/{id}")
+  @PreAuthorize("hasAnyRole('ROLE_REISENDER','ROLE_ANBIETER')")
   Reise oneFromNutzerOrPublic(@PathVariable Long id) {
     return repository.findById(id).map(reise -> {
       if (reise.isOeffentlich()) {
@@ -108,6 +115,7 @@ public class ReiseController {
    */
   // TODO: Check if Reise can be created containing Reisepunkte
   @PostMapping(path = "/reise")
+  @PreAuthorize("hasAnyRole('ROLE_REISENDER','ROLE_ANBIETER')")
   Reise newReise(@RequestBody Reise newReise) {
     formcheckReise(newReise);
     Nutzer nutzer = findNutzer().orElseThrow(() -> new IllegalStateException("Es konnte kein "
@@ -135,6 +143,7 @@ public class ReiseController {
    */
   // TODO: Check if Reise can be replaced containing Reisepunkte
   @PutMapping(path = "/reise/{id}")
+  @PreAuthorize("hasAnyRole('ROLE_REISENDER','ROLE_ANBIETER')")
   Reise replaceReise(@RequestBody Reise newReise, @PathVariable Long id) {
     formcheckReise(newReise);
     return repository.findById(id).map(reise -> findNutzer().map(nutzer -> {
@@ -171,6 +180,7 @@ public class ReiseController {
    */
   // TODO: Deleting a Reise will throw an error due to foreign keys
   @DeleteMapping(path = "/reise/{id}")
+  @PreAuthorize("hasAnyRole('ROLE_REISENDER','ROLE_ANBIETER')")
   void deleteReisepunkt(@PathVariable Long id) {
     Reise reise = repository.findById(id).orElseThrow(() -> new IllegalStateException(
             "Reisepunkt nicht gefunden."));
@@ -192,6 +202,7 @@ public class ReiseController {
    * @return Configured Reise with new Reisepunkt.
    */
   @PutMapping(path = "/reise/reisepunkt/{idReise}")
+  @PreAuthorize("hasAnyRole('ROLE_REISENDER','ROLE_ANBIETER')")
   Reise addReisepunkt(@RequestParam Long idReisepunkt, @PathVariable Long idReise) {
     Nutzer nutzer = findNutzer().orElseThrow(() -> new IllegalStateException(
             "Es konnte kein Nutzer gefunden werden."));
@@ -223,6 +234,7 @@ public class ReiseController {
    * @return Configured Reise with altered Privacy Setting.
    */
   @PutMapping(path = "/reise/oeffentlich/{id}")
+  @PreAuthorize("hasAnyRole('ROLE_REISENDER','ROLE_ANBIETER')")
   Reise changePrivacySetting(@RequestParam boolean oeffentlich, @PathVariable Long id) {
     return repository.findById(id).map(reise -> findNutzer().map(nutzer -> {
       if (nutzer.getId().equals(reise.getNutzer().getId())) {

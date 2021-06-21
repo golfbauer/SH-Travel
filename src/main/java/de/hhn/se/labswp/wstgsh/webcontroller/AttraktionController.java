@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import de.hhn.se.labswp.wstgsh.webapi.models.nutzer.Nutzer;
 import de.hhn.se.labswp.wstgsh.webapi.models.nutzer.NutzerRepository;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -49,11 +50,13 @@ public class AttraktionController {
    * @return List of every Attraktion.
    */
   @GetMapping(path = "/attraktion")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   List<Attraktion> all() {
     return repository.findAll();
   }
 
   @GetMapping(path = "/attraktion/nutzer")
+  @PreAuthorize("hasAnyRole('ROLE_REISENDER', 'ROLE_ANBIETER')")
   List<Attraktion> allFromNutzer() {
     return findNutzer().map(nutzer ->
             repository.findAllByNutzerId(nutzer.getId()))
@@ -61,11 +64,13 @@ public class AttraktionController {
   }
 
   @GetMapping(path = "/attraktion/oeffentlich")
+  @PreAuthorize("hasAnyRole('ROLE_REISENDER', 'ROLE_ANBIETER')")
   List<Attraktion> allPublic() {
     return repository.findAllByOeffentlich();
   }
 
   @GetMapping(path = "/attraktion/nutzerOroeffentlich")
+  @PreAuthorize("hasAnyRole('ROLE_REISENDER', 'ROLE_ANBIETER')")
   List<Attraktion> allFromNutzerOrOeffentlich() {
     return repository.findAllByOeffentlichAndNutzer(findNutzer().orElseThrow(
             () -> new IllegalStateException("Es konnte kein Nutzer gefunden werden.")
@@ -78,12 +83,14 @@ public class AttraktionController {
    * @return specified(id) Attraktion.
    */
   @GetMapping(path = "/attraktion/{id}")
+  @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
   Attraktion one(@PathVariable Long id) {
     return  repository.findById(id).orElseThrow(() -> new IllegalStateException("Id nicht "
             + "gefunden"));
   }
 
   @GetMapping(path = "/attraktion/nutzer/{id}")
+  @PreAuthorize("hasAnyRole('ROLE_REISENDER', 'ROLE_ANBIETER')")
   Attraktion oneFromNutzerOrPublic(@PathVariable Long id) {
     return repository.findById(id).map(attraktion -> {
       if (attraktion.isOeffentlich()) {
@@ -105,6 +112,7 @@ public class AttraktionController {
    * @param newAttraktion New Attraktion Objekt you want to save in the DB.
    */
   @PostMapping(path = "/attraktion")
+  @PreAuthorize("hasAnyRole('ROLE_REISENDER', 'ROLE_ANBIETER')")
   Attraktion newAttraktion(@RequestBody Attraktion newAttraktion) {
     formcheckAttraktion(newAttraktion);
     Nutzer nutzer = findNutzer().orElseThrow(() -> new IllegalStateException("Es konnte kein "
@@ -144,6 +152,7 @@ public class AttraktionController {
    * @return the eddited Attraktion.
    */
   @PutMapping(path = "/attraktion/{id}")
+  @PreAuthorize("hasAnyRole('ROLE_REISENDER', 'ROLE_ANBIETER')")
   Attraktion replaceAttraktion(@RequestBody Attraktion newAttraktion, @PathVariable Long id) {
     return repository.findById(id).map(attraktion -> findNutzer().map(nutzer -> {
       if (nutzer.getId().equals(attraktion.getNutzer().getId())) {
@@ -174,6 +183,7 @@ public class AttraktionController {
    */
   // TODO: Method wont work until all Oeffnungszeiten will be deleted first
   @DeleteMapping(path = "/attraktion/{id}")
+  @PreAuthorize("hasAnyRole('ROLE_REISENDER', 'ROLE_ANBIETER')")
   void deleteAttraktion(@PathVariable Long id) {
     Attraktion attraktion = repository.findById(id).orElseThrow(() -> new IllegalStateException(
             "Reisepunkt nicht gefunden."));
@@ -196,6 +206,7 @@ public class AttraktionController {
    */
   // TODO: Method has to replace the required Oeffnungszeit not add a new one
   @PostMapping(path = "/attraktion/oeffnungszeit/{id}")
+  @PreAuthorize("hasAnyRole('ROLE_REISENDER', 'ROLE_ANBIETER')")
   Attraktion addOeffnungszeit(@RequestBody AttraktionOeffnungszeit oeffnungszeit,
                               @PathVariable Long id) {
     return repository.findById(id).map(attraktion -> findNutzer().map(nutzer -> {

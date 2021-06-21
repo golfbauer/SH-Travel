@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import de.hhn.se.labswp.wstgsh.webapi.models.nutzer.Nutzer;
 import de.hhn.se.labswp.wstgsh.webapi.models.nutzer.NutzerRepository;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -51,6 +52,7 @@ public class ReisekatalogController {
    * @return Liste aller Reisen.
    */
   @GetMapping(path = "/reisekatalog")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   List<Reisekatalog> all() {
     return repository.findAll();
   }
@@ -62,12 +64,14 @@ public class ReisekatalogController {
    * @return Angegebener Reisekatalog.
    */
   @GetMapping(path = "/reisekatalog/{id}")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   Reisekatalog one(@PathVariable Long id) {
     return repository.findById(id).orElseThrow(()
             -> new IllegalStateException("Id nicht gefunden."));
   }
 
   @GetMapping(path = "/reisekatalog/nutzer/{id}")
+  @PreAuthorize("hasAnyRole('ROLE_REISENDER','ROLE_ANBIETER')")
   Reisekatalog oneFromNutzer(@PathVariable Long id) {
     Reisekatalog reisekatalog = repository.findById(id).orElseThrow(()
             -> new IllegalStateException("Id nicht gefunden."));
@@ -88,6 +92,7 @@ public class ReisekatalogController {
    * @return Der gespeicherte Reisekatalog.
    */
   @PostMapping(path = "/reisekatalog")
+  @PreAuthorize("hasAnyRole('ROLE_REISENDER','ROLE_ANBIETER')")
   Reisekatalog newReisekatalog(@RequestBody Reisekatalog newReisekatalog) {
     Nutzer nutzer = findNutzer().orElseThrow(() -> new IllegalStateException("Es konnte kein "
             + "Nutzer gefunden werden."));
@@ -107,6 +112,7 @@ public class ReisekatalogController {
    * @param idReisekatalog des zu löschenden Reisekatalog.
    */
   @PutMapping(path = "/reisekatalog/rmreise/{idReisekatalog}")
+  @PreAuthorize("hasAnyRole('ROLE_REISENDER','ROLE_ANBIETER')")
   Reisekatalog deleteReiseFromReisekatalog(@PathVariable Long idReisekatalog,
                                      @RequestParam Long idReise) {
     Reisekatalog reisekatalog = repository.findById(idReisekatalog).orElseThrow(
@@ -133,6 +139,7 @@ public class ReisekatalogController {
    * @return Der neue Reisekatalog mit eingespeicherter Reise.
    */
   @PutMapping(path = "/reisekatalog/reise/{idReisekatalog}")
+  @PreAuthorize("hasAnyRole('ROLE_REISENDER','ROLE_ANBIETER')")
   Reisekatalog addReise(@RequestParam Long idReise, @PathVariable Long idReisekatalog) {
     Nutzer nutzer = findNutzer().orElseThrow(() -> new IllegalStateException(
             "Es konnte kein Nutzer gefunden werden."));

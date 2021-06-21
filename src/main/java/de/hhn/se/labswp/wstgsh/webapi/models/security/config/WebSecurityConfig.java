@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -25,8 +26,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import static de.hhn.se.labswp.wstgsh.webapi.models.nutzer.NutzerRolle.ADMIN;
+import static de.hhn.se.labswp.wstgsh.webapi.models.nutzer.NutzerRolle.ANBIETER;
+
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   private final NutzerService nutzerService;
@@ -43,17 +48,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     http
             .csrf().disable()
             .authorizeRequests()
-            .antMatchers("/", "/attraktion",
-                    "/sehenswuerdigkeit", "/punkt", "/reise",
-                    "/reisepunkt", "/register", "register/confirm",
-                    "/reise/reisepunkt/*", "/**")
-            .permitAll()
+            .antMatchers("/", "/register").permitAll()
             .anyRequest()
             .authenticated()
             .and()
             .formLogin()
-              .loginPage("/login") //the URL on which the clients should post the login
-            // information
+              .loginPage("/login") //the URL on which the clients should post the login information
               .permitAll()
               .defaultSuccessUrl("/", true)
               .usernameParameter("username") //the username parameter in the queryString, default is 'username'

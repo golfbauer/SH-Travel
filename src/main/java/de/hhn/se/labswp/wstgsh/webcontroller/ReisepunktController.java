@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import de.hhn.se.labswp.wstgsh.webapi.models.nutzer.Nutzer;
 import de.hhn.se.labswp.wstgsh.webapi.models.nutzer.NutzerRepository;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -40,11 +41,13 @@ public class ReisepunktController {
   }
 
   @GetMapping(path = "/reisepunkt")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   List<Reisepunkt> all() {
     return repository.findAll();
   }
 
   @GetMapping(path = "/reisepunkt/nutzer")
+  @PreAuthorize("hasAnyRole('ROLE_REISENDER', 'ROLE_ANBIETER')")
   List<Reisepunkt> allFromNutzer() {
     return findNutzer().map(Nutzer::getReisepunkte).orElseThrow(
             () -> new IllegalStateException("Es wurden keine Reisepunkte gefunden.")
@@ -52,6 +55,7 @@ public class ReisepunktController {
   }
 
   @GetMapping(path = "/reisepunkt/nutzerOroeffentlich")
+  @PreAuthorize("hasAnyRole('ROLE_REISENDER', 'ROLE_ANBIETER')")
   List<Reisepunkt> allFromNutzerOrOeffentlich() {
     return repository.findAllByOeffentlichAndNutzer(findNutzer().orElseThrow(
             () -> new IllegalStateException("Es konnte kein Nutzer gefunden werden.")
@@ -59,16 +63,19 @@ public class ReisepunktController {
   }
 
   @GetMapping(path = "/reisepunkt/oeffentlich")
+  @PreAuthorize("hasAnyRole('ROLE_REISENDER', 'ROLE_ANBIETER')")
   List<Reisepunkt> allPublic() {
     return repository.findAllByOeffentlich();
   }
 
   @GetMapping(path = "/reisepunkt/{id}")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   Reisepunkt one(@PathVariable Long id) {
     return  repository.findById(id).orElseThrow(() -> new ReisepunktNotFoundException(id));
   }
 
   @GetMapping(path = "/reisepunkt/nutzer/{id}")
+  @PreAuthorize("hasAnyRole('ROLE_REISENDER', 'ROLE_ANBIETER')")
   Reisepunkt oneFromNutzerOrPublic(@PathVariable Long id) {
     return repository.findById(id).map(reisepunkt -> {
       if (reisepunkt.isOeffentlich()) {
@@ -86,6 +93,7 @@ public class ReisepunktController {
   }
 
   @PostMapping(path = "/reisepunkt/nutzer")
+  @PreAuthorize("hasAnyRole('ROLE_REISENDER', 'ROLE_ANBIETER')")
   Reisepunkt newReisepunktWithNutzer(@RequestBody Reisepunkt newReisepunkt) {
     Nutzer nutzer = findNutzer().orElseThrow(() -> new IllegalStateException("Es konnte kein "
             + "Nutzer gefunden werden."));
@@ -95,6 +103,7 @@ public class ReisepunktController {
   }
 
   @PutMapping(path = "/reisepunkt/{id}")
+  @PreAuthorize("hasAnyRole('ROLE_REISENDER', 'ROLE_ANBIETER')")
   Reisepunkt replaceReisepunkt(@RequestBody Reisepunkt newReisepunkt, @PathVariable Long id) {
     return repository.findById(id).map(reisepunkt -> findNutzer().map(nutzer -> {
       if (nutzer.getId().equals(reisepunkt.getNutzer().getId())) {
@@ -113,6 +122,7 @@ public class ReisepunktController {
 
   // TODO: Deleting Method doesnt work due to foreign key
   @DeleteMapping(path = "/reisepunkt/{id}")
+  @PreAuthorize("hasAnyRole('ROLE_REISENDER', 'ROLE_ANBIETER')")
   void deleteReisepunkt(@PathVariable Long id) {
     Reisepunkt reisepunkt = repository.findById(id).orElseThrow(() -> new IllegalStateException(
             "Reisepunkt nicht gefunden."));

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import de.hhn.se.labswp.wstgsh.webapi.models.nutzer.Nutzer;
 import de.hhn.se.labswp.wstgsh.webapi.models.nutzer.NutzerRepository;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -47,11 +48,13 @@ public class PunktController {
    * @return List of every Punkt.
    */
   @GetMapping(path = "/punkt")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   List<Punkt> all() {
     return repository.findAll();
   }
 
   @GetMapping(path = "/punkt/nutzer")
+  @PreAuthorize("hasAnyRole('ROLE_REISENDER','ROLE_ANBIETER')")
   List<Punkt> allFromNutzer() {
     return findNutzer().map(nutzer ->
             repository.findAllByNutzerId(nutzer.getId()))
@@ -59,11 +62,13 @@ public class PunktController {
   }
 
   @GetMapping(path = "/punkt/oeffentlich")
+  @PreAuthorize("hasAnyRole('ROLE_REISENDER','ROLE_ANBIETER')")
   List<Punkt> allPublic() {
     return repository.findAllByOeffentlich();
   }
 
   @GetMapping(path = "/punkt/nutzerOroeffentlich")
+  @PreAuthorize("hasAnyRole('ROLE_REISENDER','ROLE_ANBIETER')")
   List<Punkt> allFromNutzerOrOeffentlich() {
     return repository.findAllByOeffentlichAndNutzer(findNutzer().orElseThrow(
             () -> new IllegalStateException("Es konnte kein Nutzer gefunden werden.")
@@ -77,12 +82,14 @@ public class PunktController {
    * @return specified(id) Punkt.
    */
   @GetMapping(path = "/punkt/{id}")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   Punkt one(@PathVariable Long id) {
     return repository.findById(id).orElseThrow(() ->
             new IllegalStateException("Id nicht gefunden."));
   }
 
   @GetMapping(path = "/punkt/nutzer/{id}")
+  @PreAuthorize("hasAnyRole('ROLE_REISENDER','ROLE_ANBIETER')")
   Punkt oneFromNutzerOrPublic(@PathVariable Long id) {
     return repository.findById(id).map(punkt -> {
       if (punkt.isOeffentlich()) {
@@ -105,6 +112,7 @@ public class PunktController {
    * @return the just saved Punkt Object.
    */
   @PostMapping(path = "/punkt/nutzer")
+  @PreAuthorize("hasAnyRole('ROLE_REISENDER','ROLE_ANBIETER')")
   Punkt newPunktWithNutzer(@RequestBody Punkt newPunkt) {
     formcheckPunkt(newPunkt);
     Nutzer nutzer = findNutzer().orElseThrow(() -> new IllegalStateException("Es konnte kein "
@@ -121,6 +129,7 @@ public class PunktController {
    * @param id       of the Punkt you want to overwrite.
    */
   @PutMapping(path = "/punkt/{id}")
+  @PreAuthorize("hasAnyRole('ROLE_REISENDER','ROLE_ANBIETER')")
   Punkt replacePunkt(@RequestBody Punkt newPunkt, @PathVariable Long id) {
     formcheckPunkt(newPunkt);
     return repository.findById(id).map(punkt -> findNutzer().map(nutzer -> {
@@ -145,6 +154,7 @@ public class PunktController {
    */
   // TODO: Delete Method throws exception due to foreign key from reisepunkt
   @DeleteMapping(path = "/punkt/{id}")
+  @PreAuthorize("hasAnyRole('ROLE_REISENDER','ROLE_ANBIETER')")
   void deletePunkt(@PathVariable Long id) {
     Punkt punkt = repository.findById(id).orElseThrow(() -> new IllegalStateException(
             "Reisepunkt nicht gefunden."));

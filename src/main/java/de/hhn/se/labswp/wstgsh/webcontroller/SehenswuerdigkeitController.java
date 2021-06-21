@@ -12,6 +12,7 @@ import javax.transaction.Transactional;
 import de.hhn.se.labswp.wstgsh.webapi.models.nutzer.Nutzer;
 import de.hhn.se.labswp.wstgsh.webapi.models.nutzer.NutzerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -55,11 +56,13 @@ public class SehenswuerdigkeitController {
    * @return List of every Sehenswuerdigkeit.
    */
   @GetMapping(path = "/sehenswuerdigkeit")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   public List<Sehenswuerdigkeit> getSehenswuerdigkeiten() {
     return repository.findAll();
   }
 
   @GetMapping(path = "/sehenswuerdigkeit/nutzer")
+  @PreAuthorize("hasAnyRole('ROLE_REISENDER', 'ROLE_ANBIETER')")
   List<Sehenswuerdigkeit> allFromNutzer() {
     return findNutzer().map(nutzer ->
             repository.findAllByNutzerId(nutzer.getId()))
@@ -67,11 +70,13 @@ public class SehenswuerdigkeitController {
   }
 
   @GetMapping(path = "/sehenswuerdigkeit/oeffentlich")
+  @PreAuthorize("hasAnyRole('ROLE_REISENDER', 'ROLE_ANBIETER')")
   List<Sehenswuerdigkeit> allPublic() {
     return repository.findAllByOeffentlich();
   }
 
   @GetMapping(path = "/sehenswuerdigkeit/nutzerOroeffentlich")
+  @PreAuthorize("hasAnyRole('ROLE_REISENDER', 'ROLE_ANBIETER')")
   List<Sehenswuerdigkeit> allFromNutzerOrOeffentlich() {
     return repository.findAllByOeffentlichAndNutzer(findNutzer().orElseThrow(
             () -> new IllegalStateException("Es konnte kein Nutzer gefunden werden.")
@@ -85,12 +90,14 @@ public class SehenswuerdigkeitController {
    * @return The Sehenswuerdigkeit with spefic id.
    */
   @GetMapping(path = "/sehenswuerdigkeit/{id}")
+  @PreAuthorize("hasRole('ROLE_ADMIN')")
   public Sehenswuerdigkeit getSehenswuerdigkeit(@PathVariable("id") Long id) {
     return repository.findById(id).orElseThrow(() -> new IllegalStateException(
             "ID nicht gefunden."));
   }
 
   @GetMapping(path = "/sehenswuerdigkeit/nutzer/{id}")
+  @PreAuthorize("hasAnyRole('ROLE_REISENDER', 'ROLE_ANBIETER')")
   Sehenswuerdigkeit oneFromNutzerOrPublic(@PathVariable Long id) {
     return repository.findById(id).map(sehenswuerdigkeit -> {
       if (sehenswuerdigkeit.isOeffentlich()) {
@@ -111,6 +118,7 @@ public class SehenswuerdigkeitController {
    * Takes a Sehenswuerdigkeit object and parses it into the database.
    */
   @PostMapping(path = "/sehenswuerdigkeit/nutzer")
+  @PreAuthorize("hasAnyRole('ROLE_REISENDER', 'ROLE_ANBIETER')")
   Sehenswuerdigkeit newSehenswuerdigkeitWithNutzer(
           @RequestBody Sehenswuerdigkeit newSehenswuerdigkeit) {
     formcheckSehenswuerdigkeit(newSehenswuerdigkeit);
@@ -128,6 +136,7 @@ public class SehenswuerdigkeitController {
    * @param newSehenswuerdigkeit Sehenswuerdigkeit with the altered information.
    */
   @PutMapping(path = "/sehenswuerdigkeit/{id}")
+  @PreAuthorize("hasAnyRole('ROLE_REISENDER', 'ROLE_ANBIETER')")
   @Transactional
   Sehenswuerdigkeit replaceSehenswuerdigkeit(@RequestBody Sehenswuerdigkeit newSehenswuerdigkeit,
                              @PathVariable Long id) {
@@ -155,6 +164,7 @@ public class SehenswuerdigkeitController {
    */
   // TODO: Deleting Method doesnt work due to foreign key
   @DeleteMapping(path = "/sehenswuerdigkeit/{id}")
+  @PreAuthorize("hasAnyRole('ROLE_REISENDER', 'ROLE_ANBIETER')")
   void deleteSehenswuerdigkeit(@PathVariable Long id) {
     Sehenswuerdigkeit sehenswuerdigkeit = repository.findById(id).orElseThrow(
             () -> new IllegalStateException("Reisepunkt nicht gefunden."));

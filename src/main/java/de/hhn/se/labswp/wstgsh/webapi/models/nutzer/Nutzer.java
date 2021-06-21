@@ -1,9 +1,6 @@
 package de.hhn.se.labswp.wstgsh.webapi.models.nutzer;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -95,8 +92,7 @@ public class Nutzer implements UserDetails {
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    SimpleGrantedAuthority authority = new SimpleGrantedAuthority(nutzerRolle.name());
-    return Collections.singleton(authority);
+    return nutzerRolle.getGrantedAuthorities();
   }
 
   @Override
