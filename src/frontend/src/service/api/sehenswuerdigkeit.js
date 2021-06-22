@@ -52,12 +52,20 @@ export async function deleteSehenswuerdigkeit (id) {
 
 function formCheck ({ name, laengengrad, breitengrad, nutzerEmail }) {
   if (name === undefined || name === '') {
+    console.log('Formcheck: name')
+    console.log(name)
     return false
-  } else if (laengengrad === undefined || laengengrad !== Number) {
+  } else if (laengengrad === undefined) {
+    console.log('Formcheck: laengengrad')
+    console.log(laengengrad)
     return false
-  } else if (breitengrad === undefined || breitengrad !== Number) {
+  } else if (breitengrad === undefined) {
+    console.log('Formcheck: breitengrad')
+    console.log(breitengrad)
     return false
-  } else if (nutzerEmail === undefined || nutzerEmail === '') {
+  } else if (nutzerEmail === undefined /* || nutzerEmail === '' */) {
+    console.log('Formcheck: nutzeremail')
+    console.log(nutzerEmail)
     return false
   }
   return true
