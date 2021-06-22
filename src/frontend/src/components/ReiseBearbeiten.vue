@@ -19,12 +19,12 @@
         </b-form-group>
         Reisepunkte:
       </div>
-      <b-list-group flush>
+      <b-list-group flush v-if="renderComponent">
         <b-list-group-item v-for="reisepunkt in this.reise.reisepunkte" :key="reisepunkt.id">
           <div class="flex-container">
             <b-button-group vertical>
-              <b-button @click="toggleAlert(0)" size="sm">Hoch</b-button>
-              <b-button @click="toggleAlert(0)" size="sm">Runter</b-button>
+              <b-button @click="moveUp(reisepunkt.id)" size="sm">Hoch</b-button>
+              <b-button @click="moveDown(reisepunkt.id)" size="sm">Runter</b-button>
             </b-button-group>
               <b-col>
               <p>
@@ -64,7 +64,8 @@ export default {
       selId: 2298,
       reise: {},
       showAlert: false,
-      reisepunktId: 0
+      reisepunktId: 0,
+      renderComponent: true
     }
   },
   props: {
@@ -94,6 +95,20 @@ export default {
         }
       }
       return undefined
+    },
+    moveUp (reisepunktId) {
+      this.reise = reiseService.mvReisepunkt(this.reise, reisepunktId, true)
+      this.forceRerender()
+    },
+    moveDown (reisepunktId) {
+      this.reise = reiseService.mvReisepunkt(this.reise, reisepunktId, false)
+      this.forceRerender()
+    },
+    forceRerender () {
+      this.renderComponent = false
+      this.$nextTick(() => {
+        this.renderComponent = true
+      })
     }
   },
   created () {

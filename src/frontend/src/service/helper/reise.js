@@ -30,3 +30,31 @@ export function delReisepunkt (reise, reisepunktId) {
   }
   return reise
 }
+
+export function mvReisepunkt (reise, reisepunktId, moveUp) {
+  const length = reise.reisepunkte.length
+  for (let i = 0; i < length; i++) {
+    if (reise.reisepunkte[i].id === reisepunktId) {
+      const tmp = reise.reisepunkte[i]
+      if (moveUp) {
+        console.log('up')
+        if (i === 0) {
+          console.log('up break')
+          break
+        }
+        reise.reisepunkte[i] = reise.reisepunkte[i - 1]
+        reise.reisepunkte[i - 1] = tmp
+      } else {
+        console.log('down')
+        if (i === length - 1) {
+          console.log('down break')
+          break
+        }
+        reise.reisepunkte[i] = reise.reisepunkte[i + 1]
+        reise.reisepunkte[i + 1] = tmp
+      }
+      break
+    }
+  }
+  return reise
+}
