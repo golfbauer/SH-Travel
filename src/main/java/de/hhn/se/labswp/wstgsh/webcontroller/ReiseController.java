@@ -2,6 +2,7 @@ package de.hhn.se.labswp.wstgsh.webcontroller;
 
 import de.hhn.se.labswp.wstgsh.webapi.models.Reise;
 import de.hhn.se.labswp.wstgsh.webapi.models.ReiseRepository;
+import de.hhn.se.labswp.wstgsh.webapi.models.Reisepunkt;
 import de.hhn.se.labswp.wstgsh.webapi.models.ReisepunktRepository;
 import java.util.List;
 import org.springframework.web.bind.annotation.*;
@@ -56,21 +57,34 @@ public class ReiseController {
 
   /**
    * Overwrites Reise(id) with new one.
+   *
    * @param newReise Reise you want to use for overwriting the previous one.
-   * @param id of the Reise you want to overwrite.
+   * @param id       of the Reise you want to overwrite.
    * @return the eddited Reise.
    */
+  // TODO: Check if Reise can be replaced containing Reisepunkte
   @PutMapping(path = "/reise/{id}")
   Reise replaceReise(@RequestBody Reise newReise, @PathVariable Long id) {
     return repository.findById(id).map(reise -> {
-      reise.setName(newReise.getName());
-      reise.setTermin(newReise.getTermin());
-      reise.setOeffentlich(newReise.getOeffentlich());
-      reise.setReisepunkte(newReise.getReisepunkte());
-      reise.setReisekatalog(newReise.getReisekatalog());
+
+    reise.setName(newReise.getName());
+    reise.setTermin(newReise.getTermin());
+    reise.setOeffentlich(newReise.getOeffentlich());
+
+    reise.getReisepunkte().clear();
+
+    List<Reisepunkt> reisepunkte = newReise.getReisepunkte();
+    for (Reisepunkt reisepunkt : reisepunkte) {
+      reise.addReisepunkt(reisepunkt);
+      if (!reisepunkt.getReisen().contains(reise)) {
+        reisepunkt.addReise(reise);
+      }
+    }
+
       return repository.save(reise);
     }).orElseThrow(() -> new IllegalStateException("Konnte Reise nicht verändern."));
-  }
+
+    }
 
   /**
    * Deletes specified Reise.

@@ -49,7 +49,7 @@
 
       <b-card-body class="vbtn-bar">
         <b-button class="vbtn-gray" type="reset">Abbrechen</b-button>
-        <b-button class="vbtn-orange" type="submit">Speichern</b-button>
+        <b-button class="vbtn-orange" type="submit" @click="onSave()">Speichern</b-button>
       </b-card-body>
     </b-card>
   </div>
@@ -57,6 +57,7 @@
 
 <script>
 import * as reiseService from '@/service/helper/reise'
+import * as reiseApi from '@/service/api/reise'
 export default {
   name: 'ReiseBearbeiten',
   data () {
@@ -109,6 +110,14 @@ export default {
       this.$nextTick(() => {
         this.renderComponent = true
       })
+    },
+    onSave () {
+      if (this.reise === {}) {
+        return
+      }
+      const re = reiseApi.setReise(this.reise)
+      // toast
+      this.$emit('updateShow', re)
     }
   },
   created () {

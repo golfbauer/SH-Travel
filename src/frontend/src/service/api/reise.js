@@ -12,6 +12,19 @@ export async function fetchReisen (reiseId) {
   return result
 }
 
+export async function setReise (reise) {
+  console.log(reise)
+  await axios.put('/SHTravel/reise/' + reise.id, reise)
+    .then(response => {
+      console.log(response)
+      return true
+    })
+    .catch(error => {
+      console.error(error)
+      return false
+    })
+}
+
 /* PRIVATE */
 
 async function getReisen () {
