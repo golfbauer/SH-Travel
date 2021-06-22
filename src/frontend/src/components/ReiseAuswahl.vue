@@ -33,9 +33,10 @@ export default {
     }
   },
   methods: {
-    init () {
-      this.$store.dispatch('fetchReisen')
-      this.reisen = this.getReisen
+    async init () {
+      await this.$store.dispatch('fetchReisen').then(() => {
+        this.reisen = this.getReisen
+      })
     },
     mouseOver () {
       mapService.toggleMapIO(false)

@@ -24,7 +24,7 @@ export async function createAttraktion ({ name, laengengrad, breitengrad, nutzer
       bilder,
       attraktionOeffnungszeiten
     })
-    console.log(response)
+    return response
   }
 }
 
@@ -40,14 +40,14 @@ export async function updateAttraktion (id, { name, laengengrad, breitengrad, nu
       bilder,
       attraktionOeffnungszeiten
     })
-    console.log(response)
+    return response
   }
 }
 
 export async function deleteAttraktion (id) {
   const url = attraktionUrl + '/' + id
   const response = await axios.delete(url)
-  console.log(response)
+  return response
 }
 
 /* PRIVATE FUNCTIONS */

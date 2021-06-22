@@ -1,13 +1,15 @@
 import L from 'leaflet'
+import * as Icons from '@/assets/external/leaflet-color-markers/js/leaflet-color-markers'
 import 'leaflet-routing-machine'
 import { fetchReisepunkte } from '@/service/api/reisepunkt'
 
 /* DATA */
 let mapComponent
 let lMap
+let markers
 let route
 
-/* FUNCTIONS */
+/* PUBLIC FUNCTIONS */
 
 // A function which instantiates a leaflet map.
 export function createMap (component /* reference to the vue component implementing the map */) {
@@ -48,6 +50,9 @@ export function createMap (component /* reference to the vue component implement
     /* WORK IN PROGRESS */
     mapComponent.setClickedCoords(lat, lng)
   })
+
+  // initializing marker group
+  markers = L.layerGroup().addTo(lMap)
 }
 
 // adding a route to the map to display
@@ -88,72 +93,47 @@ export function removeRoute () {
 
 // loading travel_points and places them as map marker
 export async function loadMarker () {
-  /* DUMMY */
   try {
-    const travelPoints = await fetchReisepunkte()
-    const { length } = travelPoints
-    console.log(length)
-    console.log(travelPoints)
+    const reisepunkte = await fetchReisepunkte()
+    const length = reisepunkte.length
+    markers.remove()
+    markers = L.layerGroup().addTo(lMap)
     for (let i = 0; i < length; i++) {
-      console.log('setting marker')
-      setMarker(travelPoints[i], mapComponent)
+      setMarker(reisepunkte[i])
     }
   } catch (e) {
-    console.log('Konnte Reisepunkte nicht laden ERROR')
+    console.log('Es trat ein Fehler beim Laden der Reisepunkte auf')
   }
 }
 
 export function setMarker (point) {
-  /* DUMMY */
   if (point.breitengrad === null || point.laengengrad === null) {
     return
   }
 
-  // Div erstellen
-  const content = L.DomUtil.create('div', 'popupContainer')
-  content.style = 'align-content: center;'
-
-  // Childs erstellen
-  const title = L.DomUtil.create('h4', 'popupTitle')
-  title.style = 'width: 200px;'
-  title.textContent = point.name
-
-  const lngText = L.DomUtil.create('p')
-  lngText.innerHTML = `Längengrad: <i>${point.laengengrad}</i>`
-  lngText.style = 'overflow-wrap: break-word; width: 200px;'
-
-  const latText = L.DomUtil.create('p')
-  latText.innerHTML = `Breitengrad: <i>${point.breitengrad}</i>`
-  latText.style = 'overflow-wrap: break-word; width: 200px;'
-
-  const beschreibungText = L.DomUtil.create('p')
-  beschreibungText.style = 'width: 200px;'
-  beschreibungText.textContent = 'Beschreibung hier einfügen...'
-
-  const addButton = L.DomUtil.create('button', 'popupAddButton')
-  addButton.textContent = 'Hinzufügen'
-  addButton.style = 'width: 200px; height: 30px; align-content: center;'
-
-  // Zusammenfügen
-  content.appendChild(title)
-  content.appendChild(lngText)
-  content.appendChild(latText)
-  content.appendChild(beschreibungText)
-  content.appendChild(addButton)
-
-  // Event hinzufügen
-  L.DomEvent.addListener(addButton, 'click', () => {
-    mapComponent.openReiseAuswahl(point)
-  })
-
-  // Popup erstellen
-  const popup = L.popup()
-    .setContent(content)
-  // Setting the Marker on the given position
-  const marker = L.marker([point.breitengrad, point.laengengrad])
-    .addTo(lMap)
-
-  marker.bindPopup(popup)
+  switch (point.typ) {
+    case 'punkt':
+      var marker = L.marker([point.breitengrad, point.laengengrad], { icon: Icons.blueIcon })
+        .addTo(markers)
+      var popup = createPunktPopup(point)
+      marker.bindPopup(popup)
+      break
+    case 'sehenswuerdigkeit':
+      marker = L.marker([point.breitengrad, point.laengengrad], { icon: Icons.greenIcon })
+        .addTo(markers)
+      popup = createSehenswuerdigkeitPopup(point)
+      marker.bindPopup(popup)
+      break
+    case 'attraktion':
+      marker = L.marker([point.breitengrad, point.laengengrad], { icon: Icons.goldIcon })
+        .addTo(markers)
+      popup = createAttraktionPopup(point)
+      marker.bindPopup(popup)
+      break
+    case undefined:
+      console.error('Could not set marker, recieved a Reisepunkt without type')
+      break
+  }
 }
 
 // toggling dragging and scrolling depending on input
@@ -187,4 +167,114 @@ export function toggleScrolling (isEnabled) {
     console.log('disabeling zoom')
     lMap.scrollWheelZoom.disable()
   }
+}
+
+/* PRIVATE FUNCTIONS */
+
+function createPunktPopup (point) {
+  // create popup container
+  const container = L.DomUtil.create('div', 'leaflet-popup-container')
+  container.style = 'align-content: center;'
+
+  // create popup title
+  const title = L.DomUtil.create('h4', 'leaflet-popup-title')
+  title.style = 'width: 200px;'
+  title.textContent = point.name
+
+  // create the addButton (adding Reisepunkt to a Reise)
+  const addButton = L.DomUtil.create('button', 'leaflet-popup-add-button')
+  addButton.textContent = 'Zu Reise hinzufügen'
+  addButton.style = 'width: 200px; height: 30px; align-content: center;'
+
+  // add event listener to the addButtorn
+  L.DomEvent.addListener(addButton, 'click', () => {
+    mapComponent.openReiseAuswahl(point)
+  })
+
+  container.appendChild(title)
+  container.appendChild(addButton)
+
+  // Popup erstellen
+  const popup = L.popup()
+    .setContent(container)
+
+  return popup
+}
+
+function createSehenswuerdigkeitPopup (point) {
+  // create popup container
+  const container = L.DomUtil.create('div', 'leaflet-popup-container')
+  container.style = 'align-content: center;'
+
+  // create popup title
+  const title = L.DomUtil.create('h4', 'leaflet-popup-title')
+  title.style = 'width: 200px;'
+  title.textContent = point.name
+
+  // create popup description
+  const description = L.DomUtil.create('p', 'leaflet-popup-description')
+  description.textContent = point.beschreibung
+  description.style = 'width: 200px;'
+
+  // creating picture display
+
+  // create the addButton (adding Reisepunkt to a Reise)
+  const addButton = L.DomUtil.create('button', 'leaflet-popup-add-button')
+  addButton.textContent = 'Zu Reise hinzufügen'
+  addButton.style = 'width: 200px; height: 30px; align-content: center;'
+
+  // add event listener to the addButtorn
+  L.DomEvent.addListener(addButton, 'click', () => {
+    mapComponent.openReiseAuswahl(point)
+  })
+
+  container.appendChild(title)
+  container.appendChild(description)
+  container.appendChild(addButton)
+
+  // Popup erstellen
+  const popup = L.popup()
+    .setContent(container)
+
+  return popup
+}
+
+function createAttraktionPopup (point) {
+  // create popup container
+  const container = L.DomUtil.create('div', 'leaflet-popup-container')
+  container.style = 'align-content: center;'
+
+  // create popup title
+  const title = L.DomUtil.create('h4', 'leaflet-popup-title')
+  title.style = 'width: 200px;'
+  title.textContent = point.name
+
+  // create popup description
+  const description = L.DomUtil.create('p', 'leaflet-popup-description')
+  description.textContent = point.beschreibung
+  description.style = 'width: 200px;'
+
+  // creating picture display
+
+  // creating 'Oeffnungszeiten' display
+
+  // create the addButton (adding Reisepunkt to a Reise)
+  const addButton = L.DomUtil.create('button', 'leaflet-popup-add-button')
+  addButton.textContent = 'Zu Reise hinzufügen'
+  addButton.style = 'width: 200px; height: 30px; align-content: center;'
+
+  // add event listener to the addButtorn
+  L.DomEvent.addListener(addButton, 'click', () => {
+    mapComponent.openReiseAuswahl(point)
+  })
+
+  container.appendChild(title)
+  container.appendChild(description)
+  container.appendChild(addButton)
+
+  // Popup erstellen
+  const popup = L.popup()
+    .setContent(container)
+
+  return popup
 }

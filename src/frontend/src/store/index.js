@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import ClickedCoords from './modules/clickedCoords'
-import Reisen from './modules/reisen'
+import loadedReisen from './modules/loadedReisen'
 import CreateReisen from './modules/createReisen'
 import Authentication from './modules/authetication'
 
@@ -17,7 +17,7 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
   modules: {
     ClickedCoords,
-    Reisen,
+    loadedReisen,
     CreateReisen,
     Authentication
   }

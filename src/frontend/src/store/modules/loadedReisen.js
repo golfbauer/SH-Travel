@@ -1,4 +1,4 @@
-import axios from 'axios'
+import * as reiseService from '@/service/api/reise'
 
 const state = {
   reisen: []
@@ -10,8 +10,8 @@ const getters = {
 
 const actions = {
   async fetchReisen ({ commit }) {
-    const response = await axios.get('/SHTravel/reise')
-    commit('setReisen', response.data)
+    const reisen = await reiseService.fetchReisen()
+    commit('setReisen', reisen)
   }
 }
 

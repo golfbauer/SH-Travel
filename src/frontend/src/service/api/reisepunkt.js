@@ -52,7 +52,7 @@ export async function fetchReisepunkte () {
 
   // generating Reisepunkt objects form Sehenswürdigkeiten
   for (let i = 0; i < sehenswuerdikeiten.length; i++) {
-    const reisepunkt = new Reisepunkt(sehenswuerdikeiten[i], 'sehenswürdigkeit')
+    const reisepunkt = new Reisepunkt(sehenswuerdikeiten[i], 'sehenswuerdigkeit')
     reisepunkte.push(reisepunkt)
   }
   return reisepunkte

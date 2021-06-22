@@ -18,7 +18,7 @@ export async function fetchPunkt (id) {
 export async function createPunkt ({ name, laengengrad, breitengrad, nutzerEmail }) {
   if (formCheck({ name, laengengrad, breitengrad, nutzerEmail })) {
     const response = await axios.post(punktUrl, { name, laengengrad, breitengrad, nutzerEmail })
-    console.log(response)
+    return response
   }
 }
 
@@ -26,14 +26,14 @@ export async function updatePunkt (id, { name, laengengrad, breitengrad, nutzerE
   const url = punktUrl + '/' + id
   if (formCheck({ name, laengengrad, breitengrad, nutzerEmail })) {
     const response = await axios.put(url, { name, laengengrad, breitengrad, nutzerEmail })
-    console.log(response)
+    return response
   }
 }
 
 export async function deletePunkt (id) {
   const url = punktUrl + '/' + id
   const response = await axios.delete(url)
-  console.log(response)
+  return response
 }
 
 /* PRIVATE FUNCTIONS */

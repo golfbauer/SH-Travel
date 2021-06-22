@@ -23,7 +23,7 @@ export async function createSehenswuerdigkeit ({ name, laengengrad, breitengrad,
       beschreibung,
       bilder
     })
-    console.log(response)
+    return response
   }
 }
 
@@ -38,14 +38,14 @@ export async function updateSehenswuerdigkeit (id, { name, laengengrad, breiteng
       beschreibung,
       bilder
     })
-    console.log(response)
+    return response
   }
 }
 
 export async function deleteSehenswuerdigkeit (id) {
   const url = sehenswuerdigkeitUrl + '/' + id
   const response = await axios.delete(url)
-  console.log(response)
+  return response
 }
 
 /* PRIVATE FUNCTIONS */
