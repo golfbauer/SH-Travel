@@ -1,6 +1,6 @@
 import L from 'leaflet'
 import 'leaflet-routing-machine'
-import { fetchTravelPoints } from '@/service/api/travelPoints'
+import { fetchReisepunkte } from '@/service/api/reisepunkt'
 
 /* DATA */
 let mapComponent
@@ -90,7 +90,7 @@ export function removeRoute () {
 export async function loadMarker () {
   /* DUMMY */
   try {
-    const travelPoints = await fetchTravelPoints()
+    const travelPoints = await fetchReisepunkte()
     const { length } = travelPoints
     console.log(length)
     console.log(travelPoints)
@@ -143,17 +143,17 @@ export function setMarker (point) {
 
   // Event hinzufügen
   L.DomEvent.addListener(addButton, 'click', () => {
-    // ToDo: Marker in die Reise hinzufügen
     mapComponent.openReiseAuswahl(point)
   })
 
   // Popup erstellen
   const popup = L.popup()
     .setContent(content)
-  const markerTest = L.marker([point.breitengrad, point.laengengrad])
+  // Setting the Marker on the given position
+  const marker = L.marker([point.breitengrad, point.laengengrad])
     .addTo(lMap)
 
-  markerTest.bindPopup(popup)
+  marker.bindPopup(popup)
 }
 
 // toggling dragging and scrolling depending on input
