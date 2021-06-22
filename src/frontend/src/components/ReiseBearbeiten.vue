@@ -48,7 +48,7 @@
       </b-list-group>
 
       <b-card-body class="vbtn-bar">
-        <b-button class="vbtn-gray" type="reset">Abbrechen</b-button>
+        <b-button class="vbtn-gray" type="reset" @click="closeShow(true)">Abbrechen</b-button>
         <b-button class="vbtn-orange" type="submit" @click="onSave()">Speichern</b-button>
       </b-card-body>
     </b-card>
@@ -116,8 +116,15 @@ export default {
         return
       }
       const re = reiseApi.setReise(this.reise)
-      // toast
-      this.$emit('updateShow', re)
+      if (re) {
+        this.$emit('makeToast', ['success', 'Reise bearbeiten', 'Reise "' + this.reise.name + '" erfolgreich gespeichert'])
+      } else {
+        this.$emit('makeToast', ['danger', 'Reise bearbeiten', 'Reise "' + this.reise.name + '" konnte nicht gespeichert werden'])
+      }
+      this.closeShow(re)
+    },
+    closeShow (status) {
+      this.$emit('updateShow', status)
     }
   },
   created () {

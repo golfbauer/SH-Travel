@@ -32,17 +32,21 @@
       </b-button>
     </b-sidebar>
     <!-- End Sidebar -->
+
+    <ReiseBearbeiten v-if="showReiseBearbeiten" v-on:updateShow="closeReiseBearbeiten($event)" v-on:makeToast="makeToast($event)"/>
   </div>
 </template>
 
 <script>
 import SidebarMenuItem from '@/components/SidebarMenuItem'
 import { mapGetters } from 'vuex'
+import ReiseBearbeiten from '@/components/ReiseBearbeiten'
 
 export default {
   name: 'Menu',
   components: {
-    SidebarMenuItem
+    SidebarMenuItem,
+    ReiseBearbeiten
   },
   data () {
     return {
@@ -53,7 +57,8 @@ export default {
         img: 'https://api-magazin.single.de/fileman/uploads/Neuer%20Ordner/gutes_profilbild_beispiel_4.jpg',
         typ: 'ExampleNutzer'
       },
-      menu: []
+      menu: [],
+      showReiseBearbeiten: true
     }
   },
   computed: {
@@ -75,6 +80,16 @@ export default {
           content: this.getReisen
         }
       ]
+    },
+    closeReiseBearbeiten (status) {
+      this.showReiseBearbeiten = !status
+    },
+    makeToast: function (array) {
+      this.$bvToast.toast(array[2], {
+        title: array[1],
+        variant: array[0],
+        solid: true
+      })
     }
   },
   async mounted () {
