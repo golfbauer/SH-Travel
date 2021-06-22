@@ -4,7 +4,9 @@ import de.hhn.se.labswp.wstgsh.webapi.models.Reise;
 import de.hhn.se.labswp.wstgsh.webapi.models.ReiseRepository;
 import de.hhn.se.labswp.wstgsh.webapi.models.Reisepunkt;
 import de.hhn.se.labswp.wstgsh.webapi.models.ReisepunktRepository;
+
 import java.util.List;
+
 import org.springframework.web.bind.annotation.*;
 
 
@@ -21,6 +23,7 @@ public class ReiseController {
 
   /**
    * Returns a List of every Reisen.
+   *
    * @return List of every Reisen.
    */
   @GetMapping(path = "/reise")
@@ -30,17 +33,19 @@ public class ReiseController {
 
   /**
    * Returns the Reise with the specified id.
+   *
    * @param id of the Reise you want.
    * @return specified(id) Reise.
    */
   @GetMapping(path = "/reise/{id}")
   Reise one(@PathVariable Long id) {
-    return  repository.findById(id).orElseThrow(() ->
+    return repository.findById(id).orElseThrow(() ->
             new IllegalStateException("Id nicht gefunden."));
   }
 
   /**
    * Saves a new Reise in the DB
+   *
    * @param newReise New Reise Objekt you want to save in the DB.
    * @return the just saved Reise Object.
    */
@@ -67,27 +72,30 @@ public class ReiseController {
   Reise replaceReise(@RequestBody Reise newReise, @PathVariable Long id) {
     return repository.findById(id).map(reise -> {
 
-    reise.setName(newReise.getName());
-    reise.setTermin(newReise.getTermin());
-    reise.setOeffentlich(newReise.getOeffentlich());
+      reise.setName(newReise.getName());
+      reise.setTermin(newReise.getTermin());
+      reise.setOeffentlich(newReise.getOeffentlich());
 
-    reise.getReisepunkte().clear();
+      reise.getReisepunkte().clear();
 
-    List<Reisepunkt> reisepunkte = newReise.getReisepunkte();
-    for (Reisepunkt reisepunkt : reisepunkte) {
-      reise.addReisepunkt(reisepunkt);
-      if (!reisepunkt.getReisen().contains(reise)) {
-        reisepunkt.addReise(reise);
+      List<Reisepunkt> reisepunkte = newReise.getReisepunkte();
+      for (Reisepunkt reisepunkt : reisepunkte) {
+        Reisepunkt temp = reisepunktRepository.findById(reisepunkt.getId())
+                .orElseThrow(() -> new IllegalStateException("Konnte Reisepunkt nicht finden"));
+        reise.addReisepunkt(temp);
+        if (!temp.getReisen().contains(reise)) {
+          temp.addReise(reise);
+        }
       }
-    }
 
       return repository.save(reise);
     }).orElseThrow(() -> new IllegalStateException("Konnte Reise nicht verändern."));
 
-    }
+  }
 
   /**
    * Deletes specified Reise.
+   *
    * @param id of the Reise you want to delete.
    */
   @DeleteMapping(path = "/reise/{id}")
@@ -98,8 +106,9 @@ public class ReiseController {
   /**
    * Adds a new Reisepunkt to the Reise. Both have to exist in the Database already.
    * Will throw a Exception if Reise already contains same Reisepunkt.
+   *
    * @param idReisepunkt ID of the Reisepunkt.
-   * @param idReise ID of the Reise.
+   * @param idReise      ID of the Reise.
    * @return Configured Reise with new Reisepunkt.
    */
   @PutMapping(path = "/reise/reisepunkt/{idReise}")
@@ -121,8 +130,9 @@ public class ReiseController {
 
   /**
    * Changes the Privacy inside a Reise, by changing the boolean oeffentlich.
+   *
    * @param oeffentlich To be changed boolean true = oeffentlich, false = privat.
-   * @param id ID of the Reise.
+   * @param id          ID of the Reise.
    * @return Configured Reise with altered Privacy Setting.
    */
   @PutMapping(path = "/reise/oeffentlich/{id}")
