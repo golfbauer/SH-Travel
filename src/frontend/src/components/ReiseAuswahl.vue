@@ -23,7 +23,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import * as mapService from '@/service/helper/map'
-import * as journeyService from '@/service/api/journey'
+import * as journeyService from '@/service/api/reise'
 
 export default {
   name: 'ReiseAuswahl',
@@ -33,9 +33,10 @@ export default {
     }
   },
   methods: {
-    init () {
-      this.$store.dispatch('fetchReisen')
-      this.reisen = this.getReisen
+    async init () {
+      await this.$store.dispatch('fetchReisen').then(() => {
+        this.reisen = this.getReisen
+      })
     },
     mouseOver () {
       mapService.toggleMapIO(false)

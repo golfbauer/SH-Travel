@@ -253,6 +253,9 @@
 <script>
 import { mapGetters } from 'vuex'
 import * as mapService from '@/service/helper/map'
+import { createPunkt } from '@/service/api/punkt'
+import { createSehenswuerdigkeit } from '@/service/api/sehenswuerdigkeit'
+import { createAttraktion } from '@/service/api/attraktion'
 
 export default {
   name: 'ReisepunktErstellen',
@@ -302,45 +305,76 @@ export default {
       const axios = require('axios')
       console.log(this.laengengrad + ' ' + this.breitengrad)
       if (this.typ === 'punkt') {
-        const res = axios.post('/SHTravel/punkt', {
-          laengengrad: this.laengengrad,
-          breitengrad: this.breitengrad,
-          nutzerEmail: this.nutzerEmail,
-          name: this.name
-        })
-          .then(response => {
-            console.log(response)
-            this.makeToast('success', 'Punkt', this.name + ' erfolgreich erstellt')
-            this.disableThisShow()
-          })
-          .catch(error => {
-            this.makeToast('danger', 'Punkt', this.name + ' konnte nicht erstellt werden')
-            console.error(error)
-          })
-      } else if (this.typ === 'sehenswuerdigkeit') {
-        axios.post('/SHTravel/sehenswuerdigkeit', {
-          laengengrad: this.laengengrad,
-          breitengrad: this.breitengrad,
-          nutzerEmail: this.nutzerEmail,
+        createPunkt({
           name: this.name,
+          laengengrad: this.laengengrad,
+          breitengrad: this.breitengrad,
+          nutzerEmail: this.nutzerEmail
+        }).then(response => {
+          console.log(response)
+          this.makeToast('success', 'Punkt', this.name + ' erfolgreich erstellt')
+          this.disableThisShow()
+        }).catch(error => {
+          this.makeToast('danger', 'Punkt', this.name + ' konnte nicht erstellt werden')
+          console.error(error)
+        })
+        // const res = axios.post('/SHTravel/punkt', {
+        //   laengengrad: this.laengengrad,
+        //   breitengrad: this.breitengrad,
+        //   nutzerEmail: this.nutzerEmail,
+        //   name: this.name
+        // })
+        //   .then(response => {
+        //     console.log(response)
+        //     this.makeToast('success', 'Punkt', this.name + ' erfolgreich erstellt')
+        //     this.disableThisShow()
+        //   })
+        //   .catch(error => {
+        //     this.makeToast('danger', 'Punkt', this.name + ' konnte nicht erstellt werden')
+        //     console.error(error)
+        //   })
+      } else if (this.typ === 'sehenswuerdigkeit') {
+        createSehenswuerdigkeit({
+          name: this.name,
+          laengengrad: this.laengengrad,
+          breitengrad: this.breitengrad,
+          nutzerEmail: this.nutzerEmail,
           beschreibung: this.beschreibung,
           bilder: this.bilder
+        }).then(response => {
+          console.log(response)
+          this.makeToast('success', 'Sehenswuerdigkeit', this.name + ' erfolgreich erstellt')
+          this.disableThisShow()
         })
-          .then(response => {
-            console.log(response)
-            this.makeToast('success', 'Sehenswuerdigkeit', this.name + ' erfolgreich erstellt')
-            this.disableThisShow()
-          })
           .catch(error => {
             this.makeToast('danger', 'Sehenswuerdigkeit', this.name + ' konnte nicht erstellt werden')
             console.error(error)
           })
+        // axios.post('/SHTravel/sehenswuerdigkeit', {
+        //   laengengrad: this.laengengrad,
+        //   breitengrad: this.breitengrad,
+        //   nutzerEmail: this.nutzerEmail,
+        //   name: this.name,
+        //   beschreibung: this.beschreibung,
+        //   bilder: this.bilder
+        // })
+        //   .then(response => {
+        //     console.log(response)
+        //     this.makeToast('success', 'Sehenswuerdigkeit', this.name + ' erfolgreich erstellt')
+        //     this.disableThisShow()
+        //   })
+        //   .catch(error => {
+        //     this.makeToast('danger', 'Sehenswuerdigkeit', this.name + ' konnte nicht erstellt werden')
+        //     console.error(error)
+        //   })
       } else if (this.typ === 'attraktion') {
-        axios.post('/SHTravel/attraktion', {
+        createAttraktion({
+          name: this.name,
           laengengrad: this.laengengrad,
           breitengrad: this.breitengrad,
           nutzerEmail: this.nutzerEmail,
-          name: this.name,
+          beschreibung: this.beschreibung,
+          bilder: this.bilder,
           attraktionOeffnungszeiten: [
             {
               tagDerWoche: 'MONDAY',
@@ -391,19 +425,84 @@ export default {
               ganztaegig: this.so_ganztaegig[0],
               geschlossen: this.checkIfGeschlossen(this.so_ganztaegig, this.so_von, this.so_bis)
             }
-          ],
-          beschreibung: this.beschreibung,
-          bilder: this.bilder
+          ]
+        }).then(response => {
+          console.log(response)
+          this.makeToast('success', 'Attraktion', this.name + ' erfolgreich erstellt')
+          this.disableThisShow()
         })
-          .then(response => {
-            console.log(response)
-            this.makeToast('success', 'Attraktion', this.name + ' erfolgreich erstellt')
-            this.disableThisShow()
-          })
           .catch(error => {
             this.makeToast('danger', 'Attraktion', this.name + ' konnte nicht erstellt werden')
             console.error(error)
           })
+        // axios.post('/SHTravel/attraktion', {
+        //   laengengrad: this.laengengrad,
+        //   breitengrad: this.breitengrad,
+        //   nutzerEmail: this.nutzerEmail,
+        //   name: this.name,
+        //   attraktionOeffnungszeiten: [
+        //     {
+        //       tagDerWoche: 'MONDAY',
+        //       oeffnetUm: this.clearIfGanztaegig(this.mo_ganztaegig, this.mo_von),
+        //       schliestUm: this.clearIfGanztaegig(this.mo_ganztaegig, this.mo_bis),
+        //       ganztaegig: this.mo_ganztaegig[0],
+        //       geschlossen: this.checkIfGeschlossen(this.mo_ganztaegig, this.mo_von, this.mo_bis)
+        //     },
+        //     {
+        //       tagDerWoche: 'TUESDAY',
+        //       oeffnetUm: this.clearIfGanztaegig(this.di_ganztaegig, this.di_von),
+        //       schliestUm: this.clearIfGanztaegig(this.di_ganztaegig, this.di_bis),
+        //       ganztaegig: this.di_ganztaegig[0],
+        //       geschlossen: this.checkIfGeschlossen(this.di_ganztaegig, this.di_von, this.di_bis)
+        //     },
+        //     {
+        //       tagDerWoche: 'WEDNESDAY',
+        //       oeffnetUm: this.clearIfGanztaegig(this.mi_ganztaegig, this.mi_von),
+        //       schliestUm: this.clearIfGanztaegig(this.mi_ganztaegig, this.mi_bis),
+        //       ganztaegig: this.mi_ganztaegig[0],
+        //       geschlossen: this.checkIfGeschlossen(this.mi_ganztaegig, this.mi_von, this.mi_bis)
+        //     },
+        //     {
+        //       tagDerWoche: 'THURSDAY',
+        //       oeffnetUm: this.clearIfGanztaegig(this.do_ganztaegig, this.do_von),
+        //       schliestUm: this.clearIfGanztaegig(this.do_ganztaegig, this.do_bis),
+        //       ganztaegig: this.do_ganztaegig[0],
+        //       geschlossen: this.checkIfGeschlossen(this.do_ganztaegig, this.do_von, this.do_bis)
+        //     },
+        //     {
+        //       tagDerWoche: 'FRIDAY',
+        //       oeffnetUm: this.clearIfGanztaegig(this.fr_ganztaegig, this.fr_von),
+        //       schliestUm: this.clearIfGanztaegig(this.fr_ganztaegig, this.fr_bis),
+        //       ganztaegig: this.fr_ganztaegig[0],
+        //       geschlossen: this.checkIfGeschlossen(this.fr_ganztaegig, this.fr_von, this.fr_bis)
+        //     },
+        //     {
+        //       tagDerWoche: 'SATURDAY',
+        //       oeffnetUm: this.clearIfGanztaegig(this.sa_ganztaegig, this.sa_von),
+        //       schliestUm: this.clearIfGanztaegig(this.sa_ganztaegig, this.sa_bis),
+        //       ganztaegig: this.sa_ganztaegig[0],
+        //       geschlossen: this.checkIfGeschlossen(this.sa_ganztaegig, this.sa_von, this.sa_bis)
+        //     },
+        //     {
+        //       tagDerWoche: 'SUNDAY',
+        //       oeffnetUm: this.clearIfGanztaegig(this.so_ganztaegig, this.so_von),
+        //       schliestUm: this.clearIfGanztaegig(this.so_ganztaegig, this.so_bis),
+        //       ganztaegig: this.so_ganztaegig[0],
+        //       geschlossen: this.checkIfGeschlossen(this.so_ganztaegig, this.so_von, this.so_bis)
+        //     }
+        //   ],
+        //   beschreibung: this.beschreibung,
+        //   bilder: this.bilder
+        // })
+        //   .then(response => {
+        //     console.log(response)
+        //     this.makeToast('success', 'Attraktion', this.name + ' erfolgreich erstellt')
+        //     this.disableThisShow()
+        //   })
+        //   .catch(error => {
+        //     this.makeToast('danger', 'Attraktion', this.name + ' konnte nicht erstellt werden')
+        //     console.error(error)
+        //   })
       }
     },
     onReset (event) {
