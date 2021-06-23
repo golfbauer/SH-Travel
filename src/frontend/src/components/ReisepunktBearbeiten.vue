@@ -252,14 +252,22 @@
 </template>
 
 <script>
+import L from 'leaflet'
+import * as Icons from '@/assets/external/leaflet-color-markers/js/leaflet-color-markers'
+import { updatePunkt } from '@/service/api/punkt'
+import { updateSehenswuerdigkeit } from '@/service/api/sehenswuerdigkeit'
+import { updateAttraktion } from '@/service/api/attraktion'
+
 export default {
   name: 'ReisepunktBearbeiten',
   data () {
     return {
+      id: '0',
       typ: 'attraktion', // attraktion
       nutzerEmail: '',
       name: 'Reisepunktname',
       beschreibung: 'hier sollte eigentlich eine beschreibung reinkommen',
+      attraktionOeffnungszeiten: [],
       mo_von: '13:00',
       mo_bis: '16:00',
       di_von: '',
@@ -294,52 +302,101 @@ export default {
     }
   },
   props: {
-    reisepunkt: Object //Loaded travelPoint
+    reisepunkt: Object // Loaded travelPoint
   },
   methods: {
     loadMarkerData () {
-      console.log(this.reisepunkt) //Loaded Point
+      console.log(this.reisepunkt) // Loaded Point
+      console.log(this.attraktionOeffnungszeiten)
 
-      this.typ = 'attraktion'// this.reisepunkt.typ
-      this.nutzerEmail = this.reisepunkt.nutzerEmail
+      this.id = this.reisepunkt.id
+      this.typ = this.reisepunkt.typ
+      this.nutzerEmail = 'dev-robert@shtravel.com' // ToDo: änder in: this.reisepunkt.nutzerEmail
       this.name = this.reisepunkt.name
-      this.beschreibung = this.reisepunkt.beschreibung
-      this.mo_von = this.reisepunkt.mo_von
-      this.mo_bis = this.reisepunkt.mo_bis
-      this.di_von = this.reisepunkt.di_von
-      this.di_bis = this.reisepunkt.di_bis
-      this.mi_von = this.reisepunkt.mi_von
-      this.mi_bis = this.reisepunkt.mi_bis
-      this.do_bis = this.reisepunkt.do_bis
-      this.do_von = this.reisepunkt.do_von
-      this.fr_von = this.reisepunkt.fr_von
-      this.fr_bis = this.reisepunkt.fr_bis
-      this.sa_von = this.reisepunkt.sa_von
-      this.sa_bis = this.reisepunkt.sa_bis
-      this.so_von = this.reisepunkt.so_von
-      this.so_bis = this.reisepunkt.so_bis
-      this.mo_ganztaegig = this.reisepunkt.mo_ganztaegig
-      this.di_ganztaegig = this.reisepunkt.di_ganztaegig
-      this.mi_ganztaegig = this.reisepunkt.mi_ganztaegig
-      this.do_ganztaegig = this.reisepunkt.do_ganztaegig
-      this.fr_ganztaegig = this.reisepunkt.fr_ganztaegig
-      this.sa_ganztaegig = this.reisepunkt.sa_ganztaegig
-      this.so_ganztaegig = this.reisepunkt.so_ganztaegig
-      this.mo_geschlossen = this.reisepunkt.mo_geschlossen
-      this.di_geschlossen = this.reisepunkt.di_geschlossen
-      this.mi_geschlossen = this.reisepunkt.mi_geschlossen
-      this.do_geschlossen = this.reisepunkt.do_geschlossen
-      this.fr_geschlossen = this.reisepunkt.fr_geschlossen
-      this.sa_geschlossen = this.reisepunkt.sa_geschlossen
-      this.so_geschlossen = this.reisepunkt.so_geschlossen
+      this.laengengrad = this.reisepunkt.laengengrad
+      this.breitengrad = this.reisepunkt.breitengrad
+
+      if (this.typ === 'attraktion' || this.typ === 'sehenswuerdigkeit') {
+        this.beschreibung = this.reisepunkt.beschreibung
+      }
+
+      if (this.typ === 'attraktion') {
+        // Set von & bis
+        this.mo_von = this.reisepunkt.attraktionOeffnungszeiten[0].oeffnetUm
+        this.mo_bis = this.reisepunkt.attraktionOeffnungszeiten[0].schliestUm
+        this.di_von = this.reisepunkt.attraktionOeffnungszeiten[1].oeffnetUm
+        this.di_bis = this.reisepunkt.attraktionOeffnungszeiten[1].schliestUm
+        this.mi_von = this.reisepunkt.attraktionOeffnungszeiten[2].oeffnetUm
+        this.mi_bis = this.reisepunkt.attraktionOeffnungszeiten[2].schliestUm
+        this.do_von = this.reisepunkt.attraktionOeffnungszeiten[3].oeffnetUm
+        this.do_bis = this.reisepunkt.attraktionOeffnungszeiten[3].schliestUm
+        this.fr_von = this.reisepunkt.attraktionOeffnungszeiten[4].oeffnetUm
+        this.fr_bis = this.reisepunkt.attraktionOeffnungszeiten[4].schliestUm
+        this.sa_von = this.reisepunkt.attraktionOeffnungszeiten[5].oeffnetUm
+        this.sa_bis = this.reisepunkt.attraktionOeffnungszeiten[5].schliestUm
+        this.so_von = this.reisepunkt.attraktionOeffnungszeiten[6].oeffnetUm
+        this.so_bis = this.reisepunkt.attraktionOeffnungszeiten[6].schliestUm
+
+        // Set ganztaegig
+        this.mo_ganztaegig = this.reisepunkt.attraktionOeffnungszeiten[0].ganztaegig
+        this.di_ganztaegig = this.reisepunkt.attraktionOeffnungszeiten[1].ganztaegig
+        this.mi_ganztaegig = this.reisepunkt.attraktionOeffnungszeiten[2].ganztaegig
+        this.do_ganztaegig = this.reisepunkt.attraktionOeffnungszeiten[3].ganztaegig
+        this.fr_ganztaegig = this.reisepunkt.attraktionOeffnungszeiten[4].ganztaegig
+        this.sa_ganztaegig = this.reisepunkt.attraktionOeffnungszeiten[5].ganztaegig
+        this.so_ganztaegig = this.reisepunkt.attraktionOeffnungszeiten[6].ganztaegig
+
+        // Set geschlossen
+        this.mo_geschlossen = this.reisepunkt.attraktionOeffnungszeiten[0].geschlossen
+        this.di_geschlossen = this.reisepunkt.attraktionOeffnungszeiten[1].geschlossen
+        this.mi_geschlossen = this.reisepunkt.attraktionOeffnungszeiten[2].geschlossen
+        this.do_geschlossen = this.reisepunkt.attraktionOeffnungszeiten[3].geschlossen
+        this.fr_geschlossen = this.reisepunkt.attraktionOeffnungszeiten[4].geschlossen
+        this.sa_geschlossen = this.reisepunkt.attraktionOeffnungszeiten[5].geschlossen
+        this.so_geschlossen = this.reisepunkt.attraktionOeffnungszeiten[6].geschlossen
+      }
+
       this.bilder = this.reisepunkt.bilder
     },
     onSubmit (event) {
       // ToDo: In der Datenbank überschreiben
       console.log('Speichern')
+      switch (this.typ) {
+        case 'punkt':
+          updatePunkt(this.id, {
+            name: this.name,
+            laengengrad: this.laengengrad,
+            breitengrad: this.breitengrad,
+            nutzerEmail: this.nutzerEmail
+          })
+          break
+        case 'sehenswuerdigkeit':
+          updateSehenswuerdigkeit(this.id, {
+            name: this.name,
+            laengengrad: this.laengengrad,
+            breitengrad: this.breitengrad,
+            nutzerEmail: this.nutzerEmail,
+            beschreibung: this.beschreibung,
+            bilder: this.bilder
+          })
+          break
+        case 'attraktion':
+          updateAttraktion(this.id, {
+            name: this.name,
+            laengengrad: this.laengengrad,
+            breitengrad: this.breitengrad,
+            nutzerEmail: this.nutzerEmail,
+            beschreibung: this.beschreibung,
+            bilder: this.bilder,
+            attraktionOeffnungszeiten: this.attraktionOeffnungszeiten
+          })
+          break
+        case undefined:
+          console.error('Could not update marker, recieved a Reisepunkt without type')
+          break
+      }
     },
     onReset (event) {
-      // ToDo: Schließen
       this.$emit('cancel')
       console.log('Änderungen nicht übernommen.')
     }

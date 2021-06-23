@@ -110,109 +110,6 @@ export function setMarker (point) {
     return
   }
 
-<<<<<<< HEAD
-  // Div erstellen
-  const content = L.DomUtil.create('div', 'popupContainer')
-  content.style = 'align-content: center;'
-
-  // Childs erstellen
-  const title = L.DomUtil.create('h4', 'popupTitle')
-  title.style = 'width: 200px;'
-  title.textContent = point.name
-
-  const lngText = L.DomUtil.create('p')
-  lngText.innerHTML = `Längengrad: <i>${point.laengengrad}</i>`
-  lngText.style = 'overflow-wrap: break-word; width: 200px;'
-
-  const latText = L.DomUtil.create('p')
-  latText.innerHTML = `Breitengrad: <i>${point.breitengrad}</i>`
-  latText.style = 'overflow-wrap: break-word; width: 200px;'
-
-  const beschreibungText = L.DomUtil.create('p')
-  beschreibungText.style = 'width: 200px;'
-  beschreibungText.textContent = 'Beschreibung hier einfügen...'
-
-  const addButton = L.DomUtil.create('button', 'popupAddButton')
-  addButton.textContent = 'Hinzufügen'
-  addButton.style = 'width: 200px; height: 30px; align-content: center;'
-
-  const editButton = L.DomUtil.create('button', 'popupEditButton')
-  editButton.textContent = 'Bearbeiten'
-  editButton.style = 'width: 200px; height: 30px; align-content: center;'
-
-  // Zusammenfügen
-  content.appendChild(title)
-  content.appendChild(lngText)
-  content.appendChild(latText)
-  content.appendChild(beschreibungText)
-  content.appendChild(addButton)
-  content.appendChild(editButton)
-
-  // Event hinzufügen
-  L.DomEvent.addListener(addButton, 'click', () => {
-    // ToDo: Marker in die Reise hinzufügen
-    mapComponent.openReiseAuswahl(point)
-  })
-
-  L.DomEvent.addListener(editButton, 'click', () => {
-    mapComponent.openReisepunktBearbeiten(point)
-    console.log('Bearbeiten Fenster öffnen und Daten laden')
-  })
-
-  // Popup erstellen
-  const popup = L.popup()
-    .setContent(content)
-  const markerTest = L.marker([point.breitengrad, point.laengengrad])
-    .addTo(lMap)
-
-  markerTest.bindPopup(popup)
-||||||| 63b9a33
-  // Div erstellen
-  const content = L.DomUtil.create('div', 'popupContainer')
-  content.style = 'align-content: center;'
-
-  // Childs erstellen
-  const title = L.DomUtil.create('h4', 'popupTitle')
-  title.style = 'width: 200px;'
-  title.textContent = point.name
-
-  const lngText = L.DomUtil.create('p')
-  lngText.innerHTML = `Längengrad: <i>${point.laengengrad}</i>`
-  lngText.style = 'overflow-wrap: break-word; width: 200px;'
-
-  const latText = L.DomUtil.create('p')
-  latText.innerHTML = `Breitengrad: <i>${point.breitengrad}</i>`
-  latText.style = 'overflow-wrap: break-word; width: 200px;'
-
-  const beschreibungText = L.DomUtil.create('p')
-  beschreibungText.style = 'width: 200px;'
-  beschreibungText.textContent = 'Beschreibung hier einfügen...'
-
-  const addButton = L.DomUtil.create('button', 'popupAddButton')
-  addButton.textContent = 'Hinzufügen'
-  addButton.style = 'width: 200px; height: 30px; align-content: center;'
-
-  // Zusammenfügen
-  content.appendChild(title)
-  content.appendChild(lngText)
-  content.appendChild(latText)
-  content.appendChild(beschreibungText)
-  content.appendChild(addButton)
-
-  // Event hinzufügen
-  L.DomEvent.addListener(addButton, 'click', () => {
-    // ToDo: Marker in die Reise hinzufügen
-    mapComponent.openReiseAuswahl(point)
-  })
-
-  // Popup erstellen
-  const popup = L.popup()
-    .setContent(content)
-  const markerTest = L.marker([point.breitengrad, point.laengengrad])
-    .addTo(lMap)
-
-  markerTest.bindPopup(popup)
-=======
   switch (point.typ) {
     case 'punkt':
       var marker = L.marker([point.breitengrad, point.laengengrad], { icon: Icons.blueIcon })
@@ -236,7 +133,6 @@ export function setMarker (point) {
       console.error('Could not set marker, recieved a Reisepunkt without type')
       break
   }
->>>>>>> origin/release/develop
 }
 
 // toggling dragging and scrolling depending on input
@@ -289,13 +185,25 @@ function createPunktPopup (point) {
   addButton.textContent = 'Zu Reise hinzufügen'
   addButton.style = 'width: 200px; height: 30px; align-content: center;'
 
-  // add event listener to the addButtorn
+  // create the editButton (editing selected Reisepunkt)
+  const editButton = L.DomUtil.create('button', 'popupEditButton')
+  editButton.textContent = 'Bearbeiten'
+  editButton.style = 'width: 200px; height: 30px; align-content: center;'
+
+  // add event listener to the addButton
   L.DomEvent.addListener(addButton, 'click', () => {
     mapComponent.openReiseAuswahl(point)
   })
 
+  // add event listener to the editButton
+  L.DomEvent.addListener(editButton, 'click', () => {
+    mapComponent.openReisepunktBearbeiten(point)
+    console.log('Bearbeiten Fenster öffnen und Daten laden')
+  })
+
   container.appendChild(title)
   container.appendChild(addButton)
+  container.appendChild(editButton)
 
   // Popup erstellen
   const popup = L.popup()
@@ -326,14 +234,26 @@ function createSehenswuerdigkeitPopup (point) {
   addButton.textContent = 'Zu Reise hinzufügen'
   addButton.style = 'width: 200px; height: 30px; align-content: center;'
 
-  // add event listener to the addButtorn
+  // create the editButton (editing selected Reisepunkt)
+  const editButton = L.DomUtil.create('button', 'popupEditButton')
+  editButton.textContent = 'Bearbeiten'
+  editButton.style = 'width: 200px; height: 30px; align-content: center;'
+
+  // add event listener to the addButton
   L.DomEvent.addListener(addButton, 'click', () => {
     mapComponent.openReiseAuswahl(point)
+  })
+
+  // add event listener to the editButton
+  L.DomEvent.addListener(editButton, 'click', () => {
+    mapComponent.openReisepunktBearbeiten(point)
+    console.log('Bearbeiten Fenster öffnen und Daten laden')
   })
 
   container.appendChild(title)
   container.appendChild(description)
   container.appendChild(addButton)
+  container.appendChild(editButton)
 
   // Popup erstellen
   const popup = L.popup()
@@ -366,14 +286,26 @@ function createAttraktionPopup (point) {
   addButton.textContent = 'Zu Reise hinzufügen'
   addButton.style = 'width: 200px; height: 30px; align-content: center;'
 
-  // add event listener to the addButtorn
+  // create the editButton (editing selected Reisepunkt)
+  const editButton = L.DomUtil.create('button', 'popupEditButton')
+  editButton.textContent = 'Bearbeiten'
+  editButton.style = 'width: 200px; height: 30px; align-content: center;'
+
+  // add event listener to the addButton
   L.DomEvent.addListener(addButton, 'click', () => {
     mapComponent.openReiseAuswahl(point)
+  })
+
+  // add event listener to the editButton
+  L.DomEvent.addListener(editButton, 'click', () => {
+    mapComponent.openReisepunktBearbeiten(point)
+    console.log('Bearbeiten Fenster öffnen und Daten laden')
   })
 
   container.appendChild(title)
   container.appendChild(description)
   container.appendChild(addButton)
+  container.appendChild(editButton)
 
   // Popup erstellen
   const popup = L.popup()
