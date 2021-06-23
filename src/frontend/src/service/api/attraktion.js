@@ -31,7 +31,7 @@ export async function createAttraktion ({ name, laengengrad, breitengrad, nutzer
 export async function updateAttraktion (id, { name, laengengrad, breitengrad, nutzerEmail, beschreibung, bilder, attraktionOeffnungszeiten }) {
   const url = attraktionUrl + '/' + id
   if (formCheck({ name, laengengrad, breitengrad, nutzerEmail, attraktionOeffnungszeiten })) {
-    const response = await axios.post(url, {
+    const response = await axios.put(url, {
       name,
       laengengrad,
       breitengrad,

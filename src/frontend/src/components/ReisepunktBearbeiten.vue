@@ -252,22 +252,21 @@
 </template>
 
 <script>
-import L from 'leaflet'
-import * as Icons from '@/assets/external/leaflet-color-markers/js/leaflet-color-markers'
 import { updatePunkt } from '@/service/api/punkt'
 import { updateSehenswuerdigkeit } from '@/service/api/sehenswuerdigkeit'
 import { updateAttraktion } from '@/service/api/attraktion'
+import * as mapService from '@/service/helper/map'
 
 export default {
   name: 'ReisepunktBearbeiten',
   data () {
     return {
       id: '0',
-      typ: 'attraktion', // attraktion
+      typ: 'attraktion',
       nutzerEmail: '',
       name: 'Reisepunktname',
-      beschreibung: 'hier sollte eigentlich eine beschreibung reinkommen',
-      attraktionOeffnungszeiten: [],
+      beschreibung: 'Beschreibung',
+      attraktionOeffnungszeiten: '',
       mo_von: '13:00',
       mo_bis: '16:00',
       di_von: '',
@@ -308,6 +307,7 @@ export default {
     loadMarkerData () {
       console.log(this.reisepunkt) // Loaded Point
       console.log(this.attraktionOeffnungszeiten)
+      mapService.toggleMapIO(false)
 
       this.id = this.reisepunkt.id
       this.typ = this.reisepunkt.typ
@@ -338,6 +338,22 @@ export default {
         this.so_bis = this.reisepunkt.attraktionOeffnungszeiten[6].schliestUm
 
         // Set ganztaegig
+        // var temp = []
+        // temp[0] = this.reisepunkt.attraktionOeffnungszeiten[0].ganztaegig
+        // this.mo_ganztaegig = temp
+        // temp[0] = this.reisepunkt.attraktionOeffnungszeiten[1].ganztaegig
+        // this.di_ganztaegig = temp
+        // temp[0] = this.reisepunkt.attraktionOeffnungszeiten[2].ganztaegig
+        // this.mi_ganztaegig = temp
+        // temp[0] = this.reisepunkt.attraktionOeffnungszeiten[3].ganztaegig
+        // this.do_ganztaegig = temp
+        // temp[0] = this.reisepunkt.attraktionOeffnungszeiten[4].ganztaegig
+        // this.fr_ganztaegig = temp
+        // temp[0] = this.reisepunkt.attraktionOeffnungszeiten[5].ganztaegig
+        // this.sa_ganztaegig = temp
+        // temp[0] = this.reisepunkt.attraktionOeffnungszeiten[6].ganztaegig
+        // this.so_ganztaegig = temp
+
         this.mo_ganztaegig = this.reisepunkt.attraktionOeffnungszeiten[0].ganztaegig
         this.di_ganztaegig = this.reisepunkt.attraktionOeffnungszeiten[1].ganztaegig
         this.mi_ganztaegig = this.reisepunkt.attraktionOeffnungszeiten[2].ganztaegig
@@ -387,7 +403,57 @@ export default {
             nutzerEmail: this.nutzerEmail,
             beschreibung: this.beschreibung,
             bilder: this.bilder,
-            attraktionOeffnungszeiten: this.attraktionOeffnungszeiten
+            attraktionOeffnungszeiten: [
+              {
+                tagDerWoche: 'MONDAY',
+                oeffnetUm: this.clearIfGanztaegig(this.mo_ganztaegig, this.mo_von),
+                schliestUm: this.clearIfGanztaegig(this.mo_ganztaegig, this.mo_bis),
+                ganztaegig: this.mo_ganztaegig[0],
+                geschlossen: this.checkIfGeschlossen(this.mo_ganztaegig, this.mo_von, this.mo_bis)
+              },
+              {
+                tagDerWoche: 'TUESDAY',
+                oeffnetUm: this.clearIfGanztaegig(this.di_ganztaegig, this.di_von),
+                schliestUm: this.clearIfGanztaegig(this.di_ganztaegig, this.di_bis),
+                ganztaegig: this.di_ganztaegig[0],
+                geschlossen: this.checkIfGeschlossen(this.di_ganztaegig, this.di_von, this.di_bis)
+              },
+              {
+                tagDerWoche: 'WEDNESDAY',
+                oeffnetUm: this.clearIfGanztaegig(this.mi_ganztaegig, this.mi_von),
+                schliestUm: this.clearIfGanztaegig(this.mi_ganztaegig, this.mi_bis),
+                ganztaegig: this.mi_ganztaegig[0],
+                geschlossen: this.checkIfGeschlossen(this.mi_ganztaegig, this.mi_von, this.mi_bis)
+              },
+              {
+                tagDerWoche: 'THURSDAY',
+                oeffnetUm: this.clearIfGanztaegig(this.do_ganztaegig, this.do_von),
+                schliestUm: this.clearIfGanztaegig(this.do_ganztaegig, this.do_bis),
+                ganztaegig: this.do_ganztaegig[0],
+                geschlossen: this.checkIfGeschlossen(this.do_ganztaegig, this.do_von, this.do_bis)
+              },
+              {
+                tagDerWoche: 'FRIDAY',
+                oeffnetUm: this.clearIfGanztaegig(this.fr_ganztaegig, this.fr_von),
+                schliestUm: this.clearIfGanztaegig(this.fr_ganztaegig, this.fr_bis),
+                ganztaegig: this.fr_ganztaegig[0],
+                geschlossen: this.checkIfGeschlossen(this.fr_ganztaegig, this.fr_von, this.fr_bis)
+              },
+              {
+                tagDerWoche: 'SATURDAY',
+                oeffnetUm: this.clearIfGanztaegig(this.sa_ganztaegig, this.sa_von),
+                schliestUm: this.clearIfGanztaegig(this.sa_ganztaegig, this.sa_bis),
+                ganztaegig: this.sa_ganztaegig[0],
+                geschlossen: this.checkIfGeschlossen(this.sa_ganztaegig, this.sa_von, this.sa_bis)
+              },
+              {
+                tagDerWoche: 'SUNDAY',
+                oeffnetUm: this.clearIfGanztaegig(this.so_ganztaegig, this.so_von),
+                schliestUm: this.clearIfGanztaegig(this.so_ganztaegig, this.so_bis),
+                ganztaegig: this.so_ganztaegig[0],
+                geschlossen: this.checkIfGeschlossen(this.so_ganztaegig, this.so_von, this.so_bis)
+              }
+            ]
           })
           break
         case undefined:
@@ -395,14 +461,22 @@ export default {
           break
       }
 
+      mapService.toggleMapIO(true)
       this.close()
     },
     onReset (event) {
+      mapService.toggleMapIO(true)
       this.$emit('cancel')
       console.log('Änderungen nicht übernommen.')
     },
     close () {
       this.$emit('close')
+    },
+    checkIfGeschlossen (ganztaegig, von, bis) {
+      return !ganztaegig[ganztaegig.length - 1] && von === '' && bis === ''
+    },
+    clearIfGanztaegig (ganztaegig, zeit) {
+      return ganztaegig[ganztaegig.length - 1] === true ? null : zeit
     }
   },
   created () {

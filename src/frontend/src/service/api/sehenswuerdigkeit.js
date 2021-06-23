@@ -30,7 +30,7 @@ export async function createSehenswuerdigkeit ({ name, laengengrad, breitengrad,
 export async function updateSehenswuerdigkeit (id, { name, laengengrad, breitengrad, nutzerEmail, beschreibung, bilder }) {
   const url = sehenswuerdigkeitUrl + '/' + id
   if (formCheck({ name, laengengrad, breitengrad, nutzerEmail })) {
-    const response = await axios.post(url, {
+    const response = await axios.put(url, {
       name,
       laengengrad,
       breitengrad,
