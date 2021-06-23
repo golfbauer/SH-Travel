@@ -359,7 +359,6 @@ export default {
       this.bilder = this.reisepunkt.bilder
     },
     onSubmit (event) {
-      // ToDo: In der Datenbank überschreiben
       console.log('Speichern')
       switch (this.typ) {
         case 'punkt':
@@ -395,10 +394,15 @@ export default {
           console.error('Could not update marker, recieved a Reisepunkt without type')
           break
       }
+
+      this.close()
     },
     onReset (event) {
       this.$emit('cancel')
       console.log('Änderungen nicht übernommen.')
+    },
+    close () {
+      this.$emit('close')
     }
   },
   created () {

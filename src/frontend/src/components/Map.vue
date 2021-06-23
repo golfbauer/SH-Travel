@@ -5,7 +5,7 @@
     <ReiseAuswahl v-if="showReiseAuswahl" v-on:selected="openReiseAnsicht($event)"
                   v-on:cancel="closeReiseAuswahl($event)"/>
     <ReiseAnsicht v-if="showReiseAnsicht" v-on:cancel="closeReiseAnsicht" v-on:makeToast="makeToast($event)"/>
-    <ReisepunktBearbeiten v-if="showReisepunktBearbeiten" v-on:cancel="closeReisepunktBearbeiten" :reisepunkt="passedPoint"/>
+    <ReisepunktBearbeiten v-if="showReisepunktBearbeiten" v-on:cancel="closeReisepunktBearbeiten" v-on:close="closeReisepunktBearbeiten" :reisepunkt="passedPoint"/>
   </div>
 </template>
 
