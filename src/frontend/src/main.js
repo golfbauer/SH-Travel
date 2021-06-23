@@ -9,6 +9,7 @@ import { faTimes, faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 import Vue from 'vue'
+import Toasted from 'vue-toasted'
 import App from './App.vue'
 import router from './router'
 import { store } from './store'
@@ -22,6 +23,7 @@ Icon.Default.mergeOptions({
 
 library.add(faTimes, faPlus)
 
+Vue.use(Toasted)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.config.productionTip = false
