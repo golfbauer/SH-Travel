@@ -62,7 +62,6 @@ export default {
   name: 'ReiseBearbeiten',
   data () {
     return {
-      selId: 2298,
       reise: {},
       showAlert: false,
       reisepunktId: 0,
@@ -128,7 +127,7 @@ export default {
     }
   },
   created () {
-    const test = reiseService.getReise(this.selId) // change selId to reiseId
+    const test = reiseService.getReise(this.reiseId)
     test.then((msg) => {
       this.reise = msg
     })

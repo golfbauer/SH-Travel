@@ -23,7 +23,7 @@
       <!-- SidebarMenuItems -->
       <nav class="mb-3">
         <b-nav vertical>
-          <sidebar-menu-item v-for="(item, index) in menu" :key="index" :item="item"/>
+          <sidebar-menu-item v-on:openReiseBearbeiten="openReiseBearbeiten($event)" v-for="(item, index) in menu" :key="index" :item="item"/>
         </b-nav>
       </nav>
       <!-- End SidebarMenuItems -->
@@ -33,7 +33,7 @@
     </b-sidebar>
     <!-- End Sidebar -->
 
-    <ReiseBearbeiten v-if="showReiseBearbeiten" v-on:updateShow="closeReiseBearbeiten($event)" v-on:makeToast="makeToast($event)"/>
+    <ReiseBearbeiten v-if="showReiseBearbeiten" :reiseId="reiseId" v-on:updateShow="closeReiseBearbeiten($event)" v-on:makeToast="makeToast($event)"/>
   </div>
 </template>
 
@@ -58,7 +58,8 @@ export default {
         typ: 'ExampleNutzer'
       },
       menu: [],
-      showReiseBearbeiten: true
+      showReiseBearbeiten: false,
+      reiseId: 0
     }
   },
   computed: {
@@ -90,6 +91,10 @@ export default {
         variant: array[0],
         solid: true
       })
+    },
+    openReiseBearbeiten (reiseId) {
+      this.showReiseBearbeiten = true
+      this.reiseId = parseInt(reiseId)
     }
   },
   async mounted () {

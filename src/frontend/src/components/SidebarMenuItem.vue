@@ -8,11 +8,12 @@
           </div>
         </b-nav-item>
         <div v-if="showChild">
-          <sidebar-menu-item v-on:click.native="handleClick(subitem)" v-for="(subitem, index) in item.content" :key="index" :item="subitem"/>
+          <sidebar-menu-item v-on:openReiseBearbeiten="openReiseBearbeiten($event)" v-on:click.native="handleClick(subitem)" v-for="(subitem, index) in item.content" :key="index" :item="subitem"/>
         </div>
       </div>
       <b-nav-item :href='item.href' v-else class="bor-bot">
         {{ item.name }}
+        <b-button class="edit-btn" v-if="isReise(item.id)" @click="openReiseBearbeiten(item.id)" size="sm">Bearbeiten</b-button>
       </b-nav-item>
     </div>
   </div>
@@ -61,6 +62,16 @@ export default {
       } else {
         this.showChild = false
       }
+    },
+    isReise (reiseId) {
+      if (reiseId !== undefined && reiseId >= 0) {
+        return true
+      }
+      return false
+    },
+    openReiseBearbeiten (reiseId) {
+      console.log('button pressed' + reiseId)
+      this.$emit('openReiseBearbeiten', reiseId)
     }
   },
   created () {
@@ -123,5 +134,9 @@ export default {
       color: #000;
     }
   }
+}
+
+.edit-btn {
+  z-index: 9999;
 }
 </style>
