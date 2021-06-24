@@ -323,20 +323,20 @@ export default {
       // ToDo: Formatieren auf 00:00
       if (this.typ === 'attraktion') {
         // Set von & bis
-        this.mo_von = this.reisepunkt.attraktionOeffnungszeiten[0].oeffnetUm
-        this.mo_bis = this.reisepunkt.attraktionOeffnungszeiten[0].schliestUm
-        this.di_von = this.reisepunkt.attraktionOeffnungszeiten[1].oeffnetUm
-        this.di_bis = this.reisepunkt.attraktionOeffnungszeiten[1].schliestUm
-        this.mi_von = this.reisepunkt.attraktionOeffnungszeiten[2].oeffnetUm
-        this.mi_bis = this.reisepunkt.attraktionOeffnungszeiten[2].schliestUm
-        this.do_von = this.reisepunkt.attraktionOeffnungszeiten[3].oeffnetUm
-        this.do_bis = this.reisepunkt.attraktionOeffnungszeiten[3].schliestUm
-        this.fr_von = this.reisepunkt.attraktionOeffnungszeiten[4].oeffnetUm
-        this.fr_bis = this.reisepunkt.attraktionOeffnungszeiten[4].schliestUm
-        this.sa_von = this.reisepunkt.attraktionOeffnungszeiten[5].oeffnetUm
-        this.sa_bis = this.reisepunkt.attraktionOeffnungszeiten[5].schliestUm
-        this.so_von = this.reisepunkt.attraktionOeffnungszeiten[6].oeffnetUm
-        this.so_bis = this.reisepunkt.attraktionOeffnungszeiten[6].schliestUm
+        this.mo_von = this.reisepunkt.attraktionOeffnungszeiten[0].oeffnetUm.substring(0, 5)
+        this.mo_bis = this.reisepunkt.attraktionOeffnungszeiten[0].schliestUm.substring(0, 5)
+        this.di_von = this.reisepunkt.attraktionOeffnungszeiten[1].oeffnetUm.substring(0, 5)
+        this.di_bis = this.reisepunkt.attraktionOeffnungszeiten[1].schliestUm.substring(0, 5)
+        this.mi_von = this.reisepunkt.attraktionOeffnungszeiten[2].oeffnetUm.substring(0, 5)
+        this.mi_bis = this.reisepunkt.attraktionOeffnungszeiten[2].schliestUm.substring(0, 5)
+        this.do_von = this.reisepunkt.attraktionOeffnungszeiten[3].oeffnetUm.substring(0, 5)
+        this.do_bis = this.reisepunkt.attraktionOeffnungszeiten[3].schliestUm.substring(0, 5)
+        this.fr_von = this.reisepunkt.attraktionOeffnungszeiten[4].oeffnetUm.substring(0, 5)
+        this.fr_bis = this.reisepunkt.attraktionOeffnungszeiten[4].schliestUm.substring(0, 5)
+        this.sa_von = this.reisepunkt.attraktionOeffnungszeiten[5].oeffnetUm.substring(0, 5)
+        this.sa_bis = this.reisepunkt.attraktionOeffnungszeiten[5].schliestUm.substring(0, 5)
+        this.so_von = this.reisepunkt.attraktionOeffnungszeiten[6].oeffnetUm.substring(0, 5)
+        this.so_bis = this.reisepunkt.attraktionOeffnungszeiten[6].schliestUm.substring(0, 5)
 
         // Set Ganztägig
         this.mo_ganztaegig = [this.reisepunkt.attraktionOeffnungszeiten[0].ganztaegig]

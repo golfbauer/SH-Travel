@@ -176,7 +176,7 @@ export function toggleScrolling (isEnabled) {
 function createPunktPopup (point) {
   // create popup container
   const container = L.DomUtil.create('div', 'leaflet-popup-container')
-  container.style = 'align-content: center;'
+  container.style = 'align-content: center; width: 210px;'
 
   // create popup title
   const title = L.DomUtil.create('h4', 'leaflet-popup-title')
@@ -186,17 +186,17 @@ function createPunktPopup (point) {
   // create the addButton (adding Reisepunkt to a Reise)
   const addButton = L.DomUtil.create('button', 'leaflet-popup-add-button')
   addButton.textContent = 'Zu Reise hinzufügen'
-  addButton.style = 'width: 200px; height: 30px; align-content: center;'
+  addButton.style = 'width: 200px; height: 30px; align-content: center; background-color: #1B998B; color: white; font-weight: bold; border-color: #1B998B;'
 
   // create the editButton (editing selected Reisepunkt)
   const editButton = L.DomUtil.create('button', 'popupEditButton')
   editButton.textContent = 'Bearbeiten'
-  editButton.style = 'width: 200px; height: 30px; align-content: center;'
+  editButton.style = 'width: 200px; height: 30px; align-content: center; background-color: #FF9B71; color: white; font-weight: bold; border-color: #FF9B71;'
 
   // create the deleteButton (deleting selected Reisepunkt)
   const deleteButton = L.DomUtil.create('button', 'popupDeleteButton')
   deleteButton.textContent = 'Löschen'
-  deleteButton.style = 'width: 200px; height: 30px; align-content: center;'
+  deleteButton.style = 'width: 200px; height: 30px; align-content: center; background-color: #4A5655; color: white; font-weight: bold; border-color: #4A5655;'
 
   // add event listener to the addButton
   L.DomEvent.addListener(addButton, 'click', () => {
@@ -230,7 +230,7 @@ function createPunktPopup (point) {
 function createSehenswuerdigkeitPopup (point) {
   // create popup container
   const container = L.DomUtil.create('div', 'leaflet-popup-container')
-  container.style = 'align-content: center;'
+  container.style = 'align-content: center; width: 210px;'
 
   // create popup title
   const title = L.DomUtil.create('h4', 'leaflet-popup-title')
@@ -247,17 +247,17 @@ function createSehenswuerdigkeitPopup (point) {
   // create the addButton (adding Reisepunkt to a Reise)
   const addButton = L.DomUtil.create('button', 'leaflet-popup-add-button')
   addButton.textContent = 'Zu Reise hinzufügen'
-  addButton.style = 'width: 200px; height: 30px; align-content: center;'
+  addButton.style = 'width: 200px; height: 30px; align-content: center; background-color: #1B998B; color: white; font-weight: bold; border-color: #1B998B;'
 
   // create the editButton (editing selected Reisepunkt)
   const editButton = L.DomUtil.create('button', 'popupEditButton')
   editButton.textContent = 'Bearbeiten'
-  editButton.style = 'width: 200px; height: 30px; align-content: center;'
+  editButton.style = 'width: 200px; height: 30px; align-content: center; background-color: #FF9B71; color: white; font-weight: bold; border-color: #FF9B71;'
 
   // create the deleteButton (deleting selected Reisepunkt)
   const deleteButton = L.DomUtil.create('button', 'popupDeleteButton')
   deleteButton.textContent = 'Löschen'
-  deleteButton.style = 'width: 200px; height: 30px; align-content: center;'
+  deleteButton.style = 'width: 200px; height: 30px; align-content: center; background-color: #4A5655; color: white; font-weight: bold; border-color: #4A5655;'
 
   // add event listener to the addButton
   L.DomEvent.addListener(addButton, 'click', () => {
@@ -292,7 +292,7 @@ function createSehenswuerdigkeitPopup (point) {
 function createAttraktionPopup (point) {
   // create popup container
   const container = L.DomUtil.create('div', 'leaflet-popup-container')
-  container.style = 'align-content: center;'
+  container.style = 'align-content: center; width: 210px;'
 
   // create popup title
   const title = L.DomUtil.create('h4', 'leaflet-popup-title')
@@ -311,17 +311,17 @@ function createAttraktionPopup (point) {
   // create the addButton (adding Reisepunkt to a Reise)
   const addButton = L.DomUtil.create('button', 'leaflet-popup-add-button')
   addButton.textContent = 'Zu Reise hinzufügen'
-  addButton.style = 'width: 200px; height: 30px; align-content: center;'
+  addButton.style = 'width: 200px; height: 30px; align-content: center; background-color: #1B998B; color: white; font-weight: bold; border-color: #1B998B;'
 
   // create the editButton (editing selected Reisepunkt)
   const editButton = L.DomUtil.create('button', 'popupEditButton')
   editButton.textContent = 'Bearbeiten'
-  editButton.style = 'width: 200px; height: 30px; align-content: center;'
+  editButton.style = 'width: 200px; height: 30px; align-content: center; background-color: #FF9B71; color: white; font-weight: bold; border-color: #FF9B71;'
 
   // create the deleteButton (deleting selected Reisepunkt)
   const deleteButton = L.DomUtil.create('button', 'popupDeleteButton')
   deleteButton.textContent = 'Löschen'
-  deleteButton.style = 'width: 200px; height: 30px; align-content: center;'
+  deleteButton.style = 'width: 200px; height: 30px; align-content: center; background-color: #4A5655; color: white; font-weight: bold; border-color: #4A5655;'
 
   // add event listener to the addButton
   L.DomEvent.addListener(addButton, 'click', () => {
