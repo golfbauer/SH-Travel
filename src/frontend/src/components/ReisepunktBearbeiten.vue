@@ -121,11 +121,11 @@
             >
               <b-input-group>
                 <label class="oeffnungszeitlabel">Montag</label>
-                <b-input class="inpvonzeit" v-model="mo_von" :disabled="mo_ganztaegig === true"></b-input>
+                <b-input class="inpvonzeit" v-model="mo_von" :disabled="mo_ganztaegig[0] === true"></b-input>
                 <label class="bislabel">bis</label>
-                <b-input class="inpbiszeit" v-model="mo_bis" :disabled="mo_ganztaegig === true"></b-input>
+                <b-input class="inpbiszeit" v-model="mo_bis" :disabled="mo_ganztaegig[0] === true"></b-input>
 
-                <b-checkbox-group v-model="mo_ganztaegig">
+                <b-checkbox-group v-model="mo_ganztaegig[0]">
                   <label class="ganztaegiglabel">Ganztägig</label>
                   <b-checkbox class="cbganztaegig"></b-checkbox>
                 </b-checkbox-group>
@@ -133,11 +133,11 @@
 
               <b-input-group>
                 <label class="oeffnungszeitlabel">Dienstag</label>
-                <b-input class="inpvonzeit" v-model="di_von" :disabled="di_ganztaegig === true"></b-input>
+                <b-input class="inpvonzeit" v-model="di_von" :disabled="di_ganztaegig[0] === true"></b-input>
                 <label class="bislabel">bis</label>
-                <b-input class="inpbiszeit" v-model="di_bis" :disabled="di_ganztaegig === true"></b-input>
+                <b-input class="inpbiszeit" v-model="di_bis" :disabled="di_ganztaegig[0] === true"></b-input>
 
-                <b-checkbox-group v-model="di_ganztaegig">
+                <b-checkbox-group v-model="di_ganztaegig[0]">
                   <label class="ganztaegiglabel">Ganztägig</label>
                   <b-checkbox class="cbganztaegig"></b-checkbox>
                 </b-checkbox-group>
@@ -145,11 +145,11 @@
 
               <b-input-group>
                 <label class="oeffnungszeitlabel">Mittwoch</label>
-                <b-input class="inpvonzeit" v-model="mi_von" :disabled="mi_ganztaegig === true"></b-input>
+                <b-input class="inpvonzeit" v-model="mi_von" :disabled="mi_ganztaegig[0] === true"></b-input>
                 <label class="bislabel">bis</label>
-                <b-input class="inpbiszeit" v-model="mi_bis" :disabled="mi_ganztaegig === true"></b-input>
+                <b-input class="inpbiszeit" v-model="mi_bis" :disabled="mi_ganztaegig[0] === true"></b-input>
 
-                <b-checkbox-group v-model="mi_ganztaegig">
+                <b-checkbox-group v-model="mi_ganztaegig[0]">
                   <label class="ganztaegiglabel">Ganztägig</label>
                   <b-checkbox class="cbganztaegig"></b-checkbox>
                 </b-checkbox-group>
@@ -157,11 +157,11 @@
 
               <b-input-group>
                 <label class="oeffnungszeitlabel">Donnerstag</label>
-                <b-input class="inpvonzeit" v-model="do_von" :disabled="do_ganztaegig === true"></b-input>
+                <b-input class="inpvonzeit" v-model="do_von" :disabled="do_ganztaegig[0] === true"></b-input>
                 <label class="bislabel">bis</label>
-                <b-input class="inpbiszeit" v-model="do_bis" :disabled="do_ganztaegig === true"></b-input>
+                <b-input class="inpbiszeit" v-model="do_bis" :disabled="do_ganztaegig[0] === true"></b-input>
 
-                <b-checkbox-group v-model="do_ganztaegig">
+                <b-checkbox-group v-model="do_ganztaegig[0]">
                   <label class="ganztaegiglabel">Ganztägig</label>
                   <b-checkbox class="cbganztaegig"></b-checkbox>
                 </b-checkbox-group>
@@ -169,11 +169,11 @@
 
               <b-input-group>
                 <label class="oeffnungszeitlabel">Freitag</label>
-                <b-input class="inpvonzeit" v-model="fr_von" :disabled="fr_ganztaegig === true"></b-input>
+                <b-input class="inpvonzeit" v-model="fr_von" :disabled="fr_ganztaegig[0] === true"></b-input>
                 <label class="bislabel">bis</label>
-                <b-input class="inpbiszeit" v-model="fr_bis" :disabled="fr_ganztaegig === true"></b-input>
+                <b-input class="inpbiszeit" v-model="fr_bis" :disabled="fr_ganztaegig[0] === true"></b-input>
 
-                <b-checkbox-group v-model="fr_ganztaegig">
+                <b-checkbox-group v-model="fr_ganztaegig[0]">
                   <label class="ganztaegiglabel">Ganztägig</label>
                   <b-checkbox class="cbganztaegig"></b-checkbox>
                 </b-checkbox-group>
@@ -181,11 +181,11 @@
 
               <b-input-group>
                 <label class="oeffnungszeitlabel">Samstag</label>
-                <b-input class="inpvonzeit" v-model="sa_von" :disabled="sa_ganztaegig === true"></b-input>
+                <b-input class="inpvonzeit" v-model="sa_von" :disabled="sa_ganztaegig[0] === true"></b-input>
                 <label class="bislabel">bis</label>
-                <b-input class="inpbiszeit" v-model="sa_bis" :disabled="sa_ganztaegig === true"></b-input>
+                <b-input class="inpbiszeit" v-model="sa_bis" :disabled="sa_ganztaegig[0] === true"></b-input>
 
-                <b-checkbox-group v-model="sa_ganztaegig">
+                <b-checkbox-group v-model="sa_ganztaegig[0]">
                   <label class="ganztaegiglabel">Ganztägig</label>
                   <b-checkbox class="cbganztaegig"></b-checkbox>
                 </b-checkbox-group>
@@ -193,11 +193,11 @@
 
               <b-input-group>
                 <label class="oeffnungszeitlabel">Sonntag</label>
-                <b-input class="inpvonzeit" v-model="so_von" :disabled="so_ganztaegig === true"></b-input>
+                <b-input class="inpvonzeit" v-model="so_von" :disabled="so_ganztaegig[0] === true"></b-input>
                 <label class="bislabel">bis</label>
-                <b-input class="inpbiszeit" v-model="so_bis" :disabled="so_ganztaegig === true"></b-input>
+                <b-input class="inpbiszeit" v-model="so_bis" :disabled="so_ganztaegig[0] === true"></b-input>
 
-                <b-checkbox-group v-model="so_ganztaegig">
+                <b-checkbox-group v-model="so_ganztaegig[0]">
                   <label class="ganztaegiglabel">Ganztägig</label>
                   <b-checkbox class="cbganztaegig"></b-checkbox>
                 </b-checkbox-group>
@@ -320,6 +320,7 @@ export default {
         this.beschreibung = this.reisepunkt.beschreibung
       }
 
+      // ToDo: Formatieren auf 00:00
       if (this.typ === 'attraktion') {
         // Set von & bis
         this.mo_von = this.reisepunkt.attraktionOeffnungszeiten[0].oeffnetUm
@@ -337,30 +338,14 @@ export default {
         this.so_von = this.reisepunkt.attraktionOeffnungszeiten[6].oeffnetUm
         this.so_bis = this.reisepunkt.attraktionOeffnungszeiten[6].schliestUm
 
-        // Set ganztaegig
-        // var temp = []
-        // temp[0] = this.reisepunkt.attraktionOeffnungszeiten[0].ganztaegig
-        // this.mo_ganztaegig = temp
-        // temp[0] = this.reisepunkt.attraktionOeffnungszeiten[1].ganztaegig
-        // this.di_ganztaegig = temp
-        // temp[0] = this.reisepunkt.attraktionOeffnungszeiten[2].ganztaegig
-        // this.mi_ganztaegig = temp
-        // temp[0] = this.reisepunkt.attraktionOeffnungszeiten[3].ganztaegig
-        // this.do_ganztaegig = temp
-        // temp[0] = this.reisepunkt.attraktionOeffnungszeiten[4].ganztaegig
-        // this.fr_ganztaegig = temp
-        // temp[0] = this.reisepunkt.attraktionOeffnungszeiten[5].ganztaegig
-        // this.sa_ganztaegig = temp
-        // temp[0] = this.reisepunkt.attraktionOeffnungszeiten[6].ganztaegig
-        // this.so_ganztaegig = temp
-
-        this.mo_ganztaegig = this.reisepunkt.attraktionOeffnungszeiten[0].ganztaegig
-        this.di_ganztaegig = this.reisepunkt.attraktionOeffnungszeiten[1].ganztaegig
-        this.mi_ganztaegig = this.reisepunkt.attraktionOeffnungszeiten[2].ganztaegig
-        this.do_ganztaegig = this.reisepunkt.attraktionOeffnungszeiten[3].ganztaegig
-        this.fr_ganztaegig = this.reisepunkt.attraktionOeffnungszeiten[4].ganztaegig
-        this.sa_ganztaegig = this.reisepunkt.attraktionOeffnungszeiten[5].ganztaegig
-        this.so_ganztaegig = this.reisepunkt.attraktionOeffnungszeiten[6].ganztaegig
+        // Set Ganztägig
+        this.mo_ganztaegig = [this.reisepunkt.attraktionOeffnungszeiten[0].ganztaegig]
+        this.di_ganztaegig = [this.reisepunkt.attraktionOeffnungszeiten[1].ganztaegig]
+        this.mi_ganztaegig = [this.reisepunkt.attraktionOeffnungszeiten[2].ganztaegig]
+        this.do_ganztaegig = [this.reisepunkt.attraktionOeffnungszeiten[3].ganztaegig]
+        this.fr_ganztaegig = [this.reisepunkt.attraktionOeffnungszeiten[4].ganztaegig]
+        this.sa_ganztaegig = [this.reisepunkt.attraktionOeffnungszeiten[5].ganztaegig]
+        this.so_ganztaegig = [this.reisepunkt.attraktionOeffnungszeiten[6].ganztaegig]
 
         // Set geschlossen
         this.mo_geschlossen = this.reisepunkt.attraktionOeffnungszeiten[0].geschlossen
