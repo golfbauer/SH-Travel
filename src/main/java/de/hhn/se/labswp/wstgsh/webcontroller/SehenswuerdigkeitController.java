@@ -42,7 +42,7 @@ public class SehenswuerdigkeitController {
   @GetMapping(path = "/sehenswuerdigkeit/{id}")
   public Sehenswuerdigkeit getSehenswuerdigkeit(@PathVariable("id") Long id) {
     return sehenswuerdigkeitRepository.findById(id).orElseThrow(() -> new IllegalStateException(
-            "ID nicht gefunden."));
+        "ID nicht gefunden."));
   }
 
   /**
@@ -63,25 +63,19 @@ public class SehenswuerdigkeitController {
    * @param newSehenswuerdigkeit Sehenswuerdigkeit with the altered information.
    */
   @PutMapping(path = "/sehenswuerdigkeit/{id}")
-  @Transactional
-  public void editSehenswuerdigkeit(@PathVariable("id") Long id,
-                                    @RequestBody Sehenswuerdigkeit newSehenswuerdigkeit) {
-    if (!newSehenswuerdigkeit.getId().equals(id)) {
-      throw new IllegalStateException("Neue Sehenswuerdigkeit muss selbe id, wie die Alte haben.");
-    }
-    formcheckSehenswuerdigkeit(newSehenswuerdigkeit);
-    deleteSehenswuerdigkeit(id);
-    newSehenswuerdigkeit(newSehenswuerdigkeit);
-  }
-
-  /**
-   * Deletes a specific Sehenswuerdigkeit.
-   *
-   * @param id Identification for Sehenswuerdigkeit.
-   */
-  @DeleteMapping(path = "/sehenswuerdigkeit/{id}")
-  public void deleteSehenswuerdigkeit(@PathVariable("id") Long id) {
-    sehenswuerdigkeitRepository.deleteById(id);
+  //@Transactional
+  public Sehenswuerdigkeit editSehenswuerdigkeit(@PathVariable("id") Long id,
+                                                 @RequestBody Sehenswuerdigkeit newSehenswuerdigkeit) {
+    return sehenswuerdigkeitRepository.findById(id).map(Sehenswuerdigkeit -> {
+      Sehenswuerdigkeit.setBreitengrad(newSehenswuerdigkeit.getBreitengrad());
+      Sehenswuerdigkeit.setLaengengrad(newSehenswuerdigkeit.getLaengengrad());
+      Sehenswuerdigkeit.setNutzerEmail(newSehenswuerdigkeit.getNutzerEmail());
+      Sehenswuerdigkeit.setName(newSehenswuerdigkeit.getName());
+      Sehenswuerdigkeit.setBeschreibung(newSehenswuerdigkeit.getBeschreibung());
+      return sehenswuerdigkeitRepository.save(Sehenswuerdigkeit);
+    }).orElseThrow(
+        () -> new IllegalArgumentException("could not configure Sehenswürdigkeit.")
+    );
   }
 
   /**
@@ -98,11 +92,11 @@ public class SehenswuerdigkeitController {
       throw new IllegalStateException("Name der Sehenswurdigkeit darf nicht leer sein.");
     }
     if (sehenswuerdigkeit.getBreitengrad() == null || sehenswuerdigkeit.getBreitengrad() > 90f
-            || sehenswuerdigkeit.getBreitengrad() < -90f) {
+        || sehenswuerdigkeit.getBreitengrad() < -90f) {
       throw new IllegalStateException("Breitengrad der Sehenswurdigkeit existiert nicht.");
     }
     if (sehenswuerdigkeit.getLaengengrad() == null || sehenswuerdigkeit.getLaengengrad() > 180f
-            || sehenswuerdigkeit.getLaengengrad() < -180f) {
+        || sehenswuerdigkeit.getLaengengrad() < -180f) {
       throw new IllegalStateException("Längengrad der Sehenswurdigkeit existiert nicht.");
     }
   }

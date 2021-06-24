@@ -39,7 +39,7 @@ public class AttraktionController {
   @GetMapping(path = "/attraktion/{id}")
   Attraktion one(@PathVariable Long id) {
     return  repository.findById(id).orElseThrow(() -> new IllegalStateException("Id nicht "
-            + "gefunden"));
+        + "gefunden"));
   }
 
   /**
@@ -103,7 +103,7 @@ public class AttraktionController {
       attraktion.setName(newAttraktion.getName());
       return repository.save(attraktion);
     }).orElseThrow(
-            () -> new IllegalStateException("Could not configure Attraktion.")
+        () -> new IllegalStateException("Could not configure Attraktion.")
     );
   }
 

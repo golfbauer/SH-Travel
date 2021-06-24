@@ -41,7 +41,7 @@ public class PunktController {
   @GetMapping(path = "/punkt/{id}")
   Punkt one(@PathVariable Long id) {
     return repository.findById(id).orElseThrow(() ->
-            new IllegalStateException("Id nicht gefunden."));
+        new IllegalStateException("Id nicht gefunden."));
   }
 
   /**
@@ -63,22 +63,16 @@ public class PunktController {
    * @param id       of the Punkt you want to overwrite.
    */
   @PutMapping(path = "/punkt/{id}")
-  void replacePunkt(@RequestBody Punkt newPunkt, @PathVariable Long id) {
-    if (!newPunkt.getId().equals(id)) {
-      throw new IllegalStateException("Neuer Punkt muss selbe id, wie der Alte haben.");
-    }
-    formcheckPunkt(newPunkt);
-    deletePunkt(id);
-    newPunkt(newPunkt);
-    /*return repository.findById(id).map(Punkt -> {
+  Punkt replacePunkt(@RequestBody Punkt newPunkt, @PathVariable Long id) {
+    return repository.findById(id).map(Punkt -> {
       Punkt.setBreitengrad(newPunkt.getBreitengrad());
       Punkt.setLaengengrad(newPunkt.getLaengengrad());
       Punkt.setNutzerEmail(newPunkt.getNutzerEmail());
       Punkt.setName(newPunkt.getName());
       return repository.save(Punkt);
     }).orElseThrow(
-            () -> new IllegalStateException("could not configure Punkt.")
-    );*/
+        () -> new IllegalStateException("could not configure Punkt.")
+    );
   }
 
   /**
