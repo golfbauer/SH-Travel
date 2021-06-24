@@ -8,12 +8,14 @@
           </div>
         </b-nav-item>
         <div v-if="showChild">
-          <sidebar-menu-item v-on:openReiseBearbeiten="openReiseBearbeiten($event)" v-on:click.native="handleClick(subitem)" v-for="(subitem, index) in item.content" :key="index" :item="subitem"/>
+          <sidebar-menu-item v-b-toggle.sidebar-no-header v-on:openReiseBearbeiten="openReiseBearbeiten($event)" v-on:click.native="handleClick(subitem)" v-for="(subitem, index) in item.content" :key="index" :item="subitem"/>
         </div>
       </div>
       <b-nav-item :href='item.href' v-else class="bor-bot">
-        {{ item.name }}
-        <b-button class="edit-btn" v-if="isReise(item.id)" @click="openReiseBearbeiten(item.id)" size="sm">Bearbeiten</b-button>
+        <div class="flexbox">
+          {{ item.name }}
+          <b-button class="edit-btn" v-if="isReise(item.id)" @click="openReiseBearbeiten(item.id)" size="sm">Bearbeiten</b-button>
+        </div>
       </b-nav-item>
     </div>
   </div>
@@ -136,7 +138,17 @@ export default {
   }
 }
 
+.flexbox {
+  display: flex;
+  justify-content: space-between;
+  text-align: left;
+}
+
 .edit-btn {
   z-index: 9999;
+  margin: 0;
+  height: min-content;
+  padding: 0.1em 0.4em;
+  align-self: center
 }
 </style>

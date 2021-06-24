@@ -17,6 +17,8 @@
             maxlength="30"
           ></b-form-input>
         </b-form-group>
+      </div>
+      <div class="reisetag">
         Reisepunkte:
       </div>
       <b-list-group flush v-if="renderComponent">
@@ -36,14 +38,15 @@
         </b-list-group-item>
         <b-alert
           v-model="showAlert"
-          class="position-fixed fixed-bottom m-0 rounded-0"
-          style="z-index: 2000;"
+          class="valert position-fixed fixed-bottom m-0 rounded-0"
           variant="warning"
           dismissible
         >
           Wollen Sie den Reisepunkt "{{ getReiseName(reisepunktId) }}" wirklich aus der Reise "{{ this.reise.name }}" löschen?
-          <b-button @click="deleteReisepunkt(reisepunktId)" variant="outline-success"> Ja </b-button>
-          <b-button @click="toggleAlert(0)" variant="outline-danger"> Nein </b-button>
+          <div class="vbtn-bar">
+            <b-button class="vbtn-alert" @click="deleteReisepunkt(reisepunktId)" variant="outline-success"> Ja </b-button>
+            <b-button class="vbtn-alert" @click="toggleAlert(0)" variant="outline-danger"> Nein </b-button>
+          </div>
         </b-alert>
       </b-list-group>
 
@@ -142,7 +145,7 @@ $orange: orange;
   position: relative;
   margin: auto;
   padding: 0;
-  max-width: 20rem;
+  max-width: 25em;
   z-index: 999;
 }
 
@@ -160,8 +163,24 @@ $orange: orange;
   }
 
   &-bar{
-    overflow: hidden;
-    clear: both;
+    margin: 0 auto;
+    display: flex;
+    gap: 1em;
+  }
+
+  &-alert {
+    margin-top: 1em;
+    width: 5em;
+  }
+}
+
+.valert {
+  margin: 0 auto !important;
+  width: 100%;
+  max-width: 25em;
+
+  & div {
+    width: min-content;
   }
 }
 
@@ -170,4 +189,8 @@ $orange: orange;
   gap: 0.5em
 }
 
+.reisetag {
+  text-align: left;
+  margin-left: 1em;
+}
 </style>
