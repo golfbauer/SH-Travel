@@ -320,7 +320,6 @@ export default {
         this.beschreibung = this.reisepunkt.beschreibung
       }
 
-      // ToDo: Formatieren auf 00:00
       if (this.typ === 'attraktion') {
         // Set von & bis
         this.mo_von = this.reisepunkt.attraktionOeffnungszeiten[0].oeffnetUm.substring(0, 5)
