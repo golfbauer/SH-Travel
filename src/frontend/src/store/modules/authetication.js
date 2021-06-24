@@ -15,12 +15,15 @@ const getters = {
 const actions = {
   async login ({ commit }, payload) {
     // implement login url
-    // const response = await axios.post('/SHTravel/login', { username, password })
+    // console.log(payload.username, payload.password)
+    const username = payload.username
+    const password = payload.password
+    const response = await axios.post('/SHTravel/login', { username, password })
+    console.log(response)
     // const token = response.headers
     // const role = response.data
-    //
+
     // commit('setLoggedIn', { token, role })
-    console.log(payload.username, payload.password)
   },
   logout ({ commit }) {
     commit('setLoggedOut')

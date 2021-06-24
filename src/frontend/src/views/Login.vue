@@ -25,7 +25,6 @@ export default {
       const email = this.$refs.email.value
       const passwort = this.$refs.passwort.value
 
-      console.log(email, passwort)
       this.$store.dispatch('login', { username: email, password: passwort }).then(() => {
         this.makeToast('default', 'Versuche eine Login Request an den Server zu stellen')
       })
