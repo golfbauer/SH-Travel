@@ -33,7 +33,7 @@ public class Reisepunkt {
   private boolean oeffentlich;
 
   @ManyToMany(mappedBy = "reisepunkte")
-  @JsonIgnoreProperties("reisepunkte")
+  @JsonIgnore
   private List<Reise> reisen = new ArrayList<>();
 
   @ManyToOne(cascade = CascadeType.ALL)

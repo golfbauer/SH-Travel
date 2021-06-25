@@ -52,7 +52,7 @@ public class Reise {
           joinColumns = @JoinColumn(name = "reise_id"),
           inverseJoinColumns = @JoinColumn(name = "reisekatalog_id")
   )
-  @JsonIgnoreProperties("reise")
+  @JsonIgnore
   private List<Reisekatalog> reisekatalog = new ArrayList<>();
 
   @ManyToOne(cascade = CascadeType.ALL)
