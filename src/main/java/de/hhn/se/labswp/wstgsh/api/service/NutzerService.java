@@ -42,6 +42,16 @@ public class NutzerService implements UserDetailsService {
   }
 
   /**
+   * Finding Nutzer via email.
+   * @param email Email to find Nutzer.
+   * @return Found Nutzer for email.
+   */
+  public Nutzer findNutzerByEmail(String email) {
+    return nutzerRepository.findByEmail(email).orElseThrow(() -> new IllegalStateException("Es "
+            + "konnte kein Nutzer unter dieser Email Adresse gefunden werden."));
+  }
+
+  /**
    *  Place a new Nutzer Object into the database. Gets checked if Nutzer already exists and
    *  checks if email has been copnfirmed -> send new email.
    * @param nutzer To be registered Nutzer.

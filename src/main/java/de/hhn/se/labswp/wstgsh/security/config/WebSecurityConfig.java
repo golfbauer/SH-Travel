@@ -1,18 +1,19 @@
 package de.hhn.se.labswp.wstgsh.security.config;
 
 import de.hhn.se.labswp.wstgsh.api.service.NutzerService;
+import de.hhn.se.labswp.wstgsh.security.jwt.JwtRequestFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-
-import java.util.Collection;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -21,11 +22,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   private final NutzerService nutzerService;
   private final BCryptPasswordEncoder bCryptPasswordEncoder;
+  private JwtRequestFilter jwtRequestFilter;
 
   public WebSecurityConfig(NutzerService nutzerService,
-                           BCryptPasswordEncoder bCryptPasswordEncoder) {
+                           BCryptPasswordEncoder bCryptPasswordEncoder,
+                           JwtRequestFilter jwtRequestFilter) {
     this.nutzerService = nutzerService;
     this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    this.jwtRequestFilter = jwtRequestFilter;
   }
 
   @Override
@@ -33,37 +37,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     http
             .csrf().disable()
             .authorizeRequests()
-            .antMatchers("/", "/register").permitAll()
+            .antMatchers("/", "/register", "/login").permitAll()
             .anyRequest()
             .authenticated()
             .and()
-            .formLogin()
-              .loginPage("/login") //the URL on which the clients should post the login information
-              .permitAll()
-              .defaultSuccessUrl("/", true)
-              .usernameParameter("username") //the username parameter in the queryString, default is 'username'
-              .passwordParameter("password") //the password parameter in the queryString, default is 'password'
-              .successHandler((request, response, authentication) -> {
-                Collection roles = authentication.getAuthorities();
-                String role = roles.iterator().next().toString();
-                response.getWriter().write(role);
-                response.getWriter().flush();
-                response.setStatus(200);
-              })
-            .and()
-            .logout()
-              .logoutUrl("/logout")          //the URL on which the clients should post if they want to logout
-              .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET")) // Sets request
-              // method for logout -> If csrf is enabled post is required
-              .clearAuthentication(true)
-              .invalidateHttpSession(true)
-              .deleteCookies("JSESSONID")
-              .logoutSuccessUrl("/");
+            .sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+    http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
   }
 
   @Override
   protected void configure(AuthenticationManagerBuilder auth) {
     auth.authenticationProvider(daoAuthenticationProvider());
+  }
+
+  @Override
+  @Bean
+  public AuthenticationManager authenticationManagerBean() throws Exception {
+    return super.authenticationManagerBean();
   }
 
   /**
