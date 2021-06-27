@@ -1,5 +1,6 @@
 <template>
   <div id="reise-bearbeiten">
+    <b-form @submit = "onSave">
     <b-card no-body header="Reise bearbeiten">
       <div style="padding: 1em;">
         <b-form-group
@@ -46,12 +47,12 @@
           <b-button @click="toggleAlert(0)" variant="outline-danger"> Nein </b-button>
         </b-alert>
       </b-list-group>
-
       <b-card-body class="vbtn-bar">
         <b-button class="vbtn-gray" type="reset" @click="closeShow(true)">Abbrechen</b-button>
         <b-button class="vbtn-orange" type="submit" @click="onSave()">Speichern</b-button>
       </b-card-body>
     </b-card>
+    </b-form>
   </div>
 </template>
 
@@ -112,16 +113,20 @@ export default {
       })
     },
     onSave () {
+      console.log(this.reise.name)
       if (this.reise === {}) {
         return
       }
-      const re = reiseApi.setReise(this.reise)
-      if (re) {
-        this.$emit('makeToast', ['success', 'Reise bearbeiten', 'Reise "' + this.reise.name + '" erfolgreich gespeichert'])
-      } else {
-        this.$emit('makeToast', ['danger', 'Reise bearbeiten', 'Reise "' + this.reise.name + '" konnte nicht gespeichert werden'])
+      if (this.reise.name !== '') {
+        const re = reiseApi.setReise(this.reise)
+
+        if (re) {
+          this.$emit('makeToast', ['success', 'Reise bearbeiten', 'Reise "' + this.reise.name + '" erfolgreich gespeichert'])
+        } else {
+          this.$emit('makeToast', ['danger', 'Reise bearbeiten', 'Reise "' + this.reise.name + '" konnte nicht gespeichert werden'])
+        }
+        this.closeShow(re)
       }
-      this.closeShow(re)
     },
     closeShow (status) {
       this.$emit('updateShow', status)
@@ -169,6 +174,10 @@ $orange: orange;
 .flex-container {
   display: flex;
   gap: 0.5em
+}
+
+.bottom{
+  float: bottom;
 }
 
 </style>
