@@ -52,7 +52,7 @@ public class AnmeldenController {
       authenticate = authenticationManager.authenticate(authentication);
 
     } catch (BadCredentialsException e) {
-      throw new Exception("Incorrect username or password");
+      throw new Exception("Ungültiger Name oder Passwort");
     }
 
     final String jwt = jwtTokenUtil.createToken(authenticate);

@@ -11,7 +11,7 @@ import java.util.List;
 public interface ReiseRepository extends JpaRepository<Reise, Long> {
 
   @Transactional
-  @Query("SELECT r FROM Reise r WHERE r.oeffentlich = true AND r.nutzer = ?1")
+  @Query("SELECT r FROM Reise r WHERE r.oeffentlich = true OR r.nutzer = ?1")
   List<Reise> findAllByOeffentlichAndNutzer(Nutzer nutzer);
 
   @Transactional

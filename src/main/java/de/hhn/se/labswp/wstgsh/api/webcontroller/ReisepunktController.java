@@ -1,13 +1,11 @@
 package de.hhn.se.labswp.wstgsh.api.webcontroller;
 
+import de.hhn.se.labswp.wstgsh.api.models.*;
 import de.hhn.se.labswp.wstgsh.exceptions.ReisepunktNotFoundException;
-import de.hhn.se.labswp.wstgsh.api.models.Reisepunkt;
-import de.hhn.se.labswp.wstgsh.api.models.ReisepunktRepository;
+
 import java.util.List;
 import java.util.Optional;
 
-import de.hhn.se.labswp.wstgsh.api.models.Nutzer;
-import de.hhn.se.labswp.wstgsh.api.models.NutzerRepository;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,10 +19,13 @@ public class ReisepunktController {
 
   private final ReisepunktRepository repository;
   private final NutzerRepository nutzerRepository;
+  private final ReiseController reiseController;
 
-  ReisepunktController(ReisepunktRepository repository, NutzerRepository nutzerRepository) {
+  ReisepunktController(ReisepunktRepository repository, NutzerRepository nutzerRepository,
+                       ReiseController reiseController) {
     this.repository = repository;
     this.nutzerRepository = nutzerRepository;
+    this.reiseController = reiseController;
   }
 
   /**
@@ -63,7 +64,6 @@ public class ReisepunktController {
   }
 
   @GetMapping(path = "/reisepunkt/oeffentlich")
-  @PreAuthorize("hasAnyRole('ROLE_REISENDER', 'ROLE_ANBIETER')")
   List<Reisepunkt> allPublic() {
     return repository.findAllByOeffentlich();
   }
@@ -92,7 +92,7 @@ public class ReisepunktController {
     }).orElseThrow(() -> new ReisepunktNotFoundException(id));
   }
 
-  @PostMapping(path = "/reisepunkt/nutzer")
+  @PostMapping(path = "/reisepunkt")
   @PreAuthorize("hasAnyRole('ROLE_REISENDER', 'ROLE_ANBIETER')")
   Reisepunkt newReisepunktWithNutzer(@RequestBody Reisepunkt newReisepunkt) {
     Nutzer nutzer = findNutzer().orElseThrow(() -> new IllegalStateException("Es konnte kein "
@@ -129,6 +129,10 @@ public class ReisepunktController {
     Nutzer nutzer = findNutzer().orElseThrow(() -> new IllegalStateException("Nutzer nicht "
             + "gefunden"));
     if (reisepunkt.getNutzer().getId().equals(nutzer.getId())) {
+//      List<Reise> reisen = reisepunkt.getReisen();
+//      for (Reise reise : reisen) {
+//        reiseController.deleteReisepunkt(reise.getId(), id);
+//      }
       repository.deleteById(id);
     } else {
       throw new IllegalStateException("Nutzer hat kein Recht den Reisepunkt zu löschen.");

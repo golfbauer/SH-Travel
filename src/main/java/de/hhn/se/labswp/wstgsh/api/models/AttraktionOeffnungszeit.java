@@ -25,7 +25,7 @@ public class AttraktionOeffnungszeit {
 
   private boolean ganztaegig = false;
 
-  private boolean geschlossen = true;
+  private boolean geschlossen = false;
 
   @ManyToOne
   @JoinColumn(nullable = false)
@@ -73,6 +73,27 @@ public class AttraktionOeffnungszeit {
   }
 
   public AttraktionOeffnungszeit() {
+
+  }
+
+  public void formcheckOeffnungszeit() {
+    if (isGeschlossen() && isGanztaegig()) {
+      throw new IllegalStateException("Oeffnungszeit ist ganztägig und geschlossen");
+    }
+    if (getOeffnetUm() != null && getSchliestUm() != null) {
+      setGanztaegig(false);
+      setGeschlossen(false);
+    }
+    if (isGanztaegig()) {
+      setOeffnetUm(LocalTime.of(0, 0, 0));
+      setSchliestUm(LocalTime.of(23, 59, 0));
+      setGeschlossen(false);
+    }
+    if (isGeschlossen()) {
+      setOeffnetUm(null);
+      setSchliestUm(null);
+      setGanztaegig(false);
+    }
 
   }
 

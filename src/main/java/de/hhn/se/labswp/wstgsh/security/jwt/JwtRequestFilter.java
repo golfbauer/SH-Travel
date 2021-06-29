@@ -1,13 +1,14 @@
 package de.hhn.se.labswp.wstgsh.security.jwt;
 
+import com.google.common.base.Strings;
 import de.hhn.se.labswp.wstgsh.api.service.NutzerService;
+import de.hhn.se.labswp.wstgsh.security.config.JwtConfig;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import javax.servlet.FilterChain;
@@ -24,13 +25,12 @@ import java.util.stream.Collectors;
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
-  private NutzerService nutzerService;
-
   private JwtUtil jwtUtil;
+  private JwtConfig jwtConfig;
 
-  public JwtRequestFilter(NutzerService nutzerService, JwtUtil jwtUtil) {
-    this.nutzerService = nutzerService;
+  public JwtRequestFilter(JwtUtil jwtUtil, JwtConfig jwtConfig) {
     this.jwtUtil = jwtUtil;
+    this.jwtConfig = jwtConfig;
   }
 
 
@@ -40,7 +40,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     final String authorizationHeader = request.getHeader("Authorization");
 
-    if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+    if (Strings.isNullOrEmpty(authorizationHeader) || !authorizationHeader
+            .startsWith(jwtConfig.getTokenPrefix())) {
       filterChain.doFilter(request, response);
       return;
     }

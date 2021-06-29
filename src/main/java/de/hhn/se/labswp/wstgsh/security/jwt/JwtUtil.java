@@ -1,5 +1,6 @@
 package de.hhn.se.labswp.wstgsh.security.jwt;
 
+import de.hhn.se.labswp.wstgsh.security.config.JwtConfig;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -12,8 +13,11 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
 
-  private final String SECRET_KEY =
-          "secretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecret";
+  private JwtConfig jwtConfig;
+
+  public JwtUtil(JwtConfig jwtConfig) {
+    this.jwtConfig = jwtConfig;
+  }
 
   public String extractUsername(String token) {
     return extractClaim(token, Claims::getSubject);
@@ -29,7 +33,7 @@ public class JwtUtil {
   }
 
   public Claims extractAllClaims(String token) {
-    return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
+    return Jwts.parser().setSigningKey(jwtConfig.getSecretKey()).parseClaimsJws(token).getBody();
   }
 
   private Boolean isTokenExpired(String token) {
@@ -46,8 +50,9 @@ public class JwtUtil {
             .setSubject(authentication.getName())
             .claim("authority", authentication.getAuthorities())
             .setIssuedAt(new Date())
-            .setExpiration(java.sql.Date.valueOf(LocalDate.now().plusDays(2)))
-            .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+            .setExpiration(java.sql.Date.valueOf(LocalDate.now()
+                    .plusDays(jwtConfig.getTokenExpirationAfterDays())))
+            .signWith(SignatureAlgorithm.HS256, jwtConfig.getSecretKey())
             .compact();
   }
 }
