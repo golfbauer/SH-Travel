@@ -18,6 +18,8 @@
 </template>
 
 <script>
+import router from '@/router'
+
 export default {
   name: 'Login',
   methods: {
@@ -25,9 +27,20 @@ export default {
       const email = this.$refs.email.value
       const passwort = this.$refs.passwort.value
 
-      this.$store.dispatch('login', { username: email, password: passwort }).then(() => {
-        this.makeToast('default', 'Versuche eine Login Request an den Server zu stellen')
-      })
+      try {
+        await this.$store.dispatch('login', { username: email, password: passwort })
+        this.makeToast('success', 'Login erfolgreich')
+        await router.push('/')
+      } catch (e) {
+        this.makeToast('error', 'Login fehlgeschlagen')
+      }
+
+      //   .then(async () => {
+      //   this.makeToast('success', 'Login erfolgreich');
+      //   await router.push()
+      // }).catch(() => {
+      //   this.makeToast('error', 'Login fehlgeschlagen')
+      // })
     },
     makeToast: function (variant, message) {
       this.$toasted.show(message, {

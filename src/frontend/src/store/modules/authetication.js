@@ -20,10 +20,12 @@ const actions = {
     const password = payload.password
     const response = await axios.post('/SHTravel/login', { username, password })
     console.log(response)
-    // const token = response.headers
-    // const role = response.data
+    const data = response.data
 
-    // commit('setLoggedIn', { token, role })
+    const token = data.token
+    const role = data.nutzerRolle
+
+    commit('setLoggedIn', { token, role })
   },
   logout ({ commit }) {
     commit('setLoggedOut')
