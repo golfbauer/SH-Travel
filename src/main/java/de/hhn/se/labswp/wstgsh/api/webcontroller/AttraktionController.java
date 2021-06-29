@@ -71,7 +71,7 @@ public class AttraktionController {
     return repository.findAllByOeffentlich();
   }
 
-  @GetMapping(path = "/attraktion/nutzerOroeffentlich")
+  @GetMapping(path = "/attraktion/nutzerOrOeffentlich")
   @PreAuthorize("hasAnyRole('ROLE_REISENDER', 'ROLE_ANBIETER')")
   List<Attraktion> allFromNutzerOrOeffentlich() {
     return repository.findAllByOeffentlichAndNutzer(findNutzer().orElseThrow(

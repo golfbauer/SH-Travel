@@ -8,12 +8,12 @@
           </div>
         </b-nav-item>
         <div v-if="showChild">
-          <sidebar-menu-item v-on:click.native="handleClick(subitem)" v-for="(subitem, index) in item.content" :key="index" :item="subitem"/>
+          <sidebar-menu-item v-on:click.native="handleClick(subitem)" v-for="(subitem, index) in this.item.content" :key="index" :item="subitem"/>
         </div>
       </div>
-<!--      <b-nav-item :href='item.href' v-else class="bor-bot">-->
-<!--        {{ item.name }}-->
-<!--      </b-nav-item>-->
+      <div v-if="item.component !== 'parent'">
+        {{ item.name }}
+      </div>
     </div>
   </div>
 </template>
@@ -25,7 +25,7 @@ export default {
   name: 'SidebarMenuItem',
   data () {
     return {
-      showChild: false,
+      showChild: true,
       chosenChild: undefined
     }
   },
@@ -64,7 +64,7 @@ export default {
     }
   },
   created () {
-    console.log(this.content)
+    console.log('Content', this.item.content)
   }
 }
 </script>

@@ -66,7 +66,7 @@ public class PunktController {
     return repository.findAllByOeffentlich();
   }
 
-  @GetMapping(path = "/punkt/nutzerOroeffentlich")
+  @GetMapping(path = "/punkt/nutzerOrOeffentlich")
   @PreAuthorize("hasAnyRole('ROLE_REISENDER','ROLE_ANBIETER')")
   List<Punkt> allFromNutzerOrOeffentlich() {
     return repository.findAllByOeffentlichAndNutzer(findNutzer().orElseThrow(

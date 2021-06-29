@@ -61,7 +61,7 @@ public class ReiseController {
             () -> new IllegalStateException("Es konnte kein Nutzer gefunden werden."));
   }
 
-  @GetMapping(path = "/reise/nutzerOroeffentlich")
+  @GetMapping(path = "/reise/nutzerOrOeffentlich")
   @PreAuthorize("hasAnyRole('ROLE_REISENDER','ROLE_ANBIETER')")
   List<Reise> allFromNutzerOrOeffentlich() {
     return repository.findAllByOeffentlichAndNutzer(findNutzer().orElseThrow(

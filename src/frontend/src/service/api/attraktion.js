@@ -1,53 +1,77 @@
 import axios from 'axios'
+import store from '@/store'
 
 const attraktionUrl = '/SHTravel/attraktion'
 
 export async function fetchAttraktionen () {
-  const response = await axios.get(attraktionUrl)
-  return response.data
+  if (store.getters.isAuthenticated) {
+    const authUrl = attraktionUrl + '/nutzerOrOeffentlich'
+    const response = await axios({
+      method: 'GET',
+      url: authUrl,
+      headers: {
+        Authorization: 'Bearer ' + store.getters.getToken
+      }
+    })
+    return response.data
+  } else {
+    const pubUrl = attraktionUrl + '/oeffentlich'
+    const response = await axios.get(pubUrl)
+    return response.data
+  }
 }
 
-export async function fetchAttraktion (id) {
-  const url = attraktionUrl + '/' + id
-  const response = await axios.get(url)
-  return response.data
-}
+// export async function fetchAttraktion (id) {
+//   const url = attraktionUrl + '/' + id
+//   const response = await axios.get(url)
+//   return response.data
+// }
 
 export async function createAttraktion ({ name, laengengrad, breitengrad, nutzerEmail, beschreibung, bilder, attraktionOeffnungszeiten }) {
-  if (formCheck({ name, laengengrad, breitengrad, nutzerEmail, attraktionOeffnungszeiten })) {
-    const response = await axios.post(attraktionUrl, {
-      name,
-      laengengrad,
-      breitengrad,
-      nutzerEmail,
-      beschreibung,
-      bilder,
-      attraktionOeffnungszeiten
-    })
-    return response
+  if (store.getters.isAuthenticated) {
+    if (formCheck({ name, laengengrad, breitengrad, nutzerEmail, attraktionOeffnungszeiten })) {
+      const response = await axios({
+        method: 'POST',
+        url: attraktionUrl,
+        data: { name, laengengrad, breitengrad, nutzerEmail, beschreibung, bilder, attraktionOeffnungszeiten },
+        headers: {
+          Authorization: 'Bearer ' + store.getters.getToken
+        }
+      })
+      return response
+    }
   }
 }
 
 export async function updateAttraktion (id, { name, laengengrad, breitengrad, nutzerEmail, beschreibung, bilder, attraktionOeffnungszeiten }) {
-  const url = attraktionUrl + '/' + id
-  if (formCheck({ name, laengengrad, breitengrad, nutzerEmail, attraktionOeffnungszeiten })) {
-    const response = await axios.post(url, {
-      name,
-      laengengrad,
-      breitengrad,
-      nutzerEmail,
-      beschreibung,
-      bilder,
-      attraktionOeffnungszeiten
-    })
-    return response
+  if (store.getters.isAuthenticated) {
+    const url = attraktionUrl + '/' + id
+    if (formCheck({ name, laengengrad, breitengrad, nutzerEmail, attraktionOeffnungszeiten })) {
+      const response = await axios({
+        method: 'PUT',
+        url: url,
+        data: { name, laengengrad, breitengrad, nutzerEmail, beschreibung, bilder, attraktionOeffnungszeiten },
+        headers: {
+          Authorization: 'Bearer ' + store.getters.getToken
+        }
+      })
+      return response
+    }
   }
 }
 
 export async function deleteAttraktion (id) {
-  const url = attraktionUrl + '/' + id
-  const response = await axios.delete(url)
-  return response
+  if (store.getters.isAuthenticated) {
+    const url = attraktionUrl + '/' + id
+    const response = await axios({
+      method: 'DELETE',
+      url: url,
+      headers: {
+        Authorization: 'Bearer ' + store.getters.getToken
+      }
+    })
+    return response
+  }
 }
 
 /* PRIVATE FUNCTIONS */

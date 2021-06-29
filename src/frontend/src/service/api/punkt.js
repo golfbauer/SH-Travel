@@ -1,3 +1,5 @@
+import store from '@/store'
+
 import axios from 'axios'
 
 const punktUrl = '/SHTravel/punkt'
@@ -5,35 +7,74 @@ const punktUrl = '/SHTravel/punkt'
 /* PUBLIC FUNCTIONS */
 
 export async function fetchPunkte () {
-  const response = await axios.get(punktUrl)
-  return response.data
+  if (store.getters.isAuthenticated) {
+    const authUrl = punktUrl + '/nutzerOrOeffentlich'
+    const response = await axios({
+      method: 'GET',
+      url: authUrl,
+      headers: {
+        Authorization: 'Bearer ' + store.getters.getToken
+      }
+    })
+    return response.data
+  } else {
+    const pubUrl = punktUrl + '/oeffentlich'
+    const response = await axios.get(pubUrl)
+    return response.data
+  }
 }
 
-export async function fetchPunkt (id) {
-  const url = punktUrl + '/' + id
-  const response = await axios.get(url)
-  return response.data
-}
+// export async function fetchPunkt (id) {
+//   const url = punktUrl + '/' + id
+//   const response = await axios.get(url)
+//   return response.data
+// }
 
 export async function createPunkt ({ name, laengengrad, breitengrad, nutzerEmail }) {
-  if (formCheck({ name, laengengrad, breitengrad, nutzerEmail })) {
-    const response = await axios.post(punktUrl, { name, laengengrad, breitengrad, nutzerEmail })
-    return response
+  if (store.getters.isAuthenticated) {
+    if (formCheck({ name, laengengrad, breitengrad, nutzerEmail })) {
+      const response = await axios({
+        method: 'POST',
+        url: punktUrl,
+        data: { name, laengengrad, breitengrad, nutzerEmail },
+        headers: {
+          Authorization: 'Bearer ' + store.getters.getToken
+        }
+      })
+      return response
+    }
   }
 }
 
 export async function updatePunkt (id, { name, laengengrad, breitengrad, nutzerEmail }) {
-  const url = punktUrl + '/' + id
-  if (formCheck({ name, laengengrad, breitengrad, nutzerEmail })) {
-    const response = await axios.put(url, { name, laengengrad, breitengrad, nutzerEmail })
-    return response
+  if (store.getters.isAuthenticated) {
+    const url = punktUrl + '/' + id
+    if (formCheck({ name, laengengrad, breitengrad, nutzerEmail })) {
+      const response = await axios({
+        method: 'PUT',
+        url: url,
+        data: { name, laengengrad, breitengrad, nutzerEmail },
+        headers: {
+          Authorization: 'Bearer ' + store.getters.getToken
+        }
+      })
+      return response
+    }
   }
 }
 
 export async function deletePunkt (id) {
-  const url = punktUrl + '/' + id
-  const response = await axios.delete(url)
-  return response
+  if (store.getters.isAuthenticated) {
+    const url = punktUrl + '/' + id
+    const response = await axios({
+      method: 'DELETE',
+      url: url,
+      headers: {
+        Authorization: 'Bearer ' + store.getters.getToken
+      }
+    })
+    return response
+  }
 }
 
 /* PRIVATE FUNCTIONS */

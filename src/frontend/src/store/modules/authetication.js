@@ -19,7 +19,6 @@ const actions = {
     const username = payload.username
     const password = payload.password
     const response = await axios.post('/SHTravel/login', { username, password })
-    console.log(response)
     const data = response.data
 
     const token = data.token

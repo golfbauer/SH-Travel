@@ -14,7 +14,7 @@ import Authentication from './modules/authetication'
 Vue.use(Vuex)
 
 // Create data store and register modules which are to contain.
-export const store = new Vuex.Store({
+export default new Vuex.Store({
   modules: {
     ClickedCoords,
     loadedReisen,
