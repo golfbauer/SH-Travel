@@ -2,6 +2,7 @@ package de.hhn.se.labswp.wstgsh.api.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import de.hhn.se.labswp.wstgsh.exceptions.ReisepunktNotFoundAdvice;
 
 import java.util.ArrayList;
@@ -41,7 +42,10 @@ public class Reisepunkt {
           name = "nutzer_id",
           nullable = false
   )
-  @JsonIgnore
+  @JsonIgnoreProperties({ "vorname", "nachname", "email", "accountname", "passwort",
+          "nutzerRolle", "locked", "enabled", "reisepunkte", "reisen", "reisekatalog",
+          "username", "password", "authorities", "accountNonLocked", "credentialsNonExpired",
+          "accountNonExpired"})
   private Nutzer nutzer;
 
   /**

@@ -39,7 +39,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .authorizeRequests()
             .antMatchers(
                     "/", "/register", "/login", "/attraktion/oeffentlich",
-                    "/punkt/oeffentlich", "/reise/oeffentlich", "/reisepunkt/oeffentlich"
+                    "/punkt/oeffentlich", "/reise/oeffentlich", "/reisepunkt/oeffentlich",
+                    "/register/**"
             ).permitAll()
             .anyRequest()
             .authenticated()

@@ -25,7 +25,7 @@ public class AttraktionOeffnungszeit {
 
   private boolean ganztaegig = false;
 
-  private boolean geschlossen = true;
+  private boolean geschlossen = false;
 
   @ManyToOne
   @JoinColumn(nullable = false)

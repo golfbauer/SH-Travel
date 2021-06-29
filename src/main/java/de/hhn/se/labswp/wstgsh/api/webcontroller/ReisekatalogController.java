@@ -92,7 +92,7 @@ public class ReisekatalogController {
    */
   @PostMapping(path = "/reisekatalog")
   @PreAuthorize("hasAnyRole('ROLE_REISENDER','ROLE_ANBIETER')")
-  Reisekatalog newReisekatalog(@RequestBody Reisekatalog newReisekatalog) {
+  public Reisekatalog newReisekatalog(@RequestBody Reisekatalog newReisekatalog) {
     Nutzer nutzer = findNutzer().orElseThrow(() -> new IllegalStateException("Es konnte kein "
             + "Nutzer gefunden werden."));
     newReisekatalog.setNutzer(nutzer);

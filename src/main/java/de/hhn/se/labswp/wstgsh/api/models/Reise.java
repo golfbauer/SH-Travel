@@ -60,7 +60,10 @@ public class Reise {
           name = "nutzer_id",
           nullable = false
   )
-  @JsonIgnore
+  @JsonIgnoreProperties({ "vorname", "nachname", "email", "accountname", "passwort",
+          "nutzerRolle", "locked", "enabled", "reisepunkte", "reisen", "reisekatalog",
+          "username", "password", "authorities", "accountNonLocked", "credentialsNonExpired",
+          "accountNonExpired"})
   private Nutzer nutzer;
 
   /**
