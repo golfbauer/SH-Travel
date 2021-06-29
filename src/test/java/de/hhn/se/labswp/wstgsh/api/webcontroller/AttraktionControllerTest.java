@@ -19,11 +19,14 @@ class AttraktionControllerTest {
   private AttraktionRepository attraktionRepository;
   @Mock
   private NutzerRepository nutzerRepository;
+  @Mock
+  private ReisepunktController reisepunktController;
   private AttraktionController underTest;
 
   @BeforeEach
   void setUp() {
-    underTest = new AttraktionController(attraktionRepository, nutzerRepository);
+    underTest = new AttraktionController(attraktionRepository, nutzerRepository,
+            reisepunktController);
   }
 
   /*@Test

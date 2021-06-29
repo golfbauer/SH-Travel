@@ -4,7 +4,7 @@ import de.hhn.se.labswp.wstgsh.exceptions.ReisepunktNotFoundException;
 import de.hhn.se.labswp.wstgsh.api.models.Attraktion;
 import de.hhn.se.labswp.wstgsh.api.models.AttraktionOeffnungszeit;
 import de.hhn.se.labswp.wstgsh.api.models.AttraktionRepository;
-import java.time.LocalTime;
+
 import java.util.List;
 import java.util.Optional;
 import de.hhn.se.labswp.wstgsh.api.models.Nutzer;
@@ -26,10 +26,13 @@ public class AttraktionController {
 
   private final AttraktionRepository repository;
   private final NutzerRepository nutzerRepository;
+  private final ReisepunktController reisepunktController;
 
-  AttraktionController(AttraktionRepository repository, NutzerRepository nutzerRepository) {
+  AttraktionController(AttraktionRepository repository, NutzerRepository nutzerRepository,
+                       ReisepunktController reisepunktController) {
     this.repository = repository;
     this.nutzerRepository = nutzerRepository;
+    this.reisepunktController = reisepunktController;
   }
 
   /**
@@ -64,7 +67,6 @@ public class AttraktionController {
   }
 
   @GetMapping(path = "/attraktion/oeffentlich")
-  @PreAuthorize("hasAnyRole('ROLE_REISENDER', 'ROLE_ANBIETER')")
   List<Attraktion> allPublic() {
     return repository.findAllByOeffentlich();
   }
@@ -122,23 +124,7 @@ public class AttraktionController {
     List<AttraktionOeffnungszeit> oeffnungszeiten = newAttraktion.getAttraktionOeffnungszeiten();
     for (AttraktionOeffnungszeit oeffnungszeit : oeffnungszeiten) {
       oeffnungszeit.setAttraktion(newAttraktion);
-      if (oeffnungszeit.isGeschlossen() && oeffnungszeit.isGanztaegig()) {
-        throw new IllegalStateException("Oeffnungszeit ist ganztägig und geschlossen");
-      }
-      if (oeffnungszeit.isGanztaegig()) {
-        oeffnungszeit.setOeffnetUm(LocalTime.of(0, 0, 0));
-        oeffnungszeit.setSchliestUm(LocalTime.of(23, 59, 0));
-        oeffnungszeit.setGeschlossen(false);
-      }
-      if (oeffnungszeit.isGeschlossen()) {
-        oeffnungszeit.setOeffnetUm(null);
-        oeffnungszeit.setSchliestUm(null);
-        oeffnungszeit.setGanztaegig(false);
-      }
-      if (oeffnungszeit.getOeffnetUm() != null && oeffnungszeit.getSchliestUm() != null) {
-        oeffnungszeit.setGanztaegig(false);
-        oeffnungszeit.setGeschlossen(true);
-      }
+      oeffnungszeit.formcheckOeffnungszeit();
     }
     return repository.save(newAttraktion);
   }
@@ -164,9 +150,10 @@ public class AttraktionController {
         attraktion.getAttraktionOeffnungszeiten().clear();
         List<AttraktionOeffnungszeit> oeffnungszeiten = newAttraktion
                 .getAttraktionOeffnungszeiten();
-        for (AttraktionOeffnungszeit attraktionOeffnungszeit : oeffnungszeiten) {
-          attraktionOeffnungszeit.setAttraktion(attraktion);
-          attraktion.getAttraktionOeffnungszeiten().add(attraktionOeffnungszeit);
+        for (AttraktionOeffnungszeit oeffnungszeit : oeffnungszeiten) {
+          oeffnungszeit.setAttraktion(attraktion);
+          oeffnungszeit.formcheckOeffnungszeit();
+          attraktion.getAttraktionOeffnungszeiten().add(oeffnungszeit);
         }
         return repository.save(attraktion);
       } else {
@@ -190,10 +177,9 @@ public class AttraktionController {
     Nutzer nutzer = findNutzer().orElseThrow(() -> new IllegalStateException("Nutzer nicht "
             + "gefunden"));
     if (attraktion.getNutzer().getId().equals(nutzer.getId())) {
-      for (int i = 0; i < attraktion.getAttraktionOeffnungszeiten().size(); i++) {
-        attraktion.getAttraktionOeffnungszeiten().remove(i);
-      }
+      attraktion.getAttraktionOeffnungszeiten().clear();
       repository.deleteById(id);
+      //reisepunktController.deleteReisepunkt(id);
     } else {
       throw new IllegalStateException("Nutzer hat kein Recht den Reisepunkt zu löschen.");
     }
@@ -212,23 +198,7 @@ public class AttraktionController {
     return repository.findById(id).map(attraktion -> findNutzer().map(nutzer -> {
       if (nutzer.getId().equals(attraktion.getNutzer().getId())) {
         oeffnungszeit.setAttraktion(attraktion);
-        if (oeffnungszeit.isGeschlossen() && oeffnungszeit.isGanztaegig()) {
-          throw new IllegalStateException("Oeffnungszeit ist ganztägig und geschlossen");
-        }
-        if (oeffnungszeit.isGanztaegig()) {
-          oeffnungszeit.setOeffnetUm(LocalTime.of(0, 0, 0));
-          oeffnungszeit.setSchliestUm(LocalTime.of(23, 59, 0));
-          oeffnungszeit.setGeschlossen(false);
-        }
-        if (oeffnungszeit.isGeschlossen()) {
-          oeffnungszeit.setOeffnetUm(null);
-          oeffnungszeit.setSchliestUm(null);
-          oeffnungszeit.setGanztaegig(false);
-        }
-        if (oeffnungszeit.getOeffnetUm() != null && oeffnungszeit.getSchliestUm() != null) {
-          oeffnungszeit.setGanztaegig(false);
-          oeffnungszeit.setGeschlossen(true);
-        }
+        oeffnungszeit.formcheckOeffnungszeit();
         attraktion.getAttraktionOeffnungszeiten().add(oeffnungszeit);
         return repository.save(attraktion);
       } else {

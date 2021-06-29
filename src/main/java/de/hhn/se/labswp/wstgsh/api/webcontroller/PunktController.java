@@ -62,7 +62,6 @@ public class PunktController {
   }
 
   @GetMapping(path = "/punkt/oeffentlich")
-  @PreAuthorize("hasAnyRole('ROLE_REISENDER','ROLE_ANBIETER')")
   List<Punkt> allPublic() {
     return repository.findAllByOeffentlich();
   }
@@ -111,9 +110,9 @@ public class PunktController {
    * @param newPunkt New Punkt Objekt you want to save in the DB.
    * @return the just saved Punkt Object.
    */
-  @PostMapping(path = "/punkt/nutzer")
+  @PostMapping(path = "/punkt")
   @PreAuthorize("hasAnyRole('ROLE_REISENDER','ROLE_ANBIETER')")
-  Punkt newPunktWithNutzer(@RequestBody Punkt newPunkt) {
+  Punkt newPunkt(@RequestBody Punkt newPunkt) {
     formcheckPunkt(newPunkt);
     Nutzer nutzer = findNutzer().orElseThrow(() -> new IllegalStateException("Es konnte kein "
             + "Nutzer gefunden werden."));

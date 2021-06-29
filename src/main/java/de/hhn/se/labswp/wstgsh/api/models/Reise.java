@@ -52,7 +52,7 @@ public class Reise {
           joinColumns = @JoinColumn(name = "reise_id"),
           inverseJoinColumns = @JoinColumn(name = "reisekatalog_id")
   )
-  @JsonIgnoreProperties("reise")
+  @JsonIgnore
   private List<Reisekatalog> reisekatalog = new ArrayList<>();
 
   @ManyToOne(cascade = CascadeType.ALL)
@@ -60,7 +60,10 @@ public class Reise {
           name = "nutzer_id",
           nullable = false
   )
-  @JsonIgnore
+  @JsonIgnoreProperties({ "vorname", "nachname", "email", "accountname", "passwort",
+          "nutzerRolle", "locked", "enabled", "reisepunkte", "reisen", "reisekatalog",
+          "username", "password", "authorities", "accountNonLocked", "credentialsNonExpired",
+          "accountNonExpired"})
   private Nutzer nutzer;
 
   /**

@@ -1,5 +1,8 @@
 package de.hhn.se.labswp.wstgsh.api.service;
 
+import de.hhn.se.labswp.wstgsh.api.models.Reisekatalog;
+import de.hhn.se.labswp.wstgsh.api.models.ReisekatalogRepository;
+import de.hhn.se.labswp.wstgsh.api.webcontroller.ReisekatalogController;
 import de.hhn.se.labswp.wstgsh.security.email.EmailSender;
 import de.hhn.se.labswp.wstgsh.security.email.EmailValidator;
 import de.hhn.se.labswp.wstgsh.api.models.Nutzer;
@@ -17,6 +20,7 @@ public class RegistrationService {
   private final EmailValidator emailValidator;
   private final BestaetigungsTokenService bestaetigungsTokenService;
   private final EmailSender emailSender;
+  private final ReisekatalogRepository reisekatalogRepository;
 
   /**
    * Constructor for Services.
@@ -24,14 +28,17 @@ public class RegistrationService {
    * @param emailValidator To check Email Validation.
    * @param bestaetigungsTokenService Token for email validation.
    * @param emailSender Sends email.
+   * @param reisekatalogRepository
    */
   public RegistrationService(NutzerService nutzerService, EmailValidator emailValidator,
                              BestaetigungsTokenService bestaetigungsTokenService,
-                             EmailSender emailSender) {
+                             EmailSender emailSender,
+                             ReisekatalogRepository reisekatalogRepository) {
     this.nutzerService = nutzerService;
     this.emailValidator = emailValidator;
     this.bestaetigungsTokenService = bestaetigungsTokenService;
     this.emailSender = emailSender;
+    this.reisekatalogRepository = reisekatalogRepository;
   }
 
   /**
@@ -104,6 +111,7 @@ public class RegistrationService {
 
     bestaetigungsTokenService.setConfirmedAt(token);
     nutzerService.enableNutzer(bestaetigungsToken.getNutzer().getEmail());
+    reisekatalogRepository.save(new Reisekatalog(bestaetigungsToken.getNutzer()));
     return "confirmed";
   }
 
