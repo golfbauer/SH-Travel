@@ -30,13 +30,13 @@ export async function fetchPunkte () {
 //   return response.data
 // }
 
-export async function createPunkt ({ name, laengengrad, breitengrad, nutzerEmail }) {
+export async function createPunkt ({ name, laengengrad, breitengrad, nutzerEmail, oeffentlich }) {
   if (store.getters.isAuthenticated) {
     if (formCheck({ name, laengengrad, breitengrad, nutzerEmail })) {
       const response = await axios({
         method: 'POST',
         url: punktUrl,
-        data: { name, laengengrad, breitengrad, nutzerEmail },
+        data: { name, laengengrad, breitengrad, nutzerEmail, oeffentlich },
         headers: {
           Authorization: 'Bearer ' + store.getters.getToken
         }

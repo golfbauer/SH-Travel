@@ -267,8 +267,8 @@ export default {
       name: 'Reisepunktname',
       beschreibung: 'Beschreibung',
       attraktionOeffnungszeiten: '',
-      mo_von: '13:00',
-      mo_bis: '16:00',
+      mo_von: '',
+      mo_bis: '',
       di_von: '',
       di_bis: '',
       mi_von: '',
@@ -297,7 +297,8 @@ export default {
       so_geschlossen: false,
       bilder: [],
       laengengrad: '',
-      breitengrad: ''
+      breitengrad: '',
+      oeffentlich: false
     }
   },
   props: {
@@ -322,20 +323,61 @@ export default {
 
       if (this.typ === 'attraktion') {
         // Set von & bis
-        this.mo_von = this.reisepunkt.attraktionOeffnungszeiten[0].oeffnetUm.substring(0, 5)
-        this.mo_bis = this.reisepunkt.attraktionOeffnungszeiten[0].schliestUm.substring(0, 5)
-        this.di_von = this.reisepunkt.attraktionOeffnungszeiten[1].oeffnetUm.substring(0, 5)
-        this.di_bis = this.reisepunkt.attraktionOeffnungszeiten[1].schliestUm.substring(0, 5)
-        this.mi_von = this.reisepunkt.attraktionOeffnungszeiten[2].oeffnetUm.substring(0, 5)
-        this.mi_bis = this.reisepunkt.attraktionOeffnungszeiten[2].schliestUm.substring(0, 5)
-        this.do_von = this.reisepunkt.attraktionOeffnungszeiten[3].oeffnetUm.substring(0, 5)
-        this.do_bis = this.reisepunkt.attraktionOeffnungszeiten[3].schliestUm.substring(0, 5)
-        this.fr_von = this.reisepunkt.attraktionOeffnungszeiten[4].oeffnetUm.substring(0, 5)
-        this.fr_bis = this.reisepunkt.attraktionOeffnungszeiten[4].schliestUm.substring(0, 5)
-        this.sa_von = this.reisepunkt.attraktionOeffnungszeiten[5].oeffnetUm.substring(0, 5)
-        this.sa_bis = this.reisepunkt.attraktionOeffnungszeiten[5].schliestUm.substring(0, 5)
-        this.so_von = this.reisepunkt.attraktionOeffnungszeiten[6].oeffnetUm.substring(0, 5)
-        this.so_bis = this.reisepunkt.attraktionOeffnungszeiten[6].schliestUm.substring(0, 5)
+        if (this.reisepunkt.attraktionOeffnungszeiten[0].oeffnetUm !== null) {
+          this.mo_von = this.reisepunkt.attraktionOeffnungszeiten[0].oeffnetUm.substring(0, 5)
+        }
+
+        if (this.reisepunkt.attraktionOeffnungszeiten[0].schliestUm !== null) {
+          this.mo_bis = this.reisepunkt.attraktionOeffnungszeiten[0].schliestUm.substring(0, 5)
+        }
+
+        if (this.reisepunkt.attraktionOeffnungszeiten[1].oeffnetUm !== null) {
+          this.di_von = this.reisepunkt.attraktionOeffnungszeiten[1].oeffnetUm.substring(0, 5)
+        }
+
+        if (this.reisepunkt.attraktionOeffnungszeiten[1].schliestUm !== null) {
+          this.di_bis = this.reisepunkt.attraktionOeffnungszeiten[1].schliestUm.substring(0, 5)
+        }
+
+        if (this.reisepunkt.attraktionOeffnungszeiten[2].oeffnetUm !== null) {
+          this.mi_von = this.reisepunkt.attraktionOeffnungszeiten[2].oeffnetUm.substring(0, 5)
+        }
+
+        if (this.reisepunkt.attraktionOeffnungszeiten[2].schliestUm !== null) {
+          this.mi_bis = this.reisepunkt.attraktionOeffnungszeiten[2].schliestUm.substring(0, 5)
+        }
+
+        if (this.reisepunkt.attraktionOeffnungszeiten[3].oeffnetUm !== null) {
+          this.do_von = this.reisepunkt.attraktionOeffnungszeiten[3].oeffnetUm.substring(0, 5)
+        }
+
+        if (this.reisepunkt.attraktionOeffnungszeiten[3].schliestUm !== null) {
+          this.do_bis = this.reisepunkt.attraktionOeffnungszeiten[3].schliestUm.substring(0, 5)
+        }
+
+        if (this.reisepunkt.attraktionOeffnungszeiten[4].oeffnetUm !== null) {
+          this.fr_von = this.reisepunkt.attraktionOeffnungszeiten[4].oeffnetUm.substring(0, 5)
+        }
+
+        if (this.reisepunkt.attraktionOeffnungszeiten[4].schliestUm !== null) {
+          this.fr_bis = this.reisepunkt.attraktionOeffnungszeiten[4].schliestUm.substring(0, 5)
+        }
+
+        if (this.reisepunkt.attraktionOeffnungszeiten[5].oeffnetUm !== null) {
+          this.sa_von = this.reisepunkt.attraktionOeffnungszeiten[5].oeffnetUm.substring(0, 5)
+        }
+
+        if (this.reisepunkt.attraktionOeffnungszeiten[5].schliestUm !== null) {
+          this.sa_bis = this.reisepunkt.attraktionOeffnungszeiten[5].schliestUm.substring(0, 5)
+        }
+
+        if (this.reisepunkt.attraktionOeffnungszeiten[6].oeffnetUm !== null) {
+          this.so_von = this.reisepunkt.attraktionOeffnungszeiten[6].oeffnetUm.substring(0, 5)
+        }
+
+        if (this.reisepunkt.attraktionOeffnungszeiten[6].schliestUm !== null) {
+          this.so_bis = this.reisepunkt.attraktionOeffnungszeiten[6].schliestUm.substring(0, 5)
+        }
 
         // Set Ganztägig
         this.mo_ganztaegig = [this.reisepunkt.attraktionOeffnungszeiten[0].ganztaegig]
@@ -357,6 +399,7 @@ export default {
       }
 
       this.bilder = this.reisepunkt.bilder
+      this.oeffentlich = this.reisepunkt.oeffentlich
     },
     onSubmit (event) {
       console.log('Speichern')
@@ -366,7 +409,8 @@ export default {
             name: this.name,
             laengengrad: this.laengengrad,
             breitengrad: this.breitengrad,
-            nutzerEmail: this.nutzerEmail
+            nutzerEmail: this.nutzerEmail,
+            oeffentlich: this.oeffentlich
           })
           break
         case 'sehenswuerdigkeit':
@@ -376,7 +420,8 @@ export default {
             breitengrad: this.breitengrad,
             nutzerEmail: this.nutzerEmail,
             beschreibung: this.beschreibung,
-            bilder: this.bilder
+            bilder: this.bilder,
+            oeffentlich: this.oeffentlich
           })
           break
         case 'attraktion':
@@ -387,6 +432,7 @@ export default {
             nutzerEmail: this.nutzerEmail,
             beschreibung: this.beschreibung,
             bilder: this.bilder,
+            oeffentlich: this.oeffentlich,
             attraktionOeffnungszeiten: [
               {
                 tagDerWoche: 'MONDAY',
@@ -454,7 +500,8 @@ export default {
       console.log('Änderungen nicht übernommen.')
     },
     close () {
-      this.$emit('close')
+      // this.$emit('close')
+      this.$emit('cancel')
     },
     checkIfGeschlossen (ganztaegig, von, bis) {
       return !ganztaegig[ganztaegig.length - 1] && von === '' && bis === ''

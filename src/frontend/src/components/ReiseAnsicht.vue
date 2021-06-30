@@ -52,7 +52,7 @@ export default {
       const reise = {
         name: this.reiseName,
         termin: undefined,
-        oeffentlich: true,
+        oeffentlich: false,
         reisepunkte: this.reisepunkte,
         reisekatalog: undefined
       }

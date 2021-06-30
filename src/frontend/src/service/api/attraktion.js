@@ -43,14 +43,14 @@ export async function createAttraktion ({ name, laengengrad, breitengrad, nutzer
   }
 }
 
-export async function updateAttraktion (id, { name, laengengrad, breitengrad, nutzerEmail, beschreibung, bilder, attraktionOeffnungszeiten }) {
+export async function updateAttraktion (id, { name, laengengrad, breitengrad, nutzerEmail, beschreibung, bilder, attraktionOeffnungszeiten, oeffentlich }) {
   if (store.getters.isAuthenticated) {
     const url = attraktionUrl + '/' + id
     if (formCheck({ name, laengengrad, breitengrad, nutzerEmail, attraktionOeffnungszeiten })) {
       const response = await axios({
         method: 'PUT',
         url: url,
-        data: { name, laengengrad, breitengrad, nutzerEmail, beschreibung, bilder, attraktionOeffnungszeiten },
+        data: { name, laengengrad, breitengrad, nutzerEmail, beschreibung, bilder, attraktionOeffnungszeiten, oeffentlich },
         headers: {
           Authorization: 'Bearer ' + store.getters.getToken
         }

@@ -16,6 +16,7 @@ import ReisepunktErstellen from '@/components/ReisepunktErstellen'
 import ReiseAnsicht from '@/components/ReiseAnsicht'
 import ReiseAuswahl from '@/components/ReiseAuswahl'
 import ReisepunktBearbeiten from '@/components/ReisepunktBearbeiten'
+import { loadMarker } from '@/service/helper/map'
 
 export default {
   name: 'Map',
@@ -69,6 +70,7 @@ export default {
     },
     closeReisepunktBearbeiten: function () {
       this.showReisepunktBearbeiten = false
+      loadMarker()
     },
     setClickedCoords: function (lat, lng) {
       this.$store.dispatch('chooseCoords', {

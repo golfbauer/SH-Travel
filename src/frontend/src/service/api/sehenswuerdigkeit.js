@@ -27,13 +27,13 @@ export async function fetchSehenswuerdigkeiten () {
 //   return response.data
 // }
 
-export async function createSehenswuerdigkeit ({ name, laengengrad, breitengrad, nutzerEmail, beschreibung, bilder }) {
+export async function createSehenswuerdigkeit ({ name, laengengrad, breitengrad, nutzerEmail, beschreibung, bilder, oeffentlich }) {
   if (store.getters.isAuthenticated) {
     if (formCheck({ name, laengengrad, breitengrad, nutzerEmail })) {
       const response = await axios({
         method: 'POST',
         url: sehenswuerdigkeitUrl,
-        data: { name, laengengrad, breitengrad, nutzerEmail, beschreibung, bilder },
+        data: { name, laengengrad, breitengrad, nutzerEmail, beschreibung, bilder, oeffentlich },
         headers: {
           Authorization: 'Bearer ' + store.getters.getToken
         }

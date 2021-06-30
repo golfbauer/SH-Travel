@@ -38,6 +38,7 @@ export default {
       type: Object,
       required: true,
       // optional properties
+      id: 0,
       name: '',
       component: undefined,
       category: undefined,
@@ -52,7 +53,8 @@ export default {
           const child = {
             name: item.content[i].name,
             component: 'child',
-            content: item.content[i]
+            content: item.content[i],
+            id: item.content[i].id
           }
           this.childItems.push(child)
         }
