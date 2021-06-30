@@ -12,7 +12,7 @@ import Vue from 'vue'
 import Toasted from 'vue-toasted'
 import App from './App.vue'
 import router from './router'
-import { store } from './store'
+import store from './store'
 
 delete Icon.Default.prototype._getIconUrl
 Icon.Default.mergeOptions({

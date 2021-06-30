@@ -2,21 +2,29 @@ import axios from 'axios'
 
 const state = {
   authenticated: false,
-  sessionToken: undefined
+  sessionToken: undefined,
+  userRole: undefined
 }
 
 const getters = {
   getToken: (state) => state.sessionToken,
-  isAuthenticated: (state) => state.authenticated
+  isAuthenticated: (state) => state.authenticated,
+  getRole: (state) => state.userRole
 }
 
 const actions = {
-  async login ({ commit }, username, password) {
+  async login ({ commit }, payload) {
     // implement login url
-    const response = await axios.post()
-    const token = response.data
+    // console.log(payload.username, payload.password)
+    const username = payload.username
+    const password = payload.password
+    const response = await axios.post('/SHTravel/login', { username, password })
+    const data = response.data
 
-    commit('setLoggedIn', token)
+    const token = data.token
+    const role = data.nutzerRolle
+
+    commit('setLoggedIn', { token, role })
   },
   logout ({ commit }) {
     commit('setLoggedOut')
@@ -24,13 +32,15 @@ const actions = {
 }
 
 const mutations = {
-  setLoggedIn (state, token) {
-    this.state.sessionToken = token
-    this.state.authenticated = true
+  setLoggedIn (state, { token, role }) {
+    state.authenticated = true
+    state.sessionToken = token
+    state.userRole = role
   },
   setLoggedOut (state) {
-    this.state.sessionToken = undefined
-    this.state.authenticated = false
+    state.authenticated = false
+    state.sessionToken = undefined
+    state.userRole = undefined
   }
 }
 

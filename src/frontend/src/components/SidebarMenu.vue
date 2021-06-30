@@ -23,7 +23,7 @@
       <!-- SidebarMenuItems -->
       <nav class="mb-3">
         <b-nav vertical>
-          <sidebar-menu-item v-for="(item, index) in menu" :key="index" :item="item"/>
+          <sidebar-menu-item v-on:openReiseBearbeiten="openReiseBearbeiten($event)" v-for="(item, index) in menu" :key="index" :item="item"/>
         </b-nav>
       </nav>
       <!-- End SidebarMenuItems -->
@@ -32,18 +32,22 @@
       </b-button>
     </b-sidebar>
     <!-- End Sidebar -->
+
+    <ReiseBearbeiten v-if="showReiseBearbeiten" :reiseId="reiseId" v-on:updateShow="closeReiseBearbeiten($event)" v-on:makeToast="makeToast($event)"/>
   </div>
 </template>
 
 <script>
 import SidebarMenuItem from '@/components/SidebarMenuItem'
 import { mapGetters } from 'vuex'
+import ReiseBearbeiten from '@/components/ReiseBearbeiten'
 import router from '@/router'
 
 export default {
   name: 'Menu',
   components: {
-    SidebarMenuItem
+    SidebarMenuItem,
+    ReiseBearbeiten
   },
   data () {
     return {
@@ -54,7 +58,9 @@ export default {
         img: 'https://api-magazin.single.de/fileman/uploads/Neuer%20Ordner/gutes_profilbild_beispiel_4.jpg',
         typ: 'ExampleNutzer'
       },
-      menu: []
+      menu: [],
+      showReiseBearbeiten: false,
+      reiseId: 0
     }
   },
   computed: {
@@ -62,7 +68,7 @@ export default {
   },
   methods: {
     loadMenueItems () {
-      console.log('loading Menu')
+      console.log('Loading Menu Items')
       this.menu = [
         {
           name: 'Mein Reisen',
@@ -71,6 +77,20 @@ export default {
           content: this.getReisen
         }
       ]
+    },
+    closeReiseBearbeiten (status) {
+      this.showReiseBearbeiten = !status
+    },
+    makeToast: function (array) {
+      this.$bvToast.toast(array[2], {
+        title: array[1],
+        variant: array[0],
+        solid: true
+      })
+    },
+    openReiseBearbeiten (reiseId) {
+      this.showReiseBearbeiten = true
+      this.reiseId = parseInt(reiseId)
     },
     async loadRegister () {
       await router.push('/register')

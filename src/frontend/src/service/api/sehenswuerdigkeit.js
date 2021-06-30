@@ -1,51 +1,77 @@
 import axios from 'axios'
+import store from '@/store'
 
 const sehenswuerdigkeitUrl = '/SHTravel/sehenswuerdigkeit'
 
 export async function fetchSehenswuerdigkeiten () {
-  const response = await axios.get(sehenswuerdigkeitUrl)
-  return response.data
+  if (store.getters.isAuthenticated) {
+    const authUrl = sehenswuerdigkeitUrl + '/nutzerOrOeffentlich'
+    const response = await axios({
+      method: 'GET',
+      url: authUrl,
+      headers: {
+        Authorization: 'Bearer ' + store.getters.getToken
+      }
+    })
+    return response.data
+  } else {
+    const pubUrl = sehenswuerdigkeitUrl + '/oeffentlich'
+    const response = await axios.get(pubUrl)
+    return response.data
+  }
 }
 
-export async function fetchSehenswuerdigkeit (id) {
-  const url = sehenswuerdigkeitUrl + '/' + id
-  const response = await axios.get(url)
-  return response.data
-}
+// export async function fetchSehenswuerdigkeit (id) {
+//   const url = sehenswuerdigkeitUrl + '/' + id
+//   const response = await axios.get(url)
+//   return response.data
+// }
 
 export async function createSehenswuerdigkeit ({ name, laengengrad, breitengrad, nutzerEmail, beschreibung, bilder }) {
-  if (formCheck({ name, laengengrad, breitengrad, nutzerEmail })) {
-    const response = await axios.post(sehenswuerdigkeitUrl, {
-      name,
-      laengengrad,
-      breitengrad,
-      nutzerEmail,
-      beschreibung,
-      bilder
-    })
-    return response
+  if (store.getters.isAuthenticated) {
+    if (formCheck({ name, laengengrad, breitengrad, nutzerEmail })) {
+      const response = await axios({
+        method: 'POST',
+        url: sehenswuerdigkeitUrl,
+        data: { name, laengengrad, breitengrad, nutzerEmail, beschreibung, bilder },
+        headers: {
+          Authorization: 'Bearer ' + store.getters.getToken
+        }
+      })
+      return response
+    }
   }
 }
 
 export async function updateSehenswuerdigkeit (id, { name, laengengrad, breitengrad, nutzerEmail, beschreibung, bilder }) {
-  const url = sehenswuerdigkeitUrl + '/' + id
-  if (formCheck({ name, laengengrad, breitengrad, nutzerEmail })) {
-    const response = await axios.put(url, {
-      name,
-      laengengrad,
-      breitengrad,
-      nutzerEmail,
-      beschreibung,
-      bilder
-    })
-    return response
+  if (store.getters.isAuthenticated) {
+    const url = sehenswuerdigkeitUrl + '/' + id
+    if (formCheck({ name, laengengrad, breitengrad, nutzerEmail })) {
+      const response = await axios({
+        method: 'PUT',
+        url: url,
+        data: { name, laengengrad, breitengrad, nutzerEmail, beschreibung, bilder },
+        headers: {
+          Authorization: 'Bearer ' + store.getters.getToken
+        }
+      })
+      return response
+    }
   }
 }
 
 export async function deleteSehenswuerdigkeit (id) {
-  const url = sehenswuerdigkeitUrl + '/' + id
-  const response = await axios.delete(url)
-  return response
+  if (store.getters.isAuthenticated) {
+    const url = sehenswuerdigkeitUrl + '/' + id
+    const response = await axios({
+      method: 'DELETE',
+      url: url,
+      headers: {
+        Authorization: 'Bearer ' + store.getters.getToken
+      }
+    })
+    return response
+  }
 }
 
 /* PRIVATE FUNCTIONS */

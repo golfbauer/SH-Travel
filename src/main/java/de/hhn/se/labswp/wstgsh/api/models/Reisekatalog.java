@@ -23,7 +23,10 @@ public class Reisekatalog {
 
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "nutzer_id", referencedColumnName = "id")
-  @JsonIgnore
+  @JsonIgnoreProperties({ "vorname", "nachname", "email", "accountname", "passwort",
+          "nutzerRolle", "locked", "enabled", "reisepunkte", "reisen", "reisekatalog",
+          "username", "password", "authorities", "accountNonLocked", "credentialsNonExpired",
+          "accountNonExpired"})
   private Nutzer nutzer;
 
 
@@ -44,8 +47,7 @@ public class Reisekatalog {
    * @param reisen Liste mit Reisen in ihr.
    *  @param nutzer Owner of the Reisekatalog.
    */
-  public Reisekatalog(List<Reise> reisen, Nutzer nutzer) {
-    this.reise = reisen;
+  public Reisekatalog(Nutzer nutzer) {
     this.nutzer = nutzer;
   }
 

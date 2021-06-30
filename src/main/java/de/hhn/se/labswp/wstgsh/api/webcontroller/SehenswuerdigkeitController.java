@@ -69,12 +69,11 @@ public class SehenswuerdigkeitController {
   }
 
   @GetMapping(path = "/sehenswuerdigkeit/oeffentlich")
-  @PreAuthorize("hasAnyRole('ROLE_REISENDER', 'ROLE_ANBIETER')")
   List<Sehenswuerdigkeit> allPublic() {
     return repository.findAllByOeffentlich();
   }
 
-  @GetMapping(path = "/sehenswuerdigkeit/nutzerOroeffentlich")
+  @GetMapping(path = "/sehenswuerdigkeit/nutzerOrOeffentlich")
   @PreAuthorize("hasAnyRole('ROLE_REISENDER', 'ROLE_ANBIETER')")
   List<Sehenswuerdigkeit> allFromNutzerOrOeffentlich() {
     return repository.findAllByOeffentlichAndNutzer(findNutzer().orElseThrow(
@@ -116,7 +115,7 @@ public class SehenswuerdigkeitController {
   /**
    * Takes a Sehenswuerdigkeit object and parses it into the database.
    */
-  @PostMapping(path = "/sehenswuerdigkeit/nutzer")
+  @PostMapping(path = "/sehenswuerdigkeit")
   @PreAuthorize("hasAnyRole('ROLE_REISENDER', 'ROLE_ANBIETER')")
   Sehenswuerdigkeit newSehenswuerdigkeitWithNutzer(
           @RequestBody Sehenswuerdigkeit newSehenswuerdigkeit) {
