@@ -39,9 +39,9 @@ public class Punkt extends Reisepunkt {
    * @param reisen Contains all Reisen, which Reisepunkt is part of.
    * @param nutzer Owner of the Reisepunkt.
    */
-  public Punkt(Float laengengrad, Float breitengrad, String nutzerEmail, String name,
-          boolean oeffentlich, List<Reise> reisen, Nutzer nutzer) {
-    super(laengengrad, breitengrad, name, oeffentlich, reisen, nutzer);
+  public Punkt(Float laengengrad, Float breitengrad, String name,
+          boolean oeffentlich) {
+    super(laengengrad, breitengrad, name, oeffentlich);
   }
 
   public Punkt() {

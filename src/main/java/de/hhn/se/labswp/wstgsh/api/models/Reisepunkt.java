@@ -100,6 +100,19 @@ public class Reisepunkt {
     this.name = name;
   }
 
+  /**
+   * Constructor to be used in Reisepunkt Controller if needed.
+   * @param laengengrad Marks exact locaion of Attraktion, North to South.
+   * @param breitengrad Marks exact locaion of Attraktion, West to East.
+   * @param name Name of the created Punkt.
+   */
+  public Reisepunkt(Float laengengrad, Float breitengrad, String name, boolean oeffentlich) {
+    this.laengengrad = laengengrad;
+    this.breitengrad = breitengrad;
+    this.name = name;
+    this.oeffentlich = oeffentlich;
+  }
+
   public Reisepunkt() {
   }
 
