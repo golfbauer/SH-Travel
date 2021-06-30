@@ -121,9 +121,11 @@ public class ReiseController {
     newReise.setNutzer(nutzer);
     nutzer.addReise(newReise);
     for (int i = 0; i < newReise.getReisepunkte().size(); i++) {
+      int finalI = i;
       reisepunktRepository.findById(newReise.getReisepunkte().get(i).getId()).map(reisepunkt -> {
         reisepunkt.addReise(newReise);
-        return reisepunktRepository.save(reisepunkt);
+        newReise.getReisepunkte().set(finalI, reisepunkt);
+        return reisepunkt;
       });
     }
     return repository.save(newReise);
