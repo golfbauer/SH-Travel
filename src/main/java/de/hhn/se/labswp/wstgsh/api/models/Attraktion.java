@@ -35,6 +35,19 @@ public class Attraktion extends Reisepunkt {
 
   /**
    * Constructor to create an object, which can be implemented into the database if needed.
+   * @param laengengrad  Marks exact locaion of Attraktion, North to South.
+   * @param breitengrad  Marks exact locaion of Attraktion, West to East.
+   * @param name         Name of the created Attraktion.
+   * @param beschreibung Short description, which gives a explenation of the Attraktion.
+   */
+  public Attraktion(Float laengengrad, Float breitengrad, String name,
+                    String beschreibung, boolean oeffentlich) {
+    super(laengengrad, breitengrad, name, oeffentlich);
+    this.beschreibung = beschreibung;
+  }
+
+  /**
+   * Constructor to create an object, which can be implemented into the database if needed.
    * @param id Id of Attraktion.
    * @param laengengrad  Marks exact locaion of Attraktion, North to South.
    * @param breitengrad  Marks exact locaion of Attraktion, West to East.
