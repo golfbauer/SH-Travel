@@ -114,21 +114,25 @@ export default {
         this.renderComponent = true
       })
     },
-    onSave () {
+    async onSave () {
       console.log(this.reise.name)
       if (this.reise === {}) {
         return
       }
-      if (this.reise.name !== '') {
-        const re = reiseApi.setReise(this.reise)
 
-        if (re) {
-          this.$emit('makeToast', ['success', 'Reise bearbeiten', 'Reise "' + this.reise.name + '" erfolgreich gespeichert'])
-        } else {
-          this.$emit('makeToast', ['danger', 'Reise bearbeiten', 'Reise "' + this.reise.name + '" konnte nicht gespeichert werden'])
-        }
-        this.closeShow(re)
-      }
+      const name = this.reise.name
+      const termin = this.reise.termin
+      const oeffentlich = this.reise.oeffentlich
+      const reisepunkte = this.reise.reisepunkte
+      const reisekatalog = this.reise.reisekatalog
+
+      await reiseApi.updateReise(this.reise.id, { name, termin, oeffentlich, reisepunkte, reisekatalog }).then(response => {
+        console.log(response)
+        this.$emit('makeToast', ['success', 'Reise bearbeiten', 'Reise "' + this.reise.name + '" erfolgreich gespeichert'])
+        this.closeShow(true)
+      }).catch(e => {
+        this.$emit('makeToast', ['danger', 'Reise bearbeiten', 'Reise "' + this.reise.name + '" konnte nicht gespeichert werden'])
+      })
     },
     closeShow (status) {
       this.$emit('updateShow', status)
