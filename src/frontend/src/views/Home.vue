@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <SidebarMenu/>
+    <SidebarMenu :key="$store.state.reisen"/>
     <Map/>
   </div>
 </template>

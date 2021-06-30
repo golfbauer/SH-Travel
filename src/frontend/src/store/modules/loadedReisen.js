@@ -10,6 +10,7 @@ const getters = {
 
 const actions = {
   async fetchReisen ({ commit }) {
+    console.log('Fetche Reisen')
     const reisen = await reiseService.fetchReisen()
     commit('setReisen', reisen)
   }

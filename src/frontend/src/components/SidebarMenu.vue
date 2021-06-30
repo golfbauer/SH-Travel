@@ -62,7 +62,7 @@ export default {
   },
   methods: {
     loadMenueItems () {
-      console.log('loading Menu')
+      console.log('Loading Menu Items')
       this.menu = [
         {
           name: 'Mein Reisen',

@@ -97,7 +97,7 @@ export async function addReisepunkt (reise, reisepunkt) {
         Authorization: 'Bearer ' + store.getters.getToken
       }
     })
-    console.log(response)
+    return response
   }
 }
 
