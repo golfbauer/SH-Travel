@@ -78,7 +78,6 @@ export default {
         }
       ]
     },
-<<<<<<< HEAD
     closeReiseBearbeiten (status) {
       this.showReiseBearbeiten = !status
     },
@@ -92,13 +91,12 @@ export default {
     openReiseBearbeiten (reiseId) {
       this.showReiseBearbeiten = true
       this.reiseId = parseInt(reiseId)
-=======
+    },
     async loadRegister () {
       await router.push('/register')
     },
     async loadLogin () {
       await router.push('/login')
->>>>>>> feature/012_nutzer-anmelden
     }
   },
   async mounted () {
