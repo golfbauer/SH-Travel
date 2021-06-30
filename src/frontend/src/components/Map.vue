@@ -9,7 +9,6 @@
 </template>
 
 <script>
-// import { createMap, loadMarker, L, map } from '@/service/helper/map'
 import * as mapService from '@/service/helper/map'
 
 import ReisepunktErstellen from '@/components/ReisepunktErstellen'
@@ -85,6 +84,7 @@ export default {
   right: 0;
 }
 </style>
+
 <style>
 .leaflet-control-container .leaflet-routing-container-hide {
   display: none;

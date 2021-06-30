@@ -2,21 +2,21 @@
   <div>
     <div :id="item.component">
       <div v-if="item.component==='parent'">
-        <b-nav-item @click="toggle()" class="bor-bot"> <!--:href='item.href'-->
+        <b-nav-item @click="toggle()" class="bor-bot">
           <div class="dropdown-toggle">
             {{ item.name }}
           </div>
         </b-nav-item>
         <div v-if="showChild">
-          <sidebar-menu-item v-b-toggle.sidebar-no-header v-on:openReiseBearbeiten="openReiseBearbeiten($event)" v-on:click.native="handleClick(subitem)" v-for="(subitem, index) in item.content" :key="index" :item="subitem"/>
+          <sidebar-menu-item v-on:click.native="handleClick(subitem.content)" v-for="(subitem, index) in childItems"
+                             :key="index" :item="subitem" v-b-toggle.sidebar-no-header
+                             v-on:openReiseBearbeiten="openReiseBearbeiten($event)"/>
         </div>
       </div>
-      <b-nav-item :href='item.href' v-else class="bor-bot">
-        <div class="flexbox">
+      <div v-if="item.component === 'child'" class="flexbox">
           {{ item.name }}
           <b-button class="edit-btn" v-if="isReise(item.id)" @click="openReiseBearbeiten(item.id)" size="sm">Bearbeiten</b-button>
-        </div>
-      </b-nav-item>
+      </div>
     </div>
   </div>
 </template>
@@ -28,8 +28,9 @@ export default {
   name: 'SidebarMenuItem',
   data () {
     return {
-      showChild: false,
-      chosenChild: undefined
+      showChild: true,
+      chosenChild: undefined,
+      childItems: []
     }
   },
   props: {
@@ -37,12 +38,26 @@ export default {
       type: Object,
       required: true,
       // optional properties
+      name: '',
       component: undefined,
       category: undefined,
       content: undefined
     }
   },
   methods: {
+    init () {
+      const item = this.item
+      if (item.component === 'parent' && item.content !== undefined) {
+        for (let i = 0; i < item.content.length; i++) {
+          const child = {
+            name: item.content[i].name,
+            component: 'child',
+            content: item.content[i]
+          }
+          this.childItems.push(child)
+        }
+      }
+    },
     handleClick (subitem) {
       switch (this.item.category) {
         case 'reisen':
@@ -77,7 +92,10 @@ export default {
     }
   },
   created () {
-    console.log(this.content)
+    console.log('Component', this.item.component)
+    console.log('Content', this.item.content)
+
+    this.init()
   }
 }
 </script>
@@ -86,19 +104,17 @@ export default {
 
 @import "./src/assets/style.scss";
 
-.bor-bot{
-  border-bottom: #000 solid 1px;
+.bor-bot {
+  border-bottom: solid 1px #1A776A;
 }
 
 #item {
   background-color: $primary-color;
 
-  a {
-    color: #fff;
+  color: #fff;
 
-    &:hover {
-      color: #000;
-    }
+  &:hover {
+    color: #000;
   }
 }
 
@@ -129,12 +145,18 @@ export default {
 #child {
   background-color: $primary-color-2;
 
-  a {
-    color: #fff;
+  position: relative;
+  box-sizing: border-box;
 
-    &:hover {
-      color: #000;
-    }
+  height: 2.5em;
+  border-bottom: 0.1em solid #1A776A;
+
+  text-align: center;
+  vertical-align: middle;
+  line-height: 2.5em;
+
+  &:hover {
+    background-color: #39f68e;
   }
 }
 

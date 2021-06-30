@@ -17,8 +17,8 @@
         <div id="profile-typ">{{ profile.typ }}</div>
       </div>
       <div class="menu-header" v-else>
-        <!-- b-button type="button" class="btn btn-orange">Registrieren</b-button -->
-        <!-- b-button type="button" class="btn btn-gray">Anmelden</b-button -->
+         <b-button @click="loadRegister" type="button" class="btn btn-orange">Registrieren</b-button>
+         <b-button @click="loadLogin" type="button" class="btn btn-gray">Anmelden</b-button>
       </div>
       <!-- SidebarMenuItems -->
       <nav class="mb-3">
@@ -41,6 +41,7 @@
 import SidebarMenuItem from '@/components/SidebarMenuItem'
 import { mapGetters } from 'vuex'
 import ReiseBearbeiten from '@/components/ReiseBearbeiten'
+import router from '@/router'
 
 export default {
   name: 'Menu',
@@ -67,13 +68,8 @@ export default {
   },
   methods: {
     loadMenueItems () {
-      console.log('loading Menu')
+      console.log('Loading Menu Items')
       this.menu = [
-        {
-          name: 'Startseite',
-          component: 'item',
-          href: '/SHTravel'
-        },
         {
           name: 'Mein Reisen',
           component: 'parent',
@@ -82,6 +78,7 @@ export default {
         }
       ]
     },
+<<<<<<< HEAD
     closeReiseBearbeiten (status) {
       this.showReiseBearbeiten = !status
     },
@@ -95,6 +92,13 @@ export default {
     openReiseBearbeiten (reiseId) {
       this.showReiseBearbeiten = true
       this.reiseId = parseInt(reiseId)
+=======
+    async loadRegister () {
+      await router.push('/register')
+    },
+    async loadLogin () {
+      await router.push('/login')
+>>>>>>> feature/012_nutzer-anmelden
     }
   },
   async mounted () {
