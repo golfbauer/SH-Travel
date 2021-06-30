@@ -115,7 +115,7 @@ public class SehenswuerdigkeitController {
   /**
    * Takes a Sehenswuerdigkeit object and parses it into the database.
    */
-  @PostMapping(path = "/sehenswuerdigkeit/nutzer")
+  @PostMapping(path = "/sehenswuerdigkeit")
   @PreAuthorize("hasAnyRole('ROLE_REISENDER', 'ROLE_ANBIETER')")
   Sehenswuerdigkeit newSehenswuerdigkeitWithNutzer(
           @RequestBody Sehenswuerdigkeit newSehenswuerdigkeit) {
