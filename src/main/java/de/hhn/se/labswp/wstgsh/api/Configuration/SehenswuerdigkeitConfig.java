@@ -1,10 +1,14 @@
 package de.hhn.se.labswp.wstgsh.api.Configuration;
 
+import de.hhn.se.labswp.wstgsh.api.models.Sehenswuerdigkeit;
 import de.hhn.se.labswp.wstgsh.exceptions.ReisepunktNotFoundAdvice;
 import de.hhn.se.labswp.wstgsh.api.models.SehenswuerdigkeitRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Configuration
 public class SehenswuerdigkeitConfig {
@@ -23,87 +27,93 @@ public class SehenswuerdigkeitConfig {
                                                                sehenswuerdigkeitRepository) {
     return args -> {
       /*List<Sehenswuerdigkeit> list = new ArrayList<>();
-      Sehenswuerdigkeit foehr = new Sehenswuerdigkeit(
-              568L, 8.498268127441408f, 54.71708518710868f,
-              "Henri@gmx.de", "Föhr",
+      Sehenswuerdigkeit foehr = new Sehenswuerdigkeit(8.498268127441408f,
+              54.71708518710868f, "Föhr",
               "Die Insel Föhr gehört zu den Nordfriesischen Inseln und zum Kreis "
                       + "Nordfriesland in Schleswig-Holstein. Föhr ist die größte und "
-                      + "bevölkerungsreichste deutsche Insel ohne Landverbindung."
+                      + "bevölkerungsreichste deutsche Insel ohne Landverbindung.", true
       );
       Sehenswuerdigkeit schiesgebiet = new Sehenswuerdigkeit(
-              568L, 6.707153320312501f, 54.438102809740165f,
-              "Henri@gmx.de", "Schießgebiet in der Nordsee",
-              "Schießgebiet, welches von der Kriegsmarine zu Testzwecken verwendet wird."
+              6.707153320312501f, 54.438102809740165f,
+              "Schießgebiet in der Nordsee",
+              "Schießgebiet, welches von der Kriegsmarine zu Testzwecken verwendet wird.",
+              true
       );
       Sehenswuerdigkeit wildesMoor = new Sehenswuerdigkeit(
-              568L, 9.249114990234377f, 54.41533406218809f,
-              "Dennis@gmx.de", "Wildes Moor bei Schwabstedt",
+              9.249114990234377f, 54.41533406218809f,
+              "Wildes Moor bei Schwabstedt",
               "Das Wilde Moor bei Schwabstedt ist ein großräumiges Feuchtgebiet mit "
                       + "Hochmoor- und Niedermoorflächen, wechselfeuchtem Grünland und offenen "
-                      + "Wasserflächen."
+                      + "Wasserflächen.", true
       );
       Sehenswuerdigkeit kaserne = new Sehenswuerdigkeit(
-              568L, 8.498268127441408f, 54.71708518710868f,
-              "Dennis@gmx.de", "Kaserne Nord Eckernförde",
+              8.498268127441408f, 54.71708518710868f,
+              "Kaserne Nord Eckernförde",
               "Die militärische Tradition reicht bis 1912 zurück, als Eckernförde "
-                      + "erstmalig Garnisonsstadt und Marinestützpunkt wurde. "
+                      + "erstmalig Garnisonsstadt und Marinestützpunkt wurde. ", true
       );
       Sehenswuerdigkeit halligenInsel = new Sehenswuerdigkeit(
-              568L, 8.6011334579367f, 54.63848717848078f,
-              "Brian@gmx.de", "Halligen Insel in Schleswig-Holstein",
+              8.6011334579367f, 54.63848717848078f,
+              "Halligen Insel in Schleswig-Holstein",
               "Die Halligen sind kleine, nicht oder nur wenig geschützte Marschinseln "
-                      + "vor den Küsten, die bei Sturmfluten überschwemmt werden können."
+                      + "vor den Küsten, die bei Sturmfluten überschwemmt werden können.",
+              true
       );
       Sehenswuerdigkeit segberger = new Sehenswuerdigkeit(
-              568L, 10.09471893310547f, 53.934161372242194f,
-              "Brian@gmx.de", "Segeberger Staatsforst",
+              10.09471893310547f, 53.934161372242194f,
+              "Segeberger Staatsforst",
               "Der Segeberger Staatsforst – früher Segeberger Heide – liegt im Kreis "
-                      + "Segeberg, hat eine Fläche von über 4.000."
+                      + "Segeberg, hat eine Fläche von über 4.000.", true
       );
       Sehenswuerdigkeit kuechensee = new Sehenswuerdigkeit(
-              568L, 10.761795043945312f, 53.68989646326055f,
-              "Ben@gmx.de", "Küchensee",
+              10.761795043945312f, 53.68989646326055f,
+              "Küchensee",
               "Der Küchensee, auch Großer Küchensee genannt, ist ein See im Kreis "
-                      + "Herzogtum Lauenburg im deutschen Bundesland Schleswig-Holstein."
+                      + "Herzogtum Lauenburg im deutschen Bundesland Schleswig-Holstein.",
+              true
       );
       Sehenswuerdigkeit travenmunderStrand = new Sehenswuerdigkeit(
-              568L, 10.8946f, 53.9568f,
-              "Henri@gmx.de", "Travemünder Strand",
+              10.8946f, 53.9568f,
+              "Travemünder Strand",
               "Der Travemünder Strand ist sehr breit und feinsandig, das Wasser wird"
                       + " nur langsam flach– ein perfekter Ort für gemeinsame Strandtage mit der "
-                      + "Familie."
+                      + "Familie.", true
       );
       Sehenswuerdigkeit bucht = new Sehenswuerdigkeit(
-              568L, 9.968032836914064f, 54.765691084839936f,
-              "Henri@gmx.de", "Gettinger Bucht",
+              9.968032836914064f, 54.765691084839936f,
+              "Gettinger Bucht",
               "Die Geltinger Bucht ist eine Bucht der Ostsee an der nordöstlichen Küste "
-                      + "von der Region Angeln am Ausgang der Flensburger Förde bei Gelting. "
+                      + "von der Region Angeln am Ausgang der Flensburger Förde bei Gelting. ",
+              true
       );
       Sehenswuerdigkeit leuchtturm = new Sehenswuerdigkeit(
-              568L, 11.017671854493297f, 54.44096335508482f,
-              "Henri@gmx.de", "Leuchtturm Fluegge",
+              11.017671854493297f, 54.44096335508482f,
+              "Leuchtturm Fluegge",
               "Der Leuchtturm Flügge steht im Südwesten der Insel Fehmarn, "
-                      + "wenige Kilometer westlich der Fehmarnsundbrücke."
+                      + "wenige Kilometer westlich der Fehmarnsundbrücke.", true
       );
       Sehenswuerdigkeit tauchen = new Sehenswuerdigkeit(
-              568L, 10.750465393066408f, 54.03842534637411f,
-              "Henri@gmx.de", "Tauchenostsee - das TAUCH-SPORT-ZENTRUM",
+              10.750465393066408f, 54.03842534637411f,
+              "Tauchenostsee - das TAUCH-SPORT-ZENTRUM",
               "Schnuppertauchkurse Pool/Pool & Ostsee\n" +
                       "Schnorchelfreitauchen in der Ostsee\n" +
                       "Wrack-Boots-Tauchen\n" +
                       "Set-Betreuung und Filmtaucher\n" +
-                      "Ausbildung"
+                      "Ausbildung", true
       );
       Sehenswuerdigkeit duene = new Sehenswuerdigkeit(
-              568L, 8.330898284912111f, 54.95692001100586f,
-              "Henri@gmx.de", "Uwe-Düne",
+              8.330898284912111f, 54.95692001100586f,
+              "Uwe-Düne",
               "Die höchste Erhebung der Insel Sylt, schöner Aussichtspunkt.\n" +
-                      "Auf bequemen 115 Stufen gelangt man auf den mit 52.5 m höchsten Aussichtspunkt der Insel. An klaren Tagen hat man einen Rundblick über ganz Sylt und bis Amrum, Föhr und Dänemark."
+                      "Auf bequemen 115 Stufen gelangt man auf den mit 52.5 m höchsten " +
+                      "Aussichtspunkt der Insel. An klaren Tagen hat man einen Rundblick über ganz Sylt und bis Amrum, Föhr und Dänemark.",
+              true
       );
       Sehenswuerdigkeit fusgaenger = new Sehenswuerdigkeit(
-              568L, 8.30171585083008f, 54.90829727896416f,
-              "Henri@gmx.de", "Fußgängerzone Friedrichstraße",
-              "Verblüffende Dichte von Designer-Läden und elegant sortierten Modegeschäften"
+              8.30171585083008f, 54.90829727896416f,
+              "Fußgängerzone Friedrichstraße",
+              "Verblüffende Dichte von Designer-Läden und elegant sortierten Modegeschäften",
+              true
       );
       list.add(foehr);
       list.add(schiesgebiet);

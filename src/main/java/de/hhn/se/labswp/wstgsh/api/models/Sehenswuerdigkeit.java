@@ -36,6 +36,19 @@ public class Sehenswuerdigkeit extends Reisepunkt {
 
   /**
    * Constructor to create an object, which can be implemented into the database if needed.
+   * @param laengengrad Marks exact locaion of Sehenswuerdigkeit, North to South.
+   * @param breitengrad Marks exact locaion of Sehenswuerdigkeit, West to East.
+   * @param name Name of the created Sehenswuerdigkeit.
+   * @param beschreibung Short description, which gives a explenation of the Sehenswuerdigkeit.
+   */
+  public Sehenswuerdigkeit(Float laengengrad, Float breitengrad,
+                           String name, String beschreibung, boolean oeffentlich) {
+    super(laengengrad, breitengrad, name, oeffentlich);
+    this.beschreibung = beschreibung;
+  }
+
+  /**
+   * Constructor to create an object, which can be implemented into the database if needed.
    * @param laengengrad Marks exact locaion of Attraktion, North to South.
    * @param breitengrad Marks exact locaion of Attraktion, West to East.
    * @param name Name of the created Punkt.
