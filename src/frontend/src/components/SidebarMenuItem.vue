@@ -17,6 +17,9 @@
           <b-button class="edit-btn" v-if="isReise(item.id)" @click="openReiseBearbeiten(item.id)" size="sm">Bearbeiten</b-button>
         </div>
       </b-nav-item>
+      <div v-if="item.component !== 'parent'">
+        {{ item.name }}
+      </div>
     </div>
   </div>
 </template>
@@ -28,7 +31,7 @@ export default {
   name: 'SidebarMenuItem',
   data () {
     return {
-      showChild: false,
+      showChild: true,
       chosenChild: undefined
     }
   },
@@ -77,7 +80,7 @@ export default {
     }
   },
   created () {
-    console.log(this.content)
+    console.log('Content', this.item.content)
   }
 }
 </script>

@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import ClickedCoords from './modules/clickedCoords'
-import Reisen from './modules/reisen'
+import loadedReisen from './modules/loadedReisen'
 import CreateReisen from './modules/createReisen'
+import Authentication from './modules/authetication'
 
 /**
  * This script creates and exports a Vuex (data-)store.
@@ -13,10 +14,11 @@ import CreateReisen from './modules/createReisen'
 Vue.use(Vuex)
 
 // Create data store and register modules which are to contain.
-export const store = new Vuex.Store({
+export default new Vuex.Store({
   modules: {
     ClickedCoords,
-    Reisen,
-    CreateReisen
+    loadedReisen,
+    CreateReisen,
+    Authentication
   }
 })
