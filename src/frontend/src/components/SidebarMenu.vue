@@ -42,6 +42,7 @@ import SidebarMenuItem from '@/components/SidebarMenuItem'
 import { mapGetters } from 'vuex'
 import ReiseBearbeiten from '@/components/ReiseBearbeiten'
 import router from '@/router'
+import store from '@/store'
 
 export default {
   name: 'Menu',
@@ -68,7 +69,7 @@ export default {
   },
   methods: {
     loadMenueItems () {
-      console.log('Loading Menu Items')
+      console.log('Loading Menu')
       this.menu = [
         {
           name: 'Mein Reisen',
@@ -77,6 +78,7 @@ export default {
           content: this.getReisen
         }
       ]
+      this.profile.name = store.getters.isAuthenticated
     },
     closeReiseBearbeiten (status) {
       this.showReiseBearbeiten = !status
