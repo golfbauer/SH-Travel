@@ -56,7 +56,7 @@ export default {
       profile: {
         signedIn: false,
         name: 'Max Mustermann',
-        img: 'https://api-magazin.single.de/fileman/uploads/Neuer%20Ordner/gutes_profilbild_beispiel_4.jpg',
+        img: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia.istockphoto.com%2Fphotos%2Fmale-silhouette-as-avatar-profile-picture-picture-id519078727%3Fk%3D6%26m%3D519078727%26s%3D170667a%26w%3D0%26h%3DYSEa8Eia7WKxx4FeSM53AGW9DqBtFwg5KHyGno-W7fc%3D&f=1&nofb=1',
         typ: 'ExampleNutzer'
       },
       menu: [],
@@ -78,7 +78,9 @@ export default {
           content: this.getReisen
         }
       ]
-      this.profile.name = store.getters.isAuthenticated
+      this.profile.signedIn = store.getters.isAuthenticated
+      this.profile.name = store.getters.getName
+      this.profile.typ = store.getters.getRole
     },
     closeReiseBearbeiten (status) {
       this.showReiseBearbeiten = !status
