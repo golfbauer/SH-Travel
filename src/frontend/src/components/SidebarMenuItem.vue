@@ -14,8 +14,12 @@
         </div>
       </div>
       <div v-if="item.component === 'child'" class="flexbox">
+        <span class="flex-item">
           {{ item.name }}
+        </span>
+        <span class="flex-item">
           <b-button class="edit-btn" v-if="isReise(item.id)" @click="openReiseBearbeiten(item.id)" size="sm">Bearbeiten</b-button>
+        </span>
       </div>
     </div>
   </div>
@@ -166,6 +170,10 @@ export default {
   display: flex;
   justify-content: space-between;
   text-align: left;
+}
+
+.flex-item {
+  padding: 0 0.5em;
 }
 
 .edit-btn {
