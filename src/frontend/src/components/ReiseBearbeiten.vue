@@ -134,8 +134,9 @@ export default {
         })
         this.closeShow(true)
       }).catch(e => {
-        this.$toasted.show('Reise bearbeiten', 'Reise "' + this.reise.name + '" konnte nicht gespeichert werden', {
-          type: 'danger',
+        console.log(e)
+        this.$toasted.show('Reise "' + this.reise.name + '" konnte nicht gespeichert werden', {
+          type: 'error',
           duration: 3000
         })
       })
