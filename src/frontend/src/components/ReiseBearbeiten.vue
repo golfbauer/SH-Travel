@@ -128,10 +128,17 @@ export default {
 
       await reiseApi.updateReise(this.reise.id, { name, termin, oeffentlich, reisepunkte, reisekatalog }).then(response => {
         console.log(response)
-        this.$emit('makeToast', ['success', 'Reise bearbeiten', 'Reise "' + this.reise.name + '" erfolgreich gespeichert'])
+        this.$toasted.show('Reise "' + this.reise.name + '" erfolgreich gespeichert', {
+          type: 'success',
+          duration: 3000
+        })
         this.closeShow(true)
       }).catch(e => {
-        this.$emit('makeToast', ['danger', 'Reise bearbeiten', 'Reise "' + this.reise.name + '" konnte nicht gespeichert werden'])
+        console.log(e)
+        this.$toasted.show('Reise "' + this.reise.name + '" konnte nicht gespeichert werden', {
+          type: 'error',
+          duration: 3000
+        })
       })
     },
     closeShow (status) {

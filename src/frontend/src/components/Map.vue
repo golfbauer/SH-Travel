@@ -80,10 +80,9 @@ export default {
       this.openReisepunktErstellen()
     },
     makeToast: function (array) {
-      this.$bvToast.toast(array[2], {
-        title: array[1],
-        variant: array[0],
-        solid: true
+      this.$toasted.show(array[1], {
+        type: array[0],
+        duration: 3000
       })
     }
   }

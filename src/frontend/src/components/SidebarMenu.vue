@@ -33,7 +33,7 @@
     </b-sidebar>
     <!-- End Sidebar -->
 
-    <ReiseBearbeiten v-if="showReiseBearbeiten" :reiseId="reiseId" v-on:updateShow="closeReiseBearbeiten($event)" v-on:makeToast="makeToast($event)"/>
+    <ReiseBearbeiten v-if="showReiseBearbeiten" :reiseId="reiseId" v-on:updateShow="closeReiseBearbeiten($event)"/>
   </div>
 </template>
 
@@ -84,13 +84,6 @@ export default {
     },
     closeReiseBearbeiten (status) {
       this.showReiseBearbeiten = !status
-    },
-    makeToast: function (array) {
-      this.$bvToast.toast(array[2], {
-        title: array[1],
-        variant: array[0],
-        solid: true
-      })
     },
     openReiseBearbeiten (reiseId) {
       this.showReiseBearbeiten = true
