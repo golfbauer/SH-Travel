@@ -520,10 +520,16 @@ export default {
 $orange: orange;
 
 #punkterstellen {
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
   padding: 0;
   max-width: 45rem;
+  max-height: 100%;
   z-index: 999;
+  overflow: auto;
 }
 
 .btn {
