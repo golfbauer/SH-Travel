@@ -312,10 +312,10 @@ export default {
           nutzerEmail: this.nutzerEmail
         }).then(response => {
           console.log(response)
-          this.makeToast('success', 'Punkt', this.name + ' erfolgreich erstellt')
+          this.makeToast('success', this.name + ' erfolgreich erstellt')
           this.disableThisShow()
         }).catch(error => {
-          this.makeToast('danger', 'Punkt', this.name + ' konnte nicht erstellt werden')
+          this.makeToast('danger', this.name + ' konnte nicht erstellt werden')
           console.error(error)
         })
         // const res = axios.post('/SHTravel/punkt', {
@@ -326,11 +326,11 @@ export default {
         // })
         //   .then(response => {
         //     console.log(response)
-        //     this.makeToast('success', 'Punkt', this.name + ' erfolgreich erstellt')
+        //     this.makeToast('success', this.name + ' erfolgreich erstellt')
         //     this.disableThisShow()
         //   })
         //   .catch(error => {
-        //     this.makeToast('danger', 'Punkt', this.name + ' konnte nicht erstellt werden')
+        //     this.makeToast('danger', this.name + ' konnte nicht erstellt werden')
         //     console.error(error)
         //   })
       } else if (this.typ === 'sehenswuerdigkeit') {
@@ -343,11 +343,11 @@ export default {
           bilder: this.bilder
         }).then(response => {
           console.log(response)
-          this.makeToast('success', 'Sehenswuerdigkeit', this.name + ' erfolgreich erstellt')
+          this.makeToast('success', this.name + ' erfolgreich erstellt')
           this.disableThisShow()
         })
           .catch(error => {
-            this.makeToast('danger', 'Sehenswuerdigkeit', this.name + ' konnte nicht erstellt werden')
+            this.makeToast('danger', this.name + ' konnte nicht erstellt werden')
             console.error(error)
           })
         // axios.post('/SHTravel/sehenswuerdigkeit', {
@@ -360,11 +360,11 @@ export default {
         // })
         //   .then(response => {
         //     console.log(response)
-        //     this.makeToast('success', 'Sehenswuerdigkeit', this.name + ' erfolgreich erstellt')
+        //     this.makeToast('success', this.name + ' erfolgreich erstellt')
         //     this.disableThisShow()
         //   })
         //   .catch(error => {
-        //     this.makeToast('danger', 'Sehenswuerdigkeit', this.name + ' konnte nicht erstellt werden')
+        //     this.makeToast('danger', this.name + ' konnte nicht erstellt werden')
         //     console.error(error)
         //   })
       } else if (this.typ === 'attraktion') {
@@ -428,11 +428,11 @@ export default {
           ]
         }).then(response => {
           console.log(response)
-          this.makeToast('success', 'Attraktion', this.name + ' erfolgreich erstellt')
+          this.makeToast('success', this.name + ' erfolgreich erstellt')
           this.disableThisShow()
         })
           .catch(error => {
-            this.makeToast('danger', 'Attraktion', this.name + ' konnte nicht erstellt werden')
+            this.makeToast('danger', this.name + ' konnte nicht erstellt werden')
             console.error(error)
           })
         // axios.post('/SHTravel/attraktion', {
@@ -496,11 +496,11 @@ export default {
         // })
         //   .then(response => {
         //     console.log(response)
-        //     this.makeToast('success', 'Attraktion', this.name + ' erfolgreich erstellt')
+        //     this.makeToast('success', this.name + ' erfolgreich erstellt')
         //     this.disableThisShow()
         //   })
         //   .catch(error => {
-        //     this.makeToast('danger', 'Attraktion', this.name + ' konnte nicht erstellt werden')
+        //     this.makeToast('danger', this.name + ' konnte nicht erstellt werden')
         //     console.error(error)
         //   })
       }
@@ -509,8 +509,8 @@ export default {
       event.preventDefault()
       this.disableThisShow()
     },
-    makeToast (variant = null, title = null, body = null) {
-      this.$emit('makeToast', [variant, title, body])
+    makeToast (variant = null, body = null) {
+      this.$emit('makeToast', [variant, body])
     },
     disableThisShow: function () {
       mapService.toggleMapIO(true)

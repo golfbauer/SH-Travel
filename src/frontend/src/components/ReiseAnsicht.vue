@@ -38,8 +38,8 @@ export default {
       const reisepunkt = this.getReisepunkt
       this.reisepunkte.push(reisepunkt)
     },
-    makeToast (variant = null, title = null, body = null) {
-      this.$emit('makeToast', [variant, title, body])
+    makeToast (variant = null, body = null) {
+      this.$emit('makeToast', [variant, body])
     },
     mouseOver () {
       mapService.toggleMapIO(false)
@@ -58,11 +58,11 @@ export default {
       }
       if (createReise(reise)) {
         console.log('posted reise')
-        this.makeToast('success', 'Reise ', this.reiseName + ' wurde erfolgreich angelegt')
+        this.makeToast('success', this.reiseName + ' wurde erfolgreich angelegt')
         this.$emit('cancel')
         mapService.toggleMapIO(true)
       } else {
-        this.makeToast('danger', 'Fehler beim erstellen von ' + this.reiseName)
+        this.makeToast('error', 'Fehler beim erstellen von ' + this.reiseName)
       }
     },
     onCancelClick () {
