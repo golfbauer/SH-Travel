@@ -315,7 +315,7 @@ export default {
           this.makeToast('success', this.name + ' erfolgreich erstellt')
           this.disableThisShow()
         }).catch(error => {
-          this.makeToast('danger', this.name + ' konnte nicht erstellt werden')
+          this.makeToast('error', this.name + ' konnte nicht erstellt werden')
           console.error(error)
         })
         // const res = axios.post('/SHTravel/punkt', {
@@ -330,7 +330,7 @@ export default {
         //     this.disableThisShow()
         //   })
         //   .catch(error => {
-        //     this.makeToast('danger', this.name + ' konnte nicht erstellt werden')
+        //     this.makeToast('error', this.name + ' konnte nicht erstellt werden')
         //     console.error(error)
         //   })
       } else if (this.typ === 'sehenswuerdigkeit') {
@@ -347,7 +347,7 @@ export default {
           this.disableThisShow()
         })
           .catch(error => {
-            this.makeToast('danger', this.name + ' konnte nicht erstellt werden')
+            this.makeToast('error', this.name + ' konnte nicht erstellt werden')
             console.error(error)
           })
         // axios.post('/SHTravel/sehenswuerdigkeit', {
@@ -364,7 +364,7 @@ export default {
         //     this.disableThisShow()
         //   })
         //   .catch(error => {
-        //     this.makeToast('danger', this.name + ' konnte nicht erstellt werden')
+        //     this.makeToast('error', this.name + ' konnte nicht erstellt werden')
         //     console.error(error)
         //   })
       } else if (this.typ === 'attraktion') {
@@ -432,7 +432,7 @@ export default {
           this.disableThisShow()
         })
           .catch(error => {
-            this.makeToast('danger', this.name + ' konnte nicht erstellt werden')
+            this.makeToast('error', this.name + ' konnte nicht erstellt werden')
             console.error(error)
           })
         // axios.post('/SHTravel/attraktion', {
@@ -500,7 +500,7 @@ export default {
         //     this.disableThisShow()
         //   })
         //   .catch(error => {
-        //     this.makeToast('danger', this.name + ' konnte nicht erstellt werden')
+        //     this.makeToast('error', this.name + ' konnte nicht erstellt werden')
         //     console.error(error)
         //   })
       }
