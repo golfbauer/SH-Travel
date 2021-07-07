@@ -51,8 +51,8 @@
         </b-alert>
       </b-list-group>
       <b-card-body class="vbtn-bar">
-        <b-button class="vbtn-gray" type="reset" @click="closeShow(true)">Abbrechen</b-button>
-        <b-button class="vbtn-orange" type="submit" @click="onSave()">Speichern</b-button>
+        <b-button class="vbtn-gray" @click="closeShow(true)">Abbrechen</b-button>
+        <b-button class="vbtn-orange" type="submit">Speichern</b-button>
       </b-card-body>
     </b-card>
     </b-form>
