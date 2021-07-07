@@ -65,6 +65,9 @@ export default {
       reiseId: 0
     }
   },
+  props: {
+    updateMenu: Boolean
+  },
   computed: {
     ...mapGetters(['getReisen'])
   },
@@ -85,7 +88,7 @@ export default {
     },
     closeReiseBearbeiten (status) {
       this.showReiseBearbeiten = false
-      this.updateMenu()
+      this.updateMenuItems()
     },
     openReiseBearbeiten (reiseId) {
       this.showReiseBearbeiten = true
@@ -97,7 +100,7 @@ export default {
     async loadLogin () {
       await router.push('/login')
     },
-    updateMenu () {
+    updateMenuItems () {
       mapService.removeRoute()
       this.menu = []
       this.$store.dispatch('fetchReisen').then(() => {
@@ -109,6 +112,14 @@ export default {
     this.$store.dispatch('fetchReisen').then(() => {
       this.loadMenueItems()
     })
+  },
+  watch: {
+    updateMenu: function () {
+      if (this.updateMenu === true) {
+        this.$emit('resetUpM', false)
+        this.updateMenuItems()
+      }
+    }
   }
 }
 </script>

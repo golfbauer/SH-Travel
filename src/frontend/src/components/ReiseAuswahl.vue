@@ -52,6 +52,7 @@ export default {
       const reisepunkt = this.getReisepunkt
       reiseService.addReisepunkt(reise, reisepunkt)
       this.$store.dispatch('fetchReisen')
+      this.$emit('updateMenu', true)
       this.cancelThis()
     },
     proceedThis () {
