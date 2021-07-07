@@ -43,6 +43,9 @@ export async function createPunkt ({ name, laengengrad, breitengrad, nutzerEmail
       })
       return response
     }
+  } else {
+    console.log('ich bin nicht angemldet')
+    throw new Error('not Authenticated')
   }
 }
 
@@ -60,6 +63,9 @@ export async function updatePunkt (id, { name, laengengrad, breitengrad, nutzerE
       })
       return response
     }
+  } else {
+    console.log('ich bin nicht angemldet')
+    throw new Error('not Authenticated')
   }
 }
 
@@ -74,6 +80,9 @@ export async function deletePunkt (id) {
       }
     })
     return response
+  } else {
+    console.log('ich bin nicht angemldet')
+    throw new Error('not Authenticated')
   }
 }
 

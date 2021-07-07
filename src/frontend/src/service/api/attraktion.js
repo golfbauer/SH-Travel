@@ -40,6 +40,9 @@ export async function createAttraktion ({ name, laengengrad, breitengrad, nutzer
       })
       return response
     }
+  } else {
+    console.log('ich bin nicht angemldet')
+    throw new Error('not Authenticated')
   }
 }
 
@@ -57,6 +60,9 @@ export async function updateAttraktion (id, { name, laengengrad, breitengrad, nu
       })
       return response
     }
+  } else {
+    console.log('ich bin nicht angemldet')
+    throw new Error('not Authenticated')
   }
 }
 
@@ -71,6 +77,9 @@ export async function deleteAttraktion (id) {
       }
     })
     return response
+  } else {
+    console.log('ich bin nicht angemldet')
+    throw new Error('not Authenticated')
   }
 }
 

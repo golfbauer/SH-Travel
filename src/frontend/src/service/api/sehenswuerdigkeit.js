@@ -40,6 +40,9 @@ export async function createSehenswuerdigkeit ({ name, laengengrad, breitengrad,
       })
       return response
     }
+  } else {
+    console.log('ich bin nicht angemldet')
+    throw new Error('not Authenticated')
   }
 }
 
@@ -57,6 +60,9 @@ export async function updateSehenswuerdigkeit (id, { name, laengengrad, breiteng
       })
       return response
     }
+  } else {
+    console.log('ich bin nicht angemldet')
+    throw new Error('not Authenticated')
   }
 }
 
@@ -71,6 +77,9 @@ export async function deleteSehenswuerdigkeit (id) {
       }
     })
     return response
+  } else {
+    console.log('ich bin nicht angemldet')
+    throw new Error('not Authenticated')
   }
 }
 
