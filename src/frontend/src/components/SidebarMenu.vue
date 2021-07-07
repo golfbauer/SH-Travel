@@ -2,7 +2,7 @@
   <div>
     <!-- Burger Button -->
     <div id="burger">
-      <b-button v-b-toggle.sidebar-no-header type="button" class="burger-button" title="Menu">
+      <b-button @click="updateMenu()" v-b-toggle.sidebar-no-header type="button" class="burger-button" title="Menu">
         <span class="burger-bar burger-bar--1"></span>
         <span class="burger-bar burger-bar--2"></span>
         <span class="burger-bar burger-bar--3"></span>
@@ -83,7 +83,11 @@ export default {
       this.profile.typ = store.getters.getRole
     },
     closeReiseBearbeiten (status) {
-      this.showReiseBearbeiten = !status
+      this.showReiseBearbeiten = false
+      this.menu = []
+      this.$store.dispatch('fetchReisen').then(() => {
+        this.loadMenueItems()
+      })
     },
     openReiseBearbeiten (reiseId) {
       this.showReiseBearbeiten = true
@@ -94,6 +98,12 @@ export default {
     },
     async loadLogin () {
       await router.push('/login')
+    },
+    updateMenu () {
+      this.menu = []
+      this.$store.dispatch('fetchReisen').then(() => {
+        this.loadMenueItems()
+      })
     }
   },
   async mounted () {
