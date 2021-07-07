@@ -176,11 +176,11 @@ export function toggleScrolling (isEnabled) {
 function createPunktPopup (point) {
   // create popup container
   const container = L.DomUtil.create('div', 'leaflet-popup-container')
-  container.style = 'align-content: center; width: 210px;'
+  container.style = 'align-content: center; width: 210px; -moz-hyphens: manual; -o-hyphens: manual; -webkit-hyphens: manual; -ms-hyphens: manual; hyphens: manual; word-break: break-word; overflow-wrap: break-word; word-wrap: break-word;'
 
   // create popup title
   const title = L.DomUtil.create('h4', 'leaflet-popup-title')
-  title.style = 'width: 200px; -moz-hyphens: auto; -o-hyphens: auto; -webkit-hyphens: auto; -ms-hyphens: auto; hyphens: auto;'
+  title.style = 'width: 200px; -moz-hyphens: manual; -o-hyphens: manual; -webkit-hyphens: manual; -ms-hyphens: manual; hyphens: manual; word-break: break-word; overflow-wrap: break-word; word-wrap: break-word;'
   title.textContent = point.name
 
   // create the addButton (adding Reisepunkt to a Reise)
@@ -230,11 +230,11 @@ function createPunktPopup (point) {
 function createSehenswuerdigkeitPopup (point) {
   // create popup container
   const container = L.DomUtil.create('div', 'leaflet-popup-container')
-  container.style = 'align-content: center; width: 210px;'
+  container.style = 'align-content: center; width: 210px;  -moz-hyphens: manual; -o-hyphens: manual; -webkit-hyphens: manual; -ms-hyphens: manual; hyphens: manual; word-break: break-word; overflow-wrap: break-word; word-wrap: break-word;'
 
   // create popup title
   const title = L.DomUtil.create('h4', 'leaflet-popup-title')
-  title.style = 'width: 200px; -moz-hyphens: auto; -o-hyphens: auto; -webkit-hyphens: auto; -ms-hyphens: auto; hyphens: auto;'
+  title.style = 'width: 200px; -moz-hyphens: manual; -o-hyphens: manual; -webkit-hyphens: manual; -ms-hyphens: manual; hyphens: manual; word-break: break-word; overflow-wrap: break-word; word-wrap: break-word;'
   title.textContent = point.name
 
   // create popup description
@@ -292,11 +292,11 @@ function createSehenswuerdigkeitPopup (point) {
 function createAttraktionPopup (point) {
   // create popup container
   const container = L.DomUtil.create('div', 'leaflet-popup-container')
-  container.style = 'align-content: center; width: 210px;'
+  container.style = 'align-content: center; width: 210px;  -moz-hyphens: manual; -o-hyphens: manual; -webkit-hyphens: manual; -ms-hyphens: manual; hyphens: manual; word-break: break-word; overflow-wrap: break-word; word-wrap: break-word;'
 
   // create popup title
   const title = L.DomUtil.create('h4', 'leaflet-popup-title')
-  title.style = 'width: 200px; -moz-hyphens: auto; -o-hyphens: auto; -webkit-hyphens: auto; -ms-hyphens: auto; hyphens: auto;'
+  title.style = 'width: 200px; -moz-hyphens: manual; -o-hyphens: manual; -webkit-hyphens: manual; -ms-hyphens: manual; hyphens: manual; word-break: break-word; overflow-wrap: break-word; word-wrap: break-word;'
   title.textContent = point.name
 
   // create popup description
@@ -308,7 +308,7 @@ function createAttraktionPopup (point) {
 
   // creating 'Oeffnungszeiten' display
 
-  // create the addButton (adding Reisepunkt to a Reise)
+  // create the addButton (adding Reisepunkt to a Reise)overflow:auto
   const addButton = L.DomUtil.create('button', 'leaflet-popup-add-button')
   addButton.textContent = 'Zu Reise hinzufügen'
   addButton.style = 'width: 200px; height: 30px; align-content: center; background-color: #1B998B; color: white; font-weight: bold; border-color: #1B998B;'
