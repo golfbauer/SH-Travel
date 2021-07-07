@@ -73,6 +73,11 @@ export default {
       loadMarker()
     },
     setClickedCoords: function (lat, lng) {
+      // Prevent opening ReiseErstellen menu while using other menus
+      if (this.showReisepunktErstellen === true || this.showReisepunktBearbeiten === true) {
+        return
+      }
+
       this.$store.dispatch('chooseCoords', {
         lng: lng,
         lat: lat
