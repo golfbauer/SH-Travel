@@ -180,7 +180,7 @@ function createPunktPopup (point) {
 
   // create popup title
   const title = L.DomUtil.create('h4', 'leaflet-popup-title')
-  title.style = 'width: 200px;'
+  title.style = 'width: 200px; -moz-hyphens: auto; -o-hyphens: auto; -webkit-hyphens: auto; -ms-hyphens: auto; hyphens: auto;'
   title.textContent = point.name
 
   // create the addButton (adding Reisepunkt to a Reise)
@@ -234,7 +234,7 @@ function createSehenswuerdigkeitPopup (point) {
 
   // create popup title
   const title = L.DomUtil.create('h4', 'leaflet-popup-title')
-  title.style = 'width: 200px;'
+  title.style = 'width: 200px; -moz-hyphens: auto; -o-hyphens: auto; -webkit-hyphens: auto; -ms-hyphens: auto; hyphens: auto;'
   title.textContent = point.name
 
   // create popup description
@@ -296,7 +296,7 @@ function createAttraktionPopup (point) {
 
   // create popup title
   const title = L.DomUtil.create('h4', 'leaflet-popup-title')
-  title.style = 'width: 200px;'
+  title.style = 'width: 200px; -moz-hyphens: auto; -o-hyphens: auto; -webkit-hyphens: auto; -ms-hyphens: auto; hyphens: auto;'
   title.textContent = point.name
 
   // create popup description
