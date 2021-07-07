@@ -1,7 +1,7 @@
 <template>
   <div class="home">
-    <SidebarMenu :key="$store.state.reisen"/>
-    <Map/>
+    <SidebarMenu :key="$store.state.reisen" :updateMenu="updateMenuBool"  v-on:resetUpM="resetUpM()"/>
+    <Map v-on:updateMenu="updateMenu()"/>
   </div>
 </template>
 
@@ -15,6 +15,19 @@ export default {
   components: {
     SidebarMenu,
     Map
+  },
+  data () {
+    return {
+      updateMenuBool: false
+    }
+  },
+  methods: {
+    updateMenu: function () {
+      this.updateMenuBool = true
+    },
+    resetUpM: function () {
+      this.updateMenuBool = false
+    }
   }
 }
 </script>

@@ -43,6 +43,7 @@ import { mapGetters } from 'vuex'
 import ReiseBearbeiten from '@/components/ReiseBearbeiten'
 import router from '@/router'
 import store from '@/store'
+import * as mapService from '@/service/helper/map'
 
 export default {
   name: 'Menu',
@@ -64,6 +65,9 @@ export default {
       reiseId: 0
     }
   },
+  props: {
+    updateMenu: Boolean
+  },
   computed: {
     ...mapGetters(['getReisen'])
   },
@@ -83,7 +87,8 @@ export default {
       this.profile.typ = store.getters.getRole
     },
     closeReiseBearbeiten (status) {
-      this.showReiseBearbeiten = !status
+      this.showReiseBearbeiten = false
+      this.updateMenuItems()
     },
     openReiseBearbeiten (reiseId) {
       this.showReiseBearbeiten = true
@@ -94,12 +99,27 @@ export default {
     },
     async loadLogin () {
       await router.push('/login')
+    },
+    updateMenuItems () {
+      mapService.removeRoute()
+      this.menu = []
+      this.$store.dispatch('fetchReisen').then(() => {
+        this.loadMenueItems()
+      })
     }
   },
   async mounted () {
     this.$store.dispatch('fetchReisen').then(() => {
       this.loadMenueItems()
     })
+  },
+  watch: {
+    updateMenu: function () {
+      if (this.updateMenu === true) {
+        this.$emit('resetUpM', false)
+        this.updateMenuItems()
+      }
+    }
   }
 }
 </script>
