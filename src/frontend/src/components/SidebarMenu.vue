@@ -2,7 +2,7 @@
   <div>
     <!-- Burger Button -->
     <div id="burger">
-      <b-button @click="updateMenu()" v-b-toggle.sidebar-no-header type="button" class="burger-button" title="Menu">
+      <b-button v-b-toggle.sidebar-no-header type="button" class="burger-button" title="Menu">
         <span class="burger-bar burger-bar--1"></span>
         <span class="burger-bar burger-bar--2"></span>
         <span class="burger-bar burger-bar--3"></span>
@@ -43,6 +43,7 @@ import { mapGetters } from 'vuex'
 import ReiseBearbeiten from '@/components/ReiseBearbeiten'
 import router from '@/router'
 import store from '@/store'
+import * as mapService from '@/service/helper/map'
 
 export default {
   name: 'Menu',
@@ -84,10 +85,7 @@ export default {
     },
     closeReiseBearbeiten (status) {
       this.showReiseBearbeiten = false
-      this.menu = []
-      this.$store.dispatch('fetchReisen').then(() => {
-        this.loadMenueItems()
-      })
+      this.updateMenu()
     },
     openReiseBearbeiten (reiseId) {
       this.showReiseBearbeiten = true
@@ -100,6 +98,7 @@ export default {
       await router.push('/login')
     },
     updateMenu () {
+      mapService.removeRoute()
       this.menu = []
       this.$store.dispatch('fetchReisen').then(() => {
         this.loadMenueItems()
