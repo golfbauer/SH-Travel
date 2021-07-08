@@ -54,7 +54,7 @@ export default {
 
 <style scoped>
 .backgroung-image {
-  background-image: url("../assets/images/Lübeck_Login.jpg");
+  background-image: url("../assets/images/Luebeck_Login.jpg");
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
