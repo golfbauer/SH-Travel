@@ -51,7 +51,12 @@ export function createMap (component /* reference to the vue component implement
     const lat = latlng.lat
     const lng = latlng.lng
     console.log(latlng)
-    mapComponent.setClickedCoords(lat, lng)
+    const success = mapComponent.setClickedCoords(lat, lng)
+    if (success === false) {
+      toggleMapIO(true)
+      toggleDragging(true)
+      toggleScrolling(true)
+    }
   })
 
   // initializing marker group

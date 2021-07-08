@@ -48,9 +48,7 @@ export default {
   },
   methods: {
     openReisepunktErstellen: function () {
-      if (this.isAuthenticated) {
-        this.showReisepunktErstellen = true
-      }
+      this.showReisepunktErstellen = true
     },
     closeReisepunktErstellen: function () {
       this.showReisepunktErstellen = false
@@ -81,7 +79,10 @@ export default {
     setClickedCoords: function (lat, lng) {
       // Prevent opening ReiseErstellen menu while using other menus
       if (this.showReisepunktErstellen === true || this.showReisepunktBearbeiten === true) {
-        return
+        return false
+      }
+      if (this.isAuthenticated === false) {
+        return false
       }
 
       this.$store.dispatch('chooseCoords', {
@@ -89,6 +90,7 @@ export default {
         lat: lat
       })
       this.openReisepunktErstellen()
+      return true
     },
     makeToast: function (array) {
       this.$toasted.show(array[1], {
