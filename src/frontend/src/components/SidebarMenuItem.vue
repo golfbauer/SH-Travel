@@ -27,6 +27,7 @@
 
 <script>
 import * as mapService from '@/service/helper/map'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'SidebarMenuItem',
@@ -48,6 +49,9 @@ export default {
       category: undefined,
       content: undefined
     }
+  },
+  computed: {
+    ...mapGetters(['isAuthenticated'])
   },
   methods: {
     init () {
@@ -87,7 +91,7 @@ export default {
       }
     },
     isReise (reiseId) {
-      if (reiseId !== undefined && reiseId >= 0) {
+      if (reiseId !== undefined && reiseId >= 0 && this.isAuthenticated) {
         return true
       }
       return false
