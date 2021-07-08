@@ -1,7 +1,7 @@
 ## Development requirements:
 
 **for developing you need:**
-+ Java 11
++ Java 8
 + gradle
 + node.js (if not installed with node you also need **npm**)
 
@@ -51,8 +51,8 @@ which will launch our backend application on **localhost:8080**.
 Now both applications run and are accessible via a browser.
 
 
-# Building production ready jar's
-If you want to build a production ready jar file which contains our compiled frontend application,
+# Building production ready war's
+If you want to build a production ready war file which contains our compiled frontend application,
 then you have to run:
 
 > gradle build -P full
@@ -61,13 +61,3 @@ via terminal in your projects root directory.
 With the **'-P full'** flag you tell gradle to run the npmBuild and copyFrontendToBuild tasks, 
 which wil build and integrate our vue frontend into our jar file.
 **Note** that when you build your java application with your inte
-
-To run and test the jar file you need to navigate into **build/libs** there you should find a file 
-called something like **wstgsh-0.0.1-SNAPSHOT.jar**.
-Run:
-
-> java -jar **name-of-jarfile**
-
-After this command a web application using our java backend will be hosted on **localhost:8080**.
-This application returns our vue frontend as its static content so if you enter:
-**localhost:8080** in your browser, you will see the vue application.
