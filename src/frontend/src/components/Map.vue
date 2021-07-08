@@ -3,7 +3,7 @@
     <ReisepunktErstellen v-if="showReisepunktErstellen" v-on:updateShow="closeReisepunktErstellen($event)"
                          v-on:makeToast="makeToast($event)"/>
     <ReiseAuswahl v-if="showReiseAuswahl" v-on:selected="openReiseAnsicht($event)"
-                  v-on:cancel="closeReiseAuswahl($event)"/>
+                  v-on:cancel="closeReiseAuswahl($event)" v-on:updateMenu="updateMenu($event)"/>
     <ReiseAnsicht v-if="showReiseAnsicht" v-on:cancel="closeReiseAnsicht" v-on:makeToast="makeToast($event)"/>
     <ReisepunktBearbeiten v-if="showReisepunktBearbeiten" v-on:cancel="closeReisepunktBearbeiten" v-on:close="closeReisepunktBearbeiten" :reisepunkt="passedPoint"/>
   </div>
@@ -89,6 +89,9 @@ export default {
         type: array[0],
         duration: 3000
       })
+    },
+    updateMenu: function (bool) {
+      this.$emit('updateMenu')
     }
   }
 }
