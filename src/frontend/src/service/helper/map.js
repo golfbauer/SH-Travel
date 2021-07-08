@@ -216,17 +216,17 @@ function createPunktPopup (point) {
     })
 
     // add event listener to the deleteButton
-    L.DomEvent.addListener(deleteButton, 'click', () => {
-      deletePunkt(point.id) // ToDo: Überprüfen obs funktioniert
-      console.log('Entferne Reisepunkt ' + point.id + ' ' + point.name + ' vom Typen ' + point.typ)
-    })
+    // L.DomEvent.addListener(deleteButton, 'click', () => {
+    //   deletePunkt(point.id) // ToDo: Überprüfen obs funktioniert
+    //   console.log('Entferne Reisepunkt ' + point.id + ' ' + point.name + ' vom Typen ' + point.typ)
+    // })
   }
 
   container.appendChild(title)
   if (store.getters.isAuthenticated) {
     container.appendChild(addButton)
     container.appendChild(editButton)
-    container.appendChild(deleteButton)
+    // container.appendChild(deleteButton)
   }
 
   // Popup erstellen
@@ -284,10 +284,10 @@ function createSehenswuerdigkeitPopup (point) {
     })
 
     // add event listener to the deleteButton
-    L.DomEvent.addListener(deleteButton, 'click', () => {
-      deleteSehenswuerdigkeit(point.id) // ToDo: Überprüfen obs funktioniert
-      console.log('Entferne Reisepunkt ' + point.id + ' ' + point.name + ' vom Typen ' + point.typ)
-    })
+    // L.DomEvent.addListener(deleteButton, 'click', () => {
+    //   deleteSehenswuerdigkeit(point.id) // ToDo: Überprüfen obs funktioniert
+    //   console.log('Entferne Reisepunkt ' + point.id + ' ' + point.name + ' vom Typen ' + point.typ)
+    // })
   }
 
   container.appendChild(title)
@@ -295,7 +295,7 @@ function createSehenswuerdigkeitPopup (point) {
   if (store.getters.isAuthenticated) {
     container.appendChild(addButton)
     container.appendChild(editButton)
-    container.appendChild(deleteButton)
+    // container.appendChild(deleteButton)
   }
 
   // Popup erstellen
@@ -356,10 +356,10 @@ function createAttraktionPopup (point) {
     })
 
     // add event listener to the deleteButton
-    L.DomEvent.addListener(deleteButton, 'click', () => {
-      deleteAttraktion(point.id) // ToDo: Überprüfen obs funktioniert
-      console.log('Entferne Reisepunkt ' + point.id + ' ' + point.name + ' vom Typen ' + point.typ)
-    })
+    // L.DomEvent.addListener(deleteButton, 'click', () => {
+    //   deleteAttraktion(point.id) // ToDo: Überprüfen obs funktioniert
+    //   console.log('Entferne Reisepunkt ' + point.id + ' ' + point.name + ' vom Typen ' + point.typ)
+    // })
   }
 
   container.appendChild(title)
@@ -367,7 +367,7 @@ function createAttraktionPopup (point) {
   if (store.getters.isAuthenticated) {
     container.appendChild(addButton)
     container.appendChild(editButton)
-    container.appendChild(deleteButton)
+    // container.appendChild(deleteButton)
   }
 
   // Popup erstellen
