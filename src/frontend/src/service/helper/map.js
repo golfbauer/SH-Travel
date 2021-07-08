@@ -5,6 +5,7 @@ import { fetchReisepunkte } from '@/service/api/reisepunkt'
 import { deletePunkt } from '@/service/api/punkt'
 import { deleteSehenswuerdigkeit } from '@/service/api/sehenswuerdigkeit'
 import { deleteAttraktion } from '@/service/api/attraktion'
+import store from '@/store'
 
 /* DATA */
 let mapComponent
@@ -183,42 +184,45 @@ function createPunktPopup (point) {
   title.style = 'width: 200px; -moz-hyphens: manual; -o-hyphens: manual; -webkit-hyphens: manual; -ms-hyphens: manual; hyphens: manual; word-break: break-word; overflow-wrap: break-word; word-wrap: break-word;'
   title.textContent = point.name
 
-  // create the addButton (adding Reisepunkt to a Reise)
-  const addButton = L.DomUtil.create('button', 'leaflet-popup-add-button')
-  addButton.textContent = 'Zu Reise hinzufügen'
-  addButton.style = 'width: 200px; height: 30px; align-content: center; background-color: #1B998B; color: white; font-weight: bold; border-color: #1B998B;'
+  if (store.getters.isAuthenticated) {
+    // create the addButton (adding Reisepunkt to a Reise)
+    const addButton = L.DomUtil.create('button', 'leaflet-popup-add-button')
+    addButton.textContent = 'Zu Reise hinzufügen'
+    addButton.style = 'width: 200px; height: 30px; align-content: center; background-color: #1B998B; color: white; font-weight: bold; border-color: #1B998B;'
 
-  // create the editButton (editing selected Reisepunkt)
-  const editButton = L.DomUtil.create('button', 'popupEditButton')
-  editButton.textContent = 'Bearbeiten'
-  editButton.style = 'width: 200px; height: 30px; align-content: center; background-color: #FF9B71; color: white; font-weight: bold; border-color: #FF9B71;'
+    // create the editButton (editing selected Reisepunkt)
+    const editButton = L.DomUtil.create('button', 'popupEditButton')
+    editButton.textContent = 'Bearbeiten'
+    editButton.style = 'width: 200px; height: 30px; align-content: center; background-color: #FF9B71; color: white; font-weight: bold; border-color: #FF9B71;'
 
-  // create the deleteButton (deleting selected Reisepunkt)
-  const deleteButton = L.DomUtil.create('button', 'popupDeleteButton')
-  deleteButton.textContent = 'Löschen'
-  deleteButton.style = 'width: 200px; height: 30px; align-content: center; background-color: #4A5655; color: white; font-weight: bold; border-color: #4A5655;'
+    // create the deleteButton (deleting selected Reisepunkt)
+    const deleteButton = L.DomUtil.create('button', 'popupDeleteButton')
+    deleteButton.textContent = 'Löschen'
+    deleteButton.style = 'width: 200px; height: 30px; align-content: center; background-color: #4A5655; color: white; font-weight: bold; border-color: #4A5655;'
 
-  // add event listener to the addButton
-  L.DomEvent.addListener(addButton, 'click', () => {
-    mapComponent.openReiseAuswahl(point)
-  })
+    // add event listener to the addButton
+    L.DomEvent.addListener(addButton, 'click', () => {
+      mapComponent.openReiseAuswahl(point)
+    })
 
-  // add event listener to the editButton
-  L.DomEvent.addListener(editButton, 'click', () => {
-    mapComponent.openReisepunktBearbeiten(point)
-    console.log('Bearbeiten Fenster öffnen und Daten laden')
-  })
+    // add event listener to the editButton
+    L.DomEvent.addListener(editButton, 'click', () => {
+      mapComponent.openReisepunktBearbeiten(point)
+      console.log('Bearbeiten Fenster öffnen und Daten laden')
+    })
 
-  // add event listener to the deleteButton
-  L.DomEvent.addListener(deleteButton, 'click', () => {
-    deletePunkt(point.id) // ToDo: Überprüfen obs funktioniert
-    console.log('Entferne Reisepunkt ' + point.id + ' ' + point.name + ' vom Typen ' + point.typ)
-  })
+    // add event listener to the deleteButton
+    L.DomEvent.addListener(deleteButton, 'click', () => {
+      deletePunkt(point.id) // ToDo: Überprüfen obs funktioniert
+      console.log('Entferne Reisepunkt ' + point.id + ' ' + point.name + ' vom Typen ' + point.typ)
+    })
+
+    container.appendChild(addButton)
+    container.appendChild(editButton)
+    container.appendChild(deleteButton)
+  }
 
   container.appendChild(title)
-  container.appendChild(addButton)
-  container.appendChild(editButton)
-  container.appendChild(deleteButton)
 
   // Popup erstellen
   const popup = L.popup()
@@ -342,9 +346,9 @@ function createAttraktionPopup (point) {
 
   container.appendChild(title)
   container.appendChild(description)
-  container.appendChild(addButton)
-  container.appendChild(editButton)
-  container.appendChild(deleteButton)
+  // container.appendChild(addButton)
+  // container.appendChild(editButton)
+  // container.appendChild(deleteButton)
 
   // Popup erstellen
   const popup = L.popup()
