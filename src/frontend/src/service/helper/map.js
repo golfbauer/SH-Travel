@@ -184,19 +184,23 @@ function createPunktPopup (point) {
   title.style = 'width: 200px; -moz-hyphens: manual; -o-hyphens: manual; -webkit-hyphens: manual; -ms-hyphens: manual; hyphens: manual; word-break: break-word; overflow-wrap: break-word; word-wrap: break-word;'
   title.textContent = point.name
 
+  let addButton
+  let editButton
+  let deleteButton
+
   if (store.getters.isAuthenticated) {
     // create the addButton (adding Reisepunkt to a Reise)
-    const addButton = L.DomUtil.create('button', 'leaflet-popup-add-button')
+    addButton = L.DomUtil.create('button', 'leaflet-popup-add-button')
     addButton.textContent = 'Zu Reise hinzufügen'
     addButton.style = 'width: 200px; height: 30px; align-content: center; background-color: #1B998B; color: white; font-weight: bold; border-color: #1B998B;'
 
     // create the editButton (editing selected Reisepunkt)
-    const editButton = L.DomUtil.create('button', 'popupEditButton')
+    editButton = L.DomUtil.create('button', 'popupEditButton')
     editButton.textContent = 'Bearbeiten'
     editButton.style = 'width: 200px; height: 30px; align-content: center; background-color: #FF9B71; color: white; font-weight: bold; border-color: #FF9B71;'
 
     // create the deleteButton (deleting selected Reisepunkt)
-    const deleteButton = L.DomUtil.create('button', 'popupDeleteButton')
+    deleteButton = L.DomUtil.create('button', 'popupDeleteButton')
     deleteButton.textContent = 'Löschen'
     deleteButton.style = 'width: 200px; height: 30px; align-content: center; background-color: #4A5655; color: white; font-weight: bold; border-color: #4A5655;'
 
@@ -216,13 +220,14 @@ function createPunktPopup (point) {
       deletePunkt(point.id) // ToDo: Überprüfen obs funktioniert
       console.log('Entferne Reisepunkt ' + point.id + ' ' + point.name + ' vom Typen ' + point.typ)
     })
+  }
 
+  container.appendChild(title)
+  if (store.getters.isAuthenticated) {
     container.appendChild(addButton)
     container.appendChild(editButton)
     container.appendChild(deleteButton)
   }
-
-  container.appendChild(title)
 
   // Popup erstellen
   const popup = L.popup()
@@ -248,18 +253,22 @@ function createSehenswuerdigkeitPopup (point) {
 
   // creating picture display
 
+  let addButton
+  let editButton
+  let deleteButton
+
   if (store.getters.isAuthenticated) {
     // create the addButton (adding Reisepunkt to a Reise)
-    const addButton = L.DomUtil.create('button', 'leaflet-popup-add-button')
+    addButton = L.DomUtil.create('button', 'leaflet-popup-add-button')
     addButton.textContent = 'Zu Reise hinzufügen'
     addButton.style = 'width: 200px; height: 30px; align-content: center; background-color: #1B998B; color: white; font-weight: bold; border-color: #1B998B;'
     // create the editButton (editing selected Reisepunkt)
-    const editButton = L.DomUtil.create('button', 'popupEditButton')
+    editButton = L.DomUtil.create('button', 'popupEditButton')
     editButton.textContent = 'Bearbeiten'
     editButton.style = 'width: 200px; height: 30px; align-content: center; background-color: #FF9B71; color: white; font-weight: bold; border-color: #FF9B71;'
 
     // create the deleteButton (deleting selected Reisepunkt)
-    const deleteButton = L.DomUtil.create('button', 'popupDeleteButton')
+    deleteButton = L.DomUtil.create('button', 'popupDeleteButton')
     deleteButton.textContent = 'Löschen'
     deleteButton.style = 'width: 200px; height: 30px; align-content: center; background-color: #4A5655; color: white; font-weight: bold; border-color: #4A5655;'
 
@@ -279,13 +288,15 @@ function createSehenswuerdigkeitPopup (point) {
       deleteSehenswuerdigkeit(point.id) // ToDo: Überprüfen obs funktioniert
       console.log('Entferne Reisepunkt ' + point.id + ' ' + point.name + ' vom Typen ' + point.typ)
     })
+  }
 
+  container.appendChild(title)
+  container.appendChild(description)
+  if (store.getters.isAuthenticated) {
     container.appendChild(addButton)
     container.appendChild(editButton)
     container.appendChild(deleteButton)
   }
-  container.appendChild(title)
-  container.appendChild(description)
 
   // Popup erstellen
   const popup = L.popup()
@@ -313,19 +324,23 @@ function createAttraktionPopup (point) {
 
   // creating 'Oeffnungszeiten' display
 
+  let addButton
+  let editButton
+  let deleteButton
+
   if (store.getters.isAuthenticated) {
     // create the addButton (adding Reisepunkt to a Reise)overflow:auto
-    const addButton = L.DomUtil.create('button', 'leaflet-popup-add-button')
+    addButton = L.DomUtil.create('button', 'leaflet-popup-add-button')
     addButton.textContent = 'Zu Reise hinzufügen'
     addButton.style = 'width: 200px; height: 30px; align-content: center; background-color: #1B998B; color: white; font-weight: bold; border-color: #1B998B;'
 
     // create the editButton (editing selected Reisepunkt)
-    const editButton = L.DomUtil.create('button', 'popupEditButton')
+    editButton = L.DomUtil.create('button', 'popupEditButton')
     editButton.textContent = 'Bearbeiten'
     editButton.style = 'width: 200px; height: 30px; align-content: center; background-color: #FF9B71; color: white; font-weight: bold; border-color: #FF9B71;'
 
     // create the deleteButton (deleting selected Reisepunkt)
-    const deleteButton = L.DomUtil.create('button', 'popupDeleteButton')
+    deleteButton = L.DomUtil.create('button', 'popupDeleteButton')
     deleteButton.textContent = 'Löschen'
     deleteButton.style = 'width: 200px; height: 30px; align-content: center; background-color: #4A5655; color: white; font-weight: bold; border-color: #4A5655;'
 
@@ -345,13 +360,15 @@ function createAttraktionPopup (point) {
       deleteAttraktion(point.id) // ToDo: Überprüfen obs funktioniert
       console.log('Entferne Reisepunkt ' + point.id + ' ' + point.name + ' vom Typen ' + point.typ)
     })
+  }
 
+  container.appendChild(title)
+  container.appendChild(description)
+  if (store.getters.isAuthenticated) {
     container.appendChild(addButton)
     container.appendChild(editButton)
     container.appendChild(deleteButton)
   }
-  container.appendChild(title)
-  container.appendChild(description)
 
   // Popup erstellen
   const popup = L.popup()
