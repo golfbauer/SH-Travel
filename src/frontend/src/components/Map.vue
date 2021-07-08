@@ -17,6 +17,7 @@ import ReiseAnsicht from '@/components/ReiseAnsicht'
 import ReiseAuswahl from '@/components/ReiseAuswahl'
 import ReisepunktBearbeiten from '@/components/ReisepunktBearbeiten'
 import { loadMarker } from '@/service/helper/map'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Map',
@@ -42,9 +43,14 @@ export default {
   updated () {
     mapService.loadMarker()
   },
+  computed: {
+    ...mapGetters(['isAuthenticated'])
+  },
   methods: {
     openReisepunktErstellen: function () {
-      this.showReisepunktErstellen = true
+      if (this.isAuthenticated) {
+        this.showReisepunktErstellen = true
+      }
     },
     closeReisepunktErstellen: function () {
       this.showReisepunktErstellen = false
