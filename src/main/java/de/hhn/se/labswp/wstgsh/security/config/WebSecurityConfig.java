@@ -40,7 +40,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers(
                     "/", "/register", "/login", "/attraktion/oeffentlich",
                     "/punkt/oeffentlich", "/reise/oeffentlich", "/reisepunkt/oeffentlich",
-                    "/sehenswuerdigkeit/oeffentlich", "/register/**", "/css/**", "/js/**", "/favicon.ico"
+                    "/sehenswuerdigkeit/oeffentlich", "/register/**", "/css/**", "/js/**",
+                    "/favicon.ico", "/img/**"
             ).permitAll()
             .anyRequest()
             .authenticated()
