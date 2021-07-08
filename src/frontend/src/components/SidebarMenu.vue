@@ -76,7 +76,7 @@ export default {
       console.log('Loading Menu')
       this.menu = [
         {
-          name: 'Mein Reisen',
+          name: 'Reisen',
           component: 'parent',
           category: 'reisen',
           content: this.getReisen
